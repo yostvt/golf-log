@@ -2,46 +2,30 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#060d18" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="GOLF LOG" />
-
-  <!-- PWA manifest -->
-  <link rel="manifest" href="/manifest.json" />
-
-  <!-- Apple Touch Icon (iOS ホーム画面アイコン) -->
-  <link rel="apple-touch-icon" href="/icon-192.png" />
-  <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
-  <link rel="apple-touch-icon" sizes="512x512" href="/icon-512.png" />
-
-  <title>GOLF LOG</title>
-
+  <meta name="apple-mobile-web-app-title" content="ScoRefine" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>ScoRefine</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-    html, body, #root {
-      height: 100%;
-      background: #060d18;
-      font-family: -apple-system, 'Noto Sans JP', sans-serif;
-      color: #e2e8f0;
-      /* iOS safe area */
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-    }
-    /* スクロールバー非表示 */
-    ::-webkit-scrollbar { display: none; }
-    /* ローディング画面 */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #0f172a; }
+    #root { height: 100%; }
     #loading {
       position: fixed; inset: 0;
-      background: #060d18;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      gap: 16px; z-index: 9999;
-      transition: opacity 0.4s;
+      background: #0f172a;
+      gap: 16px;
+      transition: opacity 0.4s ease;
+      z-index: 9999;
     }
     #loading .logo {
-      font-size: 28px; font-weight: 900;
+      font-size: 24px; font-weight: 800;
       background: linear-gradient(90deg, #34d399, #60a5fa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -59,7 +43,7 @@
 </head>
 <body>
   <div id="loading">
-    <div class="logo">⛳ GOLF LOG</div>
+    <div class="logo">🏌️ ScoRefine</div>
     <div class="spinner"></div>
   </div>
   <div id="root"></div>
@@ -68,7 +52,7 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
-  <!-- ビルド済みアプリ本体（JSXトランスパイル済み・Babel不要） -->
+  <!-- ビルド済みアプリ本体 -->
   <script src="app.js"></script>
 
   <script>
