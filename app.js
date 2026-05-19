@@ -2103,6 +2103,7 @@ function GolfTracker() {
   const [holeData, setHoleData] = useState({});
   const [showShotForm, setShowShotForm] = useState(false);
   const [showNewRound, setShowNewRound] = useState(false);
+  const [showDiscardWarning, setShowDiscardWarning] = useState(false);
   const [shotDetailRid, setShotDetailRid] = useState(null);
   const [courseName, setCourseName] = useState("");
   const [showYardage, setShowYardage] = useState(false);
@@ -2433,6 +2434,14 @@ function GolfTracker() {
   };
   const startRound = () => {
     if (!selectedVenue || selectedCourseA === null || selectedCourseB === null || !selectedGreen || !selectedTee) return;
+    if (currentRound) {
+      setShowDiscardWarning(true);
+      return;
+    }
+    doStartRound();
+  };
+  const doStartRound = () => {
+    if (!selectedVenue || selectedCourseA === null || selectedCourseB === null || !selectedGreen || !selectedTee) return;
     const venue = VENUES.find((v) => v.id === selectedVenue);
     const frontSC = venue.subCourses[selectedCourseA];
     const backSC = venue.subCourses[selectedCourseB];
@@ -2464,6 +2473,7 @@ function GolfTracker() {
     setHolePars(pars);
     setView("round");
     setShowNewRound(false);
+    setShowDiscardWarning(false);
     setSetupStep(0);
     setSelectedVenue(null);
     setSelectedCourseA(null);
@@ -4052,7 +4062,26 @@ function GolfTracker() {
     },
     /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", color: "#fbbf24", fontWeight: "700" } }, currentCatDef.icon, " \u6B21: ", currentCatDef.label),
     /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "600" } }, totalStrokes + 1, "\u6253\u76EE \u203A")
-  ) : hd.done ? /* @__PURE__ */ React.createElement(React.Fragment, null, currentHole > 1 && /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h - 1) }, "\u2039 \u524D\u306E\u30DB\u30FC\u30EB"), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, textAlign: "center", padding: "12px", color: "#16a34a", fontSize: "13px", fontWeight: "700" } }, "\u30DB\u30FC\u30EB\u5B8C\u4E86 \u{1F3C6}", hd.pinDist && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#3b82f6", fontWeight: "600", marginTop: "2px" } }, "\u{1F4CD} ", hd.pinDist)), currentHole < 18 ? /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h + 1) }, "\u6B21\u306E\u30DB\u30FC\u30EB \u203A") : /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("danger")), { padding: "10px 18px", fontSize: "13px", fontWeight: "800" }), onClick: handleDetailFinishClick }, "\u30E9\u30A6\u30F3\u30C9\u7D42\u4E86")) : null, !hd.done && hd.shots.length > 0 && /* @__PURE__ */ React.createElement("button", { style: S.btn("undo"), onClick: undoLastShot }, "\u21A9 \u53D6\u6D88")))), finishConfirm && /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.50)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 300, padding: "20px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#ffffff", border: `1px solid ${finishConfirm.type === "ok" ? "rgba(52,211,153,0.4)" : "rgba(251,191,36,0.4)"}`, borderRadius: "16px", padding: "24px 20px", maxWidth: "320px", width: "100%", textAlign: "center" } }, finishConfirm.type === "ok" ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "32px", marginBottom: "12px" } }, "\u26F3"), /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "15px", color: "#e2e8f0", marginBottom: "16px" } }, "\u30B9\u30B3\u30A2\u3092\u767B\u9332\u3057\u307E\u3059"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px" } }, /* @__PURE__ */ React.createElement(
+  ) : hd.done ? /* @__PURE__ */ React.createElement(React.Fragment, null, currentHole > 1 && /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h - 1) }, "\u2039 \u524D\u306E\u30DB\u30FC\u30EB"), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, textAlign: "center", padding: "12px", color: "#16a34a", fontSize: "13px", fontWeight: "700" } }, "\u30DB\u30FC\u30EB\u5B8C\u4E86 \u{1F3C6}", hd.pinDist && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#3b82f6", fontWeight: "600", marginTop: "2px" } }, "\u{1F4CD} ", hd.pinDist)), currentHole < 18 ? /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h + 1) }, "\u6B21\u306E\u30DB\u30FC\u30EB \u203A") : /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("danger")), { padding: "10px 18px", fontSize: "13px", fontWeight: "800" }), onClick: handleDetailFinishClick }, "\u30E9\u30A6\u30F3\u30C9\u7D42\u4E86")) : null, !hd.done && hd.shots.length > 0 && /* @__PURE__ */ React.createElement("button", { style: S.btn("undo"), onClick: undoLastShot }, "\u21A9 \u53D6\u6D88")))), showDiscardWarning && /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 400, padding: "20px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#ffffff", border: "1px solid rgba(239,68,68,0.4)", borderRadius: "16px", padding: "24px 20px", maxWidth: "320px", width: "100%", textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "32px", marginBottom: "12px" } }, "\u26A0\uFE0F"), /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "15px", color: "#1e293b", marginBottom: "8px" } }, "\u5165\u529B\u4E2D\u306E\u30E9\u30A6\u30F3\u30C9\u304C\u3042\u308A\u307E\u3059"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "13px", color: "#dc2626", fontWeight: "700", marginBottom: "6px", padding: "10px", background: "#fef2f2", borderRadius: "8px" } }, (currentRound == null ? void 0 : currentRound.course) || "\u5165\u529B\u4E2D\u306E\u30E9\u30A6\u30F3\u30C9"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", color: "#64748b", marginBottom: "20px" } }, "\u7834\u68C4\u3057\u3066\u65B0\u3057\u3044\u30E9\u30A6\u30F3\u30C9\u3092\u958B\u59CB\u3057\u307E\u3059\u304B\uFF1F", /* @__PURE__ */ React.createElement("br", null), "\u5165\u529B\u6E08\u307F\u306E\u30C7\u30FC\u30BF\u306F\u5931\u308F\u308C\u307E\u3059\u3002"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px" } }, /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: () => setShowDiscardWarning(false),
+      style: { flex: 1, padding: "11px", borderRadius: "9px", border: "1px solid #e2e8f0", background: "#f1f5f9", color: "#475569", fontWeight: "700", fontSize: "13px", cursor: "pointer" }
+    },
+    "\u30AD\u30E3\u30F3\u30BB\u30EB"
+  ), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      onClick: () => {
+        setCurrentRound(null);
+        setHoleData({});
+        setSimpleHoleData({});
+        doStartRound();
+      },
+      style: { flex: 1, padding: "11px", borderRadius: "9px", border: "none", background: "linear-gradient(135deg,#ef4444,#dc2626)", color: "#fff", fontWeight: "700", fontSize: "13px", cursor: "pointer" }
+    },
+    "\u7834\u68C4\u3057\u3066\u958B\u59CB"
+  )))), finishConfirm && /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.50)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 300, padding: "20px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#ffffff", border: `1px solid ${finishConfirm.type === "ok" ? "rgba(52,211,153,0.4)" : "rgba(251,191,36,0.4)"}`, borderRadius: "16px", padding: "24px 20px", maxWidth: "320px", width: "100%", textAlign: "center" } }, finishConfirm.type === "ok" ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "32px", marginBottom: "12px" } }, "\u26F3"), /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "15px", color: "#e2e8f0", marginBottom: "16px" } }, "\u30B9\u30B3\u30A2\u3092\u767B\u9332\u3057\u307E\u3059"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px" } }, /* @__PURE__ */ React.createElement(
     "button",
     {
       onClick: () => setFinishConfirm(null),
