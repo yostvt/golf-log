@@ -2170,10 +2170,11 @@ function GolfTracker() {
           const parsed = JSON.parse(result.value);
           if (Array.isArray(parsed)) {
             const migrated = parsed.map((r) => {
-              if (r.inputMode === "detail" && Object.keys(r.simpleHoleData || {}).length === 0 && r.holeData) {
-                return __spreadProps(__spreadValues({}, r), { simpleHoleData: deriveSimpleHoleData(r.holeData, r.holePars) });
+              const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
+              if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
+                return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
               }
-              return r;
+              return base;
             });
             setRounds(migrated);
           }
@@ -2218,10 +2219,11 @@ function GolfTracker() {
           const parsed = JSON.parse(result.value);
           if (Array.isArray(parsed)) {
             const migrated = parsed.map((r) => {
-              if (r.inputMode === "detail" && Object.keys(r.simpleHoleData || {}).length === 0 && r.holeData) {
-                return __spreadProps(__spreadValues({}, r), { simpleHoleData: deriveSimpleHoleData(r.holeData, r.holePars) });
+              const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
+              if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
+                return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
               }
-              return r;
+              return base;
             });
             setImportedTestData(migrated);
           }
@@ -2610,9 +2612,16 @@ function GolfTracker() {
         const parsed = JSON.parse(ev.target.result);
         const imported = (_a3 = parsed.rounds) != null ? _a3 : Array.isArray(parsed) ? parsed : null;
         if (!Array.isArray(imported)) throw new Error("\u30D5\u30A9\u30FC\u30DE\u30C3\u30C8\u4E0D\u6B63");
+        const migrated = imported.map((r) => {
+          const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
+          if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
+            return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
+          }
+          return base;
+        });
         setRounds((prev) => {
           const existingIds = new Set(prev.map((r) => r.id));
-          const newRounds = imported.filter((r) => !existingIds.has(r.id));
+          const newRounds = migrated.filter((r) => !existingIds.has(r.id));
           return [...prev, ...newRounds];
         });
         setImportMsg({ type: "ok", text: `${imported.length}\u4EF6\u3092\u8AAD\u307F\u8FBC\u307F\u307E\u3057\u305F\uFF08\u91CD\u8907\u306F\u9664\u5916\uFF09` });
@@ -2632,10 +2641,11 @@ function GolfTracker() {
       const imported = (_a2 = parsed.rounds) != null ? _a2 : Array.isArray(parsed) ? parsed : null;
       if (!Array.isArray(imported)) throw new Error("\u30D5\u30A9\u30FC\u30DE\u30C3\u30C8\u4E0D\u6B63");
       const migrated = imported.map((r) => {
-        if (r.inputMode === "detail" && Object.keys(r.simpleHoleData || {}).length === 0 && r.holeData) {
-          return __spreadProps(__spreadValues({}, r), { simpleHoleData: deriveSimpleHoleData(r.holeData, r.holePars) });
+        const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
+        if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
+          return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
         }
-        return r;
+        return base;
       });
       setRounds((prev) => {
         const existingIds = new Set(prev.map((r) => r.id));
@@ -2662,7 +2672,7 @@ function GolfTracker() {
     });
   };
   const analytics = useMemo(() => {
-    const allShots = rounds.flatMap((r) => r.shots);
+    const allShots = rounds.flatMap((r) => r.shots || []);
     if (!allShots.length) return null;
     const byCategory = {};
     Object.keys(CAT_ANALYTICS_LABEL).forEach((cat) => {
