@@ -1654,11 +1654,11 @@ function calcDetailAnalytics(holeData, holePars, hcp = null, teeRates = null) {
 }
 function calcAnalytics(r, hcp, teeRates = null) {
   if (r.inputMode === "detail" && r.holeData && Object.keys(r.holeData).length > 0) {
-    const sa3 = calcDetailAnalytics(r.holeData, r.holePars, hcp, teeRates);
-    return sa3 ? __spreadProps(__spreadValues({}, sa3), { isDetailMode: true }) : null;
+    const sa2 = calcDetailAnalytics(r.holeData, r.holePars, hcp, teeRates);
+    return sa2 ? __spreadProps(__spreadValues({}, sa2), { isDetailMode: true }) : null;
   }
-  const sa2 = calcSimpleAnalytics(r.simpleHoleData || {}, r.holePars || Array(18).fill(4), hcp, teeRates);
-  return sa2 ? __spreadProps(__spreadValues({}, sa2), { isDetailMode: false }) : null;
+  const sa = calcSimpleAnalytics(r.simpleHoleData || {}, r.holePars || Array(18).fill(4), hcp, teeRates);
+  return sa ? __spreadProps(__spreadValues({}, sa), { isDetailMode: false }) : null;
 }
 function calcHistoricalTeeRates(rounds) {
   const DIST_KEYS = ["10Y\u4EE5\u5185", "20Y\u4EE5\u5185", "30Y\u4EE5\u5185", "40Y\u4EE5\u5185", "50Y\u4EE5\u5185", "100Y\u4EE5\u5185", "150Y\u4EE5\u5185", "200Y\u4EE5\u5185", "250Y\u4EE5\u5185", "250Y\u8D85"];
@@ -1727,13 +1727,13 @@ function calcHistoricalTeeRates(rounds) {
     hasData: targets.length > 0
   };
 }
-function generateDiagnosis(sa2, shd, hcp, rounds, roundId) {
+function generateDiagnosis(sa, shd, hcp, rounds, roundId) {
   var _a, _b, _c;
   const holeEntries = Object.entries(shd || {});
-  const is9H = sa2.holeCount <= 12;
+  const is9H = sa.holeCount <= 12;
   const hcAdj = is9H ? Math.floor(hcp / 2) : hcp;
-  const expectedScore = sa2.totalPar + hcAdj;
-  const gap = Math.round((sa2.totalScore - expectedScore) * 10) / 10;
+  const expectedScore = sa.totalPar + hcAdj;
+  const gap = Math.round((sa.totalScore - expectedScore) * 10) / 10;
   const count = (key, val) => holeEntries.filter(([, h]) => normQuality(h[key]) === val).length;
   const threePutts = holeEntries.filter(([, h]) => (h.putts || 0) >= 3).length;
   const appEntries = holeEntries.filter(([, h]) => h.approachEval && h.approachEval !== "\u7121" && h.approachEval !== "none");
@@ -1819,20 +1819,20 @@ function generateDiagnosis(sa2, shd, hcp, rounds, roundId) {
     ...holeEntries.map(([, h]) => h.secondEval)
   ].filter(Boolean).length;
   const puttRef = is9H ? 20 : 36;
-  const diagIdealGIR = (_c = sa2.idealGIR) != null ? _c : null;
+  const diagIdealGIR = (_c = sa.idealGIR) != null ? _c : null;
   const insights = {
     tee: (() => {
-      const g = gradeOf(sa2.teeScore);
+      const g = gradeOf(sa.teeScore);
       if (g.label === "S" || g.label === "A") {
-        return sa2.totalOB + sa2.totalPen > 0 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u5B89\u5B9A\u3002\u305F\u3060\u3057OB/\u30DA\u30CA\u30EB\u30C6\u30A3${sa2.totalOB + sa2.totalPen}\u56DE\u306F\u8981\u6CE8\u610F` : `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u25CB${teeGood}\u56DE\u3002\u3053\u306E\u8ABF\u5B50\u3092\u7DAD\u6301\u3057\u3088\u3046`;
+        return sa.totalOB + sa.totalPen > 0 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u5B89\u5B9A\u3002\u305F\u3060\u3057OB/\u30DA\u30CA\u30EB\u30C6\u30A3${sa.totalOB + sa.totalPen}\u56DE\u306F\u8981\u6CE8\u610F` : `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u25CB${teeGood}\u56DE\u3002\u3053\u306E\u8ABF\u5B50\u3092\u7DAD\u6301\u3057\u3088\u3046`;
       }
       if (g.label === "B") {
         return teeFair >= teeGood ? "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u25B3\u304C\u591A\u3081\u3002\u30B3\u30F3\u30D1\u30AF\u30C8\u306A\u30B9\u30A4\u30F3\u30B0\u3067\u82AF\u5F53\u3066\u7387\u3092\u4E0A\u3052\u3088\u3046" : "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u306F\u6A19\u6E96\u7684\u3002\u3082\u3046\u4E00\u6BB5\u306E\u5B89\u5B9A\u611F\u3092\u76EE\u6307\u305D\u3046";
       }
-      return sa2.totalOB + sa2.totalPen >= 4 ? `OB/\u30DA\u30CA\u30EB\u30C6\u30A3${sa2.totalOB + sa2.totalPen}\u56DE\u3002\u7F70\u6253\u304C\u30B9\u30B3\u30A2\u3092\u76F4\u6483\u3057\u3066\u3044\u307E\u3059` : teeBad >= 5 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\xD7\u304C${teeBad}\u56DE\u3002\u30A4\u30F3\u30D1\u30AF\u30C8\u7CBE\u5EA6\u306E\u5B89\u5B9A\u304C\u6700\u512A\u5148\u8AB2\u984C` : teeBad >= 3 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u30DF\u30B9${teeBad}\u56DE\u3002\u30B9\u30A4\u30F3\u30B0\u306E\u30A4\u30F3\u30D1\u30AF\u30C8\u30BE\u30FC\u30F3\u3092\u78BA\u8A8D\u3057\u3088\u3046` : band.id === "S" || band.id === "A" ? "\u25B3\u304C\u591A\u3081\u3002\u30D5\u30A7\u30FC\u30B9\u7BA1\u7406\u3068\u30A4\u30F3\u30D1\u30AF\u30C8\u30BE\u30FC\u30F3\u306E\u7CBE\u5EA6\u5411\u4E0A\u3067\u25CB\u7387\u3092\u9AD8\u3081\u3088\u3046" : "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u25B3\u304C\u591A\u3081\u3002\u30B3\u30F3\u30D1\u30AF\u30C8\u306A\u30B9\u30A4\u30F3\u30B0\u3067\u82AF\u5F53\u3066\u7387\u3092\u4E0A\u3052\u3088\u3046";
+      return sa.totalOB + sa.totalPen >= 4 ? `OB/\u30DA\u30CA\u30EB\u30C6\u30A3${sa.totalOB + sa.totalPen}\u56DE\u3002\u7F70\u6253\u304C\u30B9\u30B3\u30A2\u3092\u76F4\u6483\u3057\u3066\u3044\u307E\u3059` : teeBad >= 5 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\xD7\u304C${teeBad}\u56DE\u3002\u30A4\u30F3\u30D1\u30AF\u30C8\u7CBE\u5EA6\u306E\u5B89\u5B9A\u304C\u6700\u512A\u5148\u8AB2\u984C` : teeBad >= 3 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u30DF\u30B9${teeBad}\u56DE\u3002\u30B9\u30A4\u30F3\u30B0\u306E\u30A4\u30F3\u30D1\u30AF\u30C8\u30BE\u30FC\u30F3\u3092\u78BA\u8A8D\u3057\u3088\u3046` : band.id === "S" || band.id === "A" ? "\u25B3\u304C\u591A\u3081\u3002\u30D5\u30A7\u30FC\u30B9\u7BA1\u7406\u3068\u30A4\u30F3\u30D1\u30AF\u30C8\u30BE\u30FC\u30F3\u306E\u7CBE\u5EA6\u5411\u4E0A\u3067\u25CB\u7387\u3092\u9AD8\u3081\u3088\u3046" : "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u25B3\u304C\u591A\u3081\u3002\u30B3\u30F3\u30D1\u30AF\u30C8\u306A\u30B9\u30A4\u30F3\u30B0\u3067\u82AF\u5F53\u3066\u7387\u3092\u4E0A\u3052\u3088\u3046";
     })(),
     long: (() => {
-      const g = gradeOf(sa2.longScore, null, diagIdealGIR);
+      const g = gradeOf(sa.longScore, null, diagIdealGIR);
       if (g.label === "S" || g.label === "A") {
         return longGood >= longTotal * 0.6 ? "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\u304C\u5B89\u5B9A\u3002\u5927\u304D\u306A\u5F37\u307F\u3067\u3059" : "GIR\u304C\u5B89\u5B9A\u3057\u3066\u3044\u307E\u3059\u3002\u3053\u306E\u8ABF\u5B50\u3092\u7DAD\u6301\u3057\u3088\u3046";
       }
@@ -1842,31 +1842,31 @@ function generateDiagnosis(sa2, shd, hcp, rounds, roundId) {
       return longBad >= 4 ? `\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\xD7${longBad}\u56DE\u3002\u756A\u624B\u9078\u3073\u3068\u65B9\u5411\u6027\u3092\u898B\u76F4\u305D\u3046` : "GIR\u304C\u671F\u5F85\u3092\u4E0B\u56DE\u3063\u3066\u3044\u307E\u3059\u3002\u30B0\u30EA\u30FC\u30F3\u3092\u6349\u3048\u308B\u7CBE\u5EA6\u5411\u4E0A\u304C\u6700\u512A\u5148\u8AB2\u984C";
     })(),
     short: (() => {
-      const g = gradeOf(sa2.shortScore, null, null, true, sa2.isDetailMode);
+      const g = gradeOf(sa.shortScore, null, null, true, sa.isDetailMode);
       if (g.label === "D" || g.label === "C") {
         return appBad >= 4 ? `\u30A2\u30D7\u30ED\u30FC\u30C1\xD7${appBad}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u306E\u7CBE\u5EA6\u304C\u6700\u91CD\u8981\u8AB2\u984C` : "\u30A2\u30D7\u30ED\u30FC\u30C1\u5F8C\u306B1\u30D1\u30C3\u30C8\u3067\u4E0A\u304C\u308B\u305F\u3081\u306E\u30A8\u30EA\u30A2\u3092\u610F\u8B58\u3057\u307E\u3057\u3087\u3046";
       }
-      return appBad >= 4 ? `\u30A2\u30D7\u30ED\u30FC\u30C1\xD7${appBad}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u306E\u7CBE\u5EA6\u304C\u6700\u91CD\u8981\u8AB2\u984C` : sa2.avgAfterPutts > 2.3 ? band.id === "S" || band.id === "A" ? `\u5BC4\u305B\u5F8C\u306E\u5E73\u5747${sa2.avgAfterPutts}\u30D1\u30C3\u30C8\u3002\u30D4\u30F32m\u4EE5\u5185\u306E\u5BC4\u305B\u7387\u3092\u610F\u8B58\u3057\u3088\u3046` : `\u30A2\u30D7\u30ED\u30FC\u30C1\u5F8C\u306E\u5E73\u5747${sa2.avgAfterPutts}\u30D1\u30C3\u30C8\u3002\u5BC4\u305B\u7CBE\u5EA6\u3092\u9AD8\u3081\u3066\u30D1\u30C3\u30C8\u3092\u697D\u306B\u3057\u3088\u3046` : appGood >= appEntries.length * 0.6 ? `\u30A2\u30D7\u30ED\u30FC\u30C1\u25CB${appGood}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u304C\u5F37\u307F\u3067\u3059` : "\u30A2\u30D7\u30ED\u30FC\u30C1\u306E\u5B89\u5B9A\u611F\u3092\u3082\u3046\u5C11\u3057\u4E0A\u3052\u307E\u3057\u3087\u3046";
+      return appBad >= 4 ? `\u30A2\u30D7\u30ED\u30FC\u30C1\xD7${appBad}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u306E\u7CBE\u5EA6\u304C\u6700\u91CD\u8981\u8AB2\u984C` : sa.avgAfterPutts > 2.3 ? band.id === "S" || band.id === "A" ? `\u5BC4\u305B\u5F8C\u306E\u5E73\u5747${sa.avgAfterPutts}\u30D1\u30C3\u30C8\u3002\u30D4\u30F32m\u4EE5\u5185\u306E\u5BC4\u305B\u7387\u3092\u610F\u8B58\u3057\u3088\u3046` : `\u30A2\u30D7\u30ED\u30FC\u30C1\u5F8C\u306E\u5E73\u5747${sa.avgAfterPutts}\u30D1\u30C3\u30C8\u3002\u5BC4\u305B\u7CBE\u5EA6\u3092\u9AD8\u3081\u3066\u30D1\u30C3\u30C8\u3092\u697D\u306B\u3057\u3088\u3046` : appGood >= appEntries.length * 0.6 ? `\u30A2\u30D7\u30ED\u30FC\u30C1\u25CB${appGood}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u304C\u5F37\u307F\u3067\u3059` : "\u30A2\u30D7\u30ED\u30FC\u30C1\u306E\u5B89\u5B9A\u611F\u3092\u3082\u3046\u5C11\u3057\u4E0A\u3052\u307E\u3057\u3087\u3046";
     })(),
-    putt: threePutts >= 4 ? `3\u30D1\u30C3\u30C8${threePutts}\u56DE\u304C\u75DB\u3044\u3002\u30ED\u30F3\u30B0\u30D1\u30C3\u30C8\u306E\u8DDD\u96E2\u611F\u304C\u6700\u91CD\u8981\u8AB2\u984C` : threePutts >= 2 ? `3\u30D1\u30C3\u30C8${threePutts}\u56DE\u3002\u30D5\u30A1\u30FC\u30B9\u30C8\u30D1\u30C3\u30C8\u306E\u7CBE\u5EA6\u3092\u4E0A\u3052\u308B\u3053\u3068\u304C\u5148\u6C7A` : sa2.totalPutts > puttRef + 2 ? `\u30D1\u30C3\u30C8\u6570\u591A\u3081\uFF08${sa2.totalPutts}\u30D1\u30C3\u30C8\uFF09\u3002\u30B0\u30EA\u30FC\u30F3\u4E0A\u306E\u5B89\u5B9A\u611F\u3092\u9AD8\u3081\u305F\u3044` : sa2.totalPutts <= puttRef - 8 ? `\u30D1\u30C3\u30C8${sa2.totalPutts}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u4E0A\u304C\u5927\u304D\u306A\u6B66\u5668\u3067\u3059` : `\u30D1\u30C3\u30C8${sa2.totalPutts}\u56DE\u3002\u6A19\u6E96\u7684\u306A\u6C34\u6E96\u3067\u3059`,
+    putt: threePutts >= 4 ? `3\u30D1\u30C3\u30C8${threePutts}\u56DE\u304C\u75DB\u3044\u3002\u30ED\u30F3\u30B0\u30D1\u30C3\u30C8\u306E\u8DDD\u96E2\u611F\u304C\u6700\u91CD\u8981\u8AB2\u984C` : threePutts >= 2 ? `3\u30D1\u30C3\u30C8${threePutts}\u56DE\u3002\u30D5\u30A1\u30FC\u30B9\u30C8\u30D1\u30C3\u30C8\u306E\u7CBE\u5EA6\u3092\u4E0A\u3052\u308B\u3053\u3068\u304C\u5148\u6C7A` : sa.totalPutts > puttRef + 2 ? `\u30D1\u30C3\u30C8\u6570\u591A\u3081\uFF08${sa.totalPutts}\u30D1\u30C3\u30C8\uFF09\u3002\u30B0\u30EA\u30FC\u30F3\u4E0A\u306E\u5B89\u5B9A\u611F\u3092\u9AD8\u3081\u305F\u3044` : sa.totalPutts <= puttRef - 8 ? `\u30D1\u30C3\u30C8${sa.totalPutts}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u4E0A\u304C\u5927\u304D\u306A\u6B66\u5668\u3067\u3059` : `\u30D1\u30C3\u30C8${sa.totalPutts}\u56DE\u3002\u6A19\u6E96\u7684\u306A\u6C34\u6E96\u3067\u3059`,
     bunker: (() => {
-      if (!sa2.bunkerHoleCount) return "\u30D0\u30F3\u30AB\u30FC\u306A\u3057\u3002\u7D20\u6674\u3089\u3057\u3044\u30B3\u30FC\u30B9\u7BA1\u7406\u3067\u3059";
-      const g = gradeOf(sa2.bunkerScore);
+      if (!sa.bunkerHoleCount) return "\u30D0\u30F3\u30AB\u30FC\u306A\u3057\u3002\u7D20\u6674\u3089\u3057\u3044\u30B3\u30FC\u30B9\u7BA1\u7406\u3067\u3059";
+      const g = gradeOf(sa.bunkerScore);
       if (g.label === "S" || g.label === "A") {
-        return `\u30D0\u30F3\u30AB\u30FC${sa2.bunkerHoleCount}\u30DB\u30FC\u30EB\u3002\u30B9\u30B3\u30A2\u3078\u306E\u5F71\u97FF\u306F\u6700\u5C0F\u9650\u306B\u6291\u3048\u3089\u308C\u3066\u3044\u307E\u3059`;
+        return `\u30D0\u30F3\u30AB\u30FC${sa.bunkerHoleCount}\u30DB\u30FC\u30EB\u3002\u30B9\u30B3\u30A2\u3078\u306E\u5F71\u97FF\u306F\u6700\u5C0F\u9650\u306B\u6291\u3048\u3089\u308C\u3066\u3044\u307E\u3059`;
       }
       if (g.label === "B") {
-        return `\u30D0\u30F3\u30AB\u30FC${sa2.bunkerHoleCount}\u30DB\u30FC\u30EB\u3002\u307E\u305A\u307E\u305A\u306E\u5BFE\u51E6\u304C\u3067\u304D\u3066\u3044\u307E\u3059`;
+        return `\u30D0\u30F3\u30AB\u30FC${sa.bunkerHoleCount}\u30DB\u30FC\u30EB\u3002\u307E\u305A\u307E\u305A\u306E\u5BFE\u51E6\u304C\u3067\u304D\u3066\u3044\u307E\u3059`;
       }
-      return sa2.bunkerHoleCount >= 4 ? `\u30D0\u30F3\u30AB\u30FC${sa2.bunkerHoleCount}\u30DB\u30FC\u30EB\u3002\u56DE\u907F\u30DE\u30CD\u30B8\u30E1\u30F3\u30C8\u3092\u610F\u8B58\u3057\u3066` : `\u30D0\u30F3\u30AB\u30FC${sa2.bunkerHoleCount}\u30DB\u30FC\u30EB\u3002\u307E\u305A\u8131\u51FA\u3092\u6700\u512A\u5148\u306B`;
+      return sa.bunkerHoleCount >= 4 ? `\u30D0\u30F3\u30AB\u30FC${sa.bunkerHoleCount}\u30DB\u30FC\u30EB\u3002\u56DE\u907F\u30DE\u30CD\u30B8\u30E1\u30F3\u30C8\u3092\u610F\u8B58\u3057\u3066` : `\u30D0\u30F3\u30AB\u30FC${sa.bunkerHoleCount}\u30DB\u30FC\u30EB\u3002\u307E\u305A\u8131\u51FA\u3092\u6700\u512A\u5148\u306B`;
     })()
   };
   const categories = [
-    { key: "tee", label: "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8", icon: "\u{1F3CC}\uFE0F", score: sa2.teeScore, hcpForGrade: hcp, idealGIRForGrade: null },
-    { key: "long", label: "\u30ED\u30F3\u30B0", icon: "\u{1F396}\uFE0F", score: sa2.longScore, hcpForGrade: null, idealGIRForGrade: diagIdealGIR },
-    { key: "short", label: "\u30B7\u30E7\u30FC\u30C8", icon: "\u{1F3AF}", score: sa2.shortScore, hcpForGrade: null, idealGIRForGrade: null, isShort: true, isDetailMode: sa2.isDetailMode },
-    { key: "putt", label: "\u30D1\u30C3\u30C8", icon: "\u26F3", score: sa2.puttScore, hcpForGrade: null, idealGIRForGrade: null },
-    ...sa2.bunkerScore != null ? [{ key: "bunker", label: "\u30D0\u30F3\u30AB\u30FC", icon: "\u{1F3D6}\uFE0F", score: sa2.bunkerScore, hcpForGrade: null, idealGIRForGrade: null }] : []
+    { key: "tee", label: "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8", icon: "\u{1F3CC}\uFE0F", score: sa.teeScore, hcpForGrade: hcp, idealGIRForGrade: null },
+    { key: "long", label: "\u30ED\u30F3\u30B0", icon: "\u{1F396}\uFE0F", score: sa.longScore, hcpForGrade: null, idealGIRForGrade: diagIdealGIR },
+    { key: "short", label: "\u30B7\u30E7\u30FC\u30C8", icon: "\u{1F3AF}", score: sa.shortScore, hcpForGrade: null, idealGIRForGrade: null, isShort: true, isDetailMode: sa.isDetailMode },
+    { key: "putt", label: "\u30D1\u30C3\u30C8", icon: "\u26F3", score: sa.puttScore, hcpForGrade: null, idealGIRForGrade: null },
+    ...sa.bunkerScore != null ? [{ key: "bunker", label: "\u30D0\u30F3\u30AB\u30FC", icon: "\u{1F3D6}\uFE0F", score: sa.bunkerScore, hcpForGrade: null, idealGIRForGrade: null }] : []
   ].map((c) => __spreadProps(__spreadValues({}, c), {
     insight: insights[c.key],
     displayScore: c.hcpForGrade !== null ? normalizeTeeScore(c.score, c.hcpForGrade) : c.idealGIRForGrade !== null ? normalizeLongScore(c.score, c.idealGIRForGrade) : c.score
@@ -1881,10 +1881,10 @@ function generateDiagnosis(sa2, shd, hcp, rounds, roundId) {
     return g.label === "C" || g.label === "D";
   };
   const forcedKeys = /* @__PURE__ */ new Set();
-  const teeGradeLbl = gradeOf(sa2.teeScore, hcp, null).label;
-  const puttGradeLbl = gradeOf(sa2.puttScore).label;
-  if (sa2.totalOB + sa2.totalPen >= 4 && (teeGradeLbl === "C" || teeGradeLbl === "D")) forcedKeys.add("tee");
-  if ((band.id === "S" || band.id === "A") && sa2.totalOB + sa2.totalPen >= 2 && (teeGradeLbl === "C" || teeGradeLbl === "D")) forcedKeys.add("tee");
+  const teeGradeLbl = gradeOf(sa.teeScore, hcp, null).label;
+  const puttGradeLbl = gradeOf(sa.puttScore).label;
+  if (sa.totalOB + sa.totalPen >= 4 && (teeGradeLbl === "C" || teeGradeLbl === "D")) forcedKeys.add("tee");
+  if ((band.id === "S" || band.id === "A") && sa.totalOB + sa.totalPen >= 2 && (teeGradeLbl === "C" || teeGradeLbl === "D")) forcedKeys.add("tee");
   if (threePutts >= 4 && (puttGradeLbl === "C" || puttGradeLbl === "D")) forcedKeys.add("putt");
   const forced = [...forcedKeys].map((k) => categories.find((c) => c.key === k)).filter(Boolean);
   const rest = sortedCats.filter((c) => !forcedKeys.has(c.key) && isWeak(c));
@@ -1976,10 +1976,10 @@ function scoreDiffSymbol(diff) {
   if (diff === 3) return { sym: "\u25A0", color: "#1d4ed8" };
   return { sym: `+${diff}`, color: "#1e3a8a" };
 }
-function AiDiagnosisPanel({ sa: sa2, shd, hcp, rounds, roundId, teeRates = null, showTrend = true, label = "AI \u30B9\u30B3\u30A2\u8A3A\u65AD", roundCount = null, dateRange = null }) {
+function AiDiagnosisPanel({ sa, shd, hcp, rounds, roundId, teeRates = null, showTrend = true, label = "AI \u30B9\u30B3\u30A2\u8A3A\u65AD", roundCount = null, dateRange = null }) {
   let d;
   try {
-    d = generateDiagnosis(sa2, shd, hcp, rounds, roundId);
+    d = generateDiagnosis(sa, shd, hcp, rounds, roundId);
   } catch (e) {
     return null;
   }
@@ -2094,6 +2094,24 @@ function deriveSimpleHoleData(holeData, holePars) {
     };
   });
   return result;
+}
+class RoundCardErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(err) {
+    console.warn("[RoundCard] render error caught:", err == null ? void 0 : err.message);
+  }
+  render() {
+    if (this.state.hasError) {
+      return /* @__PURE__ */ React.createElement("div", { style: { padding: "12px 16px", borderRadius: "10px", border: "1px solid rgba(248,113,113,0.3)", background: "rgba(248,113,113,0.04)", color: "#f87171", fontSize: "12px", marginBottom: "10px" } }, "\u26A0\uFE0F \u3053\u306E\u30E9\u30A6\u30F3\u30C9\u306E\u8868\u793A\u4E2D\u306B\u30A8\u30E9\u30FC\u304C\u767A\u751F\u3057\u307E\u3057\u305F\uFF08\u30C7\u30FC\u30BF\u5F62\u5F0F\u3092\u3054\u78BA\u8A8D\u304F\u3060\u3055\u3044\uFF09");
+    }
+    return this.props.children;
+  }
 }
 function GolfTracker() {
   var _a, _b, _c, _d;
@@ -2908,11 +2926,17 @@ function GolfTracker() {
       else next.add(r.id);
       return next;
     });
-    return /* @__PURE__ */ React.createElement("div", { key: r.id, style: S.card() }, (() => {
+    const hasSimpleData_ = Object.keys(r.simpleHoleData || {}).length > 0;
+    const sa = hasSimpleData_ ? (() => {
       var _a2;
+      try {
+        return calcAnalytics(r, (_a2 = handicap == null ? void 0 : handicap.hcp) != null ? _a2 : null, teeRates);
+      } catch (e) {
+        return null;
+      }
+    })() : null;
+    return /* @__PURE__ */ React.createElement("div", { key: r.id, style: S.card() }, (() => {
       const isSimple = r.inputMode === "simple";
-      const hasSimpleData = Object.keys(r.simpleHoleData || {}).length > 0;
-      const sa2 = hasSimpleData ? calcAnalytics(r, (_a2 = handicap == null ? void 0 : handicap.hcp) != null ? _a2 : null, teeRates) : null;
       return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: isCollapsed ? "0px" : "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement(
         "div",
         {
@@ -2926,11 +2950,11 @@ function GolfTracker() {
         "div",
         {
           onClick: () => {
-            var _a3;
+            var _a2;
             setEditingRoundId(r.id);
             setEditDate(r.date || "");
             setEditWeather(r.weather || "sunny");
-            setEditWind((_a3 = r.wind) != null ? _a3 : 0);
+            setEditWind((_a2 = r.wind) != null ? _a2 : 0);
           },
           style: { color: "#94a3b8", fontSize: "11px", marginTop: "2px", display: "flex", gap: "8px", cursor: "pointer", textDecoration: "underline dotted", textUnderlineOffset: "2px" }
         },
@@ -2952,32 +2976,32 @@ function GolfTracker() {
           style: { padding: "5px 12px", borderRadius: "20px", border: "1px solid rgba(148,163,184,0.4)", background: "rgba(148,163,184,0.08)", color: "#94a3b8", fontSize: "11px", fontWeight: "700", cursor: "pointer" }
         },
         "\u{1F58A} \u4FEE\u6B63"
-      )), sa2 ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "20px", color: sa2.totalScore - sa2.totalPar >= 0 ? "#f97316" : "#16a34a" } }, sa2.totalScore), /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "9px" } }, "(", sa2.totalScore - sa2.totalPar >= 0 ? "+" : "", sa2.totalScore - sa2.totalPar, ")")) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "20px", color: scoreColor(tot) } }, fmt(tot)), /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "9px" } }, "\u8A55\u4FA1\u30B9\u30B3\u30A2")))), !isCollapsed && /* @__PURE__ */ React.createElement(React.Fragment, null, sa2 && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "10px" } }, [
+      )), sa ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "20px", color: sa.totalScore - sa.totalPar >= 0 ? "#f97316" : "#16a34a" } }, sa.totalScore), /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "9px" } }, "(", sa.totalScore - sa.totalPar >= 0 ? "+" : "", sa.totalScore - sa.totalPar, ")")) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "20px", color: scoreColor(tot) } }, fmt(tot)), /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "9px" } }, "\u8A55\u4FA1\u30B9\u30B3\u30A2")))), !isCollapsed && /* @__PURE__ */ React.createElement(React.Fragment, null, sa && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "10px" } }, [
         { label: r.frontCourse || "\u524D\u534A", keys: Array.from({ length: 9 }, (_, i) => i + 1), nums: r.frontHoleNums || Array.from({ length: 9 }, (_, i) => i + 1) },
         { label: r.backCourse || "\u5F8C\u534A", keys: Array.from({ length: 9 }, (_, i) => i + 10), nums: r.backHoleNums || Array.from({ length: 9 }, (_, i) => i + 10) }
       ].map((row) => {
         const rowHoles = row.keys.filter((h) => {
-          var _a3;
-          return (_a3 = r.simpleHoleData) == null ? void 0 : _a3[h];
+          var _a2;
+          return (_a2 = r.simpleHoleData) == null ? void 0 : _a2[h];
         });
         if (!rowHoles.length) return null;
         const rowScore = rowHoles.reduce((a, h) => {
-          var _a3;
-          return a + (((_a3 = r.simpleHoleData[h]) == null ? void 0 : _a3.score) || 0);
+          var _a2;
+          return a + (((_a2 = r.simpleHoleData[h]) == null ? void 0 : _a2.score) || 0);
         }, 0);
         const rowPar = rowHoles.reduce((a, h) => {
-          var _a3;
-          return a + (((_a3 = r.holePars) == null ? void 0 : _a3[h - 1]) || 4);
+          var _a2;
+          return a + (((_a2 = r.holePars) == null ? void 0 : _a2[h - 1]) || 4);
         }, 0);
         return /* @__PURE__ */ React.createElement("div", { key: row.label, style: { marginBottom: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "4px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#475569", fontWeight: "700", width: "28px" } }, row.label), rowHoles.map((h, hi) => {
-          var _a3, _b2, _c2;
-          const dispNum = (_a3 = (row.nums || row.keys)[hi]) != null ? _a3 : h;
+          var _a2, _b2, _c2;
+          const dispNum = (_a2 = (row.nums || row.keys)[hi]) != null ? _a2 : h;
           const hd2 = r.simpleHoleData[h];
           const diff = ((hd2 == null ? void 0 : hd2.score) || 0) - (((_b2 = r.holePars) == null ? void 0 : _b2[h - 1]) || 4);
           const { sym, color: symColor } = scoreDiffSymbol(diff);
           return /* @__PURE__ */ React.createElement("div", { key: h, style: { display: "flex", flexDirection: "column", alignItems: "center", minWidth: "26px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#334155" } }, "P", ((_c2 = r.holePars) == null ? void 0 : _c2[h - 1]) || 4), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", color: symColor, fontWeight: "700" } }, sym), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#64748b" } }, hd2 == null ? void 0 : hd2.score), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "8px", color: "#334155" } }, ((hd2 == null ? void 0 : hd2.putts) || 0) > 0 ? `${hd2.putts}P` : ""));
         }), /* @__PURE__ */ React.createElement("div", { style: { marginLeft: "4px", padding: "2px 7px", background: "#f8fafc", borderRadius: "6px", textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", fontWeight: "800", color: scoreColor(rowScore - rowPar) } }, rowScore, "(", rowScore - rowPar >= 0 ? "+" : "", rowScore - rowPar, ")"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "8px", color: "#475569" } }, "\u5C0F\u8A08"))));
-      }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "6px", borderTop: "1px solid #e2e8f0", fontSize: "11px", flexWrap: "wrap", gap: "4px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u5408\u8A08 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "800" } }, sa2.totalScore), " (", sa2.totalScore - sa2.totalPar >= 0 ? "+" : "", sa2.totalScore - sa2.totalPar, ")"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u30D1\u30C3\u30C8 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "700" } }, sa2.totalPutts)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "OB ", /* @__PURE__ */ React.createElement("span", { style: { color: sa2.totalOB > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa2.totalOB)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u30DA\u30CA\u30EB\u30C6\u30A3 ", /* @__PURE__ */ React.createElement("span", { style: { color: sa2.totalPen > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa2.totalPen)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u30D0\u30F3\u30AB\u30FC ", /* @__PURE__ */ React.createElement("span", { style: { color: sa2.totalBunker > 0 ? "#fbbf24" : "#e2e8f0", fontWeight: "700" } }, sa2.totalBunker))), /* @__PURE__ */ React.createElement(
+      }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "6px", borderTop: "1px solid #e2e8f0", fontSize: "11px", flexWrap: "wrap", gap: "4px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u5408\u8A08 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "800" } }, sa.totalScore), " (", sa.totalScore - sa.totalPar >= 0 ? "+" : "", sa.totalScore - sa.totalPar, ")"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u30D1\u30C3\u30C8 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "700" } }, sa.totalPutts)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "OB ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalOB > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa.totalOB)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u30DA\u30CA\u30EB\u30C6\u30A3 ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalPen > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa.totalPen)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u30D0\u30F3\u30AB\u30FC ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalBunker > 0 ? "#fbbf24" : "#e2e8f0", fontWeight: "700" } }, sa.totalBunker))), /* @__PURE__ */ React.createElement(
         "button",
         {
           onClick: () => setShotDetailRid(shotDetailRid === r.rid ? null : r.rid),
@@ -2997,100 +3021,100 @@ function GolfTracker() {
         const evalColor = (v) => v === "\u25CB" || v === "good" ? "#16a34a" : v === "\u25B3" || v === "fair" ? "#fbbf24" : v === "\xD7" || v === "bad" ? "#dc2626" : "#475569";
         const successRate = (holes, key) => {
           const valid = holes.filter((h) => {
-            var _a3, _b2, _c2;
-            return ((_a3 = shd[h]) == null ? void 0 : _a3[key]) && ((_b2 = shd[h]) == null ? void 0 : _b2[key]) !== "\u7121" && ((_c2 = shd[h]) == null ? void 0 : _c2[key]) !== "none";
+            var _a2, _b2, _c2;
+            return ((_a2 = shd[h]) == null ? void 0 : _a2[key]) && ((_b2 = shd[h]) == null ? void 0 : _b2[key]) !== "\u7121" && ((_c2 = shd[h]) == null ? void 0 : _c2[key]) !== "none";
           });
           if (!valid.length) return "\uFF0D";
           const ok = valid.filter((h) => {
-            var _a3, _b2;
-            return ((_a3 = shd[h]) == null ? void 0 : _a3[key]) === "\u25CB" || ((_b2 = shd[h]) == null ? void 0 : _b2[key]) === "good";
+            var _a2, _b2;
+            return ((_a2 = shd[h]) == null ? void 0 : _a2[key]) === "\u25CB" || ((_b2 = shd[h]) == null ? void 0 : _b2[key]) === "good";
           }).length;
           return `${Math.round(ok / valid.length * 100)}%`;
         };
         const rows = [
           { label: "Par", key: null, isEval: false, render: (h) => pars[h - 1] || 4, color: () => "#94a3b8", totalFn: null },
           { label: "\u30B9\u30B3\u30A2", key: "score", isEval: false, render: (h) => {
-            var _a3, _b2;
-            return (_b2 = (_a3 = shd[h]) == null ? void 0 : _a3.score) != null ? _b2 : "\uFF0D";
+            var _a2, _b2;
+            return (_b2 = (_a2 = shd[h]) == null ? void 0 : _a2.score) != null ? _b2 : "\uFF0D";
           }, color: (h) => {
-            var _a3;
-            const d = (((_a3 = shd[h]) == null ? void 0 : _a3.score) || 0) - (pars[h - 1] || 4);
+            var _a2;
+            const d = (((_a2 = shd[h]) == null ? void 0 : _a2.score) || 0) - (pars[h - 1] || 4);
             return d < 0 ? "#16a34a" : d === 0 ? "#94a3b8" : d === 1 ? "#3b82f6" : "#f97316";
           }, totalFn: (holes) => holes.reduce((a, h) => {
-            var _a3;
-            return a + (((_a3 = shd[h]) == null ? void 0 : _a3.score) || 0);
+            var _a2;
+            return a + (((_a2 = shd[h]) == null ? void 0 : _a2.score) || 0);
           }, 0) },
           { label: "\u30D1\u30C3\u30C8\u6570", key: "putts", isEval: false, render: (h) => {
-            var _a3, _b2;
-            return (_b2 = (_a3 = shd[h]) == null ? void 0 : _a3.putts) != null ? _b2 : "\uFF0D";
+            var _a2, _b2;
+            return (_b2 = (_a2 = shd[h]) == null ? void 0 : _a2.putts) != null ? _b2 : "\uFF0D";
           }, color: (h) => {
-            var _a3;
-            return (((_a3 = shd[h]) == null ? void 0 : _a3.putts) || 0) >= 3 ? "#dc2626" : "#e2e8f0";
+            var _a2;
+            return (((_a2 = shd[h]) == null ? void 0 : _a2.putts) || 0) >= 3 ? "#dc2626" : "#e2e8f0";
           }, totalFn: (holes) => holes.reduce((a, h) => {
-            var _a3;
-            return a + (((_a3 = shd[h]) == null ? void 0 : _a3.putts) || 0);
+            var _a2;
+            return a + (((_a2 = shd[h]) == null ? void 0 : _a2.putts) || 0);
           }, 0) },
           { label: "OB", key: "ob", isEval: false, render: (h) => {
-            var _a3;
-            return ((_a3 = shd[h]) == null ? void 0 : _a3.ob) || "\uFF0D";
+            var _a2;
+            return ((_a2 = shd[h]) == null ? void 0 : _a2.ob) || "\uFF0D";
           }, color: (h) => {
-            var _a3;
-            return (((_a3 = shd[h]) == null ? void 0 : _a3.ob) || 0) > 0 ? "#dc2626" : "#475569";
+            var _a2;
+            return (((_a2 = shd[h]) == null ? void 0 : _a2.ob) || 0) > 0 ? "#dc2626" : "#475569";
           }, totalFn: (holes) => holes.reduce((a, h) => {
-            var _a3;
-            return a + (((_a3 = shd[h]) == null ? void 0 : _a3.ob) || 0);
+            var _a2;
+            return a + (((_a2 = shd[h]) == null ? void 0 : _a2.ob) || 0);
           }, 0) },
           { label: "\u30DA\u30CA\u30EB\u30C6\u30A3", key: "penalty", isEval: false, render: (h) => {
-            var _a3;
-            return ((_a3 = shd[h]) == null ? void 0 : _a3.penalty) || "\uFF0D";
+            var _a2;
+            return ((_a2 = shd[h]) == null ? void 0 : _a2.penalty) || "\uFF0D";
           }, color: (h) => {
-            var _a3;
-            return (((_a3 = shd[h]) == null ? void 0 : _a3.penalty) || 0) > 0 ? "#dc2626" : "#475569";
+            var _a2;
+            return (((_a2 = shd[h]) == null ? void 0 : _a2.penalty) || 0) > 0 ? "#dc2626" : "#475569";
           }, totalFn: (holes) => holes.reduce((a, h) => {
-            var _a3;
-            return a + (((_a3 = shd[h]) == null ? void 0 : _a3.penalty) || 0);
+            var _a2;
+            return a + (((_a2 = shd[h]) == null ? void 0 : _a2.penalty) || 0);
           }, 0) },
           { label: "\u30D0\u30F3\u30AB\u30FC", key: "bunker", isEval: false, render: (h) => {
-            var _a3;
-            return ((_a3 = shd[h]) == null ? void 0 : _a3.bunker) || "\uFF0D";
+            var _a2;
+            return ((_a2 = shd[h]) == null ? void 0 : _a2.bunker) || "\uFF0D";
           }, color: (h) => {
-            var _a3;
-            return (((_a3 = shd[h]) == null ? void 0 : _a3.bunker) || 0) > 0 ? "#fbbf24" : "#475569";
+            var _a2;
+            return (((_a2 = shd[h]) == null ? void 0 : _a2.bunker) || 0) > 0 ? "#fbbf24" : "#475569";
           }, totalFn: (holes) => holes.reduce((a, h) => {
-            var _a3;
-            return a + (((_a3 = shd[h]) == null ? void 0 : _a3.bunker) || 0);
+            var _a2;
+            return a + (((_a2 = shd[h]) == null ? void 0 : _a2.bunker) || 0);
           }, 0) },
           { label: "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8", key: "teeEval", isEval: true, render: (h) => {
-            var _a3;
-            return evalLabel((_a3 = shd[h]) == null ? void 0 : _a3.teeEval);
+            var _a2;
+            return evalLabel((_a2 = shd[h]) == null ? void 0 : _a2.teeEval);
           }, color: (h) => {
-            var _a3;
-            return evalColor((_a3 = shd[h]) == null ? void 0 : _a3.teeEval);
+            var _a2;
+            return evalColor((_a2 = shd[h]) == null ? void 0 : _a2.teeEval);
           }, totalFn: (holes) => successRate(holes, "teeEval") },
           { label: "\u30ED\u30F3\u30B0", key: "secondEval", isEval: true, render: (h) => {
-            var _a3;
-            return evalLabel((_a3 = shd[h]) == null ? void 0 : _a3.secondEval);
+            var _a2;
+            return evalLabel((_a2 = shd[h]) == null ? void 0 : _a2.secondEval);
           }, color: (h) => {
-            var _a3;
-            return evalColor((_a3 = shd[h]) == null ? void 0 : _a3.secondEval);
+            var _a2;
+            return evalColor((_a2 = shd[h]) == null ? void 0 : _a2.secondEval);
           }, totalFn: (holes) => successRate(holes, "secondEval") },
           { label: "\u30B7\u30E7\u30FC\u30C8", key: "thirdEval", isEval: true, render: (h) => {
-            var _a3;
-            return evalLabel((_a3 = shd[h]) == null ? void 0 : _a3.thirdEval);
+            var _a2;
+            return evalLabel((_a2 = shd[h]) == null ? void 0 : _a2.thirdEval);
           }, color: (h) => {
-            var _a3;
-            return evalColor((_a3 = shd[h]) == null ? void 0 : _a3.thirdEval);
+            var _a2;
+            return evalColor((_a2 = shd[h]) == null ? void 0 : _a2.thirdEval);
           }, totalFn: (holes) => successRate(holes, "thirdEval") },
           { label: "\u30A2\u30D7\u30ED\u30FC\u30C1", key: "approachEval", isEval: true, render: (h) => {
-            var _a3;
-            return evalLabel((_a3 = shd[h]) == null ? void 0 : _a3.approachEval, true);
+            var _a2;
+            return evalLabel((_a2 = shd[h]) == null ? void 0 : _a2.approachEval, true);
           }, color: (h) => {
-            var _a3;
-            const v = (_a3 = shd[h]) == null ? void 0 : _a3.approachEval;
+            var _a2;
+            const v = (_a2 = shd[h]) == null ? void 0 : _a2.approachEval;
             return v === "\u7121" || v === "none" ? "#334155" : evalColor(v);
           }, totalFn: (holes) => successRate(holes.filter((h) => {
-            var _a3, _b2, _c2;
-            return ((_a3 = shd[h]) == null ? void 0 : _a3.approachEval) && ((_b2 = shd[h]) == null ? void 0 : _b2.approachEval) !== "\u7121" && ((_c2 = shd[h]) == null ? void 0 : _c2.approachEval) !== "none";
+            var _a2, _b2, _c2;
+            return ((_a2 = shd[h]) == null ? void 0 : _a2.approachEval) && ((_b2 = shd[h]) == null ? void 0 : _b2.approachEval) !== "\u7121" && ((_c2 = shd[h]) == null ? void 0 : _c2.approachEval) !== "none";
           }), "approachEval") }
         ];
         const front = r.frontCourse || "\u524D\u534A";
@@ -3106,10 +3130,10 @@ function GolfTracker() {
           const totalColor = row.isEval ? "#16a34a" : "#94a3b8";
           return /* @__PURE__ */ React.createElement("tr", { key: row.label, style: { background: ri % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent" } }, /* @__PURE__ */ React.createElement("td", { style: { padding: "3px 5px", color: "#64748b", fontWeight: "600", whiteSpace: "nowrap", borderRight: "1px solid #e2e8f0" } }, row.label), sec.keys.map((h) => /* @__PURE__ */ React.createElement("td", { key: h, style: { padding: "3px 4px", textAlign: "center", color: row.color(h), fontWeight: "700" } }, row.render(h))), /* @__PURE__ */ React.createElement("td", { style: { padding: "3px 4px", textAlign: "center", color: totalColor, fontWeight: "700", borderLeft: "1px solid #e2e8f0", fontSize: row.isEval ? "9px" : "10px" } }, totalVal !== null ? totalVal === 0 ? "\uFF0D" : totalVal : ""));
         }))))));
-      })(), r.isComplete && sa2 && sa2.holeCount >= 9 && (() => {
-        var _a3, _b2;
-        const hcpVal = (_a3 = handicap == null ? void 0 : handicap.hcp) != null ? _a3 : null;
-        const igVal = (_b2 = sa2.idealGIR) != null ? _b2 : null;
+      })(), r.isComplete && sa && sa.holeCount >= 9 && (() => {
+        var _a2, _b2;
+        const hcpVal = (_a2 = handicap == null ? void 0 : handicap.hcp) != null ? _a2 : null;
+        const igVal = (_b2 = sa.idealGIR) != null ? _b2 : null;
         const simpleGradeColor = (key, score) => {
           if (score == null) return "#475569";
           if (key === "tee" && hcpVal !== null) {
@@ -3135,16 +3159,16 @@ function GolfTracker() {
           return "#D9534F";
         };
         return /* @__PURE__ */ React.createElement("div", { style: { marginTop: "10px", padding: "10px", background: "rgba(255,255,255,0.03)", borderRadius: "8px", border: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "8px" } }, "\u{1F4CA} \u7C21\u6613\u5206\u6790"), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", marginBottom: "8px" } }, [
-          { key: "tee", label: "\uFF21 \u30C6\u30A3", score: sa2.teeScore },
-          { key: "long", label: "\uFF22 \u30ED\u30F3\u30B0", score: sa2.longScore },
-          { key: "short", label: "\uFF23 \u30B7\u30E7\u30FC\u30C8", score: sa2.shortScore },
-          { key: "putt", label: "\uFF24 \u30D1\u30C3\u30C8", score: sa2.puttScore },
-          ...sa2.bunkerScore != null ? [{ key: "bunker", label: `\uFF25 \u30D0\u30F3\u30AB\u30FC(${sa2.bunkerHoleCount}H)`, score: sa2.bunkerScore }] : []
-        ].map(({ key, label, score }) => /* @__PURE__ */ React.createElement("div", { key: label, style: { display: "flex", justifyContent: "space-between", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, label), /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "700", color: simpleGradeColor(key, score) } }, score >= 0 ? "+" : "", score.toFixed(2))))));
-      })(), r.isComplete && sa2 && sa2.holeCount >= 9 && (handicap ? /* @__PURE__ */ React.createElement(
+          { key: "tee", label: "\uFF21 \u30C6\u30A3", score: sa.teeScore },
+          { key: "long", label: "\uFF22 \u30ED\u30F3\u30B0", score: sa.longScore },
+          { key: "short", label: "\uFF23 \u30B7\u30E7\u30FC\u30C8", score: sa.shortScore },
+          { key: "putt", label: "\uFF24 \u30D1\u30C3\u30C8", score: sa.puttScore },
+          ...sa.bunkerScore != null ? [{ key: "bunker", label: `\uFF25 \u30D0\u30F3\u30AB\u30FC(${sa.bunkerHoleCount}H)`, score: sa.bunkerScore }] : []
+        ].map(({ key, label, score }) => /* @__PURE__ */ React.createElement("div", { key: label, style: { display: "flex", justifyContent: "space-between", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, label), /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "700", color: simpleGradeColor(key, score) } }, score >= 0 ? "+" : "", (score != null ? score : 0).toFixed(2))))));
+      })(), r.isComplete && sa && sa.holeCount >= 9 && (handicap ? /* @__PURE__ */ React.createElement(
         AiDiagnosisPanel,
         {
-          sa: sa2,
+          sa,
           shd: r.simpleHoleData || {},
           hcp: handicap.hcp,
           rounds,
@@ -3333,8 +3357,8 @@ function GolfTracker() {
     const combinedMin = Math.floor(Math.min(...scores, ...putts)) - 2;
     const combinedMax = Math.ceil(Math.max(...scores, ...putts)) + 2;
     const evalTotals = saList.map((x) => {
-      const sa2 = x.sa;
-      const vals = [sa2.teeScore, sa2.longScore, sa2.shortScore, sa2.puttScore, sa2.bunkerScore].filter((v) => v != null);
+      const sa = x.sa;
+      const vals = [sa.teeScore, sa.longScore, sa.shortScore, sa.puttScore, sa.bunkerScore].filter((v) => v != null);
       return Math.round(vals.reduce((a, v) => a + v, 0) * 10) / 10;
     });
     const fmtEval = (v) => v == null ? "" : (v >= 0 ? "+" : "") + Math.round(v);
@@ -3508,18 +3532,18 @@ function GolfTracker() {
     const counts = { A: 0, B: 0, C: 0, D: 0, E: 0 };
     targets.forEach((r) => {
       var _a3;
-      const sa2 = calcAnalytics(r, (_a3 = handicap == null ? void 0 : handicap.hcp) != null ? _a3 : null, teeRatesAna);
-      if (!sa2) return;
-      avgScores.A += sa2.teeScore;
+      const sa = calcAnalytics(r, (_a3 = handicap == null ? void 0 : handicap.hcp) != null ? _a3 : null, teeRatesAna);
+      if (!sa) return;
+      avgScores.A += sa.teeScore;
       counts.A++;
-      avgScores.B += sa2.longScore;
+      avgScores.B += sa.longScore;
       counts.B++;
-      avgScores.C += sa2.shortScore;
+      avgScores.C += sa.shortScore;
       counts.C++;
-      avgScores.D += sa2.puttScore;
+      avgScores.D += sa.puttScore;
       counts.D++;
-      if (sa2.bunkerScore !== null && sa2.bunkerScore !== void 0) {
-        avgScores.E = (avgScores.E || 0) + sa2.bunkerScore;
+      if (sa.bunkerScore !== null && sa.bunkerScore !== void 0) {
+        avgScores.E = (avgScores.E || 0) + sa.bunkerScore;
         counts.E++;
       }
     });
@@ -3800,7 +3824,7 @@ function GolfTracker() {
     const teeRates = calcHistoricalTeeRates(rounds);
     return [...rounds].sort((a, b) => {
       return dateToNum(b.date) - dateToNum(a.date);
-    }).map((r) => /* @__PURE__ */ React.createElement(RoundCard, { key: r.id, r, teeRates }));
+    }).map((r) => /* @__PURE__ */ React.createElement(RoundCardErrorBoundary, { key: r.id }, /* @__PURE__ */ React.createElement(RoundCard, { r, teeRates })));
   })()), view === "round" && currentRound && inputMode === "simple" && (() => {
     var _a2, _b2;
     const shd = simpleHoleData[currentHole] || {};
