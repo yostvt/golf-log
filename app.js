@@ -2420,7 +2420,7 @@ function GolfTracker() {
   })();
   const handleRecordNew = () => {
     if (!canRecordNew) return;
-    const finalOptId = newBadSubId ? newBadSubId === "bunker" ? "bad_bunker" : newBadSubId === "1pen" ? "bad_1pen" : "bad_ob" : newResultId;
+    const finalOptId = newBadSubId != null ? newBadSubId : newResultId;
     let distLabel = null;
     if (currentCategory === "tee") {
       const venue = (currentRound == null ? void 0 : currentRound.venueId) ? VENUES.find((v) => v.id === currentRound.venueId) : null;
@@ -3100,7 +3100,7 @@ function GolfTracker() {
           const totalColor = row.isEval ? "#16a34a" : "#94a3b8";
           return /* @__PURE__ */ React.createElement("tr", { key: row.label, style: { background: ri % 2 === 0 ? "rgba(255,255,255,0.02)" : "transparent" } }, /* @__PURE__ */ React.createElement("td", { style: { padding: "3px 5px", color: "#64748b", fontWeight: "600", whiteSpace: "nowrap", borderRight: "1px solid #e2e8f0" } }, row.label), sec.keys.map((h) => /* @__PURE__ */ React.createElement("td", { key: h, style: { padding: "3px 4px", textAlign: "center", color: row.color(h), fontWeight: "700" } }, row.render(h))), /* @__PURE__ */ React.createElement("td", { style: { padding: "3px 4px", textAlign: "center", color: totalColor, fontWeight: "700", borderLeft: "1px solid #e2e8f0", fontSize: row.isEval ? "9px" : "10px" } }, totalVal !== null ? totalVal === 0 ? "\uFF0D" : totalVal : ""));
         }))))));
-      })(), r.isComplete && sa2.holeCount >= 9 && (() => {
+      })(), r.isComplete && sa2 && sa2.holeCount >= 9 && (() => {
         var _a3, _b2;
         const hcpVal = (_a3 = handicap == null ? void 0 : handicap.hcp) != null ? _a3 : null;
         const igVal = (_b2 = sa2.idealGIR) != null ? _b2 : null;
