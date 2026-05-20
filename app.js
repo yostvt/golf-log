@@ -1481,7 +1481,7 @@ function calcDetailAnalytics(holeData, holePars, hcp = null, teeRates = null) {
   const totalPen = holes.reduce((a, h) => a + h.penalty, 0);
   const totalPutts = holes.reduce((a, h) => a + h.putts, 0);
   const totalParSum = holes.reduce((a, h) => a + h.par, 0);
-  const totalScore = holes.reduce((a, h) => a + h.score, 0);
+  const totalScore = holes.reduce((a, h) => a + (Number.isFinite(h.score) ? h.score : 0), 0);
   const threePuttCount = holes.filter((h) => h.putts >= 3).length;
   const teeHoles = holes.filter((h) => h.par >= 4);
   const teeBadHoles = teeHoles.filter((h) => h.teeQuality === "\xD7");
@@ -1728,7 +1728,7 @@ function calcHistoricalTeeRates(rounds) {
   };
 }
 function generateDiagnosis(sa2, shd, hcp, rounds, roundId) {
-  var _a;
+  var _a, _b, _c;
   const holeEntries = Object.entries(shd || {});
   const is9H = sa2.holeCount <= 12;
   const hcAdj = is9H ? Math.floor(hcp / 2) : hcp;
@@ -1745,7 +1745,7 @@ function generateDiagnosis(sa2, shd, hcp, rounds, roundId) {
     { max: 36, id: "D", label: "\u521D\u7D1A\u8005" },
     { max: Infinity, id: "E", label: "\u5165\u9580\u8005" }
   ];
-  const band = hcpBands.find((b) => hcp <= b.max);
+  const band = (_a = hcpBands.find((b) => hcp <= b.max)) != null ? _a : hcpBands[hcpBands.length - 1];
   const gapLevels = [
     { max: -5, label: "\u7D76\u597D\u8ABF", color: "#f59e0b", emoji: "\u{1F451}", comment: "\u5B9F\u529B\u4EE5\u4E0A\u306E\u30E9\u30A6\u30F3\u30C9\u3002\u30B3\u30F3\u30C7\u30A3\u30B7\u30E7\u30F3\u304C\u975E\u5E38\u306B\u826F\u304B\u3063\u305F\u3067\u3059\uFF01" },
     { max: -1, label: "\u597D\u8ABF", color: "#16a34a", emoji: "\u{1F3C6}", comment: "\u5B9F\u529B\u3092\u3057\u3063\u304B\u308A\u767A\u63EE\u3067\u304D\u305F\u30E9\u30A6\u30F3\u30C9\u3067\u3059\u3002" },
@@ -1753,7 +1753,7 @@ function generateDiagnosis(sa2, shd, hcp, rounds, roundId) {
     { max: 8, label: "\u3084\u3084\u4E0D\u8ABF", color: "#fbbf24", emoji: "\u{1F3AF}", comment: "\u5B9F\u529B\u3088\u308A\u5C11\u3057\u843D\u3061\u305F\u30E9\u30A6\u30F3\u30C9\u3002\u4F55\u304C\u539F\u56E0\u304B\u632F\u308A\u8FD4\u308A\u307E\u3057\u3087\u3046\u3002" },
     { max: Infinity, label: "\u4E0D\u8ABF", color: "#dc2626", emoji: "\u{1F331}", comment: "\u8AB2\u984C\u304C\u91CD\u306A\u3063\u305F\u30E9\u30A6\u30F3\u30C9\u3067\u3059\u3002\u7279\u5B9A\u306E\u5F31\u70B9\u306B\u96C6\u4E2D\u3057\u3066\u5BFE\u51E6\u3092\u3002" }
   ];
-  const lvl = gapLevels.find((l) => gap <= l.max);
+  const lvl = (_b = gapLevels.find((l) => gap <= l.max)) != null ? _b : gapLevels[gapLevels.length - 1];
   const gradeOf = (score, hcpForTee = null, idealGIRForLong = null, isShort = false, isDetailShort = false) => {
     if (score == null) return { label: "\uFF0D", color: "#475569" };
     if (idealGIRForLong !== null) {
@@ -1819,7 +1819,7 @@ function generateDiagnosis(sa2, shd, hcp, rounds, roundId) {
     ...holeEntries.map(([, h]) => h.secondEval)
   ].filter(Boolean).length;
   const puttRef = is9H ? 20 : 36;
-  const diagIdealGIR = (_a = sa2.idealGIR) != null ? _a : null;
+  const diagIdealGIR = (_c = sa2.idealGIR) != null ? _c : null;
   const insights = {
     tee: (() => {
       const g = gradeOf(sa2.teeScore);
@@ -1872,8 +1872,8 @@ function generateDiagnosis(sa2, shd, hcp, rounds, roundId) {
     displayScore: c.hcpForGrade !== null ? normalizeTeeScore(c.score, c.hcpForGrade) : c.idealGIRForGrade !== null ? normalizeLongScore(c.score, c.idealGIRForGrade) : c.score
   }));
   const sortedCats = [...categories].sort((a, b) => {
-    var _a2, _b;
-    return ((_a2 = a.displayScore) != null ? _a2 : a.score) - ((_b = b.displayScore) != null ? _b : b.score);
+    var _a2, _b2;
+    return ((_a2 = a.displayScore) != null ? _a2 : a.score) - ((_b2 = b.displayScore) != null ? _b2 : b.score);
   });
   const weakestCat = sortedCats[0];
   const isWeak = (cat) => {
@@ -1977,7 +1977,13 @@ function scoreDiffSymbol(diff) {
   return { sym: `+${diff}`, color: "#1e3a8a" };
 }
 function AiDiagnosisPanel({ sa: sa2, shd, hcp, rounds, roundId, teeRates = null, showTrend = true, label = "AI \u30B9\u30B3\u30A2\u8A3A\u65AD", roundCount = null, dateRange = null }) {
-  const d = generateDiagnosis(sa2, shd, hcp, rounds, roundId);
+  let d;
+  try {
+    d = generateDiagnosis(sa2, shd, hcp, rounds, roundId);
+  } catch (e) {
+    return null;
+  }
+  if (!d || !d.lvl || !d.band) return null;
   return /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px" } }, /* @__PURE__ */ React.createElement("style", null, `
         @keyframes diagUp { from{opacity:0;transform:translateY(7px)} to{opacity:1;transform:translateY(0)} }
         .dag0{animation:diagUp .4s ease .00s both}
