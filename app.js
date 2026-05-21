@@ -2172,91 +2172,94 @@ function GolfTracker() {
   };
   const saveProfile = (p) => {
     setProfile(p);
-    (() => {
-      try {
-        localStorage.setItem("golf_profile", JSON.stringify(p));
-      } catch (_) {
-      }
-    })();
   };
   useEffect(() => {
-    (async () => {
-      try {
-        const result = await Promise.resolve({ value: localStorage.getItem("golf_clubs") });
-        if (result && result.value) {
-          const parsed = JSON.parse(result.value);
-          if (Array.isArray(parsed)) setSavedClubs(parsed);
-        }
-      } catch (_) {
+    if (!storageLoaded.current) return;
+    try {
+      localStorage.setItem("golf_profile", JSON.stringify(profile));
+    } catch (_) {
+    }
+  }, [profile]);
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("golf_clubs");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) setSavedClubs(parsed);
       }
-      try {
-        const result = await Promise.resolve({ value: localStorage.getItem("golf_rounds") });
-        if (result && result.value) {
-          const parsed = JSON.parse(result.value);
-          if (Array.isArray(parsed)) {
-            const migrated = parsed.map((r) => {
-              const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
-              if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
-                return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
-              }
-              return base;
-            });
-            setRounds(migrated);
-          }
-        }
-      } catch (_) {
-      }
-      try {
-        const result = await Promise.resolve({ value: localStorage.getItem("golf_current_round") });
-        if (result && result.value) {
-          const parsed = JSON.parse(result.value);
-          if (parsed && parsed.currentRound) {
-            setCurrentRound(parsed.currentRound);
-            setInputMode(parsed.inputMode || "simple");
-            setHolePars(parsed.holePars || Array(18).fill(4));
-            setCurrentHole(parsed.currentHole || 1);
-            if (parsed.inputMode === "simple") {
-              setSimpleHoleData(parsed.simpleHoleData || {});
-            } else {
-              setHoleData(parsed.holeData || {});
+    } catch (_) {
+    }
+    try {
+      const raw = localStorage.getItem("golf_rounds");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) {
+          const migrated = parsed.map((r) => {
+            const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
+            if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
+              return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
             }
-            setView("round");
-          }
+            return base;
+          });
+          setRounds(migrated);
         }
-      } catch (_) {
       }
-      try {
-        const pResult = await Promise.resolve({ value: localStorage.getItem("golf_profile") });
-        if (pResult && pResult.value) {
-          const parsed = JSON.parse(pResult.value);
-          setProfile(parsed);
-          const name = parsed.nickname ? parsed.nickname + "\u3055\u3093\uFF01" : "";
-          setTimeout(() => showToast("\u304A\u306F\u3088\u3046\u3054\u3056\u3044\u307E\u3059\uFF01" + name), 700);
-        } else {
-          setTimeout(() => showToast("\u304A\u306F\u3088\u3046\u3054\u3056\u3044\u307E\u3059\uFF01"), 700);
+    } catch (_) {
+    }
+    try {
+      const raw = localStorage.getItem("golf_current_round");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.currentRound) {
+          setCurrentRound(parsed.currentRound);
+          setInputMode(parsed.inputMode || "simple");
+          setHolePars(parsed.holePars || Array(18).fill(4));
+          setCurrentHole(parsed.currentHole || 1);
+          if (parsed.inputMode === "simple") {
+            setSimpleHoleData(parsed.simpleHoleData || {});
+          } else {
+            setHoleData(parsed.holeData || {});
+          }
+          setView("round");
         }
-      } catch (_) {
+      }
+    } catch (_) {
+    }
+    try {
+      const raw = localStorage.getItem("golf_profile");
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        setProfile((p) => __spreadValues(__spreadValues({}, p), parsed));
+        const name = parsed.nickname ? parsed.nickname + "\u3055\u3093\uFF01" : "";
+        setTimeout(() => showToast("\u304A\u306F\u3088\u3046\u3054\u3056\u3044\u307E\u3059\uFF01" + name), 700);
+      } else {
         setTimeout(() => showToast("\u304A\u306F\u3088\u3046\u3054\u3056\u3044\u307E\u3059\uFF01"), 700);
       }
-      try {
-        const result = await Promise.resolve({ value: localStorage.getItem("golf_test_data") });
-        if (result && result.value) {
-          const parsed = JSON.parse(result.value);
-          if (Array.isArray(parsed)) {
-            const migrated = parsed.map((r) => {
-              const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
-              if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
-                return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
-              }
-              return base;
-            });
-            setImportedTestData(migrated);
+    } catch (_) {
+      setTimeout(() => showToast("\u304A\u306F\u3088\u3046\u3054\u3056\u3044\u307E\u3059\uFF01"), 700);
+    }
+    if (true) {
+      (async () => {
+        try {
+          const result = await Promise.resolve({ value: localStorage.getItem("golf_test_data") });
+          if (result && result.value) {
+            const parsed = JSON.parse(result.value);
+            if (Array.isArray(parsed)) {
+              const migrated = parsed.map((r) => {
+                const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
+                if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
+                  return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
+                }
+                return base;
+              });
+              setImportedTestData(migrated);
+            }
           }
+        } catch (_) {
         }
-      } catch (_) {
-      }
-      storageLoaded.current = true;
-    })();
+      })();
+    }
+    storageLoaded.current = true;
   }, []);
   const [roundMemo, setRoundMemo] = useState("");
   const [selectedOpt, setSelectedOpt] = useState(null);
@@ -2514,6 +2517,13 @@ function GolfTracker() {
     setRoundMemo("");
     setVenueSearch("");
   };
+  useEffect(() => {
+    if (!storageLoaded.current) return;
+    try {
+      localStorage.setItem("golf_clubs", JSON.stringify(savedClubs));
+    } catch (_) {
+    }
+  }, [savedClubs]);
   useEffect(() => {
     if (!storageLoaded.current) return;
     (() => {
