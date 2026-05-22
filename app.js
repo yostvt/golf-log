@@ -3191,17 +3191,39 @@ function GolfTracker() {
       border: inputMode === m.id ? "2px solid #34d399" : "1px solid #e2e8f0",
       background: inputMode === m.id ? "rgba(22,163,74,0.10)" : "#f8fafc",
       color: inputMode === m.id ? "#16a34a" : "#64748b"
-    } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "700", fontSize: "13px" } }, m.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", opacity: 0.7, marginTop: "2px" } }, m.desc))))), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30B4\u30EB\u30D5\u5834"), /* @__PURE__ */ React.createElement("div", { style: { position: "relative" } }, /* @__PURE__ */ React.createElement(
+    } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "700", fontSize: "13px" } }, m.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", opacity: 0.7, marginTop: "2px" } }, m.desc))))), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30B4\u30EB\u30D5\u5834"), /* @__PURE__ */ React.createElement("div", { style: { position: "relative" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px" } }, /* @__PURE__ */ React.createElement(
       "input",
       {
         type: "text",
-        placeholder: "\u30B4\u30EB\u30D5\u5834\u540D\u3092\u5165\u529B\u3057\u3066\u7D5E\u308A\u8FBC\u3080...",
+        placeholder: "\u30B4\u30EB\u30D5\u5834\u540D\u3092\u5165\u529B...",
         value: venueSearch,
         onFocus: () => setVenueDropdownOpen(true),
         onBlur: () => setTimeout(() => setVenueDropdownOpen(false), 200),
         onChange: (e) => {
           setVenueSearch(e.target.value);
-          setVenueDropdownOpen(true);
+        },
+        onKeyDown: (e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (selectedVenue) {
+              setSelectedVenue(null);
+              setSelectedGreen(null);
+              setSelectedTee(null);
+              setSelectedCourseA(null);
+              setSelectedCourseB(null);
+            }
+            setVenueDropdownOpen(true);
+            e.target.blur();
+            e.target.focus();
+          }
+        },
+        style: __spreadProps(__spreadValues({}, S.input), { flex: 1 })
+      }
+    ), /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        onMouseDown: (e) => {
+          e.preventDefault();
           if (selectedVenue) {
             setSelectedVenue(null);
             setSelectedGreen(null);
@@ -3209,10 +3231,12 @@ function GolfTracker() {
             setSelectedCourseA(null);
             setSelectedCourseB(null);
           }
+          setVenueDropdownOpen(true);
         },
-        style: __spreadProps(__spreadValues({}, S.input), { paddingRight: venueSearch ? "36px" : S.input.padding })
-      }
-    ), venueSearch && /* @__PURE__ */ React.createElement(
+        style: { flexShrink: 0, padding: "0 14px", borderRadius: "10px", border: "1px solid rgba(96,165,250,0.3)", background: "rgba(96,165,250,0.12)", color: "#60a5fa", fontSize: "15px", cursor: "pointer", fontWeight: "700", WebkitTapHighlightColor: "transparent" }
+      },
+      "\u{1F50D}"
+    )), venueSearch && !venueDropdownOpen && /* @__PURE__ */ React.createElement(
       "button",
       {
         onMouseDown: (e) => {
@@ -3225,9 +3249,9 @@ function GolfTracker() {
           setSelectedCourseA(null);
           setSelectedCourseB(null);
         },
-        style: { position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: selectedVenue ? "#34d399" : "#64748b", fontSize: "14px", lineHeight: 1, padding: "2px" }
+        style: { position: "absolute", right: "56px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#64748b", fontSize: "14px", lineHeight: 1, padding: "2px" }
       },
-      selectedVenue ? "\u2713" : "\u2715"
+      "\u2715"
     ), venueDropdownOpen && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 200, background: "#0f172a", border: "1px solid rgba(96,165,250,0.3)", borderRadius: "10px", overflow: "hidden", boxShadow: "0 8px 24px rgba(0,0,0,0.5)", maxHeight: "220px", overflowY: "auto" } }, filteredVenues.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { padding: "14px", color: "#475569", fontSize: "13px", textAlign: "center" } }, "\u300C", venueSearch, "\u300D\u306B\u4E00\u81F4\u3059\u308B\u30B4\u30EB\u30D5\u5834\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093") : filteredVenues.map((v, i) => /* @__PURE__ */ React.createElement("button", { key: v.id, onClick: () => selectVenue(v.id), style: { width: "100%", textAlign: "left", padding: "11px 14px", background: v.id === selectedVenue ? "rgba(96,165,250,0.1)" : "transparent", border: "none", borderBottom: i < filteredVenues.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none", cursor: "pointer", fontSize: "13px", fontWeight: v.id === selectedVenue ? "700" : "500", color: v.id === selectedVenue ? "#60a5fa" : "#e2e8f0", display: "flex", alignItems: "center", gap: "8px", WebkitTapHighlightColor: "transparent" } }, v.id === selectedVenue && /* @__PURE__ */ React.createElement("span", { style: { color: "#34d399", fontSize: "11px" } }, "\u2713"), v.name))))), venue && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, venue.subCourses.length === 1 ? "\u30B3\u30FC\u30B9" : "\u524D\u534A\u30B3\u30FC\u30B9"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, selRow(venue.subCourses.map((c, i) => ({ id: i, label: c.name })), selectedCourseA, setSelectedCourseA, "#34d399")), venue.subCourses.length > 1 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u5F8C\u534A\u30B3\u30FC\u30B9"), selRow(venue.subCourses.map((c, i) => ({ id: i, label: c.name })), selectedCourseB, setSelectedCourseB, "#60a5fa"))), venue && selectedCourseA !== null && selectedCourseB !== null && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u4F7F\u7528\u30B0\u30EA\u30FC\u30F3"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, selRow(venue.greens, selectedGreen, setSelectedGreen, "#34d399")), /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30C6\u30A3\u30FC"), selRow(venue.tees, selectedTee, setSelectedTee, "#fbbf24")), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u65E5\u4ED8"), /* @__PURE__ */ React.createElement("input", { type: "date", value: selectedDate.replace(/\//g, "-"), onChange: (e) => {
       if (e.target.value) setSelectedDate(e.target.value.replace(/-/g, "/"));
     }, style: __spreadProps(__spreadValues({}, S.input), { colorScheme: "dark" }) })), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u5929\u6C17"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px", marginBottom: "12px" } }, [{ id: "sunny", label: "\u2600\uFE0F \u6674\u308C" }, { id: "cloudy", label: "\u2601\uFE0F \u66C7\u308A" }, { id: "rainy", label: "\u{1F327}\uFE0F \u96E8" }, { id: "snowy", label: "\u2744\uFE0F \u96EA" }].map((w) => /* @__PURE__ */ React.createElement("button", { key: w.id, onClick: () => setSelectedWeather(w.id), style: { flex: 1, padding: "8px 4px", borderRadius: "8px", cursor: "pointer", fontWeight: "600", fontSize: "12px", border: selectedWeather === w.id ? "2px solid #16a34a" : "1px solid #e2e8f0", background: selectedWeather === w.id ? "rgba(14,165,233,0.12)" : "#f8fafc", color: selectedWeather === w.id ? "#0ea5e9" : "#64748b" } }, w.label))), /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u98A8\u306E\u5F37\u3055"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "5px" } }, [{ val: 0, sub: "\u7121\u98A8" }, { val: 1, sub: "\u5FAE\u98A8" }, { val: 2, sub: "\u5F31\u98A8" }, { val: 3, sub: "\u4E2D\u98A8" }, { val: 4, sub: "\u5F37\u3081" }, { val: 5, sub: "\u5F37\u98A8" }].map((w) => /* @__PURE__ */ React.createElement("button", { key: w.val, onClick: () => setSelectedWind(w.val), style: { flex: 1, padding: "8px 2px", borderRadius: "8px", cursor: "pointer", fontWeight: "700", fontSize: "13px", border: selectedWind === w.val ? "2px solid #fbbf24" : "1px solid #e2e8f0", background: selectedWind === w.val ? "rgba(251,191,36,0.15)" : "#f8fafc", color: selectedWind === w.val ? "#fbbf24" : "#64748b", display: "flex", flexDirection: "column", alignItems: "center", gap: "1px" } }, /* @__PURE__ */ React.createElement("span", null, w.val), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "8px", fontWeight: "500", opacity: 0.7 } }, w.sub))))), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30E9\u30A6\u30F3\u30C9\u30E1\u30E2\uFF08\u4EFB\u610F\u30FB20\u6587\u5B57\u4EE5\u5185\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { position: "relative" } }, /* @__PURE__ */ React.createElement("input", { style: __spreadProps(__spreadValues({}, S.input), { paddingRight: "42px" }), placeholder: "\u4F8B\uFF1A\u521D\u30E9\u30A6\u30F3\u30C9\u3001\u98A8\u5F37\u3081...", value: roundMemo, maxLength: 20, onChange: (e) => setRoundMemo(e.target.value.slice(0, 20)) }), /* @__PURE__ */ React.createElement("span", { style: { position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", fontSize: "11px", color: roundMemo.length >= 20 ? "#ef4444" : "#475569", pointerEvents: "none" } }, roundMemo.length, "/20"))), canStart && venue && /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(52,211,153,0.07)", border: "1px solid rgba(52,211,153,0.2)", borderRadius: "8px", padding: "10px 12px", marginBottom: "14px", fontSize: "12px", color: "#94a3b8" } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "700", color: "#16a34a", marginBottom: "4px" } }, venue.name), /* @__PURE__ */ React.createElement("div", null, "\u524D\u534A\uFF1A", venue.subCourses[selectedCourseA].name, " / \u5F8C\u534A\uFF1A", venue.subCourses[selectedCourseB].name), /* @__PURE__ */ React.createElement("div", null, "\u30B0\u30EA\u30FC\u30F3\uFF1A", (_a2 = venue.greens.find((g) => g.id === selectedGreen)) == null ? void 0 : _a2.label, " / \u30C6\u30A3\u30FC\uFF1A", (_b2 = venue.tees.find((t) => t.id === selectedTee)) == null ? void 0 : _b2.label), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "3px" } }, "\u65E5\u4ED8\uFF1A", selectedDate.replace(/(\d{4})\/(\d{2})\/(\d{2})/, (_, y, m, d) => `${y}/${+m}/${+d}`), "\u5929\u6C17\uFF1A", { "sunny": "\u2600\uFE0F\u6674\u308C", "cloudy": "\u2601\uFE0F\u66C7\u308A", "rainy": "\u{1F327}\uFE0F\u96E8", "snowy": "\u2744\uFE0F\u96EA" }[selectedWeather], "\u98A8\uFF1A", ["\u7121\u98A8", "\u5FAE\u98A8", "\u5F31\u98A8", "\u4E2D\u98A8", "\u5F37\u3081", "\u5F37\u98A8"][selectedWind], "\uFF08", selectedWind, "\uFF09")), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", opacity: canStart ? 1 : 0.35, cursor: canStart ? "pointer" : "not-allowed" }), onClick: startRound, disabled: !canStart }, "\u30E9\u30A6\u30F3\u30C9\u958B\u59CB \u26F3"));
