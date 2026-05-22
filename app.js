@@ -790,6 +790,100 @@ const NARITA_HILLS_CC_COURSE = {
     { hole: 18, par: 4, hdcp: 6, black: 442, blue: 421, white: 388, gold: 336, red: 225 }
   ]
 };
+const OLYMPIC_EAST_EDELWEISS_COURSE = {
+  name: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EBGC EAST \u30A8\u30FC\u30C7\u30EB\u30EF\u30A4\u30B9\u30B3\u30FC\u30B9",
+  holes: [
+    { hole: 1, par: 4, hdcp: 0, black: 460, blue: 431, white: 411, red: 365 },
+    { hole: 2, par: 4, hdcp: 0, black: 372, blue: 351, white: 312, red: 252 },
+    { hole: 3, par: 4, hdcp: 0, black: 440, blue: 418, white: 391, red: 275 },
+    { hole: 4, par: 3, hdcp: 0, black: 209, blue: 179, white: 151, red: 116 },
+    { hole: 5, par: 4, hdcp: 0, black: 340, blue: 321, white: 290, red: 265 },
+    { hole: 6, par: 5, hdcp: 0, black: 545, blue: 522, white: 487, red: 429 },
+    { hole: 7, par: 4, hdcp: 0, black: 397, blue: 361, white: 338, red: 272 },
+    { hole: 8, par: 3, hdcp: 0, black: 207, blue: 194, white: 174, red: 135 },
+    { hole: 9, par: 5, hdcp: 0, black: 527, blue: 500, white: 482, red: 434 }
+  ]
+};
+const OLYMPIC_EAST_ORCHID_COURSE = {
+  name: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EBGC EAST \u30AA\u30FC\u30AD\u30C3\u30C9\u30B3\u30FC\u30B9",
+  holes: [
+    { hole: 1, par: 4, hdcp: 0, black: 406, blue: 389, white: 360, red: 289 },
+    { hole: 2, par: 4, hdcp: 0, black: 395, blue: 369, white: 320, red: 251 },
+    { hole: 3, par: 5, hdcp: 0, black: 536, blue: 515, white: 497, red: 446 },
+    { hole: 4, par: 4, hdcp: 0, black: 347, blue: 322, white: 290, red: 230 },
+    { hole: 5, par: 3, hdcp: 0, black: 164, blue: 145, white: 123, red: 92 },
+    { hole: 6, par: 4, hdcp: 0, black: 426, blue: 397, white: 351, red: 283 },
+    { hole: 7, par: 4, hdcp: 0, black: 423, blue: 398, white: 365, red: 321 },
+    { hole: 8, par: 3, hdcp: 0, black: 190, blue: 164, white: 142, red: 102 },
+    { hole: 9, par: 5, hdcp: 0, black: 570, blue: 543, white: 516, red: 438 }
+  ]
+};
+const OLYMPIC_WEST_AZALEA_COURSE = {
+  name: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EBGC WEST \u30A2\u30B6\u30EC\u30A2\u30B3\u30FC\u30B9",
+  holes: [
+    { hole: 1, par: 3, hdcp: 8, black: 204, blue: 179, white: 158, red: 137 },
+    { hole: 2, par: 5, hdcp: 2, black: 491, blue: 459, white: 431, red: 421 },
+    { hole: 3, par: 4, hdcp: 5, black: 386, blue: 355, white: 340, red: 280 },
+    { hole: 4, par: 5, hdcp: 4, black: 479, blue: 445, white: 391, red: 363 },
+    { hole: 5, par: 4, hdcp: 1, black: 477, blue: 432, white: 412, red: 388 },
+    { hole: 6, par: 3, hdcp: 7, black: 163, blue: 139, white: 123, red: 102 },
+    { hole: 7, par: 5, hdcp: 9, black: 506, blue: 484, white: 443, red: 380 },
+    { hole: 8, par: 4, hdcp: 3, black: 416, blue: 399, white: 368, red: 304 },
+    { hole: 9, par: 3, hdcp: 6, black: 160, blue: 138, white: 122, red: 109 }
+  ]
+};
+const OLYMPIC_WEST_CAMELLIA_COURSE = {
+  name: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EBGC WEST \u30AB\u30E1\u30EA\u30A2\u30B3\u30FC\u30B9",
+  holes: [
+    { hole: 1, par: 5, hdcp: 2, black: 513, blue: 497, white: 432, red: 407 },
+    { hole: 2, par: 3, hdcp: 8, black: 163, blue: 144, white: 127, red: 106 },
+    { hole: 3, par: 5, hdcp: 3, black: 616, blue: 590, white: 461, red: 412 },
+    { hole: 4, par: 4, hdcp: 7, black: 407, blue: 383, white: 363, red: 343 },
+    { hole: 5, par: 4, hdcp: 9, black: 356, blue: 337, white: 317, red: 256 },
+    { hole: 6, par: 3, hdcp: 5, black: 169, blue: 148, white: 128, red: 113 },
+    { hole: 7, par: 4, hdcp: 6, black: 408, blue: 376, white: 350, red: 286 },
+    { hole: 8, par: 3, hdcp: 4, black: 174, blue: 157, white: 138, red: 119 },
+    { hole: 9, par: 5, hdcp: 1, black: 584, blue: 552, white: 510, red: 410 }
+  ]
+};
+const OLYMPIC_WEST_SHIBAZAKURA_COURSE = {
+  name: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EBGC WEST \u30B7\u30D0\u30B6\u30AF\u30E9\u30B3\u30FC\u30B9",
+  holes: [
+    { hole: 1, par: 3, hdcp: 8, black: 179, blue: 179, white: 154, red: 85 },
+    { hole: 2, par: 5, hdcp: 1, black: 581, blue: 561, white: 530, red: 384 },
+    { hole: 3, par: 3, hdcp: 4, black: 199, blue: 185, white: 141, red: 125 },
+    { hole: 4, par: 5, hdcp: 5, black: 555, blue: 507, white: 437, red: 418 },
+    { hole: 5, par: 4, hdcp: 6, black: 387, blue: 355, white: 328, red: 258 },
+    { hole: 6, par: 4, hdcp: 7, black: 382, blue: 341, white: 312, red: 252 },
+    { hole: 7, par: 4, hdcp: 9, black: 332, blue: 296, white: 282, red: 238 },
+    { hole: 8, par: 3, hdcp: 2, black: 172, blue: 152, white: 130, red: 102 },
+    { hole: 9, par: 5, hdcp: 3, black: 518, blue: 495, white: 475, red: 404 }
+  ]
+};
+const SAINOMORI_CC_COURSE = {
+  name: "\u5F69\u306E\u68EE\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
+  holes: [
+    // left: 左グリーン(LEFT), right: 右グリーン(RIGHT)
+    { hole: 1, par: 4, hdcp: 9, left: { blue: 382, white: 350, green: 317, red: 216 }, right: { blue: 412, white: 379, green: 346, red: 245 } },
+    { hole: 2, par: 5, hdcp: 5, left: { blue: 536, white: 513, green: 484, red: 410 }, right: { blue: 508, white: 484, green: 455, red: 381 } },
+    { hole: 3, par: 4, hdcp: 1, left: { blue: 431, white: 390, green: 242, red: 230 }, right: { blue: 435, white: 394, green: 246, red: 232 } },
+    { hole: 4, par: 3, hdcp: 13, left: { blue: 170, white: 157, green: 143, red: 88 }, right: { blue: 169, white: 162, green: 160, red: 113 } },
+    { hole: 5, par: 4, hdcp: 17, left: { blue: 379, white: 372, green: 331, red: 243 }, right: { blue: 365, white: 358, green: 318, red: 230 } },
+    { hole: 6, par: 5, hdcp: 7, left: { blue: 504, white: 471, green: 406, red: 362 }, right: { blue: 513, white: 479, green: 415, red: 368 } },
+    { hole: 7, par: 4, hdcp: 3, left: { blue: 378, white: 369, green: 310, red: 249 }, right: { blue: 396, white: 387, green: 328, red: 265 } },
+    { hole: 8, par: 3, hdcp: 15, left: { blue: 147, white: 135, green: 110, red: 78 }, right: { blue: 193, white: 184, green: 139, red: 88 } },
+    { hole: 9, par: 4, hdcp: 11, left: { blue: 285, white: 252, green: 230, red: 130 }, right: { blue: 363, white: 330, green: 308, red: 221 } },
+    { hole: 10, par: 4, hdcp: 6, left: { blue: 432, white: 409, green: 373, red: 238 }, right: { blue: 407, white: 384, green: 348, red: 224 } },
+    { hole: 11, par: 3, hdcp: 18, left: { blue: 181, white: 162, green: 114, red: 114 }, right: { blue: 148, white: 131, green: 87, red: 87 } },
+    { hole: 12, par: 4, hdcp: 12, left: { blue: 406, white: 382, green: 338, red: 236 }, right: { blue: 351, white: 327, green: 283, red: 182 } },
+    { hole: 13, par: 5, hdcp: 2, left: { blue: 477, white: 457, green: 436, red: 366 }, right: { blue: 511, white: 491, green: 470, red: 400 } },
+    { hole: 14, par: 4, hdcp: 16, left: { blue: 322, white: 304, green: 287, red: 287 }, right: { blue: 310, white: 291, green: 274, red: 274 } },
+    { hole: 15, par: 4, hdcp: 14, left: { blue: 352, white: 331, green: 313, red: 226 }, right: { blue: 389, white: 368, green: 350, red: 268 } },
+    { hole: 16, par: 3, hdcp: 8, left: { blue: 227, white: 216, green: 150, red: 82 }, right: { blue: 206, white: 195, green: 137, red: 84 } },
+    { hole: 17, par: 4, hdcp: 10, left: { blue: 386, white: 360, green: 338, red: 241 }, right: { blue: 354, white: 328, green: 306, red: 196 } },
+    { hole: 18, par: 5, hdcp: 4, left: { blue: 570, white: 558, green: 462, red: 412 }, right: { blue: 552, white: 541, green: 444, red: 394 } }
+  ]
+};
 const VENUES = [
   {
     id: "nakayama",
@@ -1337,6 +1431,81 @@ const VENUES = [
       if (tee === "white") return hole.white;
       if (tee === "gold") return hole.gold;
       if (tee === "red") return hole.red;
+      return null;
+    }
+  },
+  // ─── オリムピックナショナルGC EAST ───
+  {
+    id: "olympic_national_east",
+    name: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EBGC EAST",
+    greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
+    tees: [
+      { id: "black", label: "Black\uFF08\u30D0\u30C3\u30AF\uFF09" },
+      { id: "blue", label: "Blue" },
+      { id: "white", label: "White\uFF08\u30EC\u30AE\u30E5\u30E9\u30FC\uFF09" },
+      { id: "red", label: "Red\uFF08\u30EC\u30C7\u30A3\u30FC\u30B9\uFF09" }
+    ],
+    subCourses: [
+      { name: "\u30A8\u30FC\u30C7\u30EB\u30EF\u30A4\u30B9", holes: OLYMPIC_EAST_EDELWEISS_COURSE.holes },
+      { name: "\u30AA\u30FC\u30AD\u30C3\u30C9", holes: OLYMPIC_EAST_ORCHID_COURSE.holes }
+    ],
+    getYardage: (hole, green, tee) => {
+      if (tee === "black") return hole.black;
+      if (tee === "blue") return hole.blue;
+      if (tee === "white") return hole.white;
+      if (tee === "red") return hole.red;
+      return null;
+    }
+  },
+  // ─── オリムピックナショナルGC WEST ───
+  {
+    id: "olympic_national_west",
+    name: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EBGC WEST",
+    greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
+    tees: [
+      { id: "black", label: "Black\uFF08\u30D0\u30C3\u30AF\uFF09" },
+      { id: "blue", label: "Blue" },
+      { id: "white", label: "White\uFF08\u30EC\u30AE\u30E5\u30E9\u30FC\uFF09" },
+      { id: "red", label: "Red\uFF08\u30EC\u30C7\u30A3\u30FC\u30B9\uFF09" }
+    ],
+    subCourses: [
+      { name: "\u30A2\u30B6\u30EC\u30A2", holes: OLYMPIC_WEST_AZALEA_COURSE.holes },
+      { name: "\u30AB\u30E1\u30EA\u30A2", holes: OLYMPIC_WEST_CAMELLIA_COURSE.holes },
+      { name: "\u30B7\u30D0\u30B6\u30AF\u30E9", holes: OLYMPIC_WEST_SHIBAZAKURA_COURSE.holes }
+    ],
+    getYardage: (hole, green, tee) => {
+      if (tee === "black") return hole.black;
+      if (tee === "blue") return hole.blue;
+      if (tee === "white") return hole.white;
+      if (tee === "red") return hole.red;
+      return null;
+    }
+  },
+  // ─── 彩の森カントリークラブ ───
+  {
+    id: "sainomori_cc",
+    name: "\u5F69\u306E\u68EE\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
+    greens: [
+      { id: "left", label: "LEFT\uFF08\u5DE6\uFF09" },
+      { id: "right", label: "RIGHT\uFF08\u53F3\uFF09" }
+    ],
+    tees: [
+      { id: "blue", label: "Blue Tee" },
+      { id: "white", label: "White Tee" },
+      { id: "green", label: "Green Tee" },
+      { id: "red", label: "Red Tee\uFF08Ladies\uFF09" }
+    ],
+    subCourses: [
+      { name: "OUT", holes: SAINOMORI_CC_COURSE.holes.slice(0, 9) },
+      { name: "IN", holes: SAINOMORI_CC_COURSE.holes.slice(9, 18) }
+    ],
+    getYardage: (hole, green, tee) => {
+      const d = green === "right" ? hole.right : hole.left;
+      if (!d) return null;
+      if (tee === "blue") return d.blue;
+      if (tee === "white") return d.white;
+      if (tee === "green") return d.green;
+      if (tee === "red") return d.red;
       return null;
     }
   }
@@ -2088,7 +2257,7 @@ function AiDiagnosisPanel({ sa, shd, hcp, rounds, roundId, teeRates = null, show
     var _a;
     const g = d.gradeOf(cat.score, cat.hcpForGrade, cat.idealGIRForGrade, cat.isShort, cat.isDetailMode);
     const ds = cat.displayScore;
-    return /* @__PURE__ */ React.createElement("div", { key: cat.key, style: { marginBottom: "9px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", width: "18px" } }, cat.icon), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#c4b5fd", minWidth: "74px", flexShrink: 0, whiteSpace: "nowrap" } }, cat.label), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "6px", background: "rgba(255,255,255,.07)", borderRadius: "3px", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { className: "dbar", style: { height: "100%", width: d.barW(ds), background: `linear-gradient(to right,${d.barC(ds)}66,${d.barC(ds)})`, borderRadius: "3px" } })), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8", fontWeight: "700", minWidth: "42px", textAlign: "right" } }, (cat.score >= 0 ? "+" : "") + ((_a = cat.score) != null ? _a : 0).toFixed(2)), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "900", color: g.color, width: "16px", textAlign: "center" } }, g.label)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#64748b", paddingLeft: "24px", lineHeight: 1.5 } }, cat.insight));
+    return /* @__PURE__ */ React.createElement("div", { key: cat.key, style: { marginBottom: "9px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", width: "18px" } }, cat.icon), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#c4b5fd", minWidth: "74px", flexShrink: 0, whiteSpace: "nowrap" } }, cat.label), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "6px", background: "rgba(255,255,255,.07)", borderRadius: "3px", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { className: "dbar", style: { height: "100%", width: d.barW(ds), background: `linear-gradient(to right,${d.barC(ds)}66,${d.barC(ds)})`, borderRadius: "3px" } })), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8", fontWeight: "700", minWidth: "42px", textAlign: "right" } }, (cat.score >= 0 ? "+" : "") + ((_a = cat.score) != null ? _a : 0).toFixed(1)), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "900", color: g.color, width: "16px", textAlign: "center" } }, g.label)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#64748b", paddingLeft: "24px", lineHeight: 1.5 } }, cat.insight));
   })), d.weaknesses.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "dag3", style: { marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "8px", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u26A0\uFE0F"), /* @__PURE__ */ React.createElement("span", null, "\u6539\u5584\u8AB2\u984C\uFF08\u512A\u5148\u9806\uFF09")), d.weaknesses.map((w, i) => /* @__PURE__ */ React.createElement("div", { key: w.key, style: { display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "6px", padding: "9px 11px", background: "rgba(239,68,68,.05)", border: "1px solid rgba(239,68,68,.1)", borderRadius: "8px", borderLeft: `3px solid ${["#dc2626", "#fbbf24", "#94a3b8"][i]}` } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "14px", fontWeight: "900", color: ["#dc2626", "#fbbf24", "#94a3b8"][i], flexShrink: 0, lineHeight: 1.4 } }, i + 1), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", fontWeight: "800", color: "#e2e8f0", marginBottom: "2px" } }, w.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#64748b", lineHeight: 1.5 } }, w.insight))))), /* @__PURE__ */ React.createElement("div", { className: "dag4", style: { marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "8px", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u{1F4A1}"), /* @__PURE__ */ React.createElement("span", null, "\u6539\u5584\u30A2\u30C9\u30D0\u30A4\u30B9")), d.advice.map((a, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { display: "flex", gap: "8px", alignItems: "flex-start", marginBottom: "6px", padding: "9px 11px", background: "rgba(167,139,250,.05)", border: "1px solid rgba(167,139,250,.12)", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "800", color: a.priorityColor, background: `${a.priorityColor}18`, borderRadius: "4px", padding: "2px 7px", flexShrink: 0, whiteSpace: "nowrap" } }, a.priority), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", color: "#94a3b8", lineHeight: 1.65 } }, a.text)))), showTrend && d.trend && /* @__PURE__ */ React.createElement("div", { className: "dag5", style: { padding: "10px 12px", background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.07)", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b" } }, "\u{1F4C8} \u30C8\u30EC\u30F3\u30C9"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "800", color: d.trend.color } }, d.trend.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#475569", marginLeft: "auto" } }, "\u524D\u56DE: ", d.trend.prevDate)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.6 } }, d.trend.text)));
 }
 function deriveSimpleHoleData(holeData, holePars) {
@@ -2205,7 +2374,7 @@ class RoundCardErrorBoundary extends React.Component {
   }
 }
 function GolfTracker() {
-  var _a, _b, _c, _d, _e;
+  var _a, _b, _c, _d, _e, _f, _g;
   const [view, setView] = useState("home");
   const [inputMode, setInputMode] = useState("simple");
   const [simpleHoleData, setSimpleHoleData] = useState({});
@@ -2228,6 +2397,7 @@ function GolfTracker() {
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [venueSearch, setVenueSearch] = useState("");
   const [venueDropdownOpen, setVenueDropdownOpen] = useState(false);
+  const [venueIsComposing, setVenueIsComposing] = useState(false);
   const [selectedCourseA, setSelectedCourseA] = useState(null);
   const [selectedCourseB, setSelectedCourseB] = useState(null);
   const [selectedGreen, setSelectedGreen] = useState(null);
@@ -2243,7 +2413,7 @@ function GolfTracker() {
   const [editWeather, setEditWeather] = useState("sunny");
   const [editWind, setEditWind] = useState(0);
   const [savedClubs, setSavedClubs] = useState([]);
-  const [profile, setProfile] = useState({ nickname: "", bestScore: null, targetHcp: null, manualHcp: null });
+  const [profile, setProfile] = useState({ nickname: "", bestScore: null, targetHcp: null, manualHcp: null, hcpMode: "auto" });
   const [profileEdit, setProfileEdit] = useState(null);
   const [toast, setToast] = useState({ message: "", visible: false });
   const toastTimerRef = React.useRef(null);
@@ -2909,10 +3079,15 @@ function GolfTracker() {
     };
   }, [rounds]);
   const effectiveHcp = useMemo(() => {
+    var _a2;
+    const m = profile.manualHcp !== null && profile.manualHcp !== void 0 ? profile.manualHcp : null;
+    const mode = (_a2 = profile.hcpMode) != null ? _a2 : "auto";
+    if (mode === "manual") {
+      return m !== null ? m : handicap !== null ? handicap.hcp : null;
+    }
     if (handicap !== null) return handicap.hcp;
-    const m = profile.manualHcp;
-    return m !== null && m !== void 0 ? m : null;
-  }, [handicap, profile.manualHcp]);
+    return m;
+  }, [handicap, profile.manualHcp, profile.hcpMode]);
   useEffect(() => {
     var _a2;
     const curr = (_a2 = handicap == null ? void 0 : handicap.hcp) != null ? _a2 : null;
@@ -2986,7 +3161,7 @@ function GolfTracker() {
       setSelectedWind(0);
       setVenueSearch("");
     };
-    const filteredVenues = VENUES.filter((v) => v.name.includes(venueSearch));
+    const filteredVenues = VENUES.filter((v) => v.name.includes(venueIsComposing ? "" : venueSearch));
     const selectVenue = (vid) => {
       const v = VENUES.find((x) => x.id === vid);
       setSelectedVenue(vid);
@@ -3035,6 +3210,11 @@ function GolfTracker() {
             setSelectedCourseA(null);
             setSelectedCourseB(null);
           }
+        },
+        onCompositionStart: () => setVenueIsComposing(true),
+        onCompositionEnd: (e) => {
+          setVenueIsComposing(false);
+          setVenueSearch(e.target.value);
         },
         style: __spreadProps(__spreadValues({}, S.input), { paddingRight: venueSearch ? "36px" : S.input.padding })
       }
@@ -3435,13 +3615,13 @@ function GolfTracker() {
       idealGIR: avgN(saList.filter((s) => s.idealGIR != null).map((s) => s.idealGIR)),
       totalScore: avgN(saList.map((s) => s.totalScore)),
       totalPar: avgN(saList.map((s) => s.totalPar)),
-      totalPutts: avgN(saList.map((s) => s.totalPutts)),
-      totalOB: avgN(saList.map((s) => s.totalOB)),
-      totalPen: avgN(saList.map((s) => s.totalPen)),
-      totalBunker: avgN(saList.map((s) => s.totalBunker)),
+      totalPutts: Math.round(avgN(saList.map((s) => s.totalPutts)) * 10) / 10,
+      totalOB: Math.round(avgN(saList.map((s) => s.totalOB)) * 10) / 10,
+      totalPen: Math.round(avgN(saList.map((s) => s.totalPen)) * 10) / 10,
+      totalBunker: Math.round(avgN(saList.map((s) => s.totalBunker)) * 10) / 10,
       holeCount: Math.round(avgN(saList.map((s) => s.holeCount))),
-      avgAfterPutts: avgN(saList.map((s) => s.avgAfterPutts)),
-      bunkerHoleCount: avgN(saList.map((s) => s.bunkerHoleCount)),
+      avgAfterPutts: Math.round(avgN(saList.map((s) => s.avgAfterPutts)) * 10) / 10,
+      bunkerHoleCount: Math.round(avgN(saList.map((s) => s.bunkerHoleCount)) * 10) / 10,
       // AIインサイト用：全ラウンドの品質配列を結合
       longShotQuals: saList.flatMap((s) => s.longShotQuals || []),
       shortShotQuals: saList.flatMap((s) => s.shortShotQuals || [])
@@ -3667,7 +3847,7 @@ function GolfTracker() {
       }), (() => {
         const pts = evalTotals.map((v, i) => [xOf(i), yOf(-v)]);
         const d = pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
-        return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("path", { d, fill: "none", stroke: "white", strokeWidth: "1.5", strokeLinejoin: "round", strokeLinecap: "round", strokeDasharray: "4 2", opacity: "0.7" }), pts.map(([x, y], i) => /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: "3", fill: "white", opacity: "0.9" }), /* @__PURE__ */ React.createElement("text", { x: x.toFixed(1), y: (y - 5).toFixed(1), textAnchor: "middle", fill: "white", fontSize: "8", fontWeight: "700", opacity: "0.9" }, (evalTotals[i] >= 0 ? "+" : "") + evalTotals[i]))));
+        return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("path", { d, fill: "none", stroke: "#1e293b", strokeWidth: "2", strokeLinejoin: "round", strokeLinecap: "round" }), pts.map(([x, y], i) => /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: "3.5", fill: "#1e293b" }), /* @__PURE__ */ React.createElement("text", { x: x.toFixed(1), y: (y - 6).toFixed(1), textAnchor: "middle", fill: "#1e293b", fontSize: "8", fontWeight: "700" }, (evalTotals[i] >= 0 ? "+" : "") + evalTotals[i]))));
       })()), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "6px" } }, seriesDef.map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "12px", height: "12px", background: s.color, borderRadius: "2px", opacity: 0.8 } }), /* @__PURE__ */ React.createElement("span", { style: { color: s.color } }, s.label))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: "2px", background: "white", opacity: 0.7, borderRadius: "1px" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, "\u5408\u8A08"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "3px" } }, "\u203B\u4E0A\u304C\u30DE\u30A4\u30CA\u30B9\u3001\u4E0B\u304C\u30D7\u30E9\u30B9"));
     })());
   };
@@ -3745,8 +3925,8 @@ function GolfTracker() {
       return /* @__PURE__ */ React.createElement("path", { d: toPath(idealPts), fill: "rgba(52,211,153,0.08)", stroke: "#16a34a", strokeWidth: "1.5", strokeDasharray: "3 3" });
     })(), /* @__PURE__ */ React.createElement("path", { d: toPath(avgPts), fill: "rgba(14,165,233,0.12)", stroke: "#0ea5e9", strokeWidth: "1.5", strokeDasharray: "4 3" }), /* @__PURE__ */ React.createElement("path", { d: toPath(latestPts), fill: "rgba(251,191,36,0.2)", stroke: "#fbbf24", strokeWidth: "2" }), latestPts.map(([x, y], i) => /* @__PURE__ */ React.createElement("circle", { key: i, cx: x.toFixed(1), cy: y.toFixed(1), r: "4", fill: "#fbbf24" })), labelPts.map((it, i) => {
       const anchor = it.x < cx - 5 ? "end" : it.x > cx + 5 ? "start" : "middle";
-      return /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("text", { x: it.x.toFixed(1), y: (it.y - 4).toFixed(1), textAnchor: anchor, fill: "#94a3b8", fontSize: "11", fontWeight: "700" }, it.label), /* @__PURE__ */ React.createElement("text", { x: it.x.toFixed(1), y: (it.y + 9).toFixed(1), textAnchor: anchor, fill: "#16a34a", fontSize: "10" }, it.val >= 0 ? "+" : "", it.val.toFixed(2)));
-    }), /* @__PURE__ */ React.createElement("circle", { cx, cy, r: R * 0.75, fill: "none", stroke: "rgba(255,255,255,0.25)", strokeWidth: "1", strokeDasharray: "2 2" })), /* @__PURE__ */ React.createElement("div", { style: { width: "100%" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#16a34a", borderTop: "2px dashed #34d399" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a", fontWeight: "700" } }, "\u7406\u60F3\uFF08\xB10\uFF09")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#fbbf24" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#d97706", fontWeight: "700" } }, "\u76F4\u8FD1"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontSize: "10px" } }, "(", latest.date, ")")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "14px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#0ea5e9", borderTop: "2px dashed #60a5fa" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#0ea5e9", fontWeight: "700" } }, "\u5E73\u5747"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontSize: "10px" } }, "(", targets.length, "R / HCP\u63A1\u7528)")), items.map((it) => /* @__PURE__ */ React.createElement("div", { key: it.key, style: { marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#64748b" } }, it.key, " ", it.label), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: it.val < 0 ? "#dc2626" : "#0ea5e9", fontWeight: "700", minWidth: "44px", textAlign: "right" } }, it.val >= 0 ? "+" : "", it.val.toFixed(2)), /* @__PURE__ */ React.createElement("span", { style: { color: "#64748b", minWidth: "44px", textAlign: "right" } }, it.avgVal >= 0 ? "+" : "", it.avgVal.toFixed(2)))))))));
+      return /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("text", { x: it.x.toFixed(1), y: (it.y - 4).toFixed(1), textAnchor: anchor, fill: "#94a3b8", fontSize: "11", fontWeight: "700" }, it.label), /* @__PURE__ */ React.createElement("text", { x: it.x.toFixed(1), y: (it.y + 9).toFixed(1), textAnchor: anchor, fill: "#16a34a", fontSize: "10" }, it.val >= 0 ? "+" : "", it.val.toFixed(1)));
+    }), /* @__PURE__ */ React.createElement("circle", { cx, cy, r: R * 0.75, fill: "none", stroke: "rgba(255,255,255,0.25)", strokeWidth: "1", strokeDasharray: "2 2" })), /* @__PURE__ */ React.createElement("div", { style: { width: "100%" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#16a34a", borderTop: "2px dashed #34d399" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a", fontWeight: "700" } }, "\u7406\u60F3\uFF08\xB10\uFF09")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#fbbf24" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#d97706", fontWeight: "700" } }, "\u76F4\u8FD1"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontSize: "10px" } }, "(", latest.date, ")")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "14px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#0ea5e9", borderTop: "2px dashed #60a5fa" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#0ea5e9", fontWeight: "700" } }, "\u5E73\u5747"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontSize: "10px" } }, "(", targets.length, "R / HCP\u63A1\u7528)")), items.map((it) => /* @__PURE__ */ React.createElement("div", { key: it.key, style: { marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#64748b" } }, it.key, " ", it.label), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: it.val < 0 ? "#dc2626" : "#0ea5e9", fontWeight: "700", minWidth: "44px", textAlign: "right" } }, it.val >= 0 ? "+" : "", it.val.toFixed(1)), /* @__PURE__ */ React.createElement("span", { style: { color: "#64748b", minWidth: "44px", textAlign: "right" } }, it.avgVal >= 0 ? "+" : "", it.avgVal.toFixed(1)))))))));
   };
   const AnalyticsStats = () => {
     const sc20 = [...rounds.filter((r) => r.isComplete && Object.keys(r.simpleHoleData || {}).length > 0)].sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, 20);
@@ -3800,7 +3980,7 @@ function GolfTracker() {
       totalPutts += rPutts;
       totalPuttHoles += holes.length;
     });
-    const avgPuttPerHole = totalPuttHoles > 0 ? Math.round(totalPutts / totalPuttHoles * 100) / 100 : null;
+    const avgPuttPerHole = totalPuttHoles > 0 ? Math.round(totalPutts / totalPuttHoles * 10) / 10 : null;
     const avgTotalPutts = sc20.length > 0 ? Math.round(roundPutts.reduce((a, v) => a + v, 0) / sc20.length * 10) / 10 : null;
     let totalOB = 0, totalPenalty = 0;
     sc20.forEach((r) => {
@@ -3854,7 +4034,7 @@ function GolfTracker() {
     return /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "12px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u{1F4CD} \u8DDD\u96E2\u5225\u30D1\u30C3\u30C8\u7D71\u8A08\uFF08\u8A73\u7D30\u30E2\u30FC\u30C9\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { overflowX: "auto" } }, /* @__PURE__ */ React.createElement("table", { style: { width: "100%", borderCollapse: "collapse", fontSize: "11px", minWidth: "280px" } }, /* @__PURE__ */ React.createElement("thead", null, /* @__PURE__ */ React.createElement("tr", { style: { borderBottom: "1px solid #e2e8f0" } }, ["\u8DDD\u96E2", "\u56DE\u6570", "1\u30D1\u30C3\u30C8\u7387", "3\u30D1\u30C3\u30C8\u7387", "\u5E73\u5747"].map((h) => /* @__PURE__ */ React.createElement("th", { key: h, style: { padding: "6px 4px", textAlign: "center", color: "#475569", fontWeight: "700", whiteSpace: "nowrap" } }, h)))), /* @__PURE__ */ React.createElement("tbody", null, rows.map((r, i) => {
       const onePct = Math.round(r.one / r.total * 100);
       const thrPct = Math.round(r.three / r.total * 100);
-      const avg = Math.round(r.putts / r.total * 100) / 100;
+      const avg = Math.round(r.putts / r.total * 10) / 10;
       return /* @__PURE__ */ React.createElement("tr", { key: i, style: { borderBottom: "1px solid rgba(255,255,255,0.04)" } }, /* @__PURE__ */ React.createElement("td", { style: { padding: "8px 4px", textAlign: "center", color: "#93c5fd", fontWeight: "700", whiteSpace: "nowrap" } }, r.label), /* @__PURE__ */ React.createElement("td", { style: { padding: "8px 4px", textAlign: "center", color: "#64748b" } }, r.total), /* @__PURE__ */ React.createElement("td", { style: {
         padding: "8px 4px",
         textAlign: "center",
@@ -4190,7 +4370,7 @@ function GolfTracker() {
       border: active ? "2px solid #34d399" : hasDone ? `1px solid ${scoreColor(hs)}55` : hasAny ? "1px solid rgba(251,191,36,0.4)" : "1px solid #e2e8f0",
       background: active ? "rgba(52,211,153,0.18)" : hasDone ? `${scoreColor(hs)}11` : hasAny ? "rgba(251,191,36,0.07)" : "#f8fafc",
       color: active ? "#16a34a" : hasDone ? scoreColor(hs) : hasAny ? "#fbbf24" : "#334155"
-    } }, h);
+    } }, getDisplayHoleNum(h));
   })))))), /* @__PURE__ */ React.createElement("div", { style: S.card({ padding: "13px 14px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, getDisplayHoleNum(currentHole), "\u756A\u30DB\u30FC\u30EB"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px" } }, [3, 4, 5].map((p) => /* @__PURE__ */ React.createElement("button", { key: p, onClick: () => setPar(currentHole, p), style: {
     flex: 1,
     padding: "9px",
@@ -4649,24 +4829,49 @@ function GolfTracker() {
       style: { padding: "4px 10px", borderRadius: "6px", border: "1px solid #e2e8f0", background: "transparent", color: "#475569", cursor: "pointer", fontSize: "11px" }
     },
     "\u30AF\u30EA\u30A2"
-  ))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\uFF08\u624B\u5165\u529B\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", marginBottom: "8px", lineHeight: 1.5 } }, handicap ? /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a", fontWeight: "700" } }, "\u2713 \u904E\u53BB\u30E9\u30A6\u30F3\u30C9\uFF08", handicap.roundCount, "\u4EF6\uFF09\u304B\u3089\u81EA\u52D5\u7B97\u51FA\u4E2D\u306E\u305F\u3081\u3001\u624B\u5165\u529B\u306F\u5206\u6790\u306B\u4F7F\u7528\u3055\u308C\u307E\u305B\u3093") : /* @__PURE__ */ React.createElement("span", null, "\u30E9\u30A6\u30F3\u30C9\u767B\u9332\u304C3\u4EF6\u672A\u6E80\u306E\u5834\u5408\u306B\u5206\u6790\u3067\u4F7F\u7528\u3055\u308C\u307E\u3059")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "10px" } }, /* @__PURE__ */ React.createElement(
+  ))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7"), handicap && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "12px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", marginBottom: "8px" } }, "\u5206\u6790\u306B\u4F7F\u7528\u3059\u308B\u5024\u3092\u9078\u629E"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px" } }, [
+    { key: "auto", label: "\u{1F504} \u81EA\u52D5\u7B97\u51FA", desc: `${handicap.hcp}\uFF08${handicap.roundCount}R\uFF09` },
+    { key: "manual", label: "\u270F\uFE0F \u624B\u5165\u529B", desc: profileEdit.manualHcp != null ? String(profileEdit.manualHcp) : "\u672A\u8A2D\u5B9A" }
+  ].map(({ key, label, desc }) => {
+    var _a2;
+    const active = ((_a2 = profileEdit.hcpMode) != null ? _a2 : "auto") === key;
+    return /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key,
+        onClick: () => setProfileEdit((p) => __spreadProps(__spreadValues({}, p), { hcpMode: key })),
+        style: {
+          flex: 1,
+          padding: "10px 6px",
+          borderRadius: "10px",
+          cursor: "pointer",
+          textAlign: "center",
+          border: active ? "2px solid #f59e0b" : "1px solid #e2e8f0",
+          background: active ? "rgba(245,158,11,0.08)" : "#f8fafc",
+          transition: "all 0.15s"
+        }
+      },
+      /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", fontWeight: "700", color: active ? "#d97706" : "#64748b", marginBottom: "2px" } }, label),
+      /* @__PURE__ */ React.createElement("div", { style: { fontSize: "16px", fontWeight: "800", color: active ? "#f59e0b" : "#94a3b8" } }, desc)
+    );
+  })), ((_e = profileEdit.hcpMode) != null ? _e : "auto") === "auto" ? /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#16a34a", marginTop: "6px" } }, "\u2713 \u904E\u53BB\u30E9\u30A6\u30F3\u30C9(", handicap.roundCount, "\u4EF6)\u304B\u3089\u81EA\u52D5\u7B97\u51FA\u3057\u305F ", /* @__PURE__ */ React.createElement("b", null, handicap.hcp), " \u3092\u5206\u6790\u306B\u4F7F\u7528") : /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#d97706", marginTop: "6px" } }, "\u2713 \u4E0B\u8A18\u3067\u8A2D\u5B9A\u3059\u308B\u624B\u5165\u529B\u5024\u3092\u5206\u6790\u306B\u4F7F\u7528")), /* @__PURE__ */ React.createElement("div", { style: { opacity: handicap && ((_f = profileEdit.hcpMode) != null ? _f : "auto") === "auto" ? 0.45 : 1 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", marginBottom: "8px" } }, handicap ? "\u624B\u5165\u529B\u5024\uFF08\u30E2\u30FC\u30C9\u3092\u300C\u624B\u5165\u529B\u300D\u306B\u3059\u308B\u3068\u5206\u6790\u306B\u4F7F\u7528\u3055\u308C\u307E\u3059\uFF09" : "\u30E9\u30A6\u30F3\u30C93\u4EF6\u672A\u6E80\u306E\u5834\u5408\u306B\u5206\u6790\u3067\u4F7F\u7528\u3055\u308C\u307E\u3059"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "10px" } }, /* @__PURE__ */ React.createElement(
     "button",
     {
       onClick: () => setProfileEdit((p) => {
         var _a2;
         return __spreadProps(__spreadValues({}, p), { manualHcp: Math.max(0, ((_a2 = p.manualHcp) != null ? _a2 : 20) - 1) });
       }),
-      style: { width: "36px", height: "36px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.15)", background: "#f8fafc", color: "#1e293b", cursor: "pointer", fontSize: "18px", fontWeight: "700" }
+      style: { width: "36px", height: "36px", borderRadius: "8px", border: "1px solid #e2e8f0", background: "#f8fafc", color: "#1e293b", cursor: "pointer", fontSize: "18px", fontWeight: "700" }
     },
     "\u2212"
-  ), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", minWidth: "60px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "22px", fontWeight: "800", color: handicap ? "#94a3b8" : "#f59e0b" } }, (_e = profileEdit.manualHcp) != null ? _e : "\u2212"), profileEdit.manualHcp != null && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8" } }, "\u624B\u5165\u529B")), /* @__PURE__ */ React.createElement(
+  ), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", minWidth: "60px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "22px", fontWeight: "800", color: "#f59e0b" } }, (_g = profileEdit.manualHcp) != null ? _g : "\u2212"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8" } }, "\u624B\u5165\u529B")), /* @__PURE__ */ React.createElement(
     "button",
     {
       onClick: () => setProfileEdit((p) => {
         var _a2;
         return __spreadProps(__spreadValues({}, p), { manualHcp: Math.min(54, ((_a2 = p.manualHcp) != null ? _a2 : 19) + 1) });
       }),
-      style: { width: "36px", height: "36px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.15)", background: "#f8fafc", color: "#1e293b", cursor: "pointer", fontSize: "18px", fontWeight: "700" }
+      style: { width: "36px", height: "36px", borderRadius: "8px", border: "1px solid #e2e8f0", background: "#f8fafc", color: "#1e293b", cursor: "pointer", fontSize: "18px", fontWeight: "700" }
     },
     "\uFF0B"
   ), profileEdit.manualHcp != null && /* @__PURE__ */ React.createElement(
@@ -4676,7 +4881,7 @@ function GolfTracker() {
       style: { padding: "4px 10px", borderRadius: "6px", border: "1px solid #e2e8f0", background: "transparent", color: "#475569", cursor: "pointer", fontSize: "11px" }
     },
     "\u30AF\u30EA\u30A2"
-  )))), /* @__PURE__ */ React.createElement(
+  ))))), /* @__PURE__ */ React.createElement(
     "button",
     {
       style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", padding: "14px", fontSize: "14px" }),
