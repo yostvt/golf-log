@@ -887,6 +887,7 @@ const SAINOMORI_CC_COURSE = {
 const VENUES = [
   {
     id: "nakayama",
+    reading: "\u30CA\u30AB\u30E4\u30DE\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "\u4E2D\u5C71\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     greens: [
       { id: "bent", label: "\u30D9\u30F3\u30C8\uFF08A\uFF09" },
@@ -919,6 +920,7 @@ const VENUES = [
   },
   {
     id: "sobu_sobu",
+    reading: "\u30BD\u30A6\u30D6\u30B7\u30FC\u30B7\u30FC\u30BD\u30A6\u30D6\u30B3\u30FC\u30B9",
     name: "\u7DCF\u6B66CC \u7DCF\u6B66\u30B3\u30FC\u30B9",
     greens: [
       { id: "bent", label: "\u30D9\u30F3\u30C8" },
@@ -942,6 +944,7 @@ const VENUES = [
   },
   {
     id: "sobu_inba",
+    reading: "\u30BD\u30A6\u30D6\u30B7\u30FC\u30B7\u30FC\u30A4\u30F3\u30D0\u30B3\u30FC\u30B9",
     name: "\u7DCF\u6B66CC \u5370\u65DB\u30B3\u30FC\u30B9",
     greens: [
       { id: "bent", label: "\u30D9\u30F3\u30C8\uFF081\u30B0\u30EA\u30FC\u30F3\uFF09" }
@@ -964,6 +967,7 @@ const VENUES = [
   },
   {
     id: "sobu_kita",
+    reading: "\u30BD\u30A6\u30D6\u30B7\u30FC\u30B7\u30FC\u30AD\u30BF\u30B3\u30FC\u30B9",
     name: "\u7DCF\u6B66CC \u5317\u30B3\u30FC\u30B9",
     greens: [
       { id: "bent", label: "\u30D9\u30F3\u30C8\uFF08A\uFF09" },
@@ -987,6 +991,7 @@ const VENUES = [
   // ─── カメリアヒルズカントリークラブ ───
   {
     id: "camellia_hills",
+    reading: "\u30AB\u30E1\u30EA\u30A2\u30D2\u30EB\u30BA\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "\u30AB\u30E1\u30EA\u30A2\u30D2\u30EB\u30BA\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1010,6 +1015,7 @@ const VENUES = [
   // ─── カレドニアン・ゴルフクラブ ───
   {
     id: "caledonian_gc",
+    reading: "\u30AB\u30EC\u30C9\u30CB\u30A2\u30F3\u30B4\u30EB\u30D5\u30AF\u30E9\u30D6",
     name: "\u30AB\u30EC\u30C9\u30CB\u30A2\u30F3\u30FB\u30B4\u30EB\u30D5\u30AF\u30E9\u30D6",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1033,6 +1039,7 @@ const VENUES = [
   // ─── 鷹之台カンツリー倶楽部（ベントグリーンのみ） ───
   {
     id: "takanodai_cc",
+    reading: "\u30BF\u30AB\u30CE\u30C0\u30A4\u30AB\u30F3\u30C4\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "\u9DF9\u4E4B\u53F0\u30AB\u30F3\u30C4\u30EA\u30FC\u5036\u697D\u90E8",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8\uFF081\u30B0\u30EA\u30FC\u30F3\u4F7F\u7528\uFF09" }],
     tees: [
@@ -1060,6 +1067,7 @@ const VENUES = [
   // ─── 太平洋クラブ 八千代コース ───
   {
     id: "taiheiyoclub_yachiyo",
+    reading: "\u30BF\u30A4\u30D8\u30A4\u30E8\u30A6\u30AF\u30E9\u30D6\u30E4\u30C1\u30E8\u30B3\u30FC\u30B9",
     name: "\u592A\u5E73\u6D0B\u30AF\u30E9\u30D6 \u516B\u5343\u4EE3\u30B3\u30FC\u30B9",
     greens: [
       { id: "a", label: "A\u30B0\u30EA\u30FC\u30F3\uFF08CY-2\uFF09" },
@@ -1088,6 +1096,7 @@ const VENUES = [
   // ─── グレンオークスカントリークラブ ───
   {
     id: "glen_oaks_cc",
+    reading: "\u30B0\u30EC\u30F3\u30AA\u30FC\u30AF\u30B9\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "\u30B0\u30EC\u30F3\u30AA\u30FC\u30AF\u30B9\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1113,6 +1122,7 @@ const VENUES = [
   // ─── オーク・ヒルズカントリークラブ ───
   {
     id: "oak_hills_cc",
+    reading: "\u30AA\u30FC\u30AF\u30D2\u30EB\u30BA\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "\u30AA\u30FC\u30AF\u30FB\u30D2\u30EB\u30BA\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1138,6 +1148,7 @@ const VENUES = [
   // ─── 習志野カントリークラブ キングコース ───
   {
     id: "narashino_cc_king",
+    reading: "\u30CA\u30E9\u30B7\u30CE\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6\u30AD\u30F3\u30B0",
     name: "\u7FD2\u5FD7\u91CE\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6\uFF08King\uFF09",
     greens: [
       { id: "a", label: "A\u30B0\u30EA\u30FC\u30F3\uFF08\u30D9\u30F3\u30C8\uFF09" },
@@ -1164,6 +1175,7 @@ const VENUES = [
   // ─── 習志野カントリークラブ クィーンコース ───
   {
     id: "narashino_cc_queen",
+    reading: "\u30CA\u30E9\u30B7\u30CE\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6\u30AF\u30A4\u30FC\u30F3",
     name: "\u7FD2\u5FD7\u91CE\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6\uFF08Queen\uFF09",
     greens: [
       { id: "a", label: "A\u30B0\u30EA\u30FC\u30F3\uFF08\u30D9\u30F3\u30C8\uFF09" },
@@ -1190,6 +1202,7 @@ const VENUES = [
   // ─── 佐原カントリークラブ ───
   {
     id: "sawara_cc",
+    reading: "\u30B5\u30EF\u30E9\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "\u4F50\u539F\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1211,6 +1224,7 @@ const VENUES = [
   // ─── 東庄ゴルフ倶楽部 ───
   {
     id: "tosho_gc",
+    reading: "\u30C8\u30A6\u30CE\u30B7\u30E7\u30A6\u30B4\u30EB\u30D5\u30AF\u30E9\u30D6",
     name: "\u6771\u5E84\u30B4\u30EB\u30D5\u5036\u697D\u90E8",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8\uFF08\u30DA\u30F3\u30AF\u30ED\u30B9\uFF09" }],
     tees: [
@@ -1234,6 +1248,7 @@ const VENUES = [
   // ─── CPGカントリークラブ（ちばパブ） ───
   {
     id: "cpg_cc",
+    reading: "\u30B7\u30FC\u30D4\u30FC\u30B8\u30FC\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "CPG\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6\uFF08\u3061\u3070\u30D1\u30D6\uFF09",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1255,6 +1270,7 @@ const VENUES = [
   // ─── 東京国際空港ゴルフ倶楽部 ───
   {
     id: "tokyo_intl_airport_gc",
+    reading: "\u30C8\u30A6\u30AD\u30E7\u30A6\u30B3\u30AF\u30B5\u30A4\u30AF\u30A6\u30B3\u30A6\u30B4\u30EB\u30D5\u30AF\u30E9\u30D6",
     name: "\u6771\u4EAC\u56FD\u969B\u7A7A\u6E2F\u30B4\u30EB\u30D5\u5036\u697D\u90E8",
     greens: [
       { id: "bent", label: "\u30D9\u30F3\u30C8\uFF08B\uFF09" },
@@ -1281,6 +1297,7 @@ const VENUES = [
   // ─── 船橋カントリークラブ ───
   {
     id: "funabashi_cc",
+    reading: "\u30D5\u30CA\u30D0\u30B7\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "\u8239\u6A4B\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     greens: [
       { id: "a", label: "A\u30B0\u30EA\u30FC\u30F3\uFF08\u30D9\u30F3\u30C8\uFF09" },
@@ -1309,6 +1326,7 @@ const VENUES = [
   // ─── 泉カントリー倶楽部（East / West / South） ───
   {
     id: "izumi_cc",
+    reading: "\u30A4\u30BA\u30DF\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "\u6CC9\u30AB\u30F3\u30C8\u30EA\u30FC\u5036\u697D\u90E8",
     greens: [
       { id: "a", label: "A\u30B0\u30EA\u30FC\u30F3\uFF08\u30CB\u30E5\u30FC\u30D9\u30F3\u30C8\uFF09" },
@@ -1338,6 +1356,7 @@ const VENUES = [
   // ─── 千葉松尾ゴルフクラブ ───
   {
     id: "chiba_matsuo_gc",
+    reading: "\u30C1\u30D0\u30DE\u30C4\u30AA\u30B4\u30EB\u30D5\u30AF\u30E9\u30D6",
     name: "\u5343\u8449\u677E\u5C3E\u30B4\u30EB\u30D5\u30AF\u30E9\u30D6",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1359,6 +1378,7 @@ const VENUES = [
   // ─── 袖ヶ浦カンツリークラブ 新袖コース ───
   {
     id: "sodegaura_shinsode",
+    reading: "\u30BD\u30C7\u30AC\u30A6\u30E9\u30B7\u30FC\u30B7\u30FC\u30B7\u30F3\u30BD\u30C7\u30B3\u30FC\u30B9",
     name: "\u8896\u30F6\u6D66CC \u65B0\u8896\u30B3\u30FC\u30B9",
     greens: [
       { id: "new", label: "NEW\u30D9\u30F3\u30C8" },
@@ -1387,6 +1407,7 @@ const VENUES = [
   // ─── セントラルゴルフクラブ ───
   {
     id: "central_gc",
+    reading: "\u30BB\u30F3\u30C8\u30E9\u30EB\u30B4\u30EB\u30D5\u30AF\u30E9\u30D6",
     name: "\u30BB\u30F3\u30C8\u30E9\u30EB\u30B4\u30EB\u30D5\u30AF\u30E9\u30D6",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1412,6 +1433,7 @@ const VENUES = [
   // ─── 成田ヒルズカントリークラブ ───
   {
     id: "narita_hills_cc",
+    reading: "\u30CA\u30EA\u30BF\u30D2\u30EB\u30BA\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "\u6210\u7530\u30D2\u30EB\u30BA\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     greens: [{ id: "bent", label: "\u30E1\u30E2\u30EA\u30A2\u30EB\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1437,6 +1459,7 @@ const VENUES = [
   // ─── オリムピックナショナルGC EAST ───
   {
     id: "olympic_national_east",
+    reading: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EB\u30B8\u30FC\u30B7\u30FC\u30A4\u30FC\u30B9\u30C8",
     name: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EBGC EAST",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1460,6 +1483,7 @@ const VENUES = [
   // ─── オリムピックナショナルGC WEST ───
   {
     id: "olympic_national_west",
+    reading: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EB\u30B8\u30FC\u30B7\u30FC\u30A6\u30A8\u30B9\u30C8",
     name: "\u30AA\u30EA\u30E0\u30D4\u30C3\u30AF\u30CA\u30B7\u30E7\u30CA\u30EBGC WEST",
     greens: [{ id: "bent", label: "\u30D9\u30F3\u30C8" }],
     tees: [
@@ -1484,6 +1508,7 @@ const VENUES = [
   // ─── 彩の森カントリークラブ ───
   {
     id: "sainomori_cc",
+    reading: "\u30B5\u30A4\u30CE\u30E2\u30EA\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     name: "\u5F69\u306E\u68EE\u30AB\u30F3\u30C8\u30EA\u30FC\u30AF\u30E9\u30D6",
     greens: [
       { id: "left", label: "LEFT\uFF08\u5DE6\uFF09" },
@@ -2395,8 +2420,8 @@ function GolfTracker() {
   const [showYardage, setShowYardage] = useState(false);
   const [setupStep, setSetupStep] = useState(0);
   const [selectedVenue, setSelectedVenue] = useState(null);
-  const [venueSearch, setVenueSearch] = useState("");
   const [venueDropdownOpen, setVenueDropdownOpen] = useState(false);
+  const [venueTab, setVenueTab] = useState("fav");
   const [selectedCourseA, setSelectedCourseA] = useState(null);
   const [selectedCourseB, setSelectedCourseB] = useState(null);
   const [selectedGreen, setSelectedGreen] = useState(null);
@@ -2412,7 +2437,7 @@ function GolfTracker() {
   const [editWeather, setEditWeather] = useState("sunny");
   const [editWind, setEditWind] = useState(0);
   const [savedClubs, setSavedClubs] = useState([]);
-  const [profile, setProfile] = useState({ nickname: "", bestScore: null, targetHcp: null, manualHcp: null, hcpMode: "auto" });
+  const [profile, setProfile] = useState({ nickname: "", bestScore: null, targetHcp: null, manualHcp: null, hcpMode: "auto", favoriteVenues: [] });
   const [profileEdit, setProfileEdit] = useState(null);
   const [toast, setToast] = useState({ message: "", visible: false });
   const toastTimerRef = React.useRef(null);
@@ -3160,7 +3185,6 @@ function GolfTracker() {
       setSelectedWind(0);
       setVenueSearch("");
     };
-    const filteredVenues = venueSearch ? VENUES.filter((v) => v.name.includes(venueSearch)) : VENUES;
     const selectVenue = (vid) => {
       const v = VENUES.find((x) => x.id === vid);
       setSelectedVenue(vid);
@@ -3191,68 +3215,162 @@ function GolfTracker() {
       border: inputMode === m.id ? "2px solid #34d399" : "1px solid #e2e8f0",
       background: inputMode === m.id ? "rgba(22,163,74,0.10)" : "#f8fafc",
       color: inputMode === m.id ? "#16a34a" : "#64748b"
-    } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "700", fontSize: "13px" } }, m.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", opacity: 0.7, marginTop: "2px" } }, m.desc))))), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30B4\u30EB\u30D5\u5834"), /* @__PURE__ */ React.createElement("div", { style: { position: "relative" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px" } }, /* @__PURE__ */ React.createElement(
-      "input",
-      {
-        type: "text",
-        placeholder: "\u30B4\u30EB\u30D5\u5834\u540D\u3092\u5165\u529B...",
-        value: venueSearch,
-        onFocus: () => setVenueDropdownOpen(true),
-        onBlur: () => setTimeout(() => setVenueDropdownOpen(false), 200),
-        onChange: (e) => {
-          setVenueSearch(e.target.value);
-        },
-        onKeyDown: (e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            if (selectedVenue) {
-              setSelectedVenue(null);
-              setSelectedGreen(null);
-              setSelectedTee(null);
-              setSelectedCourseA(null);
-              setSelectedCourseB(null);
-            }
-            setVenueDropdownOpen(true);
-            e.target.blur();
-            e.target.focus();
-          }
-        },
-        style: __spreadProps(__spreadValues({}, S.input), { flex: 1 })
-      }
-    ), /* @__PURE__ */ React.createElement(
-      "button",
-      {
-        onMouseDown: (e) => {
-          e.preventDefault();
-          if (selectedVenue) {
-            setSelectedVenue(null);
-            setSelectedGreen(null);
-            setSelectedTee(null);
-            setSelectedCourseA(null);
-            setSelectedCourseB(null);
-          }
-          setVenueDropdownOpen(true);
-        },
-        style: { flexShrink: 0, padding: "0 14px", borderRadius: "10px", border: "1px solid rgba(96,165,250,0.3)", background: "rgba(96,165,250,0.12)", color: "#60a5fa", fontSize: "15px", cursor: "pointer", fontWeight: "700", WebkitTapHighlightColor: "transparent" }
-      },
-      "\u{1F50D}"
-    )), venueSearch && !venueDropdownOpen && /* @__PURE__ */ React.createElement(
-      "button",
-      {
-        onMouseDown: (e) => {
-          e.preventDefault();
-          setVenueSearch("");
-          setVenueDropdownOpen(false);
-          setSelectedVenue(null);
-          setSelectedGreen(null);
-          setSelectedTee(null);
-          setSelectedCourseA(null);
-          setSelectedCourseB(null);
-        },
-        style: { position: "absolute", right: "56px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#64748b", fontSize: "14px", lineHeight: 1, padding: "2px" }
-      },
-      "\u2715"
-    ), venueDropdownOpen && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 200, background: "#0f172a", border: "1px solid rgba(96,165,250,0.3)", borderRadius: "10px", overflow: "hidden", boxShadow: "0 8px 24px rgba(0,0,0,0.5)", maxHeight: "220px", overflowY: "auto" } }, filteredVenues.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { padding: "14px", color: "#475569", fontSize: "13px", textAlign: "center" } }, "\u300C", venueSearch, "\u300D\u306B\u4E00\u81F4\u3059\u308B\u30B4\u30EB\u30D5\u5834\u304C\u898B\u3064\u304B\u308A\u307E\u305B\u3093") : filteredVenues.map((v, i) => /* @__PURE__ */ React.createElement("button", { key: v.id, onClick: () => selectVenue(v.id), style: { width: "100%", textAlign: "left", padding: "11px 14px", background: v.id === selectedVenue ? "rgba(96,165,250,0.1)" : "transparent", border: "none", borderBottom: i < filteredVenues.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none", cursor: "pointer", fontSize: "13px", fontWeight: v.id === selectedVenue ? "700" : "500", color: v.id === selectedVenue ? "#60a5fa" : "#e2e8f0", display: "flex", alignItems: "center", gap: "8px", WebkitTapHighlightColor: "transparent" } }, v.id === selectedVenue && /* @__PURE__ */ React.createElement("span", { style: { color: "#34d399", fontSize: "11px" } }, "\u2713"), v.name))))), venue && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, venue.subCourses.length === 1 ? "\u30B3\u30FC\u30B9" : "\u524D\u534A\u30B3\u30FC\u30B9"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, selRow(venue.subCourses.map((c, i) => ({ id: i, label: c.name })), selectedCourseA, setSelectedCourseA, "#34d399")), venue.subCourses.length > 1 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u5F8C\u534A\u30B3\u30FC\u30B9"), selRow(venue.subCourses.map((c, i) => ({ id: i, label: c.name })), selectedCourseB, setSelectedCourseB, "#60a5fa"))), venue && selectedCourseA !== null && selectedCourseB !== null && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u4F7F\u7528\u30B0\u30EA\u30FC\u30F3"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, selRow(venue.greens, selectedGreen, setSelectedGreen, "#34d399")), /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30C6\u30A3\u30FC"), selRow(venue.tees, selectedTee, setSelectedTee, "#fbbf24")), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u65E5\u4ED8"), /* @__PURE__ */ React.createElement("input", { type: "date", value: selectedDate.replace(/\//g, "-"), onChange: (e) => {
+    } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "700", fontSize: "13px" } }, m.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", opacity: 0.7, marginTop: "2px" } }, m.desc))))), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30B4\u30EB\u30D5\u5834"), (() => {
+      const favIds = profile.favoriteVenues || [];
+      const favVenues = VENUES.filter((v) => favIds.includes(v.id)).sort((a, b) => favIds.indexOf(a.id) - favIds.indexOf(b.id));
+      const venueRow = (v) => {
+        if (/^[A-Za-z0-9]/.test(v.name)) return 10;
+        const norm = {
+          \u30AC: "\u30AB",
+          \u30AE: "\u30AD",
+          \u30B0: "\u30AF",
+          \u30B2: "\u30B1",
+          \u30B4: "\u30B3",
+          \u30B6: "\u30B5",
+          \u30B8: "\u30B7",
+          \u30BA: "\u30B9",
+          \u30BC: "\u30BB",
+          \u30BE: "\u30BD",
+          \u30C0: "\u30BF",
+          \u30C2: "\u30C1",
+          \u30C5: "\u30C4",
+          \u30C7: "\u30C6",
+          \u30C9: "\u30C8",
+          \u30D0: "\u30CF",
+          \u30D3: "\u30D2",
+          \u30D6: "\u30D5",
+          \u30D9: "\u30D8",
+          \u30DC: "\u30DB",
+          \u30D1: "\u30CF",
+          \u30D4: "\u30D2",
+          \u30D7: "\u30D5",
+          \u30DA: "\u30D8",
+          \u30DD: "\u30DB",
+          \u30A1: "\u30A2",
+          \u30A3: "\u30A4",
+          \u30A5: "\u30A6",
+          \u30A7: "\u30A8",
+          \u30A9: "\u30AA",
+          \u30F4: "\u30A6",
+          \u30F5: "\u30AB",
+          \u30F6: "\u30B1",
+          \u30C3: "\u30C4",
+          \u30E3: "\u30E4",
+          \u30E5: "\u30E6",
+          \u30E7: "\u30E8",
+          \u30EE: "\u30EF"
+        };
+        const map = {
+          \u30A2: 0,
+          \u30A4: 0,
+          \u30A6: 0,
+          \u30A8: 0,
+          \u30AA: 0,
+          \u30AB: 1,
+          \u30AD: 1,
+          \u30AF: 1,
+          \u30B1: 1,
+          \u30B3: 1,
+          \u30B5: 2,
+          \u30B7: 2,
+          \u30B9: 2,
+          \u30BB: 2,
+          \u30BD: 2,
+          \u30BF: 3,
+          \u30C1: 3,
+          \u30C4: 3,
+          \u30C6: 3,
+          \u30C8: 3,
+          \u30CA: 4,
+          \u30CB: 4,
+          \u30CC: 4,
+          \u30CD: 4,
+          \u30CE: 4,
+          \u30CF: 5,
+          \u30D2: 5,
+          \u30D5: 5,
+          \u30D8: 5,
+          \u30DB: 5,
+          \u30DE: 6,
+          \u30DF: 6,
+          \u30E0: 6,
+          \u30E1: 6,
+          \u30E2: 6,
+          \u30E4: 7,
+          \u30E6: 7,
+          \u30E8: 7,
+          \u30E9: 8,
+          \u30EA: 8,
+          \u30EB: 8,
+          \u30EC: 8,
+          \u30ED: 8,
+          \u30EF: 9,
+          \u30F2: 9,
+          \u30F3: 9
+        };
+        const c = norm[v.reading[0]] || v.reading[0];
+        return map[c] !== void 0 ? map[c] : 10;
+      };
+      const rowLabel = ["\u3042\u884C", "\u304B\u884C", "\u3055\u884C", "\u305F\u884C", "\u306A\u884C", "\u306F\u884C", "\u307E\u884C", "\u3084\u884C", "\u3089\u884C", "\u308F\u884C", "\u82F1\u6570"];
+      const sorted = [...VENUES].sort((a, b) => {
+        const ra = venueRow(a);
+        const rb = venueRow(b);
+        if (ra !== rb) return ra - rb;
+        return ra === 10 ? a.name.localeCompare(b.name) : a.reading.localeCompare(b.reading);
+      });
+      const groups = [];
+      let lastRow = -1;
+      sorted.forEach((v) => {
+        const row = venueRow(v);
+        if (row !== lastRow) {
+          groups.push({ label: rowLabel[row], venues: [] });
+          lastRow = row;
+        }
+        groups[groups.length - 1].venues.push(v);
+      });
+      const existingRows = groups.map((g) => g.label);
+      const VenueItem = ({ v, showStar }) => /* @__PURE__ */ React.createElement("button", { key: v.id, onClick: () => selectVenue(v.id), style: {
+        width: "100%",
+        textAlign: "left",
+        padding: "10px 12px",
+        background: v.id === selectedVenue ? "rgba(96,165,250,0.12)" : "transparent",
+        border: "none",
+        borderBottom: "1px solid rgba(255,255,255,0.05)",
+        cursor: "pointer",
+        fontSize: "13px",
+        fontWeight: v.id === selectedVenue ? "700" : "400",
+        color: v.id === selectedVenue ? "#60a5fa" : "#e2e8f0",
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
+        WebkitTapHighlightColor: "transparent"
+      } }, v.id === selectedVenue ? /* @__PURE__ */ React.createElement("span", { style: { color: "#34d399", fontSize: "13px", width: "16px" } }, "\u2713") : /* @__PURE__ */ React.createElement("span", { style: { width: "16px" } }), /* @__PURE__ */ React.createElement("span", { style: { flex: 1 } }, v.name));
+      return /* @__PURE__ */ React.createElement("div", { style: { border: "1px solid rgba(96,165,250,0.25)", borderRadius: "12px", overflow: "hidden", background: "#0f172a" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", borderBottom: "1px solid rgba(255,255,255,0.08)" } }, [["fav", `\u2B50 \u304A\u6C17\u306B\u5165\u308A\uFF08${favVenues.length}\uFF09`], ["aiueo", "\u4E94\u5341\u97F3\u9806"]].map(([key, label]) => /* @__PURE__ */ React.createElement("button", { key, onClick: () => setVenueTab(key), style: {
+        flex: 1,
+        padding: "9px 4px",
+        border: "none",
+        cursor: "pointer",
+        fontSize: "12px",
+        fontWeight: "700",
+        background: venueTab === key ? "rgba(96,165,250,0.12)" : "transparent",
+        color: venueTab === key ? "#60a5fa" : "#64748b",
+        borderBottom: venueTab === key ? "2px solid #60a5fa" : "2px solid transparent",
+        WebkitTapHighlightColor: "transparent"
+      } }, label))), /* @__PURE__ */ React.createElement("div", { style: { maxHeight: "260px", overflowY: "auto", WebkitOverflowScrolling: "touch" } }, venueTab === "fav" ? favVenues.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { padding: "24px 16px", textAlign: "center", color: "#475569", fontSize: "12px", lineHeight: 1.7 } }, "\u304A\u6C17\u306B\u5165\u308A\u304C\u672A\u767B\u9332\u3067\u3059", /* @__PURE__ */ React.createElement("br", null), "\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB\u753B\u9762\u3067\u767B\u9332\u3057\u3066\u304F\u3060\u3055\u3044") : favVenues.map((v) => /* @__PURE__ */ React.createElement(VenueItem, { key: v.id, v })) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "4px", padding: "8px 10px", borderBottom: "1px solid rgba(255,255,255,0.06)", background: "rgba(255,255,255,0.02)" } }, existingRows.map((label) => /* @__PURE__ */ React.createElement("button", { key: label, onClick: () => {
+        const el = document.getElementById(`venue-row-${label}`);
+        if (el) el.scrollIntoView({ block: "nearest" });
+      }, style: {
+        padding: "3px 7px",
+        borderRadius: "6px",
+        border: "1px solid rgba(96,165,250,0.2)",
+        background: "rgba(96,165,250,0.06)",
+        color: "#94a3b8",
+        fontSize: "11px",
+        cursor: "pointer",
+        fontWeight: "700",
+        WebkitTapHighlightColor: "transparent"
+      } }, label))), groups.map((g) => /* @__PURE__ */ React.createElement("div", { key: g.label }, /* @__PURE__ */ React.createElement("div", { id: `venue-row-${g.label}`, style: { padding: "4px 12px", fontSize: "10px", fontWeight: "800", color: "#60a5fa", background: "rgba(96,165,250,0.06)", letterSpacing: "0.05em" } }, g.label), g.venues.map((v) => /* @__PURE__ */ React.createElement(VenueItem, { key: v.id, v })))))));
+    })()), venue && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, venue.subCourses.length === 1 ? "\u30B3\u30FC\u30B9" : "\u524D\u534A\u30B3\u30FC\u30B9"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, selRow(venue.subCourses.map((c, i) => ({ id: i, label: c.name })), selectedCourseA, setSelectedCourseA, "#34d399")), venue.subCourses.length > 1 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u5F8C\u534A\u30B3\u30FC\u30B9"), selRow(venue.subCourses.map((c, i) => ({ id: i, label: c.name })), selectedCourseB, setSelectedCourseB, "#60a5fa"))), venue && selectedCourseA !== null && selectedCourseB !== null && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u4F7F\u7528\u30B0\u30EA\u30FC\u30F3"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, selRow(venue.greens, selectedGreen, setSelectedGreen, "#34d399")), /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30C6\u30A3\u30FC"), selRow(venue.tees, selectedTee, setSelectedTee, "#fbbf24")), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u65E5\u4ED8"), /* @__PURE__ */ React.createElement("input", { type: "date", value: selectedDate.replace(/\//g, "-"), onChange: (e) => {
       if (e.target.value) setSelectedDate(e.target.value.replace(/-/g, "/"));
     }, style: __spreadProps(__spreadValues({}, S.input), { colorScheme: "dark" }) })), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u5929\u6C17"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px", marginBottom: "12px" } }, [{ id: "sunny", label: "\u2600\uFE0F \u6674\u308C" }, { id: "cloudy", label: "\u2601\uFE0F \u66C7\u308A" }, { id: "rainy", label: "\u{1F327}\uFE0F \u96E8" }, { id: "snowy", label: "\u2744\uFE0F \u96EA" }].map((w) => /* @__PURE__ */ React.createElement("button", { key: w.id, onClick: () => setSelectedWeather(w.id), style: { flex: 1, padding: "8px 4px", borderRadius: "8px", cursor: "pointer", fontWeight: "600", fontSize: "12px", border: selectedWeather === w.id ? "2px solid #16a34a" : "1px solid #e2e8f0", background: selectedWeather === w.id ? "rgba(14,165,233,0.12)" : "#f8fafc", color: selectedWeather === w.id ? "#0ea5e9" : "#64748b" } }, w.label))), /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u98A8\u306E\u5F37\u3055"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "5px" } }, [{ val: 0, sub: "\u7121\u98A8" }, { val: 1, sub: "\u5FAE\u98A8" }, { val: 2, sub: "\u5F31\u98A8" }, { val: 3, sub: "\u4E2D\u98A8" }, { val: 4, sub: "\u5F37\u3081" }, { val: 5, sub: "\u5F37\u98A8" }].map((w) => /* @__PURE__ */ React.createElement("button", { key: w.val, onClick: () => setSelectedWind(w.val), style: { flex: 1, padding: "8px 2px", borderRadius: "8px", cursor: "pointer", fontWeight: "700", fontSize: "13px", border: selectedWind === w.val ? "2px solid #fbbf24" : "1px solid #e2e8f0", background: selectedWind === w.val ? "rgba(251,191,36,0.15)" : "#f8fafc", color: selectedWind === w.val ? "#fbbf24" : "#64748b", display: "flex", flexDirection: "column", alignItems: "center", gap: "1px" } }, /* @__PURE__ */ React.createElement("span", null, w.val), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "8px", fontWeight: "500", opacity: 0.7 } }, w.sub))))), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30E9\u30A6\u30F3\u30C9\u30E1\u30E2\uFF08\u4EFB\u610F\u30FB20\u6587\u5B57\u4EE5\u5185\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { position: "relative" } }, /* @__PURE__ */ React.createElement("input", { style: __spreadProps(__spreadValues({}, S.input), { paddingRight: "42px" }), placeholder: "\u4F8B\uFF1A\u521D\u30E9\u30A6\u30F3\u30C9\u3001\u98A8\u5F37\u3081...", value: roundMemo, maxLength: 20, onChange: (e) => setRoundMemo(e.target.value.slice(0, 20)) }), /* @__PURE__ */ React.createElement("span", { style: { position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", fontSize: "11px", color: roundMemo.length >= 20 ? "#ef4444" : "#475569", pointerEvents: "none" } }, roundMemo.length, "/20"))), canStart && venue && /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(52,211,153,0.07)", border: "1px solid rgba(52,211,153,0.2)", borderRadius: "8px", padding: "10px 12px", marginBottom: "14px", fontSize: "12px", color: "#94a3b8" } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "700", color: "#16a34a", marginBottom: "4px" } }, venue.name), /* @__PURE__ */ React.createElement("div", null, "\u524D\u534A\uFF1A", venue.subCourses[selectedCourseA].name, " / \u5F8C\u534A\uFF1A", venue.subCourses[selectedCourseB].name), /* @__PURE__ */ React.createElement("div", null, "\u30B0\u30EA\u30FC\u30F3\uFF1A", (_a2 = venue.greens.find((g) => g.id === selectedGreen)) == null ? void 0 : _a2.label, " / \u30C6\u30A3\u30FC\uFF1A", (_b2 = venue.tees.find((t) => t.id === selectedTee)) == null ? void 0 : _b2.label), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "3px" } }, "\u65E5\u4ED8\uFF1A", selectedDate.replace(/(\d{4})\/(\d{2})\/(\d{2})/, (_, y, m, d) => `${y}/${+m}/${+d}`), "\u5929\u6C17\uFF1A", { "sunny": "\u2600\uFE0F\u6674\u308C", "cloudy": "\u2601\uFE0F\u66C7\u308A", "rainy": "\u{1F327}\uFE0F\u96E8", "snowy": "\u2744\uFE0F\u96EA" }[selectedWeather], "\u98A8\uFF1A", ["\u7121\u98A8", "\u5FAE\u98A8", "\u5F31\u98A8", "\u4E2D\u98A8", "\u5F37\u3081", "\u5F37\u98A8"][selectedWind], "\uFF08", selectedWind, "\uFF09")), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", opacity: canStart ? 1 : 0.35, cursor: canStart ? "pointer" : "not-allowed" }), onClick: startRound, disabled: !canStart }, "\u30E9\u30A6\u30F3\u30C9\u958B\u59CB \u26F3"));
   };
@@ -4790,7 +4908,7 @@ function GolfTracker() {
       { lbl: "\u30B7\u30E7\u30FC\u30C8\u304C\u5F31\u3044", nm: "\u30A2\u30D7\u30ED\u30FC\u30C1\u7DF4\u7FD2", d: "60Y\u4EE5\u5185\u3092\u96C6\u4E2D\u7684\u306B\u3002" },
       { lbl: "\u30D1\u30C3\u30C8\u304C\u5F31\u3044", nm: "\u30D1\u30BF\u30FC\u7DF4\u7FD2", d: "3\u30D1\u30C3\u30C8\u6E1B\u306F\u30B9\u30B3\u30A2\u306B\u76F4\u7D50\u3002" }
     ].map(({ lbl, nm, d }) => /* @__PURE__ */ React.createElement("div", { key: nm, style: M.field }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#dc2626", marginBottom: "3px", fontWeight: "700" } }, lbl), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", fontWeight: "800", color: "#1e293b", marginBottom: "3px" } }, nm), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#64748b", lineHeight: 1.5 } }, d)))), /* @__PURE__ */ React.createElement("div", { style: M.accentB }, /* @__PURE__ */ React.createElement("span", { style: M.lbl }, "\u{1F50D} \u8A73\u7D30\u30E2\u30FC\u30C9\u306A\u3089\u3067\u306F\u306E\u5206\u6790"), /* @__PURE__ */ React.createElement("div", { style: __spreadProps(__spreadValues({}, M.cardH), { marginBottom: "5px" }) }, "\u300C\u3069\u306E\u8DDD\u96E2\u3067\uFF0F\u3069\u306E\u30AF\u30E9\u30D6\u3067\u300D\u5931\u6557\u3057\u3066\u3044\u308B\u304B\u304C\u5206\u304B\u308B"), /* @__PURE__ */ React.createElement("div", { style: M.body }, "\u4F8B\u3048\u3070\u300C150Y\u5E2F\u306E\u6210\u529F\u7387\u304C30%\u300D\u3068\u5206\u304B\u308C\u3070\u3001\u305D\u306E\u8DDD\u96E2\u3067\u306E\u7DF4\u7FD2\u304C\u6700\u512A\u5148\u3068\u5224\u65AD\u3067\u304D\u307E\u3059\u3002\u300C9I\u3088\u308A8I\u306E\u65B9\u304C\u6210\u529F\u7387\u304C\u9AD8\u3044\u300D\u3068\u5206\u304B\u308C\u3070\u3001\u8FF7\u3063\u305F\u3068\u304D\u306E\u5224\u65AD\u6750\u6599\u306B\u306A\u308A\u307E\u3059\u3002")), /* @__PURE__ */ React.createElement("div", { style: M.tipBox }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", fontWeight: "800", color: "#16a34a", marginBottom: "8px" } }, "\u{1F3CC}\uFE0F \u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\uFF08\u53C2\u8003\u5024\uFF09\u3082\u81EA\u52D5\u8A08\u7B97\uFF01"), ["18H\u5B8C\u4E86\u30E9\u30A6\u30F3\u30C9\u304C3\u4EF6\u4EE5\u4E0A\u3067\u3001\u30DB\u30FC\u30E0\u753B\u9762\u306B\u53C2\u8003\u30CF\u30F3\u30C7\u30A3\u304C\u8868\u793A\u3055\u308C\u307E\u3059\u3002", "\u76F4\u8FD120\u30E9\u30A6\u30F3\u30C9\u4E0A\u4F4D40%\u306E\u6210\u7E3E\u304B\u3089\u7B97\u51FA\uFF08\u516C\u5F0F\u3068\u306F\u7570\u306A\u308A\u307E\u3059\uFF09\u3002", "\u30E9\u30A6\u30F3\u30C9\u3092\u91CD\u306D\u308B\u307B\u3069\u7CBE\u5EA6\u30A2\u30C3\u30D7\u3002\u8A18\u9332\u3092\u7D9A\u3051\u308B\u3053\u3068\u304C\u4E00\u756A\u5927\u4E8B\uFF01"].map((t) => /* @__PURE__ */ React.createElement("div", { key: t, style: { display: "flex", gap: "7px", marginBottom: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a", fontSize: "10px", marginTop: "2px", flexShrink: 0 } }, "\u25CF"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.55 } }, t)))), /* @__PURE__ */ React.createElement("div", { style: { background: "linear-gradient(135deg,rgba(22,163,74,0.08),rgba(14,165,233,0.08))", border: "1px solid rgba(22,163,74,0.2)", borderRadius: "12px", padding: "20px", textAlign: "center", marginTop: "16px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "16px", fontWeight: "800", color: "#1e293b", marginBottom: "6px" } }, "\u3055\u3042\u3001\u6B21\u306E\u30E9\u30A6\u30F3\u30C9\u304B\u3089\u8A18\u9332\u3092\u59CB\u3081\u3088\u3046\uFF01"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.7 } }, "\u30C7\u30FC\u30BF\u304C\u7A4D\u307F\u91CD\u306A\u308B\u307B\u3069\u3001\u6539\u5584\u30DD\u30A4\u30F3\u30C8\u304C\u30AF\u30EA\u30A2\u306B\u306A\u308A\u307E\u3059\u3002", /* @__PURE__ */ React.createElement("br", null), "\u30B9\u30B3\u30A2\u30AB\u30FC\u30C9\u3088\u308A\u6DF1\u3044\u300C\u81EA\u5206\u3060\u3051\u306E\u6210\u9577\u8A18\u9332\u300D\u3092\u4F5C\u308A\u307E\u3057\u3087\u3046\u3002")));
-  })(), view === "profile" && profileEdit !== null && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "20px" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", marginBottom: "3px" } }, "\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB"), /* @__PURE__ */ React.createElement("p", { style: { color: "#94a3b8", fontSize: "12px" } }, "\u3042\u306A\u305F\u306E\u60C5\u5831\u3092\u767B\u9332\u3057\u3088\u3046")), /* @__PURE__ */ React.createElement("div", { style: __spreadProps(__spreadValues({}, S.card({ border: "1px solid rgba(52,211,153,0.25)", marginBottom: "18px", background: "rgba(52,211,153,0.04)" })), { textAlign: "center", padding: "28px 16px" }) }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "52px", marginBottom: "12px" } }, "\u{1F3CC}\uFE0F"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "20px", fontWeight: "800", color: "#1e293b", marginBottom: "4px" } }, profileEdit.nickname || "\u30B4\u30EB\u30D5\u30A1\u30FC"), profileEdit.bestScore && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", color: "#0ea5e9", fontWeight: "600" } }, "\u30D9\u30B9\u30C8 ", profileEdit.bestScore, profileEdit.targetHcp != null ? `\u3000\u76EE\u6A19HC: ${profileEdit.targetHcp}` : "", profileEdit.manualHcp != null && !handicap ? `\u3000HC(\u624B\u5165\u529B): ${profileEdit.manualHcp}` : "")), /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "14px" }) }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30CB\u30C3\u30AF\u30CD\u30FC\u30E0"), /* @__PURE__ */ React.createElement(
+  })(), view === "profile" && profileEdit !== null && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "20px" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", marginBottom: "3px" } }, "\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB"), /* @__PURE__ */ React.createElement("p", { style: { color: "#94a3b8", fontSize: "12px" } }, "\u3042\u306A\u305F\u306E\u60C5\u5831\u3092\u767B\u9332\u3057\u3088\u3046")), /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "14px" }) }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30CB\u30C3\u30AF\u30CD\u30FC\u30E0"), /* @__PURE__ */ React.createElement(
     "input",
     {
       style: S.input,
@@ -4899,7 +5017,149 @@ function GolfTracker() {
       style: { padding: "4px 10px", borderRadius: "6px", border: "1px solid #e2e8f0", background: "transparent", color: "#475569", cursor: "pointer", fontSize: "11px" }
     },
     "\u30AF\u30EA\u30A2"
-  ))))), /* @__PURE__ */ React.createElement(
+  )))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u2B50 \u304A\u6C17\u306B\u5165\u308A\u30B4\u30EB\u30D5\u5834\uFF08\u6700\u59275\u4EF6\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", marginBottom: "10px" } }, "\u30E9\u30A6\u30F3\u30C9\u8A2D\u5B9A\u306E\u300C\u304A\u6C17\u306B\u5165\u308A\u300D\u30BF\u30D6\u306B\u8868\u793A\u3055\u308C\u307E\u3059"), (profileEdit.favoriteVenues || []).length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { padding: "12px", borderRadius: "10px", border: "1px dashed rgba(255,255,255,0.1)", textAlign: "center", color: "#475569", fontSize: "12px" } }, "\u672A\u767B\u9332\u3067\u3059") : /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "6px", marginBottom: "10px" } }, (profileEdit.favoriteVenues || []).map((vid, idx) => {
+    const v = VENUES.find((x) => x.id === vid);
+    if (!v) return null;
+    return /* @__PURE__ */ React.createElement("div", { key: vid, style: { display: "flex", alignItems: "center", gap: "8px", padding: "8px 10px", borderRadius: "8px", background: "rgba(245,158,11,0.07)", border: "1px solid rgba(245,158,11,0.2)" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#fbbf24", minWidth: "16px" } }, "\u2B50"), /* @__PURE__ */ React.createElement("span", { style: { flex: 1, fontSize: "13px", color: "#e2e8f0" } }, v.name), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "4px" } }, idx > 0 && /* @__PURE__ */ React.createElement("button", { onClick: () => {
+      const arr = [...profileEdit.favoriteVenues || []];
+      [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]];
+      setProfileEdit((p) => __spreadProps(__spreadValues({}, p), { favoriteVenues: arr }));
+    }, style: { padding: "2px 6px", borderRadius: "5px", border: "1px solid rgba(255,255,255,0.1)", background: "transparent", color: "#94a3b8", cursor: "pointer", fontSize: "12px" } }, "\u2191"), idx < (profileEdit.favoriteVenues || []).length - 1 && /* @__PURE__ */ React.createElement("button", { onClick: () => {
+      const arr = [...profileEdit.favoriteVenues || []];
+      [arr[idx], arr[idx + 1]] = [arr[idx + 1], arr[idx]];
+      setProfileEdit((p) => __spreadProps(__spreadValues({}, p), { favoriteVenues: arr }));
+    }, style: { padding: "2px 6px", borderRadius: "5px", border: "1px solid rgba(255,255,255,0.1)", background: "transparent", color: "#94a3b8", cursor: "pointer", fontSize: "12px" } }, "\u2193"), /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        onClick: () => setProfileEdit((p) => __spreadProps(__spreadValues({}, p), { favoriteVenues: (p.favoriteVenues || []).filter((x) => x !== vid) })),
+        style: { padding: "2px 8px", borderRadius: "5px", border: "1px solid rgba(239,68,68,0.3)", background: "transparent", color: "#f87171", cursor: "pointer", fontSize: "12px", fontWeight: "700" }
+      },
+      "\u2715"
+    )));
+  })), (profileEdit.favoriteVenues || []).length < 5 && (() => {
+    const venueRow = (v) => {
+      if (/^[A-Za-z0-9]/.test(v.name)) return 10;
+      const norm = {
+        \u30AC: "\u30AB",
+        \u30AE: "\u30AD",
+        \u30B0: "\u30AF",
+        \u30B2: "\u30B1",
+        \u30B4: "\u30B3",
+        \u30B6: "\u30B5",
+        \u30B8: "\u30B7",
+        \u30BA: "\u30B9",
+        \u30BC: "\u30BB",
+        \u30BE: "\u30BD",
+        \u30C0: "\u30BF",
+        \u30C2: "\u30C1",
+        \u30C5: "\u30C4",
+        \u30C7: "\u30C6",
+        \u30C9: "\u30C8",
+        \u30D0: "\u30CF",
+        \u30D3: "\u30D2",
+        \u30D6: "\u30D5",
+        \u30D9: "\u30D8",
+        \u30DC: "\u30DB",
+        \u30D1: "\u30CF",
+        \u30D4: "\u30D2",
+        \u30D7: "\u30D5",
+        \u30DA: "\u30D8",
+        \u30DD: "\u30DB",
+        \u30A1: "\u30A2",
+        \u30A3: "\u30A4",
+        \u30A5: "\u30A6",
+        \u30A7: "\u30A8",
+        \u30A9: "\u30AA",
+        \u30F4: "\u30A6",
+        \u30F5: "\u30AB",
+        \u30F6: "\u30B1",
+        \u30C3: "\u30C4",
+        \u30E3: "\u30E4",
+        \u30E5: "\u30E6",
+        \u30E7: "\u30E8",
+        \u30EE: "\u30EF"
+      };
+      const map = {
+        \u30A2: 0,
+        \u30A4: 0,
+        \u30A6: 0,
+        \u30A8: 0,
+        \u30AA: 0,
+        \u30AB: 1,
+        \u30AD: 1,
+        \u30AF: 1,
+        \u30B1: 1,
+        \u30B3: 1,
+        \u30B5: 2,
+        \u30B7: 2,
+        \u30B9: 2,
+        \u30BB: 2,
+        \u30BD: 2,
+        \u30BF: 3,
+        \u30C1: 3,
+        \u30C4: 3,
+        \u30C6: 3,
+        \u30C8: 3,
+        \u30CA: 4,
+        \u30CB: 4,
+        \u30CC: 4,
+        \u30CD: 4,
+        \u30CE: 4,
+        \u30CF: 5,
+        \u30D2: 5,
+        \u30D5: 5,
+        \u30D8: 5,
+        \u30DB: 5,
+        \u30DE: 6,
+        \u30DF: 6,
+        \u30E0: 6,
+        \u30E1: 6,
+        \u30E2: 6,
+        \u30E4: 7,
+        \u30E6: 7,
+        \u30E8: 7,
+        \u30E9: 8,
+        \u30EA: 8,
+        \u30EB: 8,
+        \u30EC: 8,
+        \u30ED: 8,
+        \u30EF: 9,
+        \u30F2: 9,
+        \u30F3: 9
+      };
+      const c = norm[v.reading[0]] || v.reading[0];
+      return map[c] !== void 0 ? map[c] : 10;
+    };
+    const sorted = [...VENUES].filter((v) => !(profileEdit.favoriteVenues || []).includes(v.id)).sort((a, b) => {
+      const ra = venueRow(a), rb = venueRow(b);
+      if (ra !== rb) return ra - rb;
+      return ra === 10 ? a.name.localeCompare(b.name) : a.reading.localeCompare(b.reading);
+    });
+    return /* @__PURE__ */ React.createElement("div", { style: { maxHeight: "180px", overflowY: "auto", WebkitOverflowScrolling: "touch", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "10px", background: "#0f172a" } }, sorted.map((v, i) => /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        key: v.id,
+        onClick: () => setProfileEdit((p) => __spreadProps(__spreadValues({}, p), { favoriteVenues: [...p.favoriteVenues || [], v.id] })),
+        style: {
+          width: "100%",
+          textAlign: "left",
+          padding: "9px 12px",
+          background: "transparent",
+          border: "none",
+          borderBottom: i < sorted.length - 1 ? "1px solid rgba(255,255,255,0.05)" : "none",
+          cursor: "pointer",
+          fontSize: "12px",
+          color: "#cbd5e1",
+          display: "flex",
+          alignItems: "center",
+          gap: "6px",
+          WebkitTapHighlightColor: "transparent"
+        }
+      },
+      /* @__PURE__ */ React.createElement("span", { style: { color: "#f59e0b", fontSize: "12px" } }, "\uFF0B"),
+      v.name
+    )));
+  })())), /* @__PURE__ */ React.createElement(
     "button",
     {
       style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", padding: "14px", fontSize: "14px" }),
