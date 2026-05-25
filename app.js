@@ -1957,8 +1957,8 @@ function calcDetailAnalytics(holeData, holePars, hcp = null, teeRates = null) {
     shortShotQuals: holes.flatMap((h) => h.shortShotQuals || [])
   };
 }
-function calcDriverDistStats(rounds) {
-  const detailRounds = [...rounds].filter((r) => r.isComplete && r.inputMode === "detail" && r.holeData).sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, 5);
+function calcDriverDistStats(rounds, maxRounds = 5) {
+  const detailRounds = [...rounds].filter((r) => r.isComplete && r.inputMode === "detail" && r.holeData).sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, maxRounds);
   const result = [];
   for (const r of detailRounds) {
     const venue = VENUES.find((v) => v.id === r.venueId);
@@ -2118,15 +2118,18 @@ function calcHistoricalTeeRates(rounds) {
     hasData: targets.length > 0
   };
 }
-function generateDiagnosis(sa, shd, hcp, rounds, roundId) {
+function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreOverride = null) {
   var _a, _b, _c;
   const holeEntries = Object.entries(shd || {});
+  const rCount = Math.max(1, roundCount || 1);
+  const fmtN = (n) => Number.isInteger(Math.round(n * 10) / 10) ? String(Math.round(n)) : (Math.round(n * 10) / 10).toFixed(1);
   const is9H = sa.holeCount <= 12;
   const hcAdj = is9H ? Math.floor(hcp / 2) : hcp;
   const expectedScore = sa.totalPar + hcAdj;
-  const gap = Math.round((sa.totalScore - expectedScore) * 10) / 10;
-  const count = (key, val) => holeEntries.filter(([, h]) => normQuality(h[key]) === val).length;
-  const threePutts = holeEntries.filter(([, h]) => (h.putts || 0) >= 3).length;
+  const scoreForGap = scoreOverride != null ? scoreOverride : sa.totalScore;
+  const gap = Math.round((scoreForGap - expectedScore) * 10) / 10;
+  const count = (key, val) => holeEntries.filter(([, h]) => normQuality(h[key]) === val).length / rCount;
+  const threePutts = holeEntries.filter(([, h]) => (h.putts || 0) >= 3).length / rCount;
   const hcpBands = [
     { max: 0, id: "S", label: "\u30A8\u30AD\u30B9\u30D1\u30FC\u30C8" },
     { max: 5, id: "A+", label: "\u8D85\u4E0A\u7D1A\u8005" },
@@ -2198,25 +2201,25 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId) {
   const barC = (score) => score >= 1.5 ? "#D4A017" : score >= 0.3 ? "#3FA34D" : score >= -0.5 ? "#4DA8DA" : score >= -1.5 ? "#C2B280" : "#D9534F";
   const teeGood = count("teeEval", "\u25CB"), teeBad = count("teeEval", "\xD7"), teeFair = count("teeEval", "\u25B3");
   const longQuals = sa.longShotQuals || [];
-  const longGood = longQuals.filter((v) => v === "\u25CB").length;
-  const longBad = longQuals.filter((v) => v === "\xD7").length;
-  const longTotal = longQuals.length;
+  const longGood = longQuals.filter((v) => v === "\u25CB").length / rCount;
+  const longBad = longQuals.filter((v) => v === "\xD7").length / rCount;
+  const longTotal = longQuals.length / rCount;
   const shortQuals = sa.shortShotQuals || [];
-  const shortGood = shortQuals.filter((v) => v === "\u25CB").length;
-  const shortBad = shortQuals.filter((v) => v === "\xD7").length;
-  const shortTotal = shortQuals.length;
+  const shortGood = shortQuals.filter((v) => v === "\u25CB").length / rCount;
+  const shortBad = shortQuals.filter((v) => v === "\xD7").length / rCount;
+  const shortTotal = shortQuals.length / rCount;
   const puttRef = is9H ? 20 : 36;
   const diagIdealGIR = (_c = sa.idealGIR) != null ? _c : null;
   const insights = {
     tee: (() => {
       const g = gradeOf(sa.teeScore);
       if (g.label === "S" || g.label === "A") {
-        return sa.totalOB + sa.totalPen > 0 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u5B89\u5B9A\u3002\u305F\u3060\u3057OB/\u30DA\u30CA\u30EB\u30C6\u30A3${sa.totalOB + sa.totalPen}\u56DE\u306F\u8981\u6CE8\u610F` : `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u25CB${teeGood}\u56DE\u3002\u3053\u306E\u8ABF\u5B50\u3092\u7DAD\u6301\u3057\u3088\u3046`;
+        return sa.totalOB + sa.totalPen > 0 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u5B89\u5B9A\u3002\u305F\u3060\u3057OB/\u30DA\u30CA\u30EB\u30C6\u30A3${fmtN(sa.totalOB + sa.totalPen)}\u56DE\u306F\u8981\u6CE8\u610F` : `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u25CB${fmtN(teeGood)}\u56DE\u3002\u3053\u306E\u8ABF\u5B50\u3092\u7DAD\u6301\u3057\u3088\u3046`;
       }
       if (g.label === "B") {
         return teeFair >= teeGood ? "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u25B3\u304C\u591A\u3081\u3002\u30B3\u30F3\u30D1\u30AF\u30C8\u306A\u30B9\u30A4\u30F3\u30B0\u3067\u82AF\u5F53\u3066\u7387\u3092\u4E0A\u3052\u3088\u3046" : "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u306F\u6A19\u6E96\u7684\u3002\u3082\u3046\u4E00\u6BB5\u306E\u5B89\u5B9A\u611F\u3092\u76EE\u6307\u305D\u3046";
       }
-      return sa.totalOB + sa.totalPen >= 4 ? `OB/\u30DA\u30CA\u30EB\u30C6\u30A3${sa.totalOB + sa.totalPen}\u56DE\u3002\u7F70\u6253\u304C\u30B9\u30B3\u30A2\u3092\u76F4\u6483\u3057\u3066\u3044\u307E\u3059` : teeBad >= 5 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\xD7\u304C${teeBad}\u56DE\u3002\u30A4\u30F3\u30D1\u30AF\u30C8\u7CBE\u5EA6\u306E\u5B89\u5B9A\u304C\u6700\u512A\u5148\u8AB2\u984C` : teeBad >= 3 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u30DF\u30B9${teeBad}\u56DE\u3002\u30B9\u30A4\u30F3\u30B0\u306E\u30A4\u30F3\u30D1\u30AF\u30C8\u30BE\u30FC\u30F3\u3092\u78BA\u8A8D\u3057\u3088\u3046` : band.id === "S" || band.id === "A+" || band.id === "A" ? "\u25B3\u304C\u591A\u3081\u3002\u30D5\u30A7\u30FC\u30B9\u7BA1\u7406\u3068\u30A4\u30F3\u30D1\u30AF\u30C8\u30BE\u30FC\u30F3\u306E\u7CBE\u5EA6\u5411\u4E0A\u3067\u25CB\u7387\u3092\u9AD8\u3081\u3088\u3046" : "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u25B3\u304C\u591A\u3081\u3002\u30B3\u30F3\u30D1\u30AF\u30C8\u306A\u30B9\u30A4\u30F3\u30B0\u3067\u82AF\u5F53\u3066\u7387\u3092\u4E0A\u3052\u3088\u3046";
+      return sa.totalOB + sa.totalPen >= 4 ? `OB/\u30DA\u30CA\u30EB\u30C6\u30A3${fmtN(sa.totalOB + sa.totalPen)}\u56DE\u3002\u7F70\u6253\u304C\u30B9\u30B3\u30A2\u3092\u76F4\u6483\u3057\u3066\u3044\u307E\u3059` : teeBad >= 5 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\xD7\u304C${fmtN(teeBad)}\u56DE\u3002\u30A4\u30F3\u30D1\u30AF\u30C8\u7CBE\u5EA6\u306E\u5B89\u5B9A\u304C\u6700\u512A\u5148\u8AB2\u984C` : teeBad >= 3 ? `\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u30DF\u30B9${fmtN(teeBad)}\u56DE\u3002\u30B9\u30A4\u30F3\u30B0\u306E\u30A4\u30F3\u30D1\u30AF\u30C8\u30BE\u30FC\u30F3\u3092\u78BA\u8A8D\u3057\u3088\u3046` : band.id === "S" || band.id === "A+" || band.id === "A" ? "\u25B3\u304C\u591A\u3081\u3002\u30D5\u30A7\u30FC\u30B9\u7BA1\u7406\u3068\u30A4\u30F3\u30D1\u30AF\u30C8\u30BE\u30FC\u30F3\u306E\u7CBE\u5EA6\u5411\u4E0A\u3067\u25CB\u7387\u3092\u9AD8\u3081\u3088\u3046" : "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u25B3\u304C\u591A\u3081\u3002\u30B3\u30F3\u30D1\u30AF\u30C8\u306A\u30B9\u30A4\u30F3\u30B0\u3067\u82AF\u5F53\u3066\u7387\u3092\u4E0A\u3052\u3088\u3046";
     })(),
     long: (() => {
       const g = gradeOf(sa.longScore, null, diagIdealGIR);
@@ -2224,28 +2227,28 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId) {
         return longGood >= longTotal * 0.6 ? "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\u304C\u5B89\u5B9A\u3002\u5927\u304D\u306A\u5F37\u307F\u3067\u3059" : "\u30D1\u30FC\u30AA\u30F3\u304C\u5B89\u5B9A\u3057\u3066\u3044\u307E\u3059\u3002\u3053\u306E\u8ABF\u5B50\u3092\u7DAD\u6301\u3057\u3088\u3046";
       }
       if (g.label === "B") {
-        return longBad >= 2 ? `\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\xD7${longBad}\u56DE\u3002\u756A\u624B\u9078\u3073\u3068\u65B9\u5411\u6027\u3092\u898B\u76F4\u305D\u3046` : "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\u306F\u6A19\u6E96\u7684\u3002\u30D1\u30FC\u30AA\u30F3\u7387\u306E\u5411\u4E0A\u3067\u30B9\u30B3\u30A2\u304C\u5909\u308F\u308A\u307E\u3059";
+        return longBad >= 2 ? `\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\xD7${fmtN(longBad)}\u56DE\u3002\u756A\u624B\u9078\u3073\u3068\u65B9\u5411\u6027\u3092\u898B\u76F4\u305D\u3046` : "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\u306F\u6A19\u6E96\u7684\u3002\u30D1\u30FC\u30AA\u30F3\u7387\u306E\u5411\u4E0A\u3067\u30B9\u30B3\u30A2\u304C\u5909\u308F\u308A\u307E\u3059";
       }
-      return longBad >= 4 ? `\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\xD7${longBad}\u56DE\u3002\u756A\u624B\u9078\u3073\u3068\u65B9\u5411\u6027\u3092\u898B\u76F4\u305D\u3046` : "\u30D1\u30FC\u30AA\u30F3\u304C\u671F\u5F85\u3092\u4E0B\u56DE\u3063\u3066\u3044\u307E\u3059\u3002\u30B0\u30EA\u30FC\u30F3\u3092\u6349\u3048\u308B\u7CBE\u5EA6\u5411\u4E0A\u304C\u6700\u512A\u5148\u8AB2\u984C";
+      return longBad >= 4 ? `\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\xD7${fmtN(longBad)}\u56DE\u3002\u756A\u624B\u9078\u3073\u3068\u65B9\u5411\u6027\u3092\u898B\u76F4\u305D\u3046` : "\u30D1\u30FC\u30AA\u30F3\u304C\u671F\u5F85\u3092\u4E0B\u56DE\u3063\u3066\u3044\u307E\u3059\u3002\u30B0\u30EA\u30FC\u30F3\u3092\u6349\u3048\u308B\u7CBE\u5EA6\u5411\u4E0A\u304C\u6700\u512A\u5148\u8AB2\u984C";
     })(),
     short: (() => {
       const g = gradeOf(sa.shortScore, null, null, true, sa.isDetailMode);
       if (g.label === "D" || g.label === "C") {
-        return shortBad >= 4 ? `\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\xD7${shortBad}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u306E\u7CBE\u5EA6\u304C\u6700\u91CD\u8981\u8AB2\u984C` : "\u5BC4\u305B\u5F8C\u306B1\u30D1\u30C3\u30C8\u3067\u4E0A\u304C\u308B\u305F\u3081\u306E\u30A8\u30EA\u30A2\u3092\u610F\u8B58\u3057\u307E\u3057\u3087\u3046";
+        return shortBad >= 4 ? `\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\xD7${fmtN(shortBad)}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u306E\u7CBE\u5EA6\u304C\u6700\u91CD\u8981\u8AB2\u984C` : "\u5BC4\u305B\u5F8C\u306B1\u30D1\u30C3\u30C8\u3067\u4E0A\u304C\u308B\u305F\u3081\u306E\u30A8\u30EA\u30A2\u3092\u610F\u8B58\u3057\u307E\u3057\u3087\u3046";
       }
-      return shortBad >= 4 ? `\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\xD7${shortBad}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u306E\u7CBE\u5EA6\u304C\u6700\u91CD\u8981\u8AB2\u984C` : sa.avgAfterPutts > 2.3 ? band.id === "S" || band.id === "A+" || band.id === "A" ? `\u5BC4\u305B\u5F8C\u306E\u5E73\u5747${sa.avgAfterPutts}\u30D1\u30C3\u30C8\u3002\u30D4\u30F32m\u4EE5\u5185\u306E\u5BC4\u305B\u7387\u3092\u610F\u8B58\u3057\u3088\u3046` : `\u5BC4\u305B\u5F8C\u306E\u5E73\u5747${sa.avgAfterPutts}\u30D1\u30C3\u30C8\u3002\u5BC4\u305B\u7CBE\u5EA6\u3092\u9AD8\u3081\u3066\u30D1\u30C3\u30C8\u3092\u697D\u306B\u3057\u3088\u3046` : shortGood >= shortTotal * 0.6 ? `\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\u25CB${shortGood}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u304C\u5F37\u307F\u3067\u3059` : "\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\u306E\u5B89\u5B9A\u611F\u3092\u3082\u3046\u5C11\u3057\u4E0A\u3052\u307E\u3057\u3087\u3046";
+      return shortBad >= 4 ? `\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\xD7${fmtN(shortBad)}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u306E\u7CBE\u5EA6\u304C\u6700\u91CD\u8981\u8AB2\u984C` : sa.avgAfterPutts > 2.3 ? band.id === "S" || band.id === "A+" || band.id === "A" ? `\u5BC4\u305B\u5F8C\u306E\u5E73\u5747${sa.avgAfterPutts}\u30D1\u30C3\u30C8\u3002\u30D4\u30F32m\u4EE5\u5185\u306E\u5BC4\u305B\u7387\u3092\u610F\u8B58\u3057\u3088\u3046` : `\u5BC4\u305B\u5F8C\u306E\u5E73\u5747${sa.avgAfterPutts}\u30D1\u30C3\u30C8\u3002\u5BC4\u305B\u7CBE\u5EA6\u3092\u9AD8\u3081\u3066\u30D1\u30C3\u30C8\u3092\u697D\u306B\u3057\u3088\u3046` : shortGood >= shortTotal * 0.6 ? `\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\u25CB${fmtN(shortGood)}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u304C\u5F37\u307F\u3067\u3059` : "\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\u306E\u5B89\u5B9A\u611F\u3092\u3082\u3046\u5C11\u3057\u4E0A\u3052\u307E\u3057\u3087\u3046";
     })(),
-    putt: threePutts >= 4 ? `3\u30D1\u30C3\u30C8${threePutts}\u56DE\u304C\u75DB\u3044\u3002\u30ED\u30F3\u30B0\u30D1\u30C3\u30C8\u306E\u8DDD\u96E2\u611F\u304C\u6700\u91CD\u8981\u8AB2\u984C` : threePutts >= 2 ? `3\u30D1\u30C3\u30C8${threePutts}\u56DE\u3002\u30D5\u30A1\u30FC\u30B9\u30C8\u30D1\u30C3\u30C8\u306E\u7CBE\u5EA6\u3092\u4E0A\u3052\u308B\u3053\u3068\u304C\u5148\u6C7A` : sa.totalPutts > puttRef + 2 ? `\u30D1\u30C3\u30C8\u6570\u591A\u3081\uFF08${sa.totalPutts}\u30D1\u30C3\u30C8\uFF09\u3002\u30B0\u30EA\u30FC\u30F3\u4E0A\u306E\u5B89\u5B9A\u611F\u3092\u9AD8\u3081\u305F\u3044` : sa.totalPutts <= puttRef - 8 ? `\u30D1\u30C3\u30C8${sa.totalPutts}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u4E0A\u304C\u5927\u304D\u306A\u6B66\u5668\u3067\u3059` : `\u30D1\u30C3\u30C8${sa.totalPutts}\u56DE\u3002\u6A19\u6E96\u7684\u306A\u6C34\u6E96\u3067\u3059`,
+    putt: threePutts >= 4 ? `3\u30D1\u30C3\u30C8${fmtN(threePutts)}\u56DE\u304C\u75DB\u3044\u3002\u30ED\u30F3\u30B0\u30D1\u30C3\u30C8\u306E\u8DDD\u96E2\u611F\u304C\u6700\u91CD\u8981\u8AB2\u984C` : threePutts >= 2 ? `3\u30D1\u30C3\u30C8${fmtN(threePutts)}\u56DE\u3002\u30D5\u30A1\u30FC\u30B9\u30C8\u30D1\u30C3\u30C8\u306E\u7CBE\u5EA6\u3092\u4E0A\u3052\u308B\u3053\u3068\u304C\u5148\u6C7A` : sa.totalPutts > puttRef + 2 ? `\u30D1\u30C3\u30C8\u6570\u591A\u3081\uFF08${sa.totalPutts}\u30D1\u30C3\u30C8\uFF09\u3002\u30B0\u30EA\u30FC\u30F3\u4E0A\u306E\u5B89\u5B9A\u611F\u3092\u9AD8\u3081\u305F\u3044` : sa.totalPutts <= puttRef - 8 ? `\u30D1\u30C3\u30C8${sa.totalPutts}\u56DE\u3002\u30B0\u30EA\u30FC\u30F3\u4E0A\u304C\u5927\u304D\u306A\u6B66\u5668\u3067\u3059` : `\u30D1\u30C3\u30C8${sa.totalPutts}\u56DE\u3002\u6A19\u6E96\u7684\u306A\u6C34\u6E96\u3067\u3059`,
     bunker: (() => {
       if (!sa.bunkerHoleCount) return "\u30D0\u30F3\u30AB\u30FC\u306A\u3057\u3002\u7D20\u6674\u3089\u3057\u3044\u30B3\u30FC\u30B9\u7BA1\u7406\u3067\u3059";
       const g = gradeOf(sa.bunkerScore);
       if (g.label === "S" || g.label === "A") {
-        return `\u30D0\u30F3\u30AB\u30FC${sa.bunkerHoleCount}\u56DE\u3002\u30B9\u30B3\u30A2\u3078\u306E\u5F71\u97FF\u306F\u6700\u5C0F\u9650\u306B\u6291\u3048\u3089\u308C\u3066\u3044\u307E\u3059`;
+        return `\u30D0\u30F3\u30AB\u30FC${fmtN(sa.bunkerHoleCount)}\u56DE\u3002\u30B9\u30B3\u30A2\u3078\u306E\u5F71\u97FF\u306F\u6700\u5C0F\u9650\u306B\u6291\u3048\u3089\u308C\u3066\u3044\u307E\u3059`;
       }
       if (g.label === "B") {
-        return `\u30D0\u30F3\u30AB\u30FC${sa.bunkerHoleCount}\u56DE\u3002\u307E\u305A\u307E\u305A\u306E\u5BFE\u51E6\u304C\u3067\u304D\u3066\u3044\u307E\u3059`;
+        return `\u30D0\u30F3\u30AB\u30FC${fmtN(sa.bunkerHoleCount)}\u56DE\u3002\u307E\u305A\u307E\u305A\u306E\u5BFE\u51E6\u304C\u3067\u304D\u3066\u3044\u307E\u3059`;
       }
-      return sa.bunkerHoleCount >= 4 ? `\u30D0\u30F3\u30AB\u30FC${sa.bunkerHoleCount}\u56DE\u3002\u56DE\u907F\u30DE\u30CD\u30B8\u30E1\u30F3\u30C8\u3092\u610F\u8B58\u3057\u3066` : `\u30D0\u30F3\u30AB\u30FC${sa.bunkerHoleCount}\u56DE\u3002\u307E\u305A\u8131\u51FA\u3092\u6700\u512A\u5148\u306B`;
+      return sa.bunkerHoleCount >= 4 ? `\u30D0\u30F3\u30AB\u30FC${fmtN(sa.bunkerHoleCount)}\u56DE\u3002\u56DE\u907F\u30DE\u30CD\u30B8\u30E1\u30F3\u30C8\u3092\u610F\u8B58\u3057\u3066` : `\u30D0\u30F3\u30AB\u30FC${fmtN(sa.bunkerHoleCount)}\u56DE\u3002\u307E\u305A\u8131\u51FA\u3092\u6700\u512A\u5148\u306B`;
     })()
   };
   const categories = [
@@ -2334,8 +2337,8 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId) {
   const currentRoundData = (rounds || []).find((r) => r.id === roundId);
   const currentDateNum = currentRoundData ? dateToNum(currentRoundData.date) : Infinity;
   const prevRounds = (rounds || []).filter((r) => r.isComplete && r.id !== roundId && Object.keys(r.simpleHoleData || {}).length > 0).filter((r) => {
-    const rCount = Object.keys(r.simpleHoleData || {}).length;
-    if (!(is9H ? rCount <= 12 : rCount > 12)) return false;
+    const rCount2 = Object.keys(r.simpleHoleData || {}).length;
+    if (!(is9H ? rCount2 <= 12 : rCount2 > 12)) return false;
     return dateToNum(r.date) < currentDateNum;
   }).sort((a, b) => dateToNum(b.date) - dateToNum(a.date));
   let trend = null;
@@ -2371,11 +2374,12 @@ function scoreDiffSymbol(diff) {
   if (diff === 3) return { sym: "\u25A0", color: "#1d4ed8" };
   return { sym: `+${diff}`, color: "#1e3a8a" };
 }
-function AiDiagnosisPanel({ sa, shd, hcp, rounds, roundId, teeRates = null, showTrend = true, label = "AI \u30B9\u30B3\u30A2\u8A3A\u65AD", roundCount = null, dateRange = null }) {
+function AiDiagnosisPanel({ sa, sa5 = null, shd, hcp, rounds, roundId, teeRates = null, showTrend = true, label = "AI \u30B9\u30B3\u30A2\u8A3A\u65AD", roundCount = null, dateRange = null, radarSlot = null }) {
+  var _a;
   const [showDefs, setShowDefs] = useState(false);
   let d;
   try {
-    d = generateDiagnosis(sa, shd, hcp, rounds, roundId);
+    d = generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount, (_a = sa5 == null ? void 0 : sa5.totalScore) != null ? _a : null);
   } catch (e) {
     return null;
   }
@@ -2390,7 +2394,7 @@ function AiDiagnosisPanel({ sa, shd, hcp, rounds, roundId, teeRates = null, show
         .dag5{animation:diagUp .4s ease .35s both}
         @keyframes barGrow { from{width:0} }
         .dbar{animation:barGrow .8s cubic-bezier(.4,0,.2,1) .3s both}
-      `), /* @__PURE__ */ React.createElement("div", { className: "dag0", style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px" } }, "\u{1F916}"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#a78bfa", letterSpacing: ".06em" } }, label), roundCount != null && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#64748b", background: "rgba(167,139,250,.12)", borderRadius: "4px", padding: "1px 6px" } }, roundCount, "\u30E9\u30A6\u30F3\u30C9\u5E73\u5747"), dateRange && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#475569" } }, dateRange), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "1px", background: "linear-gradient(to right,rgba(167,139,250,.4),transparent)" } })), /* @__PURE__ */ React.createElement("div", { className: "dag1", style: { background: "rgba(167,139,250,.07)", border: "1px solid rgba(167,139,250,.2)", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "24px" } }, d.lvl.emoji), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b", marginBottom: "2px", textTransform: "uppercase", letterSpacing: ".08em" } }, "\u7DCF\u5408\u8A55\u4FA1"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "17px", fontWeight: "900", color: d.lvl.color } }, d.lvl.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b", marginTop: "2px" } }, "HC ", hcp, " (", d.band.label, ")")), /* @__PURE__ */ React.createElement("div", { style: { marginLeft: "auto", textAlign: "right" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "22px", fontWeight: "800", color: d.gap >= 0 ? "#f97316" : "#16a34a", lineHeight: 1 } }, d.gap >= 0 ? "+" : "", d.gap), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b" } }, "\u671F\u5F85", d.expectedScore, "\u6BD4"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#94a3b8", lineHeight: 1.65 } }, d.lvl.comment)), /* @__PURE__ */ React.createElement("div", { className: "dag2", style: { background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.06)", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "5px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u{1F4CA}"), /* @__PURE__ */ React.createElement("span", null, "5\u8981\u7D20\u5206\u6790")), /* @__PURE__ */ React.createElement(
+      `), /* @__PURE__ */ React.createElement("div", { className: "dag0", style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px" } }, "\u{1F916}"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#a78bfa", letterSpacing: ".06em" } }, label), roundCount != null && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#64748b", background: "rgba(167,139,250,.12)", borderRadius: "4px", padding: "1px 6px" } }, roundCount, "\u30E9\u30A6\u30F3\u30C9\u5E73\u5747"), dateRange && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#475569" } }, dateRange), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "1px", background: "linear-gradient(to right,rgba(167,139,250,.4),transparent)" } })), /* @__PURE__ */ React.createElement("div", { className: "dag1", style: { background: "rgba(167,139,250,.07)", border: "1px solid rgba(167,139,250,.2)", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "24px" } }, d.lvl.emoji), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b", marginBottom: "2px", textTransform: "uppercase", letterSpacing: ".08em" } }, "\u7DCF\u5408\u8A55\u4FA1"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "17px", fontWeight: "900", color: d.lvl.color } }, d.lvl.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b", marginTop: "2px" } }, "HC ", hcp, " (", d.band.label, ")")), /* @__PURE__ */ React.createElement("div", { style: { marginLeft: "auto", textAlign: "right" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "22px", fontWeight: "800", color: d.gap >= 0 ? "#f97316" : "#16a34a", lineHeight: 1 } }, d.gap >= 0 ? "+" : "", d.gap), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b" } }, sa5 ? "\u76F4\u8FD15R\u5E73\u5747\uFF0F" : "", "\u671F\u5F85", d.expectedScore, "\u6BD4"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#94a3b8", lineHeight: 1.65 } }, d.lvl.comment)), radarSlot, /* @__PURE__ */ React.createElement("div", { className: "dag2", style: { background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.06)", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "10px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "5px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u{1F4CA}"), /* @__PURE__ */ React.createElement("span", null, "5\u8981\u7D20\u5206\u6790")), /* @__PURE__ */ React.createElement(
     "button",
     {
       onClick: () => setShowDefs(!showDefs),
@@ -2408,7 +2412,7 @@ function AiDiagnosisPanel({ sa, shd, hcp, rounds, roundId, teeRates = null, show
       "aria-label": "\u7528\u8A9E\u306E\u5B9A\u7FA9\u3092\u8868\u793A/\u975E\u8868\u793A"
     },
     "\u2139 \u7528\u8A9E"
-  )), showDefs && /* @__PURE__ */ React.createElement("div", { style: {
+  )), sa5 && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: "8px", fontSize: "8px", color: "#64748b", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#fbbf24", fontWeight: "700", minWidth: "32px", textAlign: "center" } }, "\u76F4\u8FD15R"), /* @__PURE__ */ React.createElement("span", { style: { color: "#0ea5e9", fontWeight: "700", minWidth: "32px", textAlign: "center" } }, "\u76F4\u8FD120R")), showDefs && /* @__PURE__ */ React.createElement("div", { style: {
     fontSize: "9px",
     color: "#cbd5e1",
     background: "rgba(167,139,250,0.08)",
@@ -2418,10 +2422,27 @@ function AiDiagnosisPanel({ sa, shd, hcp, rounds, roundId, teeRates = null, show
     marginBottom: "10px",
     lineHeight: 1.6
   } }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "3px" } }, /* @__PURE__ */ React.createElement("b", { style: { color: "#c4b5fd" } }, "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8"), ": Par4/5\u306E\u6700\u521D\u306E\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\uFF08Par3\u306F\u9664\u5916\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "3px" } }, /* @__PURE__ */ React.createElement("b", { style: { color: "#c4b5fd" } }, "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0"), ": 100Y\u8D85\u306E\u30B7\u30E7\u30C3\u30C8\uFF08Par3\u3067100Y\u8D85\u306E\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u542B\u3080\uFF09"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("b", { style: { color: "#c4b5fd" } }, "\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0"), ": 100Y\u4EE5\u5185\u306E\u30B7\u30E7\u30C3\u30C8\uFF08Par3\u3067100Y\u4EE5\u5185\u306E\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u542B\u3080\uFF09")), d.categories.map((cat) => {
-    var _a;
-    const g = d.gradeOf(cat.score, cat.hcpForGrade, cat.idealGIRForGrade, cat.isShort, cat.isDetailMode);
-    const ds = cat.displayScore;
-    return /* @__PURE__ */ React.createElement("div", { key: cat.key, style: { marginBottom: "9px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", width: "18px" } }, cat.icon), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#c4b5fd", minWidth: "74px", flexShrink: 0, whiteSpace: "nowrap" } }, cat.label), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "6px", background: "rgba(255,255,255,.07)", borderRadius: "3px", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { className: "dbar", style: { height: "100%", width: d.barW(ds), background: `linear-gradient(to right,${d.barC(ds)}66,${d.barC(ds)})`, borderRadius: "3px" } })), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8", fontWeight: "700", minWidth: "42px", textAlign: "right" } }, (cat.score >= 0 ? "+" : "") + ((_a = cat.score) != null ? _a : 0).toFixed(1)), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "900", color: g.color, width: "16px", textAlign: "center" } }, g.label)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#64748b", paddingLeft: "24px", lineHeight: 1.5 } }, cat.insight));
+    const g20 = d.gradeOf(cat.score, cat.hcpForGrade, cat.idealGIRForGrade, cat.isShort, cat.isDetailMode);
+    const score5 = sa5 ? (() => {
+      var _a2;
+      const keyMap = { tee: "teeScore", long: "longScore", short: "shortScore", putt: "puttScore", bunker: "bunkerScore" };
+      return (_a2 = sa5[keyMap[cat.key]]) != null ? _a2 : null;
+    })() : null;
+    const useScore = score5 != null ? score5 : cat.score;
+    const g5 = score5 != null ? d.gradeOf(score5, cat.hcpForGrade, cat.idealGIRForGrade, cat.isShort, cat.isDetailMode) : g20;
+    const ds5 = score5 != null ? cat.hcpForGrade !== null ? d.normalizeTeeScore ? d.normalizeTeeScore(score5, cat.hcpForGrade) : score5 : cat.idealGIRForGrade !== null ? score5 : score5 : cat.displayScore;
+    const computeDs5 = (() => {
+      if (cat.hcpForGrade !== null) {
+        const h = Math.max(0.1, cat.hcpForGrade);
+        return (useScore >= 0 ? useScore / (h * 0.3) : useScore / (h * 0.15)) * 1.5;
+      }
+      if (cat.idealGIRForGrade !== null) {
+        const ig = Math.max(0.01, cat.idealGIRForGrade);
+        return useScore / ig * (1.5 / 0.3);
+      }
+      return useScore;
+    })();
+    return /* @__PURE__ */ React.createElement("div", { key: cat.key, style: { marginBottom: "9px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", width: "18px" } }, cat.icon), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#c4b5fd", minWidth: "74px", flexShrink: 0, whiteSpace: "nowrap" } }, cat.label), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "6px", background: "rgba(255,255,255,.07)", borderRadius: "3px", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { className: "dbar", style: { height: "100%", width: d.barW(computeDs5), background: `linear-gradient(to right,${d.barC(computeDs5)}66,${d.barC(computeDs5)})`, borderRadius: "3px" } })), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8", fontWeight: "700", minWidth: "42px", textAlign: "right" } }, (useScore >= 0 ? "+" : "") + (useScore != null ? useScore : 0).toFixed(1)), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "900", color: g5.color, width: "22px", textAlign: "center" } }, g5.label), sa5 && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: g20.color, width: "22px", textAlign: "center", opacity: 0.7 } }, g20.label)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#64748b", paddingLeft: "24px", lineHeight: 1.5 } }, cat.insight));
   })), d.weaknesses.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "dag3", style: { marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "8px", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u26A0\uFE0F"), /* @__PURE__ */ React.createElement("span", null, "\u6539\u5584\u8AB2\u984C\uFF08\u512A\u5148\u9806\uFF09")), d.weaknesses.map((w, i) => /* @__PURE__ */ React.createElement("div", { key: w.key, style: { display: "flex", alignItems: "flex-start", gap: "8px", marginBottom: "6px", padding: "9px 11px", background: "rgba(239,68,68,.05)", border: "1px solid rgba(239,68,68,.1)", borderRadius: "8px", borderLeft: `3px solid ${["#dc2626", "#fbbf24", "#94a3b8"][i]}` } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "14px", fontWeight: "900", color: ["#dc2626", "#fbbf24", "#94a3b8"][i], flexShrink: 0, lineHeight: 1.4 } }, i + 1), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", fontWeight: "800", color: "#e2e8f0", marginBottom: "2px" } }, w.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#64748b", lineHeight: 1.5 } }, w.insight))))), /* @__PURE__ */ React.createElement("div", { className: "dag4", style: { marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "8px", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u{1F4A1}"), /* @__PURE__ */ React.createElement("span", null, "\u6539\u5584\u30A2\u30C9\u30D0\u30A4\u30B9")), d.advice.map((a, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { display: "flex", gap: "8px", alignItems: "flex-start", marginBottom: "6px", padding: "9px 11px", background: "rgba(167,139,250,.05)", border: "1px solid rgba(167,139,250,.12)", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "800", color: a.priorityColor, background: `${a.priorityColor}18`, borderRadius: "4px", padding: "2px 7px", flexShrink: 0, whiteSpace: "nowrap" } }, a.priority), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", color: "#94a3b8", lineHeight: 1.65 } }, a.text)))), showTrend && d.trend && /* @__PURE__ */ React.createElement("div", { className: "dag5", style: { padding: "10px 12px", background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.07)", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b" } }, "\u{1F4C8} \u30C8\u30EC\u30F3\u30C9"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "800", color: d.trend.color } }, d.trend.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#475569", marginLeft: "auto" } }, "\u524D\u56DE: ", d.trend.prevDate)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.6 } }, d.trend.text)));
 }
 function deriveSimpleHoleData(holeData, holePars) {
@@ -3334,7 +3355,7 @@ function GolfTracker() {
       fontWeight: "700",
       fontSize: "13px"
     }, v === "primary" && { background: "linear-gradient(135deg,#f59e0b,#ea580c)", color: "#ffffff", boxShadow: "0 3px 10px rgba(245,158,11,0.30)" }), v === "secondary" && { background: "#f1f5f9", color: "#475569", border: "1px solid #e2e8f0" }), v === "danger" && { background: "rgba(220,38,38,0.08)", color: "#dc2626", border: "1px solid rgba(220,38,38,0.30)" }), v === "ghost" && { background: "transparent", color: "#94a3b8", padding: "5px 9px", fontSize: "12px" }), v === "undo" && { background: "rgba(245,158,11,0.10)", color: "#d97706", border: "1px solid rgba(245,158,11,0.30)", padding: "8px 14px", fontSize: "12px" }),
-    input: { width: "100%", padding: "10px 13px", borderRadius: "8px", border: "1px solid #e2e8f0", background: "#ffffff", color: "#1e293b", fontSize: "13px", outline: "none", boxSizing: "border-box" },
+    input: { width: "100%", padding: "10px 13px", borderRadius: "8px", border: "1px solid #e2e8f0", background: "#ffffff", color: "#1e293b", fontSize: "16px", outline: "none", boxSizing: "border-box" },
     lbl: { fontSize: "10px", fontWeight: "700", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px", display: "block" },
     modal: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.50)", backdropFilter: "blur(6px)", display: "flex", alignItems: "flex-end", zIndex: 200 },
     modalBox: { background: "#ffffff", borderRadius: "18px 18px 0 0", padding: "20px 16px 36px", width: "100%", maxWidth: "480px", margin: "0 auto", border: "1px solid #e2e8f0", maxHeight: "88vh", overflowY: "auto" },
@@ -3562,7 +3583,19 @@ function GolfTracker() {
       } }, label))), groups.map((g) => /* @__PURE__ */ React.createElement("div", { key: g.label }, /* @__PURE__ */ React.createElement("div", { id: `venue-row-${g.label}`, style: { padding: "4px 12px", fontSize: "10px", fontWeight: "800", color: "#94a3b8", background: "#f8fafc", letterSpacing: "0.05em", borderBottom: "1px solid #f1f5f9" } }, g.label), g.venues.map((v) => /* @__PURE__ */ React.createElement(VenueItem, { key: v.id, v })))))));
     })()), venue && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, venue.subCourses.length === 1 ? "\u30B3\u30FC\u30B9" : "\u524D\u534A\u30B3\u30FC\u30B9"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, selRow(venue.subCourses.map((c, i) => ({ id: i, label: c.name })), selectedCourseA, setSelectedCourseA, "#34d399")), venue.subCourses.length > 1 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u5F8C\u534A\u30B3\u30FC\u30B9"), selRow(venue.subCourses.map((c, i) => ({ id: i, label: c.name })), selectedCourseB, setSelectedCourseB, "#60a5fa"))), venue && selectedCourseA !== null && selectedCourseB !== null && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u4F7F\u7528\u30B0\u30EA\u30FC\u30F3"), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, selRow(venue.greens, selectedGreen, setSelectedGreen, "#34d399")), /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30C6\u30A3\u30FC"), selRow(venue.tees, selectedTee, setSelectedTee, "#fbbf24")), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u65E5\u4ED8"), /* @__PURE__ */ React.createElement("input", { type: "date", value: selectedDate.replace(/\//g, "-"), onChange: (e) => {
       if (e.target.value) setSelectedDate(e.target.value.replace(/-/g, "/"));
-    }, style: __spreadProps(__spreadValues({}, S.input), { colorScheme: "dark" }) })), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u5929\u6C17"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px", marginBottom: "12px" } }, [{ id: "sunny", label: "\u2600\uFE0F \u6674\u308C" }, { id: "cloudy", label: "\u2601\uFE0F \u66C7\u308A" }, { id: "rainy", label: "\u{1F327}\uFE0F \u96E8" }, { id: "snowy", label: "\u2744\uFE0F \u96EA" }].map((w) => /* @__PURE__ */ React.createElement("button", { key: w.id, onClick: () => setSelectedWeather(w.id), style: { flex: 1, padding: "8px 4px", borderRadius: "8px", cursor: "pointer", fontWeight: "600", fontSize: "12px", border: selectedWeather === w.id ? "2px solid #16a34a" : "1px solid #e2e8f0", background: selectedWeather === w.id ? "rgba(14,165,233,0.12)" : "#f8fafc", color: selectedWeather === w.id ? "#0ea5e9" : "#64748b" } }, w.label))), /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u98A8\u306E\u5F37\u3055"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "5px" } }, [{ val: 0, sub: "\u7121\u98A8" }, { val: 1, sub: "\u5FAE\u98A8" }, { val: 2, sub: "\u5F31\u98A8" }, { val: 3, sub: "\u4E2D\u98A8" }, { val: 4, sub: "\u5F37\u3081" }, { val: 5, sub: "\u5F37\u98A8" }].map((w) => /* @__PURE__ */ React.createElement("button", { key: w.val, onClick: () => setSelectedWind(w.val), style: { flex: 1, padding: "8px 2px", borderRadius: "8px", cursor: "pointer", fontWeight: "700", fontSize: "13px", border: selectedWind === w.val ? "2px solid #fbbf24" : "1px solid #e2e8f0", background: selectedWind === w.val ? "rgba(251,191,36,0.15)" : "#f8fafc", color: selectedWind === w.val ? "#fbbf24" : "#64748b", display: "flex", flexDirection: "column", alignItems: "center", gap: "1px" } }, /* @__PURE__ */ React.createElement("span", null, w.val), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "8px", fontWeight: "500", opacity: 0.7 } }, w.sub))))), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30E9\u30A6\u30F3\u30C9\u30E1\u30E2\uFF08\u4EFB\u610F\u30FB20\u6587\u5B57\u4EE5\u5185\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { position: "relative" } }, /* @__PURE__ */ React.createElement("input", { style: __spreadProps(__spreadValues({}, S.input), { paddingRight: "42px" }), placeholder: "\u4F8B\uFF1A\u521D\u30E9\u30A6\u30F3\u30C9\u3001\u98A8\u5F37\u3081...", value: roundMemo, maxLength: 20, onChange: (e) => setRoundMemo(e.target.value.slice(0, 20)) }), /* @__PURE__ */ React.createElement("span", { style: { position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", fontSize: "11px", color: roundMemo.length >= 20 ? "#ef4444" : "#475569", pointerEvents: "none" } }, roundMemo.length, "/20"))), inputMode === "detail" && venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u{1F3AF} \u4ECA\u65E5\u306E\u76EE\u6A19\uFF08\u4EFB\u610F\u30FB1\u3064\u9078\u629E\uFF09"), /* @__PURE__ */ React.createElement(
+    }, style: __spreadProps(__spreadValues({}, S.input), { colorScheme: "dark" }) })), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u5929\u6C17"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px", marginBottom: "12px" } }, [{ id: "sunny", label: "\u2600\uFE0F \u6674\u308C" }, { id: "cloudy", label: "\u2601\uFE0F \u66C7\u308A" }, { id: "rainy", label: "\u{1F327}\uFE0F \u96E8" }, { id: "snowy", label: "\u2744\uFE0F \u96EA" }].map((w) => /* @__PURE__ */ React.createElement("button", { key: w.id, onClick: () => setSelectedWeather(w.id), style: { flex: 1, padding: "8px 4px", borderRadius: "8px", cursor: "pointer", fontWeight: "600", fontSize: "12px", border: selectedWeather === w.id ? "2px solid #16a34a" : "1px solid #e2e8f0", background: selectedWeather === w.id ? "rgba(14,165,233,0.12)" : "#f8fafc", color: selectedWeather === w.id ? "#0ea5e9" : "#64748b" } }, w.label))), /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u98A8\u306E\u5F37\u3055"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "5px" } }, [{ val: 0, sub: "\u7121\u98A8" }, { val: 1, sub: "\u5FAE\u98A8" }, { val: 2, sub: "\u5F31\u98A8" }, { val: 3, sub: "\u4E2D\u98A8" }, { val: 4, sub: "\u5F37\u3081" }, { val: 5, sub: "\u5F37\u98A8" }].map((w) => /* @__PURE__ */ React.createElement("button", { key: w.val, onClick: () => setSelectedWind(w.val), style: { flex: 1, padding: "8px 2px", borderRadius: "8px", cursor: "pointer", fontWeight: "700", fontSize: "13px", border: selectedWind === w.val ? "2px solid #fbbf24" : "1px solid #e2e8f0", background: selectedWind === w.val ? "rgba(251,191,36,0.15)" : "#f8fafc", color: selectedWind === w.val ? "#fbbf24" : "#64748b", display: "flex", flexDirection: "column", alignItems: "center", gap: "1px" } }, /* @__PURE__ */ React.createElement("span", null, w.val), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "8px", fontWeight: "500", opacity: 0.7 } }, w.sub))))), venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30E9\u30A6\u30F3\u30C9\u30E1\u30E2\uFF08\u4EFB\u610F\u30FB20\u6587\u5B57\u4EE5\u5185\uFF09"), /* @__PURE__ */ React.createElement(
+      "input",
+      {
+        type: "text",
+        inputMode: "text",
+        enterKeyHint: "done",
+        style: __spreadValues({}, S.input),
+        placeholder: "\u4F8B\uFF1A\u521D\u30E9\u30A6\u30F3\u30C9\u3001\u98A8\u5F37\u3081...",
+        value: roundMemo,
+        maxLength: 20,
+        onChange: (e) => setRoundMemo(e.target.value.slice(0, 20))
+      }
+    ), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "right", fontSize: "11px", color: roundMemo.length >= 20 ? "#ef4444" : "#475569", marginTop: "3px" } }, roundMemo.length, "/20")), inputMode === "detail" && venue && selectedGreen && selectedTee && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u{1F3AF} \u4ECA\u65E5\u306E\u76EE\u6A19\uFF08\u4EFB\u610F\u30FB1\u3064\u9078\u629E\uFF09"), /* @__PURE__ */ React.createElement(
       "button",
       {
         onClick: () => setRoundGoal({ type: null, target: 1 }),
@@ -4015,67 +4048,73 @@ function GolfTracker() {
     const formatDate = (d) => `${d.getFullYear()}/${d.getMonth() + 1}/${d.getDate()}`;
     const completed = [...rounds.filter((r) => r.isComplete && r.hcp != null && Object.keys(r.simpleHoleData || {}).length > 0)].sort((a, b) => dateToNum(b.date) - dateToNum(a.date));
     if (completed.length === 0) {
-      return /* @__PURE__ */ React.createElement("div", { style: { padding: "14px 16px", background: "#f5f3ff", border: "1px solid rgba(167,139,250,.12)", borderRadius: "12px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "18px" } }, "\u{1F916}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", fontWeight: "700", color: "#a78bfa", marginBottom: "2px" } }, "\u76F4\u8FD11\u30F6\u6708 \u5E73\u5747AI\u8A3A\u65AD"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b" } }, "HCP\u3092\u8A2D\u5B9A\u3057\u3066\u304B\u3089\u30E9\u30A6\u30F3\u30C9\u3092\u8A18\u9332\u3059\u308B\u3068\u5229\u7528\u3067\u304D\u307E\u3059")));
+      return /* @__PURE__ */ React.createElement("div", { style: { padding: "14px 16px", background: "#f5f3ff", border: "1px solid rgba(167,139,250,.12)", borderRadius: "12px", marginBottom: "16px", display: "flex", alignItems: "center", gap: "10px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "18px" } }, "\u{1F916}"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", fontWeight: "700", color: "#a78bfa", marginBottom: "2px" } }, "\u76F4\u8FD120\u30E9\u30A6\u30F3\u30C9 \u5E73\u5747AI\u8A3A\u65AD"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b" } }, "HCP\u3092\u8A2D\u5B9A\u3057\u3066\u304B\u3089\u30E9\u30A6\u30F3\u30C9\u3092\u8A18\u9332\u3059\u308B\u3068\u5229\u7528\u3067\u304D\u307E\u3059")));
     }
-    const latestDate = parseDate(completed[0].date);
-    const oneMonthAgo = new Date(latestDate);
-    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-    const targetRounds = completed.filter((r) => parseDate(r.date) >= oneMonthAgo);
-    if (targetRounds.length === 0) return /* @__PURE__ */ React.createElement("div", { style: { padding: "12px 14px", background: "rgba(255,255,255,.02)", border: "1px solid rgba(255,255,255,.07)", borderRadius: "10px", marginBottom: "16px", fontSize: "11px", color: "#64748b" } }, "\u{1F916} \u76F4\u8FD11\u30F6\u6708\u306E\u30E9\u30A6\u30F3\u30C9\u304C\u3042\u308A\u307E\u305B\u3093");
+    const targetRounds = completed.slice(0, 20);
+    const target5Rounds = completed.slice(0, 5);
     const teeRatesAna = calcHistoricalTeeRates(rounds);
-    const saList = targetRounds.map(
-      (r) => {
-        var _a2;
-        return calcAnalytics(r, (_a2 = r.hcp) != null ? _a2 : null, teeRatesAna);
-      }
-    ).filter(Boolean);
-    if (!saList.length) return null;
     const avgN = (arr) => {
       const v = arr.filter((x) => x != null);
       return v.length ? v.reduce((s, x) => s + x, 0) / v.length : null;
     };
-    const avgSa = {
-      teeScore: avgN(saList.map((s) => s.teeScore)),
-      longScore: avgN(saList.map((s) => s.longScore)),
-      shortScore: avgN(saList.map((s) => s.shortScore)),
-      puttScore: avgN(saList.map((s) => s.puttScore)),
-      bunkerScore: saList.some((s) => s.bunkerScore != null) ? avgN(saList.filter((s) => s.bunkerScore != null).map((s) => s.bunkerScore)) : null,
-      idealGIR: avgN(saList.filter((s) => s.idealGIR != null).map((s) => s.idealGIR)),
-      totalScore: avgN(saList.map((s) => s.totalScore)),
-      totalPar: avgN(saList.map((s) => s.totalPar)),
-      totalPutts: Math.round(avgN(saList.map((s) => s.totalPutts)) * 10) / 10,
-      totalOB: Math.round(avgN(saList.map((s) => s.totalOB)) * 10) / 10,
-      totalPen: Math.round(avgN(saList.map((s) => s.totalPen)) * 10) / 10,
-      totalBunker: Math.round(avgN(saList.map((s) => s.totalBunker)) * 10) / 10,
-      holeCount: Math.round(avgN(saList.map((s) => s.holeCount))),
-      avgAfterPutts: Math.round(avgN(saList.map((s) => s.avgAfterPutts)) * 10) / 10,
-      bunkerHoleCount: Math.round(avgN(saList.map((s) => s.bunkerHoleCount)) * 10) / 10,
-      // AIインサイト用：全ラウンドの品質配列を結合
-      longShotQuals: saList.flatMap((s) => s.longShotQuals || []),
-      shortShotQuals: saList.flatMap((s) => s.shortShotQuals || [])
+    const buildAvgSa = (rList) => {
+      const sList = rList.map((r) => {
+        var _a2;
+        return calcAnalytics(r, (_a2 = r.hcp) != null ? _a2 : null, teeRatesAna);
+      }).filter(Boolean);
+      if (!sList.length) return null;
+      return {
+        teeScore: avgN(sList.map((s) => s.teeScore)),
+        longScore: avgN(sList.map((s) => s.longScore)),
+        shortScore: avgN(sList.map((s) => s.shortScore)),
+        puttScore: avgN(sList.map((s) => s.puttScore)),
+        bunkerScore: sList.some((s) => s.bunkerScore != null) ? avgN(sList.filter((s) => s.bunkerScore != null).map((s) => s.bunkerScore)) : null,
+        idealGIR: avgN(sList.filter((s) => s.idealGIR != null).map((s) => s.idealGIR)),
+        totalScore: avgN(sList.map((s) => s.totalScore)),
+        totalPar: avgN(sList.map((s) => s.totalPar)),
+        totalPutts: Math.round(avgN(sList.map((s) => s.totalPutts)) * 10) / 10,
+        totalOB: Math.round(avgN(sList.map((s) => s.totalOB)) * 10) / 10,
+        totalPen: Math.round(avgN(sList.map((s) => s.totalPen)) * 10) / 10,
+        totalBunker: Math.round(avgN(sList.map((s) => s.totalBunker)) * 10) / 10,
+        holeCount: Math.round(avgN(sList.map((s) => s.holeCount))),
+        avgAfterPutts: Math.round(avgN(sList.map((s) => s.avgAfterPutts)) * 10) / 10,
+        bunkerHoleCount: Math.round(avgN(sList.map((s) => s.bunkerHoleCount)) * 10) / 10,
+        longShotQuals: sList.flatMap((s) => s.longShotQuals || []),
+        shortShotQuals: sList.flatMap((s) => s.shortShotQuals || []),
+        isDetailMode: sList.some((s) => s.isDetailMode)
+      };
     };
-    const flatShd = {};
-    let idx = 0;
-    targetRounds.forEach((r) => {
-      Object.values(r.simpleHoleData || {}).forEach((hd2) => {
-        flatShd[idx++] = hd2;
+    const avgSa = buildAvgSa(targetRounds);
+    const avgSa5 = buildAvgSa(target5Rounds);
+    if (!avgSa) return null;
+    const buildFlatShd = (rList) => {
+      const out = {};
+      let idx = 0;
+      rList.forEach((r) => {
+        Object.values(r.simpleHoleData || {}).forEach((hd2) => {
+          out[idx++] = hd2;
+        });
       });
-    });
+      return out;
+    };
+    const flatShd = buildFlatShd(targetRounds);
     const oldestDate = targetRounds[targetRounds.length - 1].date;
     const dateRange = `${oldestDate} \u301C ${completed[0].date}`;
-    const avgHcp = Math.round(avgN(targetRounds.map((r) => r.hcp)) * 10) / 10;
+    const diagHcp = effectiveHcp != null ? effectiveHcp : 0;
     return /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement(
       AiDiagnosisPanel,
       {
         sa: avgSa,
+        sa5: avgSa5,
         shd: flatShd,
-        hcp: avgHcp != null ? avgHcp : 0,
+        hcp: diagHcp,
         rounds: [],
         roundId: null,
         showTrend: false,
-        label: "\u76F4\u8FD11\u30F6\u6708 \u5E73\u5747AI\u8A3A\u65AD",
+        label: "\u76F4\u8FD120\u30E9\u30A6\u30F3\u30C9 \u5E73\u5747AI\u8A3A\u65AD",
         roundCount: targetRounds.length,
-        dateRange
+        dateRange,
+        radarSlot: /* @__PURE__ */ React.createElement(AnalyticsRadarChart, null)
       }
     ));
   };
@@ -4095,6 +4134,40 @@ function GolfTracker() {
       };
     }).filter((x) => x.sa);
     if (saList.length < 2) return null;
+    const sc20all = [...rounds.filter((r) => r.isComplete && Object.keys(r.simpleHoleData || {}).length > 0)].sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, 20);
+    const avg20Score = sc20all.length ? Math.round(sc20all.reduce((a, r) => a + Object.values(r.simpleHoleData || {}).reduce((s, h) => s + (h.score || 0), 0), 0) / sc20all.length * 10) / 10 : null;
+    const avg20Putts = sc20all.length ? Math.round(sc20all.reduce((a, r) => a + Object.values(r.simpleHoleData || {}).reduce((s, h) => s + (h.putts || 0), 0), 0) / sc20all.length * 10) / 10 : null;
+    const teeRatesAna20 = calcHistoricalTeeRates(rounds);
+    const saList20 = sc20all.map((r) => {
+      var _a2;
+      return { sa: calcAnalytics(r, (_a2 = r.hcp) != null ? _a2 : null, teeRatesAna20) };
+    }).filter((x) => x.sa);
+    const avg20EvalTotal = saList20.length ? Math.round(saList20.reduce((a, x) => {
+      const vals = ["teeScore", "longScore", "shortScore", "puttScore", "bunkerScore"].map((k) => x.sa[k]).filter((v) => v != null);
+      return a + vals.reduce((s, v) => s + v, 0);
+    }, 0) / saList20.length * 10) / 10 : null;
+    const avg20ByKey = saList20.length ? {
+      teeScore: Math.round(saList20.reduce((a, x) => {
+        var _a2;
+        return a + ((_a2 = x.sa.teeScore) != null ? _a2 : 0);
+      }, 0) / saList20.length * 100) / 100,
+      longScore: Math.round(saList20.reduce((a, x) => {
+        var _a2;
+        return a + ((_a2 = x.sa.longScore) != null ? _a2 : 0);
+      }, 0) / saList20.length * 100) / 100,
+      shortScore: Math.round(saList20.reduce((a, x) => {
+        var _a2;
+        return a + ((_a2 = x.sa.shortScore) != null ? _a2 : 0);
+      }, 0) / saList20.length * 100) / 100,
+      puttScore: Math.round(saList20.reduce((a, x) => {
+        var _a2;
+        return a + ((_a2 = x.sa.puttScore) != null ? _a2 : 0);
+      }, 0) / saList20.length * 100) / 100,
+      bunkerScore: saList20.some((x) => x.sa.bunkerScore != null) ? Math.round(saList20.filter((x) => x.sa.bunkerScore != null).reduce((a, x) => {
+        var _a2;
+        return a + ((_a2 = x.sa.bunkerScore) != null ? _a2 : 0);
+      }, 0) / saList20.filter((x) => x.sa.bunkerScore != null).length * 100) / 100 : null
+    } : null;
     const LineChart = ({ title, series, yMin, yMax, color, formatY }) => {
       const W = 320, H = 160, padL = 62, padR = 12, padT = 14, padB = 28;
       const n = saList.length;
@@ -4124,7 +4197,7 @@ function GolfTracker() {
     const fmtEval = (v) => v == null ? "" : (v >= 0 ? "+" : "") + Math.round(v);
     return /* @__PURE__ */ React.createElement(React.Fragment, null, (() => {
       var _a2, _b2;
-      const W = 320, H = 180, padL = 62, padR = 12, padT = 22, padB = 28;
+      const W = 320, H = 180, padL = 62, padR = 28, padT = 22, padB = 28;
       const n = saList.length;
       const xOf = (i) => padL + i / (n - 1) * (W - padL - padR);
       const yOfL = (v) => padT + (1 - (v - combinedMin) / (combinedMax - combinedMin)) * (H - padT - padB);
@@ -4175,46 +4248,62 @@ function GolfTracker() {
         const pts = putts.map((v, i) => [xOf(i), yOfL(v)]);
         const d = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
         return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("path", { d, fill: "none", stroke: "#64748b", strokeWidth: "2", strokeLinejoin: "round", strokeLinecap: "round" }), pts.map(([x, y], i) => /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: "3.5", fill: "#64748b" }), /* @__PURE__ */ React.createElement("text", { x: x.toFixed(1), y: (y + 15).toFixed(1), textAnchor: "middle", fill: "#64748b", fontSize: "9", fontWeight: "700" }, putts[i]))));
-      })(), saList.map((x, i) => /* @__PURE__ */ React.createElement("text", { key: i, x: xOf(i).toFixed(1), y: H - 4, textAnchor: "middle", fill: "#475569", fontSize: "8" }, x.date.replace(/\d{4}\//, "").replace(/\/(\d)$/, "/0$1")))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "6px" } }, [
+      })(), saList.map((x, i) => /* @__PURE__ */ React.createElement("text", { key: i, x: xOf(i).toFixed(1), y: H - 4, textAnchor: "middle", fill: "#475569", fontSize: "8" }, x.date.replace(/\d{4}\//, "").replace(/\/(\d)$/, "/0$1"))), avg20Score != null && avg20Score >= combinedMin && avg20Score <= combinedMax && (() => {
+        const y = yOfL(avg20Score);
+        return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("line", { x1: padL, y1: y.toFixed(1), x2: W - padR, y2: y.toFixed(1), stroke: "#94a3b8", strokeWidth: "1.2", strokeDasharray: "5 3", opacity: "0.7" }), /* @__PURE__ */ React.createElement("text", { x: (W - padR + 2).toFixed(1), y: (y + 3).toFixed(1), textAnchor: "start", fill: "#94a3b8", fontSize: "8", fontWeight: "700" }, avg20Score));
+      })(), avg20Putts != null && avg20Putts >= combinedMin && avg20Putts <= combinedMax && (() => {
+        const y = yOfL(avg20Putts);
+        return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("line", { x1: padL, y1: y.toFixed(1), x2: W - padR, y2: y.toFixed(1), stroke: "#64748b", strokeWidth: "1.2", strokeDasharray: "5 3", opacity: "0.7" }), /* @__PURE__ */ React.createElement("text", { x: (W - padR + 2).toFixed(1), y: (y + 3).toFixed(1), textAnchor: "start", fill: "#64748b", fontSize: "8", fontWeight: "700" }, avg20Putts));
+      })()), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "6px" } }, [
         { label: "\u7DCF\u6253\u6570\uFF08\u5DE6\u8EF8\uFF09", color: "#94a3b8", bar: false },
         { label: "\u30D1\u30C3\u30C8\u6570\uFF08\u5DE6\u8EF8\uFF09", color: "#64748b", bar: false },
         { label: "\u8A55\u4FA1\u5408\u8A08 +", color: "#0ea5e9", bar: true },
         { label: "\u8A55\u4FA1\u5408\u8A08 -", color: "#dc2626", bar: true }
-      ].map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: s.bar ? "10px" : "2px", background: s.color, opacity: s.bar ? 0.7 : 1, borderRadius: "2px" } }), /* @__PURE__ */ React.createElement("span", { style: { color: s.color } }, s.label)))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "4px" } }, "\u203B\u53F3\u8EF80 = Par", (_b2 = saList[saList.length - 1]) == null ? void 0 : _b2.totalPar, "+HCP", Math.round(hcpVal * 10) / 10, " = ", Math.round(zeroAnchorL)));
+      ].map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: s.bar ? "10px" : "2px", background: s.color, opacity: s.bar ? 0.7 : 1, borderRadius: "2px" } }), /* @__PURE__ */ React.createElement("span", { style: { color: s.color } }, s.label))), (avg20Score != null || avg20Putts != null) && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: "1px", borderTop: "1.5px dashed #94a3b8" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#64748b" } }, "20R\u5E73\u5747"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "4px" } }, "\u203B\u53F3\u8EF80 = Par", (_b2 = saList[saList.length - 1]) == null ? void 0 : _b2.totalPar, "+HCP", Math.round(hcpVal * 10) / 10, " = ", Math.round(zeroAnchorL)));
     })(), (() => {
       const W = 320, H = 210, padL = 62, padR = 12, padT = 20, padB = 24;
       const n = saList.length;
       const seriesDef = [
-        { label: "A \u30C6\u30A3", color: "#0ea5e9", vals: saList.map((x) => {
+        { label: "A \u30C6\u30A3", color: "#0ea5e9", key: "teeScore", vals: saList.map((x) => {
           var _a2;
           return (_a2 = x.sa.teeScore) != null ? _a2 : 0;
         }) },
-        { label: "B \u30ED\u30F3\u30B0\u30B2\u30FC\u30E0", color: "#16a34a", vals: saList.map((x) => {
+        { label: "B \u30ED\u30F3\u30B0\u30B2\u30FC\u30E0", color: "#16a34a", key: "longScore", vals: saList.map((x) => {
           var _a2;
           return (_a2 = x.sa.longScore) != null ? _a2 : 0;
         }) },
-        { label: "C \u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0", color: "#fbbf24", vals: saList.map((x) => {
+        { label: "C \u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0", color: "#fbbf24", key: "shortScore", vals: saList.map((x) => {
           var _a2;
           return (_a2 = x.sa.shortScore) != null ? _a2 : 0;
         }) },
-        { label: "D \u30D1\u30C3\u30C8", color: "#f472b6", vals: saList.map((x) => {
+        { label: "D \u30D1\u30C3\u30C8", color: "#f472b6", key: "puttScore", vals: saList.map((x) => {
           var _a2;
           return (_a2 = x.sa.puttScore) != null ? _a2 : 0;
         }) },
-        ...saList.some((x) => x.sa.bunkerScore != null) ? [{ label: "E \u30D0\u30F3\u30AB\u30FC", color: "#fb923c", vals: saList.map((x) => {
+        ...saList.some((x) => x.sa.bunkerScore != null) ? [{ label: "E \u30D0\u30F3\u30AB\u30FC", color: "#fb923c", key: "bunkerScore", vals: saList.map((x) => {
           var _a2;
           return (_a2 = x.sa.bunkerScore) != null ? _a2 : 0;
         }) }] : []
       ];
+      const avg20Vals = avg20ByKey ? seriesDef.map((s) => {
+        var _a2;
+        return (_a2 = avg20ByKey[s.key]) != null ? _a2 : 0;
+      }) : null;
+      const avg20Total = avg20Vals ? Math.round(avg20Vals.reduce((a, v) => a + v, 0) * 10) / 10 : null;
       const posMaxArr = saList.map((_, i) => seriesDef.reduce((a, s) => a + Math.max(0, s.vals[i]), 0));
       const negMinArr = saList.map((_, i) => seriesDef.reduce((a, s) => a + Math.min(0, s.vals[i]), 0));
-      const absMax = Math.ceil(Math.max(Math.max(...posMaxArr, 1), Math.abs(Math.min(...negMinArr, -1))));
+      const avg20PosMax = avg20Vals ? avg20Vals.reduce((a, v) => a + Math.max(0, v), 0) : 0;
+      const avg20NegMin = avg20Vals ? avg20Vals.reduce((a, v) => a + Math.min(0, v), 0) : 0;
+      const absMax = Math.ceil(Math.max(Math.max(...posMaxArr, avg20PosMax, 1), Math.abs(Math.min(...negMinArr, avg20NegMin, -1))));
       const chartH = H - padT - padB;
       const y0 = padT + chartH * 0.55;
       const scale = chartH * 0.5 / absMax;
       const yOf = (v) => y0 - v * scale;
-      const xOf = (i) => padL + (n === 1 ? (W - padL - padR) / 2 : i / (n - 1) * (W - padL - padR));
-      const barW = Math.floor((W - padL - padR) / n * 0.65);
+      const sepX = W - padR - 52;
+      const xOf = (i) => padL + (n === 1 ? (sepX - padL) / 2 : i / (n - 1) * (sepX - padL));
+      const barW = Math.floor((sepX - padL) / Math.max(n, 1) * 0.65);
+      const avgBarX = W - padR - 10;
+      const avgBarW = Math.min(barW, 22);
       const step = Math.ceil(absMax / 2 / 5) * 5 || 5;
       const gridLines = [];
       for (let v = step; v <= absMax; v += step) gridLines.push({ v: -v, label: "-" + v });
@@ -4227,9 +4316,9 @@ function GolfTracker() {
           y1: yOf(g.v).toFixed(1),
           x2: W - padR,
           y2: yOf(g.v).toFixed(1),
-          stroke: g.v === 0 ? "rgba(255,255,255,0.3)" : "#f1f5f9",
+          stroke: g.v === 0 ? "rgba(100,116,139,0.5)" : "#f1f5f9",
           strokeWidth: g.v === 0 ? 1.5 : 1,
-          strokeDasharray: g.v === 0 ? "3 2" : "none"
+          strokeDasharray: g.v === 0 ? "none" : "none"
         }
       ), /* @__PURE__ */ React.createElement(
         "text",
@@ -4243,8 +4332,7 @@ function GolfTracker() {
         g.label
       ))), saList.map((_, i) => {
         const x = xOf(i);
-        let posBot = y0;
-        let negTop = y0;
+        let posBot = y0, negTop = y0;
         const bars = [];
         seriesDef.forEach((s) => {
           const v = s.vals[i];
@@ -4276,7 +4364,64 @@ function GolfTracker() {
         const pts = evalTotals.map((v, i) => [xOf(i), yOf(-v)]);
         const d = pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
         return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("path", { d, fill: "none", stroke: "#94a3b8", strokeWidth: "2", strokeLinejoin: "round", strokeLinecap: "round" }), pts.map(([x, y], i) => /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: "3.5", fill: "#94a3b8" }), /* @__PURE__ */ React.createElement("text", { x: x.toFixed(1), y: (y - 6).toFixed(1), textAnchor: "middle", fill: "#1e293b", fontSize: "8", fontWeight: "700", stroke: "white", strokeWidth: "2.5", paintOrder: "stroke" }, (evalTotals[i] >= 0 ? "+" : "") + evalTotals[i]))));
-      })()), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "6px" } }, seriesDef.map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "12px", height: "12px", background: s.color, borderRadius: "2px", opacity: 0.8 } }), /* @__PURE__ */ React.createElement("span", { style: { color: s.color } }, s.label))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: "2px", background: "white", opacity: 0.7, borderRadius: "1px" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, "\u5408\u8A08"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "3px" } }, "\u203B\u4E0A\u304C\u30DE\u30A4\u30CA\u30B9\u3001\u4E0B\u304C\u30D7\u30E9\u30B9"));
+      })(), avg20Vals && /* @__PURE__ */ React.createElement(
+        "line",
+        {
+          x1: (sepX + 4).toFixed(1),
+          y1: padT,
+          x2: (sepX + 4).toFixed(1),
+          y2: H - padB,
+          stroke: "rgba(255,255,255,0.1)",
+          strokeWidth: "1",
+          strokeDasharray: "3 2"
+        }
+      ), avg20Vals && (() => {
+        let posBot = y0, negTop = y0;
+        const bars = [];
+        seriesDef.forEach((s, si) => {
+          const v = avg20Vals[si];
+          if (v === 0) return;
+          if (v > 0) {
+            const h = v * scale;
+            bars.push({ y: posBot, h, color: s.color });
+            posBot += h;
+          } else {
+            const h = Math.abs(v) * scale;
+            bars.push({ y: negTop - h, h, color: s.color });
+            negTop -= h;
+          }
+        });
+        const totalY = yOf(-(avg20Total != null ? avg20Total : 0));
+        return /* @__PURE__ */ React.createElement("g", null, bars.map((b, bi) => /* @__PURE__ */ React.createElement(
+          "rect",
+          {
+            key: bi,
+            x: (avgBarX - avgBarW / 2).toFixed(1),
+            y: b.y.toFixed(1),
+            width: avgBarW,
+            height: Math.max(1, b.h).toFixed(1),
+            fill: b.color,
+            opacity: "0.4",
+            rx: "1",
+            stroke: b.color,
+            strokeWidth: "0.8"
+          }
+        )), /* @__PURE__ */ React.createElement("circle", { cx: avgBarX.toFixed(1), cy: totalY.toFixed(1), r: "4", fill: "#f59e0b" }), /* @__PURE__ */ React.createElement(
+          "text",
+          {
+            x: avgBarX.toFixed(1),
+            y: (totalY - 7).toFixed(1),
+            textAnchor: "middle",
+            fill: "#1e293b",
+            fontSize: "8",
+            fontWeight: "700",
+            stroke: "white",
+            strokeWidth: "2.5",
+            paintOrder: "stroke"
+          },
+          (avg20Total >= 0 ? "+" : "") + avg20Total
+        ), /* @__PURE__ */ React.createElement("text", { x: avgBarX.toFixed(1), y: H - 13, textAnchor: "middle", fill: "#f59e0b", fontSize: "7", fontWeight: "700" }, "20R"), /* @__PURE__ */ React.createElement("text", { x: avgBarX.toFixed(1), y: H - 4, textAnchor: "middle", fill: "#f59e0b", fontSize: "7", fontWeight: "700" }, "\u5E73\u5747"));
+      })()), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "6px" } }, seriesDef.map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "12px", height: "12px", background: s.color, borderRadius: "2px", opacity: 0.8 } }), /* @__PURE__ */ React.createElement("span", { style: { color: s.color } }, s.label))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: "2px", background: "#94a3b8", borderRadius: "1px" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, "\u5408\u8A08")), avg20Vals && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "8px", height: "8px", borderRadius: "50%", background: "#f59e0b" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#f59e0b" } }, "20R\u5E73\u5747\u5408\u8A08"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "3px" } }, "\u203B\u4E0A\u304C\u30DE\u30A4\u30CA\u30B9\u3001\u4E0B\u304C\u30D7\u30E9\u30B9"));
     })());
   };
   const AnalyticsRadarChart = () => {
@@ -4284,43 +4429,45 @@ function GolfTracker() {
     const completed = [...rounds.filter((r) => r.isComplete && Object.keys(r.simpleHoleData || {}).length > 0)].sort((a, b) => dateToNum(b.date) - dateToNum(a.date));
     if (completed.length === 0) return null;
     const teeRatesAna = calcHistoricalTeeRates(rounds);
-    const latest = completed[0];
-    const latestSa = calcAnalytics(latest, (_a2 = latest.hcp) != null ? _a2 : null, teeRatesAna);
-    const hcpTopIds = new Set(((handicap == null ? void 0 : handicap.top) || []).map((d) => d.id).filter(Boolean));
-    const targets = hcpTopIds.size > 0 ? completed.filter((r) => hcpTopIds.has(r.id)) : completed.slice(0, 20);
-    const avgScores = { A: 0, B: 0, C: 0, D: 0, E: null };
-    const counts = { A: 0, B: 0, C: 0, D: 0, E: 0 };
-    targets.forEach((r) => {
-      var _a3;
-      const sa = calcAnalytics(r, (_a3 = r.hcp) != null ? _a3 : null, teeRatesAna);
-      if (!sa) return;
-      avgScores.A += sa.teeScore;
-      counts.A++;
-      avgScores.B += sa.longScore;
-      counts.B++;
-      avgScores.C += sa.shortScore;
-      counts.C++;
-      avgScores.D += sa.puttScore;
-      counts.D++;
-      if (sa.bunkerScore !== null && sa.bunkerScore !== void 0) {
-        avgScores.E = (avgScores.E || 0) + sa.bunkerScore;
-        counts.E++;
-      }
-    });
-    const avg = {
-      A: counts.A ? Math.round(avgScores.A / counts.A * 100) / 100 : 0,
-      B: counts.B ? Math.round(avgScores.B / counts.B * 100) / 100 : 0,
-      C: counts.C ? Math.round(avgScores.C / counts.C * 100) / 100 : 0,
-      D: counts.D ? Math.round(avgScores.D / counts.D * 100) / 100 : 0,
-      E: counts.E ? Math.round(avgScores.E / counts.E * 100) / 100 : null
+    const recent5 = completed.slice(0, 5);
+    const recent20 = completed.slice(0, 20);
+    const buildRadarAvg = (rList) => {
+      const scores = { A: 0, B: 0, C: 0, D: 0, E: null };
+      const counts = { A: 0, B: 0, C: 0, D: 0, E: 0 };
+      rList.forEach((r) => {
+        var _a3;
+        const sa = calcAnalytics(r, (_a3 = r.hcp) != null ? _a3 : null, teeRatesAna);
+        if (!sa) return;
+        scores.A += sa.teeScore;
+        counts.A++;
+        scores.B += sa.longScore;
+        counts.B++;
+        scores.C += sa.shortScore;
+        counts.C++;
+        scores.D += sa.puttScore;
+        counts.D++;
+        if (sa.bunkerScore != null) {
+          scores.E = (scores.E || 0) + sa.bunkerScore;
+          counts.E++;
+        }
+      });
+      return {
+        A: counts.A ? Math.round(scores.A / counts.A * 100) / 100 : 0,
+        B: counts.B ? Math.round(scores.B / counts.B * 100) / 100 : 0,
+        C: counts.C ? Math.round(scores.C / counts.C * 100) / 100 : 0,
+        D: counts.D ? Math.round(scores.D / counts.D * 100) / 100 : 0,
+        E: counts.E ? Math.round(scores.E / counts.E * 100) / 100 : null
+      };
     };
-    if (!latestSa) return null;
+    const avg5 = buildRadarAvg(recent5);
+    const avg20 = buildRadarAvg(recent20);
+    const hasBunker = avg5.E != null || avg20.E != null;
     const items = [
-      { key: "A", label: "\u30C6\u30A3", val: latestSa.teeScore, avgVal: avg.A },
-      { key: "B", label: "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0", val: latestSa.longScore, avgVal: avg.B },
-      { key: "C", label: "\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0", val: latestSa.shortScore, avgVal: avg.C },
-      { key: "D", label: "\u30D1\u30C3\u30C8", val: latestSa.puttScore, avgVal: avg.D },
-      ...latestSa.bunkerScore !== null && latestSa.bunkerScore !== void 0 ? [{ key: "E", label: "\u30D0\u30F3\u30AB\u30FC", val: latestSa.bunkerScore, avgVal: (_b2 = avg.E) != null ? _b2 : 0 }] : avg.E !== null && avg.E !== void 0 ? [{ key: "E", label: "\u30D0\u30F3\u30AB\u30FC", val: 0, avgVal: avg.E }] : []
+      { key: "A", label: "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8", val: avg5.A, avgVal: avg20.A },
+      { key: "B", label: "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0", val: avg5.B, avgVal: avg20.B },
+      { key: "C", label: "\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0", val: avg5.C, avgVal: avg20.C },
+      { key: "D", label: "\u30D1\u30C3\u30C8", val: avg5.D, avgVal: avg20.D },
+      ...hasBunker ? [{ key: "E", label: "\u30D0\u30F3\u30AB\u30FC", val: (_a2 = avg5.E) != null ? _a2 : 0, avgVal: (_b2 = avg20.E) != null ? _b2 : 0 }] : []
     ];
     const n = items.length;
     const cx = 175, cy = 155, R = 108;
@@ -4339,108 +4486,102 @@ function GolfTracker() {
     const gridPaths = gridLevels.map(
       (lv) => toPath(items.map((_, i) => pointOf(i, R * lv)))
     );
-    const latestPts = items.map((it, i) => pointOf(i, R * normalize(it.val)));
-    const avgPts = items.map((it, i) => pointOf(i, R * normalize(it.avgVal)));
+    const pts5 = items.map((it, i) => pointOf(i, R * normalize(it.val)));
+    const pts20 = items.map((it, i) => pointOf(i, R * normalize(it.avgVal)));
     const labelPts = items.map((it, i) => {
       const [x, y] = pointOf(i, R + 22);
       return __spreadProps(__spreadValues({}, it), { x, y });
     });
-    return /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "12px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u8A55\u4FA1\u30EC\u30FC\u30C0\u30FC\u30C1\u30E3\u30FC\u30C8"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" } }, /* @__PURE__ */ React.createElement("svg", { width: "340", height: "310", viewBox: "0 0 350 310", style: { display: "block", margin: "0 auto" } }, gridPaths.map((d, gi) => /* @__PURE__ */ React.createElement("path", { key: gi, d, fill: "none", stroke: "#eef2f7", strokeWidth: "1" })), items.map((_, i) => {
+    return /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "12px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u8A55\u4FA1\u30EC\u30FC\u30C0\u30FC\u30C1\u30E3\u30FC\u30C8"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" } }, /* @__PURE__ */ React.createElement("svg", { width: "340", height: "320", viewBox: "0 0 350 320", style: { display: "block", margin: "0 auto" } }, gridPaths.map((d, gi) => /* @__PURE__ */ React.createElement("path", { key: gi, d, fill: "none", stroke: "#eef2f7", strokeWidth: "1" })), items.map((_, i) => {
       const [x, y] = pointOf(i, R);
       return /* @__PURE__ */ React.createElement("line", { key: i, x1: cx, y1: cy, x2: x.toFixed(1), y2: y.toFixed(1), stroke: "#eef2f7", strokeWidth: "1" });
     }), (() => {
       const idealPts = items.map((_, i) => pointOf(i, R * 0.75));
       return /* @__PURE__ */ React.createElement("path", { d: toPath(idealPts), fill: "rgba(52,211,153,0.08)", stroke: "#16a34a", strokeWidth: "1.5", strokeDasharray: "3 3" });
-    })(), /* @__PURE__ */ React.createElement("path", { d: toPath(avgPts), fill: "rgba(14,165,233,0.12)", stroke: "#0ea5e9", strokeWidth: "1.5", strokeDasharray: "4 3" }), /* @__PURE__ */ React.createElement("path", { d: toPath(latestPts), fill: "rgba(251,191,36,0.2)", stroke: "#fbbf24", strokeWidth: "2" }), latestPts.map(([x, y], i) => /* @__PURE__ */ React.createElement("circle", { key: i, cx: x.toFixed(1), cy: y.toFixed(1), r: "4", fill: "#fbbf24" })), labelPts.map((it, i) => {
+    })(), /* @__PURE__ */ React.createElement("path", { d: toPath(pts20), fill: "rgba(14,165,233,0.12)", stroke: "#0ea5e9", strokeWidth: "1.5", strokeDasharray: "4 3" }), /* @__PURE__ */ React.createElement("path", { d: toPath(pts5), fill: "rgba(251,191,36,0.18)", stroke: "#fbbf24", strokeWidth: "2" }), pts5.map(([x, y], i) => /* @__PURE__ */ React.createElement("circle", { key: i, cx: x.toFixed(1), cy: y.toFixed(1), r: "4", fill: "#fbbf24" })), labelPts.map((it, i) => {
       const anchor = it.x < cx - 5 ? "end" : it.x > cx + 5 ? "start" : "middle";
-      return /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("text", { x: it.x.toFixed(1), y: (it.y - 4).toFixed(1), textAnchor: anchor, fill: "#94a3b8", fontSize: "11", fontWeight: "700" }, it.label), /* @__PURE__ */ React.createElement("text", { x: it.x.toFixed(1), y: (it.y + 9).toFixed(1), textAnchor: anchor, fill: "#16a34a", fontSize: "10" }, it.val >= 0 ? "+" : "", it.val.toFixed(1)));
-    }), /* @__PURE__ */ React.createElement("circle", { cx, cy, r: R * 0.75, fill: "none", stroke: "rgba(255,255,255,0.25)", strokeWidth: "1", strokeDasharray: "2 2" })), /* @__PURE__ */ React.createElement("div", { style: { width: "100%" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#16a34a", borderTop: "2px dashed #34d399" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a", fontWeight: "700" } }, "\u7406\u60F3\uFF08\xB10\uFF09")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#fbbf24" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#d97706", fontWeight: "700" } }, "\u76F4\u8FD1"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontSize: "10px" } }, "(", latest.date, ")")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "14px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#0ea5e9", borderTop: "2px dashed #60a5fa" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#0ea5e9", fontWeight: "700" } }, "\u5E73\u5747"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontSize: "10px" } }, "(", targets.length, "R / HCP\u63A1\u7528)")), items.map((it) => /* @__PURE__ */ React.createElement("div", { key: it.key, style: { marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#64748b" } }, it.key, " ", it.label), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: it.val < 0 ? "#dc2626" : "#0ea5e9", fontWeight: "700", minWidth: "44px", textAlign: "right" } }, it.val >= 0 ? "+" : "", it.val.toFixed(1)), /* @__PURE__ */ React.createElement("span", { style: { color: "#64748b", minWidth: "44px", textAlign: "right" } }, it.avgVal >= 0 ? "+" : "", it.avgVal.toFixed(1)))))))));
+      const lines = it.label.endsWith("\u30B2\u30FC\u30E0") && it.label.length > 3 ? [it.label.slice(0, -3), "\u30B2\u30FC\u30E0"] : [it.label];
+      const totalH = lines.length * 13;
+      return /* @__PURE__ */ React.createElement("g", { key: i }, lines.map((line, li) => /* @__PURE__ */ React.createElement("text", { key: li, x: it.x.toFixed(1), y: (it.y - 4 + li * 13).toFixed(1), textAnchor: anchor, fill: "#94a3b8", fontSize: "11", fontWeight: "700" }, line)), /* @__PURE__ */ React.createElement("text", { x: it.x.toFixed(1), y: (it.y - 4 + totalH + 2).toFixed(1), textAnchor: anchor, fill: "#fbbf24", fontSize: "10" }, it.val >= 0 ? "+" : "", it.val.toFixed(1)));
+    }), /* @__PURE__ */ React.createElement("circle", { cx, cy, r: R * 0.75, fill: "none", stroke: "rgba(255,255,255,0.25)", strokeWidth: "1", strokeDasharray: "2 2" })), /* @__PURE__ */ React.createElement("div", { style: { width: "100%" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#16a34a", borderTop: "2px dashed #34d399" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a", fontWeight: "700" } }, "\u7406\u60F3\uFF08\xB10\uFF09")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#fbbf24" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#d97706", fontWeight: "700" } }, "\u76F4\u8FD15R\u5E73\u5747"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontSize: "10px" } }, "(", recent5.length, "R)")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "14px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "20px", height: "2px", background: "#0ea5e9", borderTop: "2px dashed #60a5fa" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#0ea5e9", fontWeight: "700" } }, "\u76F4\u8FD120R\u5E73\u5747"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontSize: "10px" } }, "(", recent20.length, "R)")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: "4px", fontSize: "9px", color: "#64748b", borderBottom: "1px solid rgba(255,255,255,0.07)", paddingBottom: "3px" } }, /* @__PURE__ */ React.createElement("span", null, "\u8981\u7D20"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { minWidth: "44px", textAlign: "right", color: "#d97706" } }, "\u76F4\u8FD15R"), /* @__PURE__ */ React.createElement("span", { style: { minWidth: "44px", textAlign: "right", color: "#0ea5e9" } }, "\u76F4\u8FD120R"))), items.map((it) => /* @__PURE__ */ React.createElement("div", { key: it.key, style: { marginBottom: "6px", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#64748b" } }, it.key, " ", it.label), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: it.val < 0 ? "#dc2626" : "#d97706", fontWeight: "700", minWidth: "44px", textAlign: "right" } }, it.val >= 0 ? "+" : "", it.val.toFixed(1)), /* @__PURE__ */ React.createElement("span", { style: { color: it.avgVal < 0 ? "#64748b" : "#0ea5e9", minWidth: "44px", textAlign: "right" } }, it.avgVal >= 0 ? "+" : "", it.avgVal.toFixed(1)))))))));
   };
   const AnalyticsStats = () => {
-    const sc20 = [...rounds.filter((r) => r.isComplete && Object.keys(r.simpleHoleData || {}).length > 0)].sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, 20);
+    const allCompleted = [...rounds.filter((r) => r.isComplete && Object.keys(r.simpleHoleData || {}).length > 0)].sort((a, b) => dateToNum(b.date) - dateToNum(a.date));
+    const sc20 = allCompleted.slice(0, 20);
+    const sc5 = allCompleted.slice(0, 5);
     if (sc20.length === 0) return null;
-    const avgScore = Math.round(sc20.reduce((a, r) => {
-      return a + Object.values(r.simpleHoleData || {}).reduce((s, h) => s + (h.score || 0), 0);
-    }, 0) / sc20.length * 10) / 10;
-    let totalGIR = 0, totalHoles = 0;
-    sc20.forEach((r) => {
-      const hd2 = r.simpleHoleData || {};
-      const pars = r.holePars || Array(18).fill(4);
-      Object.entries(hd2).forEach(([hStr, h]) => {
-        const par2 = pars[parseInt(hStr) - 1] || 4;
-        totalHoles++;
-        if ((h.score || 0) - (h.putts || 0) <= par2 - 2) totalGIR++;
+    const calcStats = (list) => {
+      if (!list.length) return null;
+      const avgScore = Math.round(list.reduce((a, r) => a + Object.values(r.simpleHoleData || {}).reduce((s, h) => s + (h.score || 0), 0), 0) / list.length * 10) / 10;
+      let gir = 0, holes = 0, recOk = 0, recTot = 0, pbHoles = 0, pbTot = 0;
+      list.forEach((r) => {
+        const hd2 = r.simpleHoleData || {};
+        const pars = r.holePars || Array(18).fill(4);
+        Object.entries(hd2).forEach(([hStr, h]) => {
+          const par2 = pars[parseInt(hStr) - 1] || 4;
+          holes++;
+          pbTot++;
+          const isGIR = (h.score || 0) - (h.putts || 0) <= par2 - 2;
+          if (isGIR) gir++;
+          if (!isGIR) {
+            recTot++;
+            if ((h.score || 0) <= par2) recOk++;
+          }
+          if ((h.score || 0) <= par2) pbHoles++;
+        });
       });
-    });
-    const avgGIR = sc20.length > 0 ? Math.round(totalGIR / sc20.length * 10) / 10 : 0;
-    const girRate = totalHoles > 0 ? Math.round(totalGIR / totalHoles * 1e3) / 10 : 0;
-    let recoveryOk = 0, recoveryTotal = 0;
-    sc20.forEach((r) => {
-      const hd2 = r.simpleHoleData || {};
-      const pars = r.holePars || Array(18).fill(4);
-      Object.entries(hd2).forEach(([hStr, h]) => {
-        const par2 = pars[parseInt(hStr) - 1] || 4;
-        const isGIR = (h.score || 0) - (h.putts || 0) <= par2 - 2;
-        if (!isGIR) {
-          recoveryTotal++;
-          if ((h.score || 0) <= par2) recoveryOk++;
-        }
+      const avgGIR = Math.round(gir / list.length * 10) / 10;
+      const girRate = holes ? Math.round(gir / holes * 1e3) / 10 : 0;
+      const recoveryRate = recTot ? Math.round(recOk / recTot * 1e3) / 10 : null;
+      const parBreakRate = pbTot ? Math.round(pbHoles / pbTot * 1e3) / 10 : null;
+      let putts = 0, puttHoles = 0;
+      const roundPutts = [];
+      list.forEach((r) => {
+        const hs = Object.values(r.simpleHoleData || {});
+        const rP = hs.reduce((a, h) => a + (h.putts || 0), 0);
+        roundPutts.push(rP);
+        putts += rP;
+        puttHoles += hs.length;
       });
-    });
-    const recoveryRate = recoveryTotal > 0 ? Math.round(recoveryOk / recoveryTotal * 1e3) / 10 : null;
-    let parBreakHoles = 0, pbTotal = 0;
-    sc20.forEach((r) => {
-      const hd2 = r.simpleHoleData || {};
-      const pars = r.holePars || Array(18).fill(4);
-      Object.entries(hd2).forEach(([hStr, h]) => {
-        const par2 = pars[parseInt(hStr) - 1] || 4;
-        pbTotal++;
-        if ((h.score || 0) <= par2) parBreakHoles++;
+      const avgPuttPerHole = puttHoles ? Math.round(putts / puttHoles * 10) / 10 : null;
+      const avgTotalPutts = Math.round(roundPutts.reduce((a, v) => a + v, 0) / list.length * 10) / 10;
+      let ob = 0, pen = 0;
+      list.forEach((r) => {
+        const hs = Object.values(r.simpleHoleData || {});
+        ob += hs.reduce((a, h) => a + (h.ob || 0), 0);
+        pen += hs.reduce((a, h) => a + (h.penalty || 0), 0);
       });
-    });
-    const parBreakRate = pbTotal > 0 ? Math.round(parBreakHoles / pbTotal * 1e3) / 10 : null;
-    let totalPutts = 0, totalPuttHoles = 0;
-    const roundPutts = [];
-    sc20.forEach((r) => {
-      const holes = Object.values(r.simpleHoleData || {});
-      const rPutts = holes.reduce((a, h) => a + (h.putts || 0), 0);
-      roundPutts.push(rPutts);
-      totalPutts += rPutts;
-      totalPuttHoles += holes.length;
-    });
-    const avgPuttPerHole = totalPuttHoles > 0 ? Math.round(totalPutts / totalPuttHoles * 10) / 10 : null;
-    const avgTotalPutts = sc20.length > 0 ? Math.round(roundPutts.reduce((a, v) => a + v, 0) / sc20.length * 10) / 10 : null;
-    let totalOB = 0, totalPenalty = 0;
-    sc20.forEach((r) => {
-      const holes = Object.values(r.simpleHoleData || {});
-      totalOB += holes.reduce((a, h) => a + (h.ob || 0), 0);
-      totalPenalty += holes.reduce((a, h) => a + (h.penalty || 0), 0);
-    });
-    const avgOB = sc20.length > 0 ? Math.round(totalOB / sc20.length * 10) / 10 : null;
-    const avgPenalty = sc20.length > 0 ? Math.round(totalPenalty / sc20.length * 10) / 10 : null;
+      const avgOB = Math.round(ob / list.length * 10) / 10;
+      const avgPenalty = Math.round(pen / list.length * 10) / 10;
+      return { avgScore, avgGIR, girRate, recoveryRate, parBreakRate, avgPuttPerHole, avgTotalPutts, avgOB, avgPenalty };
+    };
+    const s20 = calcStats(sc20);
+    const s5 = calcStats(sc5);
     const hcpVal = effectiveHcp;
-    const ddStats = calcDriverDistStats(rounds);
-    const ddOverallAvg = ddStats.length > 0 ? Math.round(ddStats.reduce((a, r) => a + r.avg, 0) / ddStats.length) : null;
-    const ddTotalCount = ddStats.reduce((a, r) => a + r.count, 0);
+    const ddStats5 = calcDriverDistStats(rounds, 5);
+    const ddStats20 = calcDriverDistStats(rounds, 20);
+    const ddAvg5 = ddStats5.length > 0 ? Math.round(ddStats5.reduce((a, r) => a + r.avg, 0) / ddStats5.length) : null;
+    const ddAvg20 = ddStats20.length > 0 ? Math.round(ddStats20.reduce((a, r) => a + r.avg, 0) / ddStats20.length) : null;
+    const fmt2 = (v) => v == null ? "\uFF0D" : String(v);
+    const fmtPct = (v) => v == null ? "\uFF0D" : v + "%";
     const statRows = [
-      { label: "\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\uFF08\u53C2\u8003\u5024\uFF09", value: hcpVal != null ? hcpVal : "\uFF0D", unit: "", color: "#0ea5e9" },
-      { label: "\u76F4\u8FD120R\u306E\u5E73\u5747\u30B9\u30B3\u30A2", value: avgScore, unit: "", color: "#16a34a" },
-      { label: "\u5E73\u5747\u30D1\u30C3\u30C8\u6570\uFF081H\uFF09", value: avgPuttPerHole != null ? avgPuttPerHole : "\uFF0D", unit: "\u6253", color: "#94a3b8" },
-      { label: "\u5E73\u5747\u30C8\u30FC\u30BF\u30EB\u30D1\u30C3\u30C8\u6570\uFF0818H\uFF09", value: avgTotalPutts != null ? avgTotalPutts : "\uFF0D", unit: "\u6253", color: "#64748b" },
-      { label: "\u30D1\u30FC\u30AA\u30F3\u7387", value: girRate != null ? girRate + "%" : "\uFF0D", unit: "", color: "#fbbf24" },
-      { label: "\u5E73\u5747\u30D1\u30FC\u30AA\u30F3\u6570\uFF0818H\uFF09", value: avgGIR + " \u56DE", unit: "", color: "#a78bfa" },
-      { label: "\u30EA\u30AB\u30D0\u30EA\u30FC\u7387", value: recoveryRate != null ? recoveryRate + "%" : "\uFF0D", unit: "", color: "#fb923c" },
-      { label: "\u30D1\u30FC\u30D6\u30EC\u30A4\u30AF\u7387", value: parBreakRate != null ? parBreakRate + "%" : "\uFF0D", unit: "", color: "#f472b6" },
-      { label: "OB\u6570\uFF0818H\uFF09", value: avgOB != null ? avgOB : "\uFF0D", unit: "\u56DE", color: "#dc2626" },
-      { label: "\u30DA\u30CA\u30EB\u30C6\u30A3\u6570\uFF0818H\uFF09", value: avgPenalty != null ? avgPenalty : "\uFF0D", unit: "\u56DE", color: "#b91c1c" }
+      { label: "\u5E73\u5747\u30B9\u30B3\u30A2", v5: fmt2(s5 == null ? void 0 : s5.avgScore), v20: fmt2(s20.avgScore), color: "#16a34a", unit: "" },
+      { label: "\u5E73\u5747\u30D1\u30C3\u30C8\u6570\uFF081H\uFF09", v5: fmt2(s5 == null ? void 0 : s5.avgPuttPerHole), v20: fmt2(s20.avgPuttPerHole), color: "#94a3b8", unit: "\u6253" },
+      { label: "\u5E73\u5747\u30C8\u30FC\u30BF\u30EB\u30D1\u30C3\u30C8\u6570\uFF0818H\uFF09", v5: fmt2(s5 == null ? void 0 : s5.avgTotalPutts), v20: fmt2(s20.avgTotalPutts), color: "#64748b", unit: "\u6253" },
+      { label: "\u30D1\u30FC\u30AA\u30F3\u7387", v5: fmtPct(s5 == null ? void 0 : s5.girRate), v20: fmtPct(s20.girRate), color: "#fbbf24", unit: "" },
+      { label: "\u5E73\u5747\u30D1\u30FC\u30AA\u30F3\u6570\uFF0818H\uFF09", v5: fmt2(s5 == null ? void 0 : s5.avgGIR) + " \u56DE", v20: fmt2(s20.avgGIR) + " \u56DE", color: "#a78bfa", unit: "" },
+      { label: "\u30EA\u30AB\u30D0\u30EA\u30FC\u7387", v5: fmtPct(s5 == null ? void 0 : s5.recoveryRate), v20: fmtPct(s20.recoveryRate), color: "#fb923c", unit: "" },
+      { label: "\u30D1\u30FC\u30D6\u30EC\u30A4\u30AF\u7387", v5: fmtPct(s5 == null ? void 0 : s5.parBreakRate), v20: fmtPct(s20.parBreakRate), color: "#f472b6", unit: "" },
+      { label: "OB\u6570\uFF0818H\uFF09", v5: fmt2(s5 == null ? void 0 : s5.avgOB), v20: fmt2(s20.avgOB), color: "#dc2626", unit: "\u56DE" },
+      { label: "\u30DA\u30CA\u30EB\u30C6\u30A3\u6570\uFF0818H\uFF09", v5: fmt2(s5 == null ? void 0 : s5.avgPenalty), v20: fmt2(s20.avgPenalty), color: "#b91c1c", unit: "\u56DE" }
     ];
-    return /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "12px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u{1F4CA} Stats\uFF08\u76F4\u8FD1", sc20.length, "R\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "0px" } }, statRows.map((row, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: {
+    return /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "12px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u{1F4CA} Stats"), hcpVal != null && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "500" } }, "\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\uFF08\u53C2\u8003\u5024\uFF09"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "17px", fontWeight: "800", color: "#0ea5e9" } }, hcpVal)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: "0", padding: "6px 0 2px", borderBottom: "1px solid rgba(226,232,240,0.5)" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#f59e0b", fontWeight: "700", minWidth: "56px", textAlign: "right" } }, "\u76F4\u8FD15R"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#0ea5e9", fontWeight: "700", minWidth: "64px", textAlign: "right" } }, "\u76F4\u8FD120R")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "0px" } }, statRows.map((row, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: {
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      padding: "10px 0",
+      padding: "9px 0",
       borderBottom: i < statRows.length - 1 ? "1px solid #e2e8f0" : "none"
-    } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "500" } }, row.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "17px", fontWeight: "800", color: row.color } }, row.value, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "500", marginLeft: "2px" } }, row.unit))))), ddStats.length > 0 && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "10px", marginTop: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "500" } }, "\u5E73\u5747\u30C9\u30E9\u30A4\u30D3\u30F3\u30B0\u30C7\u30A3\u30B9\u30BF\u30F3\u30B9\uFF08\u63A8\u5B9A\uFF0F1W\u3007\u306E\u307F\uFF09"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "17px", fontWeight: "800", color: "#16a34a" } }, ddOverallAvg, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "500", marginLeft: "2px", color: "#64748b" } }, "Y")))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "8px", lineHeight: "1.6" } }, "\u203B\u30D1\u30FC\u30AA\u30F3\uFF1A\u30B9\u30B3\u30A2\uFF0D\u30D1\u30C3\u30C8\u6570 \u2264 Par\uFF0D2\u306E\u30DB\u30FC\u30EB", /* @__PURE__ */ React.createElement("br", null), "\u203B\u30EA\u30AB\u30D0\u30EA\u30FC\u7387\uFF1A\u30D1\u30FC\u30AA\u30F3\u5931\u6557\u30DB\u30FC\u30EB\u3067Par\u4EE5\u4E0B\u3092\u53D6\u3063\u305F\u5272\u5408", /* @__PURE__ */ React.createElement("br", null), "\u203B\u30D1\u30FC\u30D6\u30EC\u30A4\u30AF\u7387\uFF1A\u30B9\u30B3\u30A2\u304CPar\u4EE5\u4E0B\u306E\u30DB\u30FC\u30EB\u306E\u5272\u5408", /* @__PURE__ */ React.createElement("br", null), "\u203B\u5E73\u5747\u30C9\u30E9\u30A4\u30D3\u30F3\u30B0\u30C7\u30A3\u30B9\u30BF\u30F3\u30B9\uFF1APar4/5\u306E\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u30671W\u4F7F\u7528\u25CB\u306E\u307F\uFF0F\u30DB\u30FC\u30EB\u8DDD\u96E2\uFF0D\u6B8B\u308A\u8DDD\u96E2"));
+    } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "500", flex: 1 } }, row.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "700", color: "#f59e0b", minWidth: "56px", textAlign: "right" } }, row.v5, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px", color: "#64748b" } }, row.unit)), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "800", color: row.color, minWidth: "64px", textAlign: "right" } }, row.v20, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px" } }, row.unit))))), (ddAvg5 != null || ddAvg20 != null) && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "10px", marginTop: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "500", flex: 1 } }, "\u5E73\u5747\u30C9\u30E9\u30A4\u30D3\u30F3\u30B0\u30C7\u30A3\u30B9\u30BF\u30F3\u30B9", /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px" } }, "\uFF08\u63A8\u5B9A\uFF0F1W\u3007\u306E\u307F\uFF09")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "700", color: "#f59e0b", minWidth: "56px", textAlign: "right" } }, ddAvg5 != null ? ddAvg5 : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px", color: "#64748b" } }, "Y")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "800", color: "#16a34a", minWidth: "64px", textAlign: "right" } }, ddAvg20 != null ? ddAvg20 : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "2px", color: "#64748b" } }, "Y")))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "8px", lineHeight: "1.6" } }, "\u203B\u30D1\u30FC\u30AA\u30F3\uFF1A\u30B9\u30B3\u30A2\uFF0D\u30D1\u30C3\u30C8\u6570 \u2264 Par\uFF0D2\u306E\u30DB\u30FC\u30EB", /* @__PURE__ */ React.createElement("br", null), "\u203B\u30EA\u30AB\u30D0\u30EA\u30FC\u7387\uFF1A\u30D1\u30FC\u30AA\u30F3\u5931\u6557\u30DB\u30FC\u30EB\u3067Par\u4EE5\u4E0B\u3092\u53D6\u3063\u305F\u5272\u5408", /* @__PURE__ */ React.createElement("br", null), "\u203B\u30D1\u30FC\u30D6\u30EC\u30A4\u30AF\u7387\uFF1A\u30B9\u30B3\u30A2\u304CPar\u4EE5\u4E0B\u306E\u30DB\u30FC\u30EB\u306E\u5272\u5408", /* @__PURE__ */ React.createElement("br", null), "\u203B\u5E73\u5747\u30C9\u30E9\u30A4\u30D3\u30F3\u30B0\u30C7\u30A3\u30B9\u30BF\u30F3\u30B9\uFF1APar4/5\u306E\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u30671W\u4F7F\u7528\u25CB\u306E\u307F\uFF0F\u30DB\u30FC\u30EB\u8DDD\u96E2\uFF0D\u6B8B\u308A\u8DDD\u96E2"));
   };
   const AnalyticsPuttStats = () => {
     const distStats = {};
@@ -4583,26 +4724,30 @@ function GolfTracker() {
         const startX = gx + groupW * 0.2;
         const base = zeroPx != null ? zeroPx : yToPx(yMin);
         const bars = [];
-        if (show20) {
-          const y20 = yToPx(v20[i]);
-          bars.push(/* @__PURE__ */ React.createElement("rect", { key: "b20", x: startX, y: Math.min(y20, base), width: bw, height: Math.abs(base - y20), fill: C_BLUE, rx: "1.5" }));
-        }
         if (v5) {
           const y5 = yToPx(v5[i]);
-          const x5 = show20 ? startX + bw : startX + bw * 0.5;
-          bars.push(/* @__PURE__ */ React.createElement("rect", { key: "b5", x: x5, y: Math.min(y5, base), width: bw, height: Math.abs(base - y5), fill: C_AMBER, rx: "1.5" }));
+          bars.push(/* @__PURE__ */ React.createElement("rect", { key: "b5", x: startX, y: Math.min(y5, base), width: bw, height: Math.abs(base - y5), fill: C_AMBER, rx: "1.5" }));
+        }
+        if (show20) {
+          const y20 = yToPx(v20[i]);
+          const x20 = v5 ? startX + bw : startX + bw * 0.5;
+          bars.push(/* @__PURE__ */ React.createElement("rect", { key: "b20", x: x20, y: Math.min(y20, base), width: bw, height: Math.abs(base - y20), fill: C_BLUE, rx: "1.5" }));
         }
         return /* @__PURE__ */ React.createElement("g", { key: i }, bars, /* @__PURE__ */ React.createElement("text", { x: gx + groupW / 2, y: H - 8, textAnchor: "middle", fontSize: "8", fill: "#64748b" }, lb));
       }), show20 ? /* @__PURE__ */ React.createElement("line", { x1: padL, y1: avg20Px, x2: W - padR, y2: avg20Px, stroke: C_BLUE, strokeWidth: "1.3", strokeDasharray: "5 4", opacity: "0.8" }) : avg5Px != null && /* @__PURE__ */ React.createElement("line", { x1: padL, y1: avg5Px, x2: W - padR, y2: avg5Px, stroke: C_AMBER, strokeWidth: "1.3", strokeDasharray: "5 4", opacity: "0.8" })));
     };
-    return /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "12px" } }, /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "10px", padding: "12px 14px" }) }, /* @__PURE__ */ React.createElement("label", { style: __spreadProps(__spreadValues({}, S.lbl), { marginBottom: "4px" }) }, "\u{1F4CA} 3\u30DB\u30FC\u30EB\u533A\u9593\u5206\u6790"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", marginBottom: "10px" } }, "\u533A\u9593\u3054\u3068\u306B\u5F31\u70B9\u3092\u53EF\u8996\u5316\uFF0818H\u30E9\u30A6\u30F3\u30C9\u306E\u307F\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "12px", fontSize: "11px", color: "#64748b" } }, show20 && /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "12px", height: "12px", borderRadius: "2px", background: C_BLUE } }), "\u76F4\u8FD120R"), /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "12px", height: "12px", borderRadius: "2px", background: C_AMBER } }), "\u76F4\u8FD1", seg5 ? seg5.count : 0, "R"), show20 ? /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "16px", height: 0, borderTop: `2px dashed ${C_BLUE}` } }), "20R\u533A\u9593\u5E73\u5747") : /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "16px", height: 0, borderTop: `2px dashed ${C_AMBER}` } }), "\u533A\u9593\u5E73\u5747"))), metrics.map((m) => /* @__PURE__ */ React.createElement(SegBar, { key: m.key, m })));
+    return /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "12px" } }, /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "10px", padding: "12px 14px" }) }, /* @__PURE__ */ React.createElement("label", { style: __spreadProps(__spreadValues({}, S.lbl), { marginBottom: "4px" }) }, "\u{1F4CA} 3\u30DB\u30FC\u30EB\u533A\u9593\u5206\u6790"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", marginBottom: "10px" } }, "\u533A\u9593\u3054\u3068\u306B\u5F31\u70B9\u3092\u53EF\u8996\u5316\uFF0818H\u30E9\u30A6\u30F3\u30C9\u306E\u307F\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "12px", fontSize: "11px", color: "#64748b" } }, /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "12px", height: "12px", borderRadius: "2px", background: C_AMBER } }), "\u76F4\u8FD1", seg5 ? seg5.count : 0, "R"), show20 && /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "12px", height: "12px", borderRadius: "2px", background: C_BLUE } }), "\u76F4\u8FD120R"), show20 ? /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "16px", height: 0, borderTop: `2px dashed ${C_BLUE}` } }), "20R\u533A\u9593\u5E73\u5747") : /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "16px", height: 0, borderTop: `2px dashed ${C_AMBER}` } }), "\u533A\u9593\u5E73\u5747"))), metrics.map((m) => /* @__PURE__ */ React.createElement(SegBar, { key: m.key, m })));
   };
   return /* @__PURE__ */ React.createElement("div", { style: S.app }, /* @__PURE__ */ React.createElement("div", { style: S.header }, /* @__PURE__ */ React.createElement("button", { onClick: () => setView("home"), style: { display: "inline-block", lineHeight: 0, verticalAlign: "middle", background: "none", border: "none", padding: 0, cursor: "pointer", borderRadius: "6px", outline: "none" }, title: "\u30DB\u30FC\u30E0" }, /* @__PURE__ */ React.createElement("img", { src: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABAAEADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDW+PPxV1vWvEt7oWiahPY6LZytAfs7lGumU4ZmYc7cggL0wMnOePJftV5nm7uP+/rf41Z1Rf8AiZ3f/XeT/wBCNV9lfv8Al+CoYPDxpUopJL7/ADfmfleLxtWvVlObD7Vef8/dx/39b/GgXV5/z93H/f1v8aNntRtrutHscvtX3D7Vef8AP1cf9/W/xpPtV5/z93H/AH9b/Gl2cUbaLR7D9q+4hurz/n7uP+/rf41638Bfitrei+JbLQNc1Ca+0a8kWBTcOXa1djhWVjztzgEHjnIxjnyQpVjS1P8AaloRwfPj/wDQhXFmGBoY3DypVYppr7vNHVg8bVoVYzgyxqa/8TK6/wCu7/8AoRqttrt5/Bd3ceHrzxIZZmMtzOlpa29lLO0vluN5dkG2IDPG7rg8V1nw08I+GNJ8d21r4puI9QlWwWd4JbYraxzSKjxJ5hOJCULEDAGVOM4rgrZzh8PRlK7k430SfTf/ACvtfTcmll1etVUdlK2rffb/AIbfrseaeHPC3iHxGJW0PSLq/WEgSNEo2qT0BJIGT2HerR8G6pF4fOt3txpmnwEzLHFd3qRTyvE22REiPzFgeMepHrXqfiLxF4K8Pa9rUEWkWM0EyWt2liqssT3MM+RjZ9xijORn5cqMg5wef1Xx3olz4d1TRTd+IZhdXt7crMltbJ5y3GG2yb9xXDZz5eMj8MedRzjG4tKpRpWg2t072tr177aL87d9TLsJhrwq1LyV+vXp+H9d/LGjccGNxyRyp6jqKsXWnXdpZ2V5cQ7IL6NpLZtwPmKrlGOOo+YEc+lemxfEyweWAyW+uWjQWiWq3dtcRtcEI8bmQ7gBvlCFJD3UJ1wQZG8VeB9cSBtUsksUtJI5vsr2hkSRVN1K8EbJ91WlmQZOAQo6YrslmeLhZyoO3W2r+VvO343tozljgsLK6jWV+l9DyXZU+mL/AMTK0/67x/8AoQr1fU9A0DU9Bklsn0eyhtdOto5Lq3T7SWSONZriZUX51fzZUixnJBOcAccfq3gzXfD2rI95ZSyWUV8sC3scZ8pyGX15U8jg45yOoNb0M3o4hOL92XZ/1a+u26Mq2ArUGpbruv6/HY2fC3iafwtrF7Oo1O4C3Jmgt4dTkt4DKrHmVFB8wdMjjIGO9Yesa1r2r2SWOo6pdT2UchkjtS58qMkk/KvoMkAdhwMVqX9hm+uDj/lq/wD6EahGn5/hrCnSw6n7blXM7a+nbt8jxqmY4jk9lze6r/j37nNi0x0XFH2U+ldIbA/3aT7Af7tdn1lHJ7WRzn2Y+lBtvauj+wexpDYH+7T+soPayMnS5rjSTcapZ3F1aXVvEDHLbSmNwWdU6jthjxWtp/iy+1W0/s+SYTmWW2hlmbO8RRSFxGR0OZG8xm6sw5qe208Na3qugYGEcEekiEfypmnaeI7232IFHnISAMfxCvnZQr1swqVHKLpqys1rdJO6d1bpo7ryPpqOZ4KllUaPs5/WG21JStHldlZxad3o9VyvVau1i9f6/pi31wqpISsrg5wP4jUH9u2hPyxD8Wqf9oP4ZeJfDnia+8QaDp1zqGg3srXB+yoXe0djllZRztzkhgMYODjHPjg1PUM4NrdDHX903+FfiON4k4k53FVuVeUY/qm/xPankmDozanTv6t/5nrv9s2+OFjpP7ag54jBryQ6tf8A/Pvc/wDfpv8ACmnVNQ5/0e6P/bJv8K8qWccQz3xU/wAvyRSwGCX/AC6R602twjtGaY2vwj/lnH+teTnU9QwP9Huv+/Tf4U06pfkf8e10P+2Lf4VcM54hhtipfg/zQPL8E/8Al0j1G48bafYi5ins7h28gMPKjZg3zqMAgYz3x6A1b03xTpb3lqJILhC8qAcA4yw+leQnUtRI2i2u+fSJv8K9h/Z4+F3ifxJ4osfEHiDTbnTtAspVuB9qjKPeOpyqqp525AJYjGBgZzx62B4hz+M7Kre71uo+S6Jdu4LJsJiHGEadreb7+p//2Q==", style: { width: "28px", height: "28px", borderRadius: "6px", display: "block" }, alt: "icon" })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "3px" } }, currentRound && /* @__PURE__ */ React.createElement("button", { style: S.navBtn(view === "round"), onClick: () => setView("round") }, "\u8A18\u9332\u4E2D"), /* @__PURE__ */ React.createElement("button", { style: S.navBtn(view === "analytics"), onClick: () => setView("analytics") }, "\u5206\u6790"), /* @__PURE__ */ React.createElement("button", { style: S.navBtn(view === "clubs"), onClick: () => setView("clubs") }, "\u30AF\u30E9\u30D6"), /* @__PURE__ */ React.createElement("button", { style: S.navBtn(view === "manual"), onClick: () => setView("manual") }, "\u4F7F\u3044\u65B9"), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.navBtn(view === "profile")), { padding: "5px 9px" }), onClick: () => {
     setView("profile");
     setProfileEdit(__spreadValues({}, profile));
   } }, "\u{1F464}"))), /* @__PURE__ */ React.createElement("div", { style: S.page }, view === "home" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "20px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: "10px", marginBottom: "3px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", margin: 0, background: "linear-gradient(90deg,#f59e0b,#ea580c)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" } }, "ScoRExolution"), /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8", fontSize: "12px" } }, "\u30B9\u30B3\u30A2\u306E\u8AB2\u984C\u89E3\u6C7A\u3057\u30B4\u30EB\u30D5\u3092\u9032\u5316\u3055\u305B\u308B")), profile.nickname ? /* @__PURE__ */ React.createElement("p", { style: { color: "#16a34a", fontSize: "13px", fontWeight: "600", marginBottom: "3px" } }, "\u3053\u3093\u306B\u3061\u306F\u3001", profile.nickname, "\u3055\u3093\uFF01") : null), handicap ? /* @__PURE__ */ React.createElement("div", { style: S.card({ border: "1px solid rgba(96,165,250,0.25)", marginBottom: "18px", background: "#eff6ff" }) }, (() => {
+    var _a2;
     const scores = (handicap.allDiffs || []).map((d) => d.score).filter(Boolean).sort((a, b) => a - b);
-    const best = scores.length > 0 ? scores[0] : null;
+    const allScores = rounds.filter((r) => r.isComplete).map((r) => Object.values(r.simpleHoleData || {}).reduce((a, h) => a + (h.score || 0), 0)).filter((v) => v > 0);
+    const bestFromData = allScores.length > 0 ? Math.min(...allScores) : null;
+    const bestFromProfile = (_a2 = profile.bestScore) != null ? _a2 : null;
+    const best = bestFromData != null && bestFromProfile != null ? Math.min(bestFromData, bestFromProfile) : bestFromData != null ? bestFromData : bestFromProfile;
     const avg = scores.length > 0 ? Math.round(scores.reduce((a, v) => a + v, 0) / scores.length * 10) / 10 : null;
     const median = scores.length > 0 ? scores.length % 2 === 0 ? Math.round((scores[scores.length / 2 - 1] + scores[scores.length / 2]) / 2 * 10) / 10 : scores[Math.floor(scores.length / 2)] : null;
     const items = [
@@ -4611,8 +4756,13 @@ function GolfTracker() {
       { label: "\u5E73\u5747", value: avg, color: "#64748b" },
       { label: "\u4E2D\u592E\u5024", value: median, color: "#94a3b8" }
     ];
-    return /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "flex-end", gap: "0px" } }, items.map(({ label, value, color }, i) => /* @__PURE__ */ React.createElement("div", { key: label, style: { display: "flex", alignItems: "flex-end" } }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "42px", fontWeight: "800", color, lineHeight: 1 } }, value != null ? value : "\uFF0D"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", fontWeight: "700", color: "#94a3b8", marginTop: "4px", whiteSpace: "nowrap" } }, label)), i < items.length - 1 && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "28px", fontWeight: "300", color: "#cbd5e1", margin: "0 6px", lineHeight: 1, paddingBottom: "18px" } }, "\uFF5C"))));
-  })(), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "8px", fontSize: "9px", color: "#94a3b8", fontStyle: "italic" } }, "\u203B\u5DEE\u5206\u5E73\u5747\u65B9\u5F0F\u306B\u3088\u308B\u53C2\u8003\u5024\u3067\u3059\u3002\u516C\u5F0F\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\u3068\u306F\u7570\u306A\u308A\u307E\u3059")) : rounds.filter((r) => r.isComplete).length > 0 ? /* @__PURE__ */ React.createElement("div", { style: __spreadProps(__spreadValues({}, S.card({ marginBottom: "18px", border: "1px solid rgba(96,165,250,0.15)" })), { fontSize: "12px", color: "#475569", textAlign: "center", padding: "12px" }) }, "\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\u7B97\u51FA\u306B\u306F18H\u5B8C\u4E86\u30E9\u30A6\u30F3\u30C9\u304C3\u4EF6\u4EE5\u4E0A\u5FC5\u8981\u3067\u3059\uFF08\u73FE\u5728 ", rounds.filter((r) => r.isComplete).length, "\u4EF6\uFF09") : null, !showNewRound ? /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "10px", marginBottom: "18px" } }, /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", padding: "14px" }), onClick: () => {
+    return /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0px" } }, items.map(({ label, value, color }, i) => /* @__PURE__ */ React.createElement("div", { key: label, style: {
+      textAlign: "center",
+      padding: "8px 4px",
+      borderRight: i % 2 === 0 ? "1px solid #e2e8f0" : "none",
+      borderBottom: i < 2 ? "1px solid #e2e8f0" : "none"
+    } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "32px", fontWeight: "800", color, lineHeight: 1 } }, value != null ? value : "\uFF0D"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", fontWeight: "700", color: "#94a3b8", marginTop: "4px", whiteSpace: "nowrap" } }, label))));
+  })(), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "8px", fontSize: "9px", color: "#94a3b8", fontStyle: "italic", lineHeight: 1.7 } }, "\u203B\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\uFF1A\u5DEE\u5206\u5E73\u5747\u65B9\u5F0F\u306B\u3088\u308B\u53C2\u8003\u5024\u3002\u516C\u5F0F\u3068\u306F\u7570\u306A\u308A\u307E\u3059", /* @__PURE__ */ React.createElement("br", null), "\u203B\u30D9\u30B9\u30C8\u30B9\u30B3\u30A2\uFF1A\u5168\u8A18\u9332\u30E9\u30A6\u30F3\u30C9\u3068\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB\u81EA\u5DF1\u7533\u544A\u306E\u3046\u3061\u5C0F\u3055\u3044\u65B9", /* @__PURE__ */ React.createElement("br", null), "\u203B\u5E73\u5747\u30FB\u4E2D\u592E\u5024\uFF1A\u76F4\u8FD120\u30E9\u30A6\u30F3\u30C9\u304B\u3089\u7B97\u51FA")) : rounds.filter((r) => r.isComplete).length > 0 ? /* @__PURE__ */ React.createElement("div", { style: __spreadProps(__spreadValues({}, S.card({ marginBottom: "18px", border: "1px solid rgba(96,165,250,0.15)" })), { fontSize: "12px", color: "#475569", textAlign: "center", padding: "12px" }) }, "\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\u7B97\u51FA\u306B\u306F18H\u5B8C\u4E86\u30E9\u30A6\u30F3\u30C9\u304C3\u4EF6\u4EE5\u4E0A\u5FC5\u8981\u3067\u3059\uFF08\u73FE\u5728 ", rounds.filter((r) => r.isComplete).length, "\u4EF6\uFF09") : null, !showNewRound ? /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "10px", marginBottom: "18px" } }, /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", padding: "14px" }), onClick: () => {
     setShowNewRound(true);
     setSetupStep(0);
   } }, "\uFF0B \u65B0\u3057\u3044\u30E9\u30A6\u30F3\u30C9\u3092\u958B\u59CB"), importedTestData.length > 0 && importedTestData.some((r) => !rounds.some((x) => x.rid === r.rid)) && /* @__PURE__ */ React.createElement(
@@ -4652,7 +4802,7 @@ function GolfTracker() {
     "\u{1F4BE} \u73FE\u5728\u306E",
     rounds.length,
     "\u4EF6\u3092\u30C6\u30B9\u30C8\u30C7\u30FC\u30BF\u3068\u3057\u3066\u4FDD\u5B58"
-  )) : /* @__PURE__ */ React.createElement(RoundSetupForm, null), rounds.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: S.card({ textAlign: "center", padding: "38px 20px" }) }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "42px", marginBottom: "10px" } }), /* @__PURE__ */ React.createElement("p", { style: { fontWeight: "700", color: "#94a3b8" } }, "\u307E\u3060\u30E9\u30A6\u30F3\u30C9\u304C\u3042\u308A\u307E\u305B\u3093"), /* @__PURE__ */ React.createElement("p", { style: { fontSize: "12px", marginTop: "3px", color: "#1e293b" } }, "\u30E9\u30A6\u30F3\u30C9\u3092\u958B\u59CB\u3057\u3066\u8A18\u9332\u3057\u3088\u3046\uFF01")) : (() => {
+  )) : RoundSetupForm(), rounds.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: S.card({ textAlign: "center", padding: "38px 20px" }) }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "42px", marginBottom: "10px" } }), /* @__PURE__ */ React.createElement("p", { style: { fontWeight: "700", color: "#94a3b8" } }, "\u307E\u3060\u30E9\u30A6\u30F3\u30C9\u304C\u3042\u308A\u307E\u305B\u3093"), /* @__PURE__ */ React.createElement("p", { style: { fontSize: "12px", marginTop: "3px", color: "#1e293b" } }, "\u30E9\u30A6\u30F3\u30C9\u3092\u958B\u59CB\u3057\u3066\u8A18\u9332\u3057\u3088\u3046\uFF01")) : (() => {
     const teeRates = calcHistoricalTeeRates(rounds);
     return [...rounds].sort((a, b) => {
       return dateToNum(b.date) - dateToNum(a.date);
@@ -5071,7 +5221,7 @@ function GolfTracker() {
       style: { width: "100%", padding: "11px", borderRadius: "9px", border: "none", background: "linear-gradient(135deg,#34d399,#60a5fa)", color: "#f8fafc", fontWeight: "700", fontSize: "13px", cursor: "pointer" }
     },
     "OK"
-  )))), view === "analytics" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "18px" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", marginBottom: "3px" } }, "\u30D7\u30EC\u30FC\u5206\u6790"), /* @__PURE__ */ React.createElement("p", { style: { color: "#94a3b8", fontSize: "12px" } }, "\u5F97\u610F\u30FB\u4E0D\u5F97\u610F\u30B7\u30E7\u30C3\u30C8\u3092\u78BA\u8A8D\u3057\u3088\u3046")), /* @__PURE__ */ React.createElement(AnalyticsAIDiagnosis, null), /* @__PURE__ */ React.createElement(AnalyticsScoreChart, null), /* @__PURE__ */ React.createElement(AnalyticsRadarChart, null), /* @__PURE__ */ React.createElement(AnalyticsStats, null), /* @__PURE__ */ React.createElement(AnalyticsPuttStats, null), /* @__PURE__ */ React.createElement(AnalyticsDistanceStats, null), /* @__PURE__ */ React.createElement(AnalyticsClubStats, null), /* @__PURE__ */ React.createElement(AnalyticsSegmentCharts, null), !analytics ? /* @__PURE__ */ React.createElement("div", { style: S.card({ textAlign: "center", padding: "38px 20px" }) }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "42px", marginBottom: "10px" } }, "\u{1F4CA}"), /* @__PURE__ */ React.createElement("p", { style: { fontWeight: "700", color: "#94a3b8" } }, "\u30C7\u30FC\u30BF\u304C\u3042\u308A\u307E\u305B\u3093"), /* @__PURE__ */ React.createElement("p", { style: { fontSize: "12px", marginTop: "3px", color: "#1e293b" } }, "\u30E9\u30A6\u30F3\u30C9\u3092\u8A18\u9332\u3059\u308B\u3068\u5206\u6790\u304C\u8868\u793A\u3055\u308C\u307E\u3059")) : /* @__PURE__ */ React.createElement(React.Fragment, null, analytics.sorted.map(([catId, data]) => {
+  )))), view === "analytics" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "18px" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", marginBottom: "3px" } }, "\u30D7\u30EC\u30FC\u5206\u6790"), /* @__PURE__ */ React.createElement("p", { style: { color: "#94a3b8", fontSize: "12px" } }, "\u5F97\u610F\u30FB\u4E0D\u5F97\u610F\u30B7\u30E7\u30C3\u30C8\u3092\u78BA\u8A8D\u3057\u3088\u3046")), /* @__PURE__ */ React.createElement(AnalyticsAIDiagnosis, null), /* @__PURE__ */ React.createElement(AnalyticsScoreChart, null), /* @__PURE__ */ React.createElement(AnalyticsStats, null), /* @__PURE__ */ React.createElement(AnalyticsPuttStats, null), /* @__PURE__ */ React.createElement(AnalyticsDistanceStats, null), /* @__PURE__ */ React.createElement(AnalyticsClubStats, null), /* @__PURE__ */ React.createElement(AnalyticsSegmentCharts, null), !analytics ? /* @__PURE__ */ React.createElement("div", { style: S.card({ textAlign: "center", padding: "38px 20px" }) }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "42px", marginBottom: "10px" } }, "\u{1F4CA}"), /* @__PURE__ */ React.createElement("p", { style: { fontWeight: "700", color: "#94a3b8" } }, "\u30C7\u30FC\u30BF\u304C\u3042\u308A\u307E\u305B\u3093"), /* @__PURE__ */ React.createElement("p", { style: { fontSize: "12px", marginTop: "3px", color: "#1e293b" } }, "\u30E9\u30A6\u30F3\u30C9\u3092\u8A18\u9332\u3059\u308B\u3068\u5206\u6790\u304C\u8868\u793A\u3055\u308C\u307E\u3059")) : /* @__PURE__ */ React.createElement(React.Fragment, null, analytics.sorted.map(([catId, data]) => {
     var _a2;
     const opts = ((_a2 = CATEGORIES[catId]) == null ? void 0 : _a2.options) || [];
     const breakdown = opts.map((o) => __spreadProps(__spreadValues({}, o), { count: data.shots.filter((s) => s.optionId === o.id).length })).filter((o) => o.count > 0);
