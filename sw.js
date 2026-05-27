@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v20260527065150';
+const CACHE_VERSION = 'v20260527065643';
 const CACHE_NAME = 'scorexolution-' + CACHE_VERSION;
 const ASSETS = ['/', '/index.html', '/app.js', '/venues.js', '/manifest.json', '/icon-192.png', '/icon-512.png'];
 self.addEventListener('install', (event) => {
