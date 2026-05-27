@@ -215,7 +215,7 @@ function calcGoalProgress(holeData, holePars, goal) {
     const h = parseInt(hKey);
     const par = holePars[h - 1] || 4;
     const shots = hd.shots || [];
-    const totalStrokes = shots.reduce((a, s) => a + s.shotCount, 0);
+    const totalStrokes = shots.reduce((a, s) => a + s.shotCount, 0) + (hd.extraPenalty || 0);
     const puttShots = shots.filter((s) => s.categoryKey === "putt");
     const putts = puttShots.reduce((a, s) => a + s.shotCount, 0);
     const hasPutt = puttShots.length > 0;
@@ -430,10 +430,11 @@ function calcDetailAnalytics(holeData, holePars, hcp = null, teeRates = null) {
     const h = parseInt(hStr);
     const par = pars[h - 1] || 4;
     const shots = hi.shots || [];
-    const score = shots.reduce((a, s) => a + s.shotCount, 0);
+    const extraPen = hi.extraPenalty || 0;
+    const score = shots.reduce((a, s) => a + s.shotCount, 0) + extraPen;
     const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + s.shotCount, 0);
     const ob = shots.filter((s) => s.subType === "ob").length;
-    const penalty = shots.filter((s) => s.subType === "1pen").reduce((a, s) => a + (s.penaltyCount || 0), 0);
+    const penalty = shots.filter((s) => s.subType === "1pen").reduce((a, s) => a + (s.penaltyCount || 0), 0) + extraPen;
     const bunker = shots.filter((s) => s.subType === "bunker").length;
     const teeShots = shots.filter((s) => s.categoryKey === "tee");
     const teeQuality = par >= 4 && teeShots[0] ? normQ(teeShots[0].quality) : null;
@@ -1130,12 +1131,13 @@ function deriveSimpleHoleData(holeData, holePars) {
     const par = pars[h - 1] || 4;
     const shots = hInfo.shots || [];
     const isNewFmt = shots.some((s) => s.quality !== void 0);
-    const score = shots.reduce((a, s) => a + s.shotCount, 0);
+    const extraPen = hInfo.extraPenalty || 0;
+    const score = shots.reduce((a, s) => a + s.shotCount, 0) + extraPen;
     const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + s.shotCount, 0);
     let ob, penalty, bunker, teeEval, secondEval, thirdEval, approachEval;
     if (isNewFmt) {
       ob = shots.filter((s) => s.subType === "ob").length;
-      penalty = shots.filter((s) => s.subType === "1pen").reduce((a, s) => a + (s.penaltyCount || 0), 0);
+      penalty = shots.filter((s) => s.subType === "1pen").reduce((a, s) => a + (s.penaltyCount || 0), 0) + extraPen;
       bunker = shots.filter((s) => s.subType === "bunker").length;
       const teeShot = shots.find((s) => s.categoryKey === "tee");
       if (teeShot) {
@@ -1246,6 +1248,8 @@ function GolfTracker() {
   const [currentHole, setCurrentHole] = useState(1);
   const [holePars, setHolePars] = useState(Array(18).fill(4));
   const [holeData, setHoleData] = useState({});
+  const [showExtraPenaltyModal, setShowExtraPenaltyModal] = useState(false);
+  const [extraPenaltyDraft, setExtraPenaltyDraft] = useState(0);
   const [showShotForm, setShowShotForm] = useState(false);
   const [showNewRound, setShowNewRound] = useState(false);
   const [showDiscardWarning, setShowDiscardWarning] = useState(false);
@@ -1476,11 +1480,11 @@ function GolfTracker() {
   const hd = holeData[currentHole] || { shots: [], state: initialCategory(par), done: false };
   const currentCategory = hd.done ? null : hd.state;
   const currentCatDef = currentCategory ? CATEGORIES[currentCategory] : null;
-  const totalStrokes = hd.shots.reduce((s, sh) => s + sh.shotCount, 0);
+  const totalStrokes = hd.shots.reduce((s, sh) => s + sh.shotCount, 0) + (hd.extraPenalty || 0);
   const holeScore = hd.shots.reduce((s, sh) => s + sh.score, 0);
   const allHoleShots = Object.values(holeData).flatMap((h) => h.shots);
   const totalScore = allHoleShots.reduce((s, sh) => s + sh.score, 0);
-  const totalStrk = allHoleShots.reduce((s, sh) => s + sh.shotCount, 0);
+  const totalStrk = allHoleShots.reduce((s, sh) => s + sh.shotCount, 0) + Object.values(holeData).reduce((a, h) => a + (h.extraPenalty || 0), 0);
   const autoSelectPutterClub = (nextCat) => {
     if (nextCat === "putt" && savedClubs.includes("PT")) {
       setSelectedClub("PT");
@@ -1822,7 +1826,7 @@ function GolfTracker() {
       const shots = Object.values(holeData).flatMap((h) => h.shots);
       const completedHoles = Object.values(holeData).filter((h) => h.done).length;
       isComplete = completedHoles >= holePars.length;
-      totalScore2 = Object.values(holeData).reduce((a, h) => a + h.shots.reduce((s, sh) => s + sh.shotCount, 0), 0);
+      totalScore2 = Object.values(holeData).reduce((a, h) => a + h.shots.reduce((s, sh) => s + sh.shotCount, 0) + (h.extraPenalty || 0), 0);
       const derivedSimple = deriveSimpleHoleData(holeData, holePars);
       setRounds((prev) => [__spreadProps(__spreadValues({}, currentRound), { shots, holePars: [...holePars], holeData: __spreadValues({}, holeData), simpleHoleData: derivedSimple, inputMode: "detail", isComplete, hcp: effectiveHcp }), ...prev]);
       setCurrentRound(null);
@@ -3773,7 +3777,32 @@ function GolfTracker() {
     const totalParDone = doneEntries.reduce((a, [hKey]) => a + (holePars[parseInt(hKey) - 1] || 4), 0);
     const diff = totalStrk - totalParDone;
     return /* @__PURE__ */ React.createElement(React.Fragment, null, doneCount, "\u30DB\u30FC\u30EB\u8A18\u9332\u6E08\u307F\u3000\u5408\u8A08 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "700" } }, totalStrk), "\u6253", doneCount > 0 && totalParDone > 0 && /* @__PURE__ */ React.createElement("span", { style: { color: diff < 0 ? "#ef4444" : diff === 0 ? "#16a34a" : "#f97316", fontWeight: "700" } }, "\uFF08", diff > 0 ? "+" : "", diff, "\uFF09"));
-  })()))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px" } }, currentRound.venueId && /* @__PURE__ */ React.createElement("button", { style: S.btn("secondary"), onClick: () => setShowYardage((v) => !v) }, "\u{1F4CB} \u8DDD\u96E2"), /* @__PURE__ */ React.createElement("button", { style: S.btn("danger"), onClick: handleDetailFinishClick }, "\u7D42\u4E86"))), (() => {
+  })()))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px" } }, (() => {
+    const ep = hd.extraPenalty || 0;
+    const baseStyle = {
+      border: "none",
+      borderRadius: "8px",
+      padding: "6px 9px",
+      fontSize: "12px",
+      fontWeight: "700",
+      cursor: "pointer",
+      whiteSpace: "nowrap"
+    };
+    const style = ep > 0 ? __spreadProps(__spreadValues({}, baseStyle), { background: "#b91c1c", color: "#ffffff" }) : __spreadProps(__spreadValues({}, baseStyle), { background: "#fee2e2", color: "#b91c1c" });
+    return /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        style,
+        onClick: () => {
+          setExtraPenaltyDraft(hd.extraPenalty || 0);
+          setShowExtraPenaltyModal(true);
+        },
+        title: "\u305D\u306E\u4ED6\u30DA\u30CA\u30EB\u30C6\u30A3\u3092\u52A0\u7B97"
+      },
+      "\u26A0\uFE0F ",
+      ep > 0 ? `+${ep}` : "+\u30DA\u30CA"
+    );
+  })(), currentRound.venueId && /* @__PURE__ */ React.createElement("button", { style: S.btn("secondary"), onClick: () => setShowYardage((v) => !v) }, "\u{1F4CB} \u8DDD\u96E2"), /* @__PURE__ */ React.createElement("button", { style: S.btn("danger"), onClick: handleDetailFinishClick }, "\u7D42\u4E86"))), (() => {
     var _a2, _b2;
     const venue = VENUES.find((v) => v.id === currentRound.venueId);
     if (!venue) return null;
@@ -3811,7 +3840,7 @@ function GolfTracker() {
     const halfDiff = row.holes.reduce((a, h) => {
       const hInfo = holeData[h];
       if (!(hInfo == null ? void 0 : hInfo.done)) return a;
-      const strokes = hInfo.shots.reduce((s, sh) => s + sh.shotCount, 0);
+      const strokes = hInfo.shots.reduce((s, sh) => s + sh.shotCount, 0) + (hInfo.extraPenalty || 0);
       return a + (strokes - (holePars[h - 1] || 4));
     }, 0);
     const halfDoneCount = row.holes.filter((h) => {
@@ -3823,7 +3852,7 @@ function GolfTracker() {
       const active = currentHole === h;
       const hasDone = hInfo.done;
       const hasAny = hInfo.shots.length > 0;
-      const strokes = hInfo.shots.reduce((a, s) => a + s.shotCount, 0);
+      const strokes = hInfo.shots.reduce((a, s) => a + s.shotCount, 0) + (hInfo.extraPenalty || 0);
       const hPar = holePars[h - 1] || 4;
       const diff = hasDone ? strokes - hPar : null;
       const { sym, color: symColor } = diff !== null ? scoreDiffSymbol(diff) : { sym: "", color: "#94a3b8" };
@@ -3919,7 +3948,121 @@ function GolfTracker() {
     },
     /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", color: "#fbbf24", fontWeight: "700" } }, currentCatDef.icon, " \u6B21: ", currentCatDef.label),
     /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "600" } }, totalStrokes + 1, "\u6253\u76EE \u203A")
-  ) : hd.done ? /* @__PURE__ */ React.createElement(React.Fragment, null, currentHole > 1 && /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h - 1) }, "\u2039 \u524D\u306E\u30DB\u30FC\u30EB"), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, textAlign: "center", padding: "12px", color: "#16a34a", fontSize: "13px", fontWeight: "700" } }, "\u30DB\u30FC\u30EB\u5B8C\u4E86 \u{1F3C6}", hd.pinDist && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#0ea5e9", fontWeight: "600", marginTop: "2px" } }, "\u{1F4CD} ", hd.pinDist)), currentHole < holePars.length ? /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h + 1) }, "\u6B21\u306E\u30DB\u30FC\u30EB \u203A") : /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("danger")), { padding: "10px 18px", fontSize: "13px", fontWeight: "800" }), onClick: handleDetailFinishClick }, "\u30E9\u30A6\u30F3\u30C9\u7D42\u4E86")) : null, !hd.done && hd.shots.length > 0 && /* @__PURE__ */ React.createElement("button", { style: S.btn("undo"), onClick: undoLastShot }, "\u21A9 \u53D6\u6D88")))), view === "round" && currentRound && inputMode === "detail" && currentRound.goal && (() => {
+  ) : hd.done ? /* @__PURE__ */ React.createElement(React.Fragment, null, currentHole > 1 && /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h - 1) }, "\u2039 \u524D\u306E\u30DB\u30FC\u30EB"), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, textAlign: "center", padding: "12px", color: "#16a34a", fontSize: "13px", fontWeight: "700" } }, "\u30DB\u30FC\u30EB\u5B8C\u4E86 \u{1F3C6}", hd.pinDist && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#0ea5e9", fontWeight: "600", marginTop: "2px" } }, "\u{1F4CD} ", hd.pinDist)), currentHole < holePars.length ? /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h + 1) }, "\u6B21\u306E\u30DB\u30FC\u30EB \u203A") : /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("danger")), { padding: "10px 18px", fontSize: "13px", fontWeight: "800" }), onClick: handleDetailFinishClick }, "\u30E9\u30A6\u30F3\u30C9\u7D42\u4E86")) : null, !hd.done && hd.shots.length > 0 && /* @__PURE__ */ React.createElement("button", { style: S.btn("undo"), onClick: undoLastShot }, "\u21A9 \u53D6\u6D88"))), showExtraPenaltyModal && /* @__PURE__ */ React.createElement(
+    "div",
+    {
+      style: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "rgba(15,23,42,0.55)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: 200,
+        padding: "16px"
+      },
+      onClick: () => setShowExtraPenaltyModal(false)
+    },
+    /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        style: {
+          background: "#ffffff",
+          borderRadius: "14px",
+          padding: "20px 18px",
+          width: "100%",
+          maxWidth: "300px",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.18)"
+        },
+        onClick: (e) => e.stopPropagation()
+      },
+      /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "15px", fontWeight: "800", color: "#1e293b" } }, "\u26A0\uFE0F \u305D\u306E\u4ED6\u30DA\u30CA\u30EB\u30C6\u30A3"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", marginTop: "4px" } }, "Hole ", getDisplayHoleNum(currentHole), "\uFF08Par ", par, "\uFF09\u306B\u52A0\u7B97\u3059\u308B\u7F70\u6253\u6570")),
+      /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "18px", margin: "20px 0 14px" } }, /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          style: {
+            background: "#f1f5f9",
+            border: "1.5px solid #cbd5e1",
+            borderRadius: "50%",
+            width: "44px",
+            height: "44px",
+            fontSize: "22px",
+            fontWeight: "800",
+            color: "#0f172a",
+            cursor: extraPenaltyDraft > 0 ? "pointer" : "not-allowed",
+            opacity: extraPenaltyDraft > 0 ? 1 : 0.4,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxSizing: "border-box"
+          },
+          disabled: extraPenaltyDraft <= 0,
+          onClick: () => setExtraPenaltyDraft((v) => Math.max(0, v - 1))
+        },
+        "\u2212"
+      ), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", minWidth: "76px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "36px", fontWeight: "800", color: extraPenaltyDraft > 0 ? "#b91c1c" : "#94a3b8", lineHeight: 1 } }, extraPenaltyDraft > 0 ? `+${extraPenaltyDraft}` : "0"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#94a3b8", marginTop: "4px" } }, "\u6253\u7F70")), /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          style: {
+            background: "#f1f5f9",
+            border: "1.5px solid #cbd5e1",
+            borderRadius: "50%",
+            width: "44px",
+            height: "44px",
+            fontSize: "22px",
+            fontWeight: "800",
+            color: "#0f172a",
+            cursor: extraPenaltyDraft < 9 ? "pointer" : "not-allowed",
+            opacity: extraPenaltyDraft < 9 ? 1 : 0.4,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxSizing: "border-box"
+          },
+          disabled: extraPenaltyDraft >= 9,
+          onClick: () => setExtraPenaltyDraft((v) => Math.min(9, v + 1))
+        },
+        "\uFF0B"
+      )),
+      /* @__PURE__ */ React.createElement("div", { style: { background: "#fffbeb", border: "0.5px solid rgba(245,158,11,0.30)", borderRadius: "8px", padding: "8px 10px", marginBottom: "14px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10.5px", color: "#92400e", lineHeight: 1.5 } }, "\u9023\u7D9AOB\u30FB\u7A7A\u632F\u308A\u30FB\u8AA4\u7403\u306A\u3069\u3001\u901A\u5E38\u306E\u30B7\u30E7\u30C3\u30C8\u8A18\u9332\u306B\u542B\u307E\u308C\u306A\u3044\u7F70\u6253\u3092\u52A0\u7B97\u3057\u307E\u3059\u30020\u306B\u3059\u308B\u3068\u53D6\u308A\u6D88\u3057\u306B\u306A\u308A\u307E\u3059\u3002")),
+      /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px" } }, /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          style: { flex: 1, background: "#f1f5f9", border: "none", borderRadius: "8px", padding: "11px 0", fontSize: "13px", fontWeight: "700", color: "#475569", cursor: "pointer" },
+          onClick: () => setShowExtraPenaltyModal(false)
+        },
+        "\u30AD\u30E3\u30F3\u30BB\u30EB"
+      ), /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          style: {
+            flex: 1.4,
+            background: "linear-gradient(135deg,#f59e0b,#ea580c)",
+            border: "none",
+            borderRadius: "8px",
+            padding: "11px 0",
+            fontSize: "13px",
+            fontWeight: "700",
+            color: "#ffffff",
+            cursor: "pointer",
+            boxShadow: "0 3px 10px rgba(245,158,11,0.30)"
+          },
+          onClick: () => {
+            const val = Math.max(0, Math.min(9, extraPenaltyDraft | 0));
+            setHoleData((prev) => {
+              const existing = prev[currentHole] || { shots: [], state: initialCategory(par), done: false };
+              return __spreadProps(__spreadValues({}, prev), { [currentHole]: __spreadProps(__spreadValues({}, existing), { extraPenalty: val }) });
+            });
+            setShowExtraPenaltyModal(false);
+          }
+        },
+        "\u78BA\u5B9A"
+      ))
+    )
+  )), view === "round" && currentRound && inputMode === "detail" && currentRound.goal && (() => {
     const goal = currentRound.goal;
     const goalDef = GOAL_TYPES.find((g) => g.id === goal.type);
     if (!goalDef) return null;
