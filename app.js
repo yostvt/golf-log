@@ -1255,11 +1255,11 @@ function GolfTracker() {
   const [showNewRound, setShowNewRound] = useState(false);
   const [showDiscardWarning, setShowDiscardWarning] = useState(false);
   const [showHcpWarning, setShowHcpWarning] = useState(false);
-  const BUY_LINK_URL = "https://example.com/REPLACE_BUY_LINK";
+  const BUY_LINK_URL = "https://note.com/REPLACE_WITH_YOUR_ARTICLE";
   const INTEREST_FORM_URL = "https://example.com/REPLACE_FORM";
   const DETAIL_FREE_LIMIT = 3;
   const DETAIL_PRICE_LABEL = "\xA5500";
-  const UNLOCK_CODES = ["SCOREX-PRO"];
+  const UNLOCK_CODES = ["SCRX-EZ6U-98QV"];
   const [detailUnlocked, setDetailUnlocked] = useState(false);
   const [showDetailPaywall, setShowDetailPaywall] = useState(false);
   const [unlockInput, setUnlockInput] = useState("");
@@ -4037,7 +4037,7 @@ function GolfTracker() {
         setUnlockInput(e.target.value);
         setUnlockError("");
       },
-      placeholder: "\u4F8B: SCOREX-PRO",
+      placeholder: "\u4F8B: SCRX-XXXX-XXXX",
       style: __spreadProps(__spreadValues({}, S.input), { flex: 1 })
     }
   ), /* @__PURE__ */ React.createElement("button", { onClick: applyUnlockCode, style: __spreadProps(__spreadValues({}, S.btn("secondary")), { whiteSpace: "nowrap" }) }, "\u9069\u7528")), unlockError && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#dc2626", fontWeight: "700", marginTop: "6px" } }, unlockError)), /* @__PURE__ */ React.createElement(
