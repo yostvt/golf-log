@@ -3961,7 +3961,7 @@ function GolfTracker() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        zIndex: 200,
+        zIndex: 300,
         padding: "16px"
       },
       onClick: () => setShowExtraPenaltyModal(false)
@@ -4720,10 +4720,35 @@ function GolfTracker() {
       flexDirection: "column",
       maxHeight: "calc(100vh - 60px)",
       overflowY: "hidden"
-    }) }, /* @__PURE__ */ React.createElement("div", { style: { padding: "14px 16px 10px", borderBottom: "1px solid #e2e8f0", flexShrink: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2px" } }, /* @__PURE__ */ React.createElement("h3", { style: { fontWeight: "800", fontSize: "15px", margin: 0 } }, getDisplayHoleNum(currentHole), "\u756A\u30DB\u30FC\u30EB\uFF08Par", par, "\uFF09"), hd.shots.length === 0 ? /* @__PURE__ */ React.createElement("button", { style: S.btn("ghost"), onClick: () => setShowShotForm(false) }, "\u30AD\u30E3\u30F3\u30BB\u30EB") : /* @__PURE__ */ React.createElement("button", { style: S.btn("ghost"), onClick: () => {
+    }) }, /* @__PURE__ */ React.createElement("div", { style: { padding: "14px 16px 10px", borderBottom: "1px solid #e2e8f0", flexShrink: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2px" } }, /* @__PURE__ */ React.createElement("h3", { style: { fontWeight: "800", fontSize: "15px", margin: 0 } }, getDisplayHoleNum(currentHole), "\u756A\u30DB\u30FC\u30EB\uFF08Par", par, "\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px" } }, (() => {
+      const ep = hd.extraPenalty || 0;
+      return /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          style: {
+            border: "none",
+            borderRadius: "8px",
+            padding: "5px 8px",
+            fontSize: "11px",
+            fontWeight: "700",
+            cursor: "pointer",
+            whiteSpace: "nowrap",
+            background: ep > 0 ? "#b91c1c" : "#fee2e2",
+            color: ep > 0 ? "#ffffff" : "#b91c1c"
+          },
+          onClick: () => {
+            setExtraPenaltyDraft(hd.extraPenalty || 0);
+            setShowExtraPenaltyModal(true);
+          },
+          title: "\u305D\u306E\u4ED6\u30DA\u30CA\u30EB\u30C6\u30A3\u3092\u52A0\u7B97"
+        },
+        "\u26A0\uFE0F ",
+        ep > 0 ? `+${ep}` : "+\u30DA\u30CA"
+      );
+    })(), hd.shots.length === 0 ? /* @__PURE__ */ React.createElement("button", { style: S.btn("ghost"), onClick: () => setShowShotForm(false) }, "\u30AD\u30E3\u30F3\u30BB\u30EB") : /* @__PURE__ */ React.createElement("button", { style: S.btn("ghost"), onClick: () => {
       undoLastShot();
       setShotNote("");
-    } }, "\u623B\u308B")), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", color: "#fbbf24", fontWeight: "600" } }, currentCatDef.icon, " ", totalStrokes + 1, "\u6253\u76EE \u2014 ", currentCatDef.label)), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, overflowY: "auto", padding: "12px 16px 8px" } }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "14px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", fontWeight: "700", color: "#94a3b8", marginBottom: "7px" } }, "\u{1F4CF} \u6B8B\u308A\u8DDD\u96E2 ", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#f87171", fontWeight: "700", background: "rgba(239,68,68,0.1)", padding: "1px 5px", borderRadius: "4px", marginLeft: "4px" } }, "\u5FC5\u9808")), currentCategory === "tee" ? (
+    } }, "\u623B\u308B"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", color: "#fbbf24", fontWeight: "600" } }, currentCatDef.icon, " ", totalStrokes + 1, "\u6253\u76EE \u2014 ", currentCatDef.label)), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, overflowY: "auto", padding: "12px 16px 8px" } }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "14px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", fontWeight: "700", color: "#94a3b8", marginBottom: "7px" } }, "\u{1F4CF} \u6B8B\u308A\u8DDD\u96E2 ", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#f87171", fontWeight: "700", background: "rgba(239,68,68,0.1)", padding: "1px 5px", borderRadius: "4px", marginLeft: "4px" } }, "\u5FC5\u9808")), currentCategory === "tee" ? (
       /* ティ：電卓入力（自動取得＋上書き可） */
       /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(
         "div",
