@@ -1548,13 +1548,14 @@ function GolfTracker() {
       nextState = categoryForState(opt.nextState);
     }
     setHoleData((prev) => {
-      var _a2, _b2;
+      var _a2, _b2, _c2;
       return __spreadProps(__spreadValues({}, prev), {
         [currentHole]: {
           shots: [...((_a2 = prev[currentHole]) == null ? void 0 : _a2.shots) || [], shot],
           state: nextState,
           done: nextState === "done",
-          pinDist: pinDistLabel != null ? pinDistLabel : (_b2 = prev[currentHole]) == null ? void 0 : _b2.pinDist
+          pinDist: pinDistLabel != null ? pinDistLabel : (_b2 = prev[currentHole]) == null ? void 0 : _b2.pinDist,
+          extraPenalty: (_c2 = prev[currentHole]) == null ? void 0 : _c2.extraPenalty
         }
       });
     });
@@ -1570,6 +1571,10 @@ function GolfTracker() {
     setTeeDistOverride(null);
     setCalcOpen(false);
     setCalcInput("");
+    if (shot.categoryKey === "tee" && shot.subType === "ob") {
+      const nextNum = 4 + (hd.extraPenalty || 0);
+      setTimeout(() => showToast(`\u6B21\u306F${nextNum}\u6253\u76EE\u304B\u3089\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044`), 300);
+    }
     if (nextState === "done") {
       setShowShotForm(false);
       const finalStrokes = totalStrokes + totalShotCount;
@@ -1636,7 +1641,10 @@ function GolfTracker() {
       }
       state = categoryForState(opt.nextState);
     }
-    setHoleData((p) => __spreadProps(__spreadValues({}, p), { [currentHole]: { shots: prev, state, done: state === "done", pinDist: void 0 } }));
+    setHoleData((p) => {
+      var _a3;
+      return __spreadProps(__spreadValues({}, p), { [currentHole]: { shots: prev, state, done: state === "done", pinDist: void 0, extraPenalty: (_a3 = p[currentHole]) == null ? void 0 : _a3.extraPenalty } });
+    });
   };
   const canRecordNew = (() => {
     if (!currentCatDef) return false;
@@ -3921,7 +3929,10 @@ function GolfTracker() {
             }
             state = categoryForState(opt.nextState, par, strokes + 1);
           }
-          setHoleData((p) => __spreadProps(__spreadValues({}, p), { [currentHole]: { shots: prev, state, done: false, pinDist: void 0 } }));
+          setHoleData((p) => {
+            var _a3;
+            return __spreadProps(__spreadValues({}, p), { [currentHole]: { shots: prev, state, done: false, pinDist: void 0, extraPenalty: (_a3 = p[currentHole]) == null ? void 0 : _a3.extraPenalty } });
+          });
         },
         style: { padding: "2px 9px", borderRadius: "20px", background: "rgba(245,158,11,0.10)", color: "#d97706", border: "1px solid rgba(245,158,11,0.30)", fontSize: "11px", fontWeight: "700", cursor: "pointer" }
       },
@@ -3929,8 +3940,8 @@ function GolfTracker() {
     ))), yard && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", marginTop: "5px", fontSize: "10px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#d97706", fontWeight: "700" } }, [greenLabel, teeLabel].filter(Boolean).join("\u3000"), " ", yard, "y")));
   })(), hd.shots.map((s, i) => {
     const c = COLOR_MAP[s.color] || COLOR_MAP.gray;
-    return /* @__PURE__ */ React.createElement("div", { key: s.id, style: { display: "flex", alignItems: "center", gap: "9px", padding: "9px 11px", borderRadius: "8px", background: "#f8fafc", border: "1px solid rgba(255,255,255,0.055)", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "22px", height: "22px", borderRadius: "50%", background: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: "800", color: "#64748b", flexShrink: 0 } }, hd.shots.slice(0, i).reduce((a, sh) => a + sh.shotCount, 1)), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "700", fontSize: "13px", color: c.text } }, s.optionLabel), s.remainDist && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#fbbf24", background: "rgba(251,191,36,0.1)", padding: "1px 6px", borderRadius: "4px" } }, "\u{1F4CF}", s.remainDist), s.club && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#0ea5e9", background: "rgba(14,165,233,0.12)", padding: "1px 6px", borderRadius: "4px" } }, s.club)), s.penaltyCount > 0 && /* @__PURE__ */ React.createElement("div", { style: { color: "#b91c1c", fontSize: "10px" } }, "\uFF08+", s.penaltyCount, "\u7F70\u30FB\u8A08", s.shotCount, "\u6253\u6D88\u8CBB\uFF09"), s.shotCount > 1 && !s.penaltyCount && s.categoryKey === "putt" && /* @__PURE__ */ React.createElement("div", { style: { color: "#475569", fontSize: "10px" } }, "\uFF08", s.shotCount, "\u6253\u5206\uFF09"), s.note && /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "10px" } }, s.note)), /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "13px", flexShrink: 0, color: s.quality !== void 0 ? s.quality === "\u25CB" ? "#16a34a" : s.quality === "\u25B3" ? "#fbbf24" : "#94a3b8" : scoreColor(s.score) } }, s.quality !== void 0 ? s.quality : fmt(s.score)));
-  }), hd.shots.length === 0 && /* @__PURE__ */ React.createElement("p", { style: { color: "#1e293b", fontSize: "12px", textAlign: "center", padding: "10px 0" } }, "\u3053\u306E\u30DB\u30FC\u30EB\u306F\u307E\u3060\u8A18\u9332\u304C\u3042\u308A\u307E\u305B\u3093"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", marginTop: "10px" } }, !hd.done && currentCatDef ? /* @__PURE__ */ React.createElement(
+    return /* @__PURE__ */ React.createElement("div", { key: s.id, style: { display: "flex", alignItems: "center", gap: "9px", padding: "9px 11px", borderRadius: "8px", background: "#f8fafc", border: "1px solid rgba(255,255,255,0.055)", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "22px", height: "22px", borderRadius: "50%", background: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: "800", color: "#64748b", flexShrink: 0 } }, hd.shots.slice(0, i).reduce((a, sh) => a + sh.shotCount, i > 0 ? 1 + (hd.extraPenalty || 0) : 1)), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "700", fontSize: "13px", color: c.text } }, s.optionLabel), s.remainDist && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#fbbf24", background: "rgba(251,191,36,0.1)", padding: "1px 6px", borderRadius: "4px" } }, "\u{1F4CF}", s.remainDist), s.club && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#0ea5e9", background: "rgba(14,165,233,0.12)", padding: "1px 6px", borderRadius: "4px" } }, s.club)), s.penaltyCount > 0 && /* @__PURE__ */ React.createElement("div", { style: { color: "#b91c1c", fontSize: "10px" } }, "\uFF08+", s.penaltyCount, "\u7F70\u30FB\u8A08", s.shotCount, "\u6253\u6D88\u8CBB\uFF09"), s.shotCount > 1 && !s.penaltyCount && s.categoryKey === "putt" && /* @__PURE__ */ React.createElement("div", { style: { color: "#475569", fontSize: "10px" } }, "\uFF08", s.shotCount, "\u6253\u5206\uFF09"), s.note && /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "10px" } }, s.note)), /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "13px", flexShrink: 0, color: s.quality !== void 0 ? s.quality === "\u25CB" ? "#16a34a" : s.quality === "\u25B3" ? "#fbbf24" : "#94a3b8" : scoreColor(s.score) } }, s.quality !== void 0 ? s.quality : fmt(s.score)));
+  }), hd.shots.length === 0 && /* @__PURE__ */ React.createElement("p", { style: { color: "#1e293b", fontSize: "12px", textAlign: "center", padding: "10px 0" } }, "\u3053\u306E\u30DB\u30FC\u30EB\u306F\u307E\u3060\u8A18\u9332\u304C\u3042\u308A\u307E\u305B\u3093"), (hd.extraPenalty || 0) > 0 && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "9px", padding: "9px 11px", borderRadius: "8px", background: "rgba(185,28,28,0.06)", border: "1px solid rgba(185,28,28,0.25)", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "22px", height: "22px", borderRadius: "50%", background: "rgba(185,28,28,0.10)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", flexShrink: 0 } }, "\u26A0\uFE0F"), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "700", fontSize: "13px", color: "#b91c1c" } }, "\u305D\u306E\u4ED6\u30DA\u30CA\u30EB\u30C6\u30A3"), /* @__PURE__ */ React.createElement("div", { style: { color: "#b91c1c", fontSize: "10px" } }, "\uFF08+", hd.extraPenalty, "\u7F70\u6253\uFF09")), /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "13px", color: "#b91c1c" } }, "\xD7")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", marginTop: "10px" } }, !hd.done && currentCatDef ? /* @__PURE__ */ React.createElement(
     "button",
     {
       onClick: openShotForm,
