@@ -8201,4 +8201,434 @@ var VENUES = [
     subCourses: [{ name: "OUT", holes: KATSURA_GC_OUT },{ name: "IN", holes: KATSURA_GC_IN }],
     getYardage: (hole, green, tee) => hole[tee] ?? null,
   },
+]; // VENUES配列終端（暫定）
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 神奈川・埼玉追加分 コースデータ（10件）
+// 出典: 楽天GORA（2026-05-29収集）
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ───────────── 越生ゴルフクラブ (埼玉県比企郡ときがわ町) 18H Par72 2グリーン ─────────────
+// GORA c_id: 110014 / Aグリーン(ベント)使用距離 / 設計: 和泉一介
+const OGOSE_GC_OUT = [
+  { hole:1,  par:5, hdcp: 3, bk:594, rg:565, ld:472 },
+  { hole:2,  par:3, hdcp:11, bk:187, rg:170, ld:115 },
+  { hole:3,  par:4, hdcp: 5, bk:400, rg:368, ld:259 },
+  { hole:4,  par:4, hdcp: 1, bk:452, rg:429, ld:339 },
+  { hole:5,  par:3, hdcp:15, bk:183, rg:165, ld:143 },
+  { hole:6,  par:4, hdcp: 9, bk:341, rg:320, ld:280 },
+  { hole:7,  par:4, hdcp:13, bk:374, rg:336, ld:320 },
+  { hole:8,  par:4, hdcp:17, bk:394, rg:371, ld:296 },
+  { hole:9,  par:5, hdcp: 7, bk:553, rg:530, ld:503 },
 ];
+const OGOSE_GC_IN = [
+  { hole:10, par:5, hdcp: 6, bk:547, rg:518, ld:429 },
+  { hole:11, par:3, hdcp:16, bk:172, rg:153, ld:133 },
+  { hole:12, par:4, hdcp: 2, bk:448, rg:420, ld:360 },
+  { hole:13, par:4, hdcp:14, bk:411, rg:364, ld:364 },
+  { hole:14, par:4, hdcp:18, bk:376, rg:346, ld:346 },
+  { hole:15, par:5, hdcp: 4, bk:630, rg:607, ld:522 },
+  { hole:16, par:4, hdcp: 8, bk:411, rg:376, ld:286 },
+  { hole:17, par:3, hdcp:10, bk:185, rg:165, ld:170 },
+  { hole:18, par:4, hdcp:12, bk:357, rg:346, ld:346 },
+];
+
+// ───────────── 秩父国際カントリークラブ (埼玉県秩父郡皆野町) 18H Par72 2グリーン ─────────
+// GORA c_id: 110047 / Blue→bk / White→rg / Red→ld / 設計: 新田裕造
+const CHICHIBU_KOKUSAI_CC_OUT = [
+  { hole:1,  par:5, hdcp: 3, bk:470, rg:454, ld:372 },
+  { hole:2,  par:4, hdcp: 9, bk:329, rg:309, ld:299 },
+  { hole:3,  par:4, hdcp:15, bk:300, rg:290, ld:202 },
+  { hole:4,  par:3, hdcp:13, bk:140, rg:128, ld:115 },
+  { hole:5,  par:4, hdcp: 7, bk:314, rg:297, ld:279 },
+  { hole:6,  par:4, hdcp: 1, bk:340, rg:325, ld:320 },
+  { hole:7,  par:3, hdcp:17, bk:173, rg:154, ld:154 },
+  { hole:8,  par:5, hdcp: 5, bk:522, rg:512, ld:308 },
+  { hole:9,  par:4, hdcp:11, bk:366, rg:336, ld:202 },
+];
+const CHICHIBU_KOKUSAI_CC_IN = [
+  { hole:10, par:3, hdcp:16, bk:143, rg:130, ld:118 },
+  { hole:11, par:4, hdcp:10, bk:297, rg:284, ld:284 },
+  { hole:12, par:5, hdcp: 4, bk:555, rg:535, ld:323 },
+  { hole:13, par:4, hdcp: 8, bk:312, rg:300, ld:289 },
+  { hole:14, par:5, hdcp: 2, bk:428, rg:412, ld:344 },
+  { hole:15, par:3, hdcp:14, bk:109, rg:103, ld: 96 },
+  { hole:16, par:4, hdcp:12, bk:355, rg:345, ld:335 },
+  { hole:17, par:4, hdcp: 6, bk:364, rg:322, ld:258 },
+  { hole:18, par:4, hdcp:18, bk:340, rg:304, ld:192 },
+];
+
+// ───────────── 飯能ゴルフクラブ (埼玉県飯能市芦苅場495) 18H Par72 2グリーン ──────────────
+// GORA c_id: 110061 / BLACK→bk / BLUE→rg / GREEN→ld / 設計: 和泉一介
+// ※IN HDCPはGORA未掲載のため距離・難度に基づき推定（偶数2-18）
+const HANNO_GC_OUT = [
+  { hole:1,  par:4, hdcp: 9, bk:423, rg:399, ld:285 },
+  { hole:2,  par:5, hdcp:15, bk:513, rg:490, ld:414 },
+  { hole:3,  par:3, hdcp: 3, bk:220, rg:201, ld:131 },
+  { hole:4,  par:4, hdcp: 1, bk:404, rg:370, ld:294 },
+  { hole:5,  par:4, hdcp: 7, bk:352, rg:332, ld:218 },
+  { hole:6,  par:3, hdcp:13, bk:167, rg:146, ld:114 },
+  { hole:7,  par:4, hdcp: 5, bk:427, rg:400, ld:267 },
+  { hole:8,  par:4, hdcp:11, bk:422, rg:397, ld:267 },
+  { hole:9,  par:5, hdcp:17, bk:511, rg:480, ld:363 },
+];
+const HANNO_GC_IN = [
+  { hole:10, par:4, hdcp:10, bk:406, rg:388, ld:227 }, // HDCP推定
+  { hole:11, par:4, hdcp: 4, bk:431, rg:407, ld:310 },
+  { hole:12, par:3, hdcp:14, bk:195, rg:155, ld:116 },
+  { hole:13, par:4, hdcp: 2, bk:406, rg:390, ld:288 },
+  { hole:14, par:5, hdcp: 8, bk:503, rg:470, ld:412 },
+  { hole:15, par:4, hdcp: 6, bk:443, rg:399, ld:314 },
+  { hole:16, par:3, hdcp:16, bk:195, rg:172, ld:118 },
+  { hole:17, par:5, hdcp:12, bk:580, rg:553, ld:449 },
+  { hole:18, par:4, hdcp:18, bk:329, rg:310, ld:228 },
+];
+
+// ───────────── 東都秩父カントリー倶楽部 (埼玉県秩父市蒔田) 18H Par72 2グリーン ───────────
+// GORA c_id: 110052 / 設計: 中村寅吉 / 1987年JLPGA開催コース
+// ※レディース距離 GORA未掲載のためレギュラー×0.84で推定
+const TOTO_CHICHIBU_CC_OUT = [
+  { hole:1,  par:5, hdcp:12, bk:560, rg:534, ld:450 },
+  { hole:2,  par:4, hdcp: 4, bk:398, rg:381, ld:320 },
+  { hole:3,  par:4, hdcp: 9, bk:380, rg:366, ld:310 },
+  { hole:4,  par:4, hdcp:13, bk:380, rg:361, ld:305 },
+  { hole:5,  par:4, hdcp: 1, bk:411, rg:399, ld:335 },
+  { hole:6,  par:3, hdcp:18, bk:165, rg:144, ld:120 },
+  { hole:7,  par:4, hdcp: 3, bk:354, rg:336, ld:280 },
+  { hole:8,  par:5, hdcp: 7, bk:525, rg:515, ld:430 },
+  { hole:9,  par:3, hdcp: 8, bk:189, rg:178, ld:150 },
+];
+const TOTO_CHICHIBU_CC_IN = [
+  { hole:10, par:4, hdcp: 6, bk:417, rg:397, ld:335 },
+  { hole:11, par:3, hdcp:15, bk:178, rg:146, ld:125 },
+  { hole:12, par:3, hdcp:11, bk:187, rg:160, ld:135 },
+  { hole:13, par:4, hdcp:10, bk:394, rg:368, ld:310 },
+  { hole:14, par:4, hdcp: 5, bk:377, rg:317, ld:265 },
+  { hole:15, par:4, hdcp:16, bk:356, rg:323, ld:270 },
+  { hole:16, par:4, hdcp: 2, bk:427, rg:404, ld:340 },
+  { hole:17, par:5, hdcp:17, bk:517, rg:492, ld:415 },
+  { hole:18, par:5, hdcp:14, bk:503, rg:481, ld:405 },
+];
+
+// ───────────── 長瀞カントリークラブ (埼玉県大里郡寄居町金尾) 18H Par72 2グリーン ─────────
+// GORA c_id: 110054 / BACK→bk / REGUL→rg / 設計: 小松原三夫・川波義太郎
+// ※レディース距離 GORA未掲載のためレギュラー×0.84で推定
+const NAGATORO_CC_OUT = [
+  { hole:1,  par:5, hdcp: 3, bk:525, rg:485, ld:405 },
+  { hole:2,  par:3, hdcp: 7, bk:170, rg:153, ld:130 },
+  { hole:3,  par:4, hdcp:17, bk:302, rg:292, ld:245 },
+  { hole:4,  par:4, hdcp: 5, bk:373, rg:364, ld:305 },
+  { hole:5,  par:4, hdcp:13, bk:310, rg:300, ld:250 },
+  { hole:6,  par:5, hdcp:11, bk:530, rg:510, ld:430 },
+  { hole:7,  par:4, hdcp: 9, bk:321, rg:316, ld:265 },
+  { hole:8,  par:4, hdcp: 1, bk:386, rg:324, ld:270 },
+  { hole:9,  par:3, hdcp:15, bk:158, rg:137, ld:115 },
+];
+const NAGATORO_CC_IN = [
+  { hole:10, par:4, hdcp: 4, bk:451, rg:385, ld:325 },
+  { hole:11, par:3, hdcp:18, bk:140, rg:128, ld:110 },
+  { hole:12, par:4, hdcp:10, bk:355, rg:325, ld:275 },
+  { hole:13, par:5, hdcp:14, bk:541, rg:534, ld:450 },
+  { hole:14, par:3, hdcp:16, bk:155, rg:140, ld:120 },
+  { hole:15, par:4, hdcp: 2, bk:404, rg:389, ld:325 },
+  { hole:16, par:4, hdcp: 8, bk:354, rg:341, ld:285 },
+  { hole:17, par:4, hdcp:12, bk:345, rg:330, ld:275 },
+  { hole:18, par:5, hdcp: 6, bk:528, rg:490, ld:410 },
+];
+
+// ───────────── 本厚木カンツリークラブ (神奈川県厚木市飯山1700) 18H Par72 2グリーン ────────
+// GORA c_id: 140045 / Back→bk / Regular→rg / 設計: 赤星四郎
+// ※レディース距離 GORA未掲載のためレギュラー×0.859で推定（Front2=5521Y比）
+const HON_ATSUGI_CC_OUT = [
+  { hole:1,  par:4, hdcp: 9, bk:390, rg:372, ld:320 },
+  { hole:2,  par:4, hdcp:15, bk:333, rg:323, ld:277 },
+  { hole:3,  par:4, hdcp: 3, bk:401, rg:382, ld:328 },
+  { hole:4,  par:3, hdcp:13, bk:191, rg:169, ld:145 },
+  { hole:5,  par:4, hdcp: 1, bk:421, rg:407, ld:350 },
+  { hole:6,  par:5, hdcp: 7, bk:505, rg:480, ld:412 },
+  { hole:7,  par:3, hdcp:17, bk:140, rg:123, ld:106 },
+  { hole:8,  par:4, hdcp:11, bk:426, rg:395, ld:339 },
+  { hole:9,  par:5, hdcp: 5, bk:541, rg:524, ld:450 },
+];
+const HON_ATSUGI_CC_IN = [
+  { hole:10, par:4, hdcp: 4, bk:402, rg:365, ld:314 },
+  { hole:11, par:3, hdcp:16, bk:151, rg:140, ld:120 },
+  { hole:12, par:4, hdcp:10, bk:395, rg:380, ld:326 },
+  { hole:13, par:4, hdcp: 8, bk:394, rg:383, ld:329 },
+  { hole:14, par:4, hdcp: 2, bk:442, rg:406, ld:349 },
+  { hole:15, par:3, hdcp:14, bk:208, rg:184, ld:158 },
+  { hole:16, par:5, hdcp: 6, bk:551, rg:519, ld:446 },
+  { hole:17, par:4, hdcp:18, bk:404, rg:387, ld:332 },
+  { hole:18, par:5, hdcp:12, bk:526, rg:508, ld:436 },
+];
+
+// ─────── 厚木国際カントリー倶楽部 西コース (神奈川県厚木市下荻野) 18H Par72 2グリーン ──────
+// GORA c_id: 140001 / Back→bk / Regular→rg / Ladies→ld / 設計: 矢下治蔵
+// HDCPはOUT=9H内1-9(奇数18H変換), IN=既に18H偶数
+const ATSUGI_KOKUSAI_WEST_OUT = [
+  { hole:1,  par:4, hdcp: 3, bk:416, rg:370, ld:326 },
+  { hole:2,  par:5, hdcp: 9, bk:542, rg:523, ld:460 },
+  { hole:3,  par:3, hdcp:15, bk:171, rg:159, ld:152 },
+  { hole:4,  par:4, hdcp: 7, bk:397, rg:380, ld:285 },
+  { hole:5,  par:4, hdcp: 1, bk:404, rg:383, ld:302 },
+  { hole:6,  par:3, hdcp:17, bk:160, rg:147, ld: 97 },
+  { hole:7,  par:5, hdcp:13, bk:530, rg:519, ld:496 },
+  { hole:8,  par:4, hdcp: 5, bk:462, rg:435, ld:361 },
+  { hole:9,  par:4, hdcp:11, bk:365, rg:344, ld:331 },
+];
+const ATSUGI_KOKUSAI_WEST_IN = [
+  { hole:10, par:3, hdcp:16, bk:184, rg:168, ld:136 },
+  { hole:11, par:4, hdcp:10, bk:386, rg:366, ld:342 },
+  { hole:12, par:4, hdcp: 4, bk:414, rg:365, ld:351 },
+  { hole:13, par:5, hdcp: 2, bk:526, rg:516, ld:488 },
+  { hole:14, par:4, hdcp:14, bk:372, rg:318, ld:287 },
+  { hole:15, par:3, hdcp: 8, bk:184, rg:175, ld:145 },
+  { hole:16, par:5, hdcp:18, bk:528, rg:508, ld:437 },
+  { hole:17, par:4, hdcp: 6, bk:446, rg:436, ld:382 },
+  { hole:18, par:4, hdcp:12, bk:370, rg:340, ld:321 },
+];
+
+// ─────── 厚木国際カントリー倶楽部 東コース (神奈川県厚木市下荻野) 18H Par71 1グリーン ──────
+// GORA c_id: 140001 / Back→bk / Regular→rg / Ladies→ld / 設計: 東俊伸
+// OUT Par=35, IN Par=36 → 合計Par71
+// HDCPはOUT=9H内1-9(奇数18H変換), IN=9H内1-9(偶数18H変換)
+const ATSUGI_KOKUSAI_EAST_OUT = [
+  { hole:1,  par:4, hdcp:11, bk:382, rg:367, ld:295 },
+  { hole:2,  par:4, hdcp: 1, bk:418, rg:393, ld:304 },
+  { hole:3,  par:4, hdcp: 3, bk:405, rg:380, ld:295 },
+  { hole:4,  par:4, hdcp: 7, bk:387, rg:369, ld:295 },
+  { hole:5,  par:3, hdcp: 9, bk:173, rg:157, ld:123 },
+  { hole:6,  par:4, hdcp:17, bk:330, rg:323, ld:253 },
+  { hole:7,  par:3, hdcp: 5, bk:188, rg:167, ld:125 },
+  { hole:8,  par:5, hdcp:15, bk:501, rg:485, ld:418 },
+  { hole:9,  par:4, hdcp:13, bk:371, rg:354, ld:263 },
+];
+const ATSUGI_KOKUSAI_EAST_IN = [
+  { hole:10, par:4, hdcp:10, bk:392, rg:377, ld:338 },
+  { hole:11, par:5, hdcp:16, bk:525, rg:512, ld:428 },
+  { hole:12, par:3, hdcp: 2, bk:182, rg:165, ld:105 },
+  { hole:13, par:4, hdcp: 8, bk:372, rg:362, ld:285 },
+  { hole:14, par:4, hdcp:12, bk:383, rg:371, ld:285 },
+  { hole:15, par:4, hdcp: 6, bk:375, rg:365, ld:294 },
+  { hole:16, par:3, hdcp: 4, bk:221, rg:208, ld:120 },
+  { hole:17, par:4, hdcp:14, bk:377, rg:362, ld:324 },
+  { hole:18, par:5, hdcp:18, bk:495, rg:483, ld:420 },
+];
+
+// ─────── 神奈川カントリークラブ 東・南コース (神奈川県相模原市緑区) 18H Par72 2グリーン ────
+// GORA c_id: 140009 / BLUE→bk / WHITE→rg / GOLD-RED→ld / 設計: 竹村秀夫
+// 東コース9H (H1-9) + 南コース9H (H10-18) / HDCPは9H単位→18H変換
+const KANAGAWA_CC_EAST_SOUTH_OUT = [
+  { hole:1,  par:5, hdcp: 3, bk:574, rg:561, ld:517 },
+  { hole:2,  par:3, hdcp:15, bk:168, rg:145, ld:127 },
+  { hole:3,  par:5, hdcp: 9, bk:495, rg:478, ld:426 },
+  { hole:4,  par:4, hdcp: 7, bk:370, rg:360, ld:325 },
+  { hole:5,  par:4, hdcp:13, bk:323, rg:311, ld:258 },
+  { hole:6,  par:4, hdcp: 1, bk:386, rg:378, ld:273 },
+  { hole:7,  par:4, hdcp:11, bk:333, rg:318, ld:293 },
+  { hole:8,  par:3, hdcp:17, bk:148, rg:135, ld:107 },
+  { hole:9,  par:4, hdcp: 5, bk:427, rg:415, ld:359 },
+];
+const KANAGAWA_CC_EAST_SOUTH_IN = [
+  { hole:10, par:3, hdcp:10, bk:193, rg:175, ld:135 },
+  { hole:11, par:5, hdcp: 4, bk:492, rg:482, ld:400 },
+  { hole:12, par:3, hdcp:16, bk:133, rg:127, ld: 84 },
+  { hole:13, par:4, hdcp:14, bk:320, rg:308, ld:255 },
+  { hole:14, par:4, hdcp: 8, bk:365, rg:357, ld:354 },
+  { hole:15, par:4, hdcp: 2, bk:372, rg:353, ld:302 },
+  { hole:16, par:5, hdcp: 6, bk:487, rg:473, ld:353 },
+  { hole:17, par:4, hdcp:12, bk:346, rg:320, ld:282 },
+  { hole:18, par:4, hdcp:18, bk:313, rg:305, ld:261 },
+];
+
+// ─────── 神奈川カントリークラブ 南・西コース (神奈川県相模原市緑区) 18H Par72 2グリーン ────
+// GORA c_id: 140009 / 南コース9H (H1-9) + 西コース9H (H10-18)
+const KANAGAWA_CC_SOUTH_WEST_OUT = [
+  { hole:1,  par:3, hdcp: 9, bk:193, rg:175, ld:135 },
+  { hole:2,  par:5, hdcp: 3, bk:492, rg:482, ld:400 },
+  { hole:3,  par:3, hdcp:15, bk:133, rg:127, ld: 84 },
+  { hole:4,  par:4, hdcp:13, bk:320, rg:308, ld:255 },
+  { hole:5,  par:4, hdcp: 7, bk:365, rg:357, ld:354 },
+  { hole:6,  par:4, hdcp: 1, bk:372, rg:353, ld:302 },
+  { hole:7,  par:5, hdcp: 5, bk:487, rg:473, ld:353 },
+  { hole:8,  par:4, hdcp:11, bk:346, rg:320, ld:282 },
+  { hole:9,  par:4, hdcp:17, bk:313, rg:305, ld:261 },
+];
+const KANAGAWA_CC_SOUTH_WEST_IN = [
+  { hole:10, par:3, hdcp:16, bk:146, rg:131, ld:116 },
+  { hole:11, par:5, hdcp:10, bk:477, rg:434, ld:423 },
+  { hole:12, par:5, hdcp: 4, bk:578, rg:538, ld:434 },
+  { hole:13, par:4, hdcp: 2, bk:368, rg:359, ld:269 },
+  { hole:14, par:4, hdcp:14, bk:269, rg:269, ld:247 },
+  { hole:15, par:4, hdcp: 8, bk:255, rg:251, ld:244 },
+  { hole:16, par:4, hdcp:12, bk:268, rg:261, ld:253 },
+  { hole:17, par:4, hdcp: 6, bk:289, rg:284, ld:277 },
+  { hole:18, par:3, hdcp:18, bk:155, rg:140, ld:135 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// VENUES 追加エントリ（上記10コースをVENUES配列に追加）
+// ─────────────────────────────────────────────────────────────────────────────
+// 既存 ]; を削除して下記で置換（ビルド時に venues_new.js でマージ済み）
+
+VENUES.push(
+  // ─── 越生ゴルフクラブ（埼玉・ときがわ町）──
+  {
+    id: "ogose_gc", reading: "オゴセゴルフクラブ",
+    name: "越生ゴルフクラブ",
+    greens: [
+      { id: "a", label: "Aグリーン（ベント）" },
+      { id: "b", label: "Bグリーン（高麗）" },
+    ],
+    tees: [
+      { id: "bk", label: "バック" },
+      { id: "rg", label: "レギュラー" },
+      { id: "ld", label: "レディース" },
+    ],
+    subCourses: [{ name: "OUT", holes: OGOSE_GC_OUT }, { name: "IN", holes: OGOSE_GC_IN }],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 秩父国際カントリークラブ（埼玉・皆野町）──
+  {
+    id: "chichibu_kokusai_cc", reading: "チチブコクサイカントリークラブ",
+    name: "秩父国際カントリークラブ",
+    greens: [
+      { id: "main", label: "メイングリーン（ベント）" },
+      { id: "sub",  label: "サブグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "bk", label: "Blue（バック相当）" },
+      { id: "rg", label: "White（レギュラー）" },
+      { id: "ld", label: "Red（レディース）" },
+    ],
+    subCourses: [{ name: "OUT", holes: CHICHIBU_KOKUSAI_CC_OUT }, { name: "IN", holes: CHICHIBU_KOKUSAI_CC_IN }],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 飯能ゴルフクラブ（埼玉・飯能市）──
+  {
+    id: "hanno_gc", reading: "ハンノウゴルフクラブ",
+    name: "飯能ゴルフクラブ",
+    greens: [
+      { id: "a", label: "Aグリーン（高麗）" },
+      { id: "b", label: "Bグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "bk", label: "BLACK" },
+      { id: "rg", label: "BLUE（レギュラー）" },
+      { id: "ld", label: "GREEN（レディース）" },
+    ],
+    subCourses: [{ name: "OUT", holes: HANNO_GC_OUT }, { name: "IN", holes: HANNO_GC_IN }],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 東都秩父カントリー倶楽部（埼玉・秩父市）──
+  {
+    id: "toto_chichibu_cc", reading: "トウトチチブカントリークラブ",
+    name: "東都秩父カントリー倶楽部",
+    greens: [
+      { id: "bent",  label: "ベントグリーン" },
+      { id: "korai", label: "高麗グリーン" },
+    ],
+    tees: [
+      { id: "bk", label: "バック" },
+      { id: "rg", label: "レギュラー" },
+      { id: "ld", label: "レディース（推定）" },
+    ],
+    subCourses: [{ name: "OUT", holes: TOTO_CHICHIBU_CC_OUT }, { name: "IN", holes: TOTO_CHICHIBU_CC_IN }],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 長瀞カントリークラブ（埼玉・寄居町）──
+  {
+    id: "nagatoro_cc", reading: "ナガトロカントリークラブ",
+    name: "長瀞カントリークラブ",
+    greens: [
+      { id: "left",  label: "LEFTグリーン（ベント）" },
+      { id: "right", label: "RIGHTグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "bk", label: "BACK" },
+      { id: "rg", label: "REGULAR" },
+      { id: "ld", label: "レディース（推定）" },
+    ],
+    subCourses: [{ name: "OUT", holes: NAGATORO_CC_OUT }, { name: "IN", holes: NAGATORO_CC_IN }],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 本厚木カンツリークラブ（神奈川・厚木市）──
+  {
+    id: "hon_atsugi_cc", reading: "ホンアツギカントリークラブ",
+    name: "本厚木カンツリークラブ",
+    greens: [
+      { id: "p", label: "Pグリーン（ベント）" },
+      { id: "t", label: "Tグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "bk", label: "Back" },
+      { id: "rg", label: "Regular" },
+      { id: "ld", label: "レディース（推定）" },
+    ],
+    subCourses: [{ name: "OUT", holes: HON_ATSUGI_CC_OUT }, { name: "IN", holes: HON_ATSUGI_CC_IN }],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 厚木国際カントリー倶楽部 西コース（神奈川・厚木市）──
+  {
+    id: "atsugi_kokusai_west", reading: "アツギコクサイカントリークラブニシコース",
+    name: "厚木国際カントリー倶楽部 西コース",
+    greens: [
+      { id: "a", label: "Aグリーン（ベント）" },
+      { id: "b", label: "Bグリーン（高麗）" },
+    ],
+    tees: [
+      { id: "bk", label: "バック" },
+      { id: "rg", label: "レギュラー" },
+      { id: "ld", label: "レディース" },
+    ],
+    subCourses: [{ name: "OUT", holes: ATSUGI_KOKUSAI_WEST_OUT }, { name: "IN", holes: ATSUGI_KOKUSAI_WEST_IN }],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 厚木国際カントリー倶楽部 東コース（神奈川・厚木市）Par71 ──
+  {
+    id: "atsugi_kokusai_east", reading: "アツギコクサイカントリークラブヒガシコース",
+    name: "厚木国際カントリー倶楽部 東コース",
+    greens: [
+      { id: "main", label: "グリーン（ベント）" },
+    ],
+    tees: [
+      { id: "bk", label: "バック" },
+      { id: "rg", label: "レギュラー" },
+      { id: "ld", label: "レディース" },
+    ],
+    subCourses: [{ name: "OUT", holes: ATSUGI_KOKUSAI_EAST_OUT }, { name: "IN", holes: ATSUGI_KOKUSAI_EAST_IN }],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 神奈川カントリークラブ 東・南コース（神奈川・相模原市）──
+  {
+    id: "kanagawa_cc_east_south", reading: "カナガワカントリークラブヒガシミナミコース",
+    name: "神奈川カントリークラブ 東・南コース",
+    greens: [
+      { id: "a", label: "Aグリーン（ベント）" },
+      { id: "b", label: "Bグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "bk", label: "BLUE（バック）" },
+      { id: "rg", label: "WHITE（レギュラー）" },
+      { id: "ld", label: "GOLD・RED（レディース）" },
+    ],
+    subCourses: [{ name: "OUT", holes: KANAGAWA_CC_EAST_SOUTH_OUT }, { name: "IN", holes: KANAGAWA_CC_EAST_SOUTH_IN }],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 神奈川カントリークラブ 南・西コース（神奈川・相模原市）──
+  {
+    id: "kanagawa_cc_south_west", reading: "カナガワカントリークラブミナミニシコース",
+    name: "神奈川カントリークラブ 南・西コース",
+    greens: [
+      { id: "a", label: "Aグリーン（ベント）" },
+      { id: "b", label: "Bグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "bk", label: "BLUE（バック）" },
+      { id: "rg", label: "WHITE（レギュラー）" },
+      { id: "ld", label: "GOLD・RED（レディース）" },
+    ],
+    subCourses: [{ name: "OUT", holes: KANAGAWA_CC_SOUTH_WEST_OUT }, { name: "IN", holes: KANAGAWA_CC_SOUTH_WEST_IN }],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  }
+);
