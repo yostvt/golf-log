@@ -8408,7 +8408,7 @@ var VENUES = [
   },
   // ─── 紫カントリークラブ すみれコース（名コース100選57位） ───
   {
-    id: "yukari_cc_sumire", reading: "ムラサキカントリークラブスミレコース",
+    id: "murasaki_cc_sumire", reading: "ムラサキカントリークラブスミレコース",
     name: "紫カントリークラブ すみれコース",
     greens: [
       { id: "a", label: "Aグリーン（ベント）" },
@@ -8432,7 +8432,7 @@ var VENUES = [
   },
   // ─── 紫カントリークラブ あやめコース EAST ───
   {
-    id: "yukari_cc_ayame_east", reading: "ムラサキカントリークラブアヤメコースイースト",
+    id: "murasaki_cc_ayame_east", reading: "ムラサキカントリークラブアヤメコースイースト",
     name: "紫カントリークラブ あやめコース EAST",
     greens: [
       { id: "a", label: "あやめグリーン（ベント）" },
@@ -8455,7 +8455,7 @@ var VENUES = [
   },
   // ─── 紫カントリークラブ あやめコース WEST ───
   {
-    id: "yukari_cc_ayame_west", reading: "ムラサキカントリークラブアヤメコースウエスト",
+    id: "murasaki_cc_ayame_west", reading: "ムラサキカントリークラブアヤメコースウエスト",
     name: "紫カントリークラブ あやめコース WEST",
     greens: [
       { id: "a", label: "あやめグリーン（ベント）" },
