@@ -3948,6 +3948,747 @@ const NASUNOGHARA_CC_NAKAGAWA = [
   { hole:18, par:4, hdcp: 6, bk:404, rg:371, fr:351, ld:256 },
 ];
 
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 太平洋クラブ江南コース（埼玉県熊谷市 / 18H・1グリーン・ベント）
+// 出典：楽天GORA https://booking.gora.golf.rakuten.co.jp/guide/course_info/disp/c_id/110027/
+// 設計：加藤俊輔 / 名コース100選（埼玉12位）
+// ティー: Champion / Back / Regular / Front / Ladies（5ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const TAIHEIYO_KONAN_OUT = [
+  { hole:1, par:5, hdcp:15, ch:543, bk:525, rg:508, fr:480, ld:450 },
+  { hole:2, par:4, hdcp: 3, ch:449, bk:426, rg:393, fr:355, ld:334 },
+  { hole:3, par:3, hdcp: 9, ch:220, bk:201, rg:184, fr:146, ld:141 },
+  { hole:4, par:4, hdcp: 1, ch:446, bk:432, rg:412, fr:402, ld:305 },
+  { hole:5, par:4, hdcp: 7, ch:422, bk:401, rg:377, fr:377, ld:359 },
+  { hole:6, par:3, hdcp:13, ch:178, bk:160, rg:147, fr:140, ld:122 },
+  { hole:7, par:4, hdcp:17, ch:330, bk:318, rg:306, fr:296, ld:290 },
+  { hole:8, par:4, hdcp: 5, ch:390, bk:380, rg:359, fr:350, ld:343 },
+  { hole:9, par:5, hdcp:11, ch:569, bk:537, rg:511, fr:476, ld:405 },
+];
+const TAIHEIYO_KONAN_IN = [
+  { hole:10, par:4, hdcp:10, ch:389, bk:380, rg:359, fr:355, ld:274 },
+  { hole:11, par:4, hdcp:16, ch:390, bk:380, rg:358, fr:313, ld:293 },
+  { hole:12, par:3, hdcp: 4, ch:205, bk:184, rg:159, fr:136, ld:114 },
+  { hole:13, par:5, hdcp: 8, ch:538, bk:521, rg:500, fr:490, ld:485 },
+  { hole:14, par:4, hdcp: 2, ch:430, bk:392, rg:373, fr:363, ld:299 },
+  { hole:15, par:5, hdcp:14, ch:517, bk:500, rg:478, fr:462, ld:444 },
+  { hole:16, par:4, hdcp:12, ch:434, bk:378, rg:358, fr:346, ld:278 },
+  { hole:17, par:3, hdcp:18, ch:188, bk:171, rg:157, fr:157, ld:144 },
+  { hole:18, par:4, hdcp: 6, ch:432, bk:399, rg:376, fr:366, ld:276 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 嵐山カントリークラブ（埼玉県比企郡嵐山町 / 18H・2グリーン A/B ベント）
+// 出典：GDO https://reserve.golfdigest.co.jp/golf-course/348101/course-info/
+//        楽天GORA https://booking.gora.golf.rakuten.co.jp/guide/course_info/disp/c_id/110078/
+// 設計：小寺酉二 / 1962年開場 / 日本オープン・日本女子プロ等開催名門コース
+// ティー: Black / Blue / White / Gold / GREEN（5ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const RANZAN_CC_OUT = [
+  { hole:1, par:4, hdcp: 9, bkA:386, blA:371, whA:371, goA:362, laA:292, bkB:398, blB:383, whB:383, goB:374, laB:304 },
+  { hole:2, par:3, hdcp:15, bkA:155, blA:142, whA:123, goA:123, laA: 89, bkB:174, blB:161, whB:142, goB:142, laB:108 },
+  { hole:3, par:4, hdcp: 3, bkA:376, blA:362, whA:352, goA:321, laA:230, bkB:391, blB:377, whB:367, goB:336, laB:245 },
+  { hole:4, par:4, hdcp: 7, bkA:430, blA:413, whA:395, goA:329, laA:286, bkB:441, blB:424, whB:406, goB:340, laB:297 },
+  { hole:5, par:4, hdcp:13, bkA:392, blA:372, whA:352, goA:352, laA:258, bkB:402, blB:382, whB:362, goB:362, laB:268 },
+  { hole:6, par:5, hdcp: 1, bkA:505, blA:482, whA:460, goA:460, laA:400, bkB:527, blB:504, whB:482, goB:482, laB:422 },
+  { hole:7, par:4, hdcp:17, bkA:375, blA:352, whA:327, goA:327, laA:230, bkB:388, blB:365, whB:340, goB:340, laB:243 },
+  { hole:8, par:3, hdcp: 5, bkA:190, blA:175, whA:158, goA:158, laA: 97, bkB:232, blB:208, whB:197, goB:178, laB:115 },
+  { hole:9, par:5, hdcp:11, bkA:509, blA:489, whA:469, goA:469, laA:371, bkB:492, blB:472, whB:452, goB:452, laB:354 },
+];
+const RANZAN_CC_IN = [
+  { hole:10, par:4, hdcp:10, bkA:354, blA:354, whA:334, goA:334, laA:280, bkB:362, blB:362, whB:342, goB:342, laB:288 },
+  { hole:11, par:3, hdcp:16, bkA:163, blA:137, whA:115, goA:109, laA: 73, bkB:193, blB:149, whB:135, goB:135, laB:107 },
+  { hole:12, par:4, hdcp: 4, bkA:421, blA:401, whA:383, goA:383, laA:288, bkB:398, blB:373, whB:343, goB:347, laB:266 },
+  { hole:13, par:4, hdcp:14, bkA:447, blA:422, whA:408, goA:387, laA:239, bkB:435, blB:410, whB:396, goB:375, laB:227 },
+  { hole:14, par:5, hdcp: 2, bkA:528, blA:518, whA:509, goA:444, laA:374, bkB:518, blB:508, whB:499, goB:434, laB:364 },
+  { hole:15, par:4, hdcp: 8, bkA:412, blA:398, whA:376, goA:330, laA:279, bkB:405, blB:391, whB:369, goB:323, laB:272 },
+  { hole:16, par:3, hdcp:18, bkA:166, blA:161, whA:156, goA:156, laA:108, bkB:156, blB:151, whB:146, goB:146, laB: 84 },
+  { hole:17, par:4, hdcp: 6, bkA:408, blA:391, whA:375, goA:356, laA:291, bkB:393, blB:376, whB:360, goB:341, laB:276 },
+  { hole:18, par:5, hdcp:12, bkA:595, blA:570, whA:539, goA:515, laA:408, bkB:580, blB:555, whB:524, goB:500, laB:393 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 東松山カントリークラブ（埼玉県東松山市 / 27H・2グリーン A/L ベント/高麗）
+// 出典：楽天GORA https://booking.gora.golf.rakuten.co.jp/guide/course_info/disp/c_id/110063/
+// 設計：藤田欽哉 / HDCP:各コース9H独立（1〜9）
+// ティー: チャンピオン / バック / レギュラー / フロント / レディース（5ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const HIGASHIMATSUYAMA_CC_EAST = [
+  { hole:1, par:4, hdcp:3, ch:425, bk:399, rg:377, fr:351, ld:351 },
+  { hole:2, par:3, hdcp:9, ch:158, bk:143, rg:143, fr:132, ld:132 },
+  { hole:3, par:4, hdcp:5, ch:367, bk:334, rg:334, fr:315, ld:315 },
+  { hole:4, par:4, hdcp:1, ch:384, bk:372, rg:356, fr:298, ld:298 },
+  { hole:5, par:5, hdcp:8, ch:512, bk:485, rg:471, fr:424, ld:412 },
+  { hole:6, par:5, hdcp:4, ch:562, bk:542, rg:514, fr:497, ld:462 },
+  { hole:7, par:4, hdcp:2, ch:434, bk:414, rg:388, fr:367, ld:367 },
+  { hole:8, par:3, hdcp:7, ch:203, bk:192, rg:173, fr:148, ld:128 },
+  { hole:9, par:4, hdcp:6, ch:368, bk:352, rg:352, fr:327, ld:313 },
+];
+const HIGASHIMATSUYAMA_CC_CENTER = [
+  { hole:1, par:4, hdcp:3, ch:403, bk:389, rg:375, fr:364, ld:364 },
+  { hole:2, par:3, hdcp:9, ch:191, bk:168, rg:155, fr:143, ld:143 },
+  { hole:3, par:4, hdcp:5, ch:410, bk:393, rg:373, fr:352, ld:325 },
+  { hole:4, par:3, hdcp:7, ch:168, bk:155, rg:145, fr:134, ld:134 },
+  { hole:5, par:5, hdcp:1, ch:568, bk:546, rg:504, fr:504, ld:442 },
+  { hole:6, par:4, hdcp:8, ch:327, bk:327, rg:313, fr:313, ld:299 },
+  { hole:7, par:4, hdcp:2, ch:491, bk:449, rg:427, fr:396, ld:366 },
+  { hole:8, par:5, hdcp:4, ch:575, bk:565, rg:547, fr:405, ld:405 },
+  { hole:9, par:4, hdcp:6, ch:428, bk:387, rg:368, fr:368, ld:340 },
+];
+const HIGASHIMATSUYAMA_CC_WEST = [
+  { hole:1, par:4, hdcp:5, ch:412, bk:400, rg:400, fr:293, ld:286 },
+  { hole:2, par:5, hdcp:7, ch:531, bk:515, rg:496, fr:478, ld:429 },
+  { hole:3, par:4, hdcp:1, ch:430, bk:396, rg:376, fr:376, ld:314 },
+  { hole:4, par:3, hdcp:6, ch:198, bk:186, rg:186, fr:171, ld:171 },
+  { hole:5, par:4, hdcp:9, ch:345, bk:332, rg:318, fr:300, ld:300 },
+  { hole:6, par:4, hdcp:3, ch:390, bk:369, rg:369, fr:351, ld:245 },
+  { hole:7, par:3, hdcp:8, ch:187, bk:170, rg:170, fr:156, ld:156 },
+  { hole:8, par:4, hdcp:2, ch:417, bk:401, rg:360, fr:347, ld:347 },
+  { hole:9, par:5, hdcp:4, ch:565, bk:545, rg:518, fr:498, ld:438 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 狭山ゴルフ・クラブ（埼玉県入間市 / 27H・2グリーン A/B ベント）
+// 出典：楽天GORA https://booking.gora.golf.rakuten.co.jp/guide/course_info/disp/c_id/110038/
+// 設計：小寺酉二・竹村秀夫 / HDCP未設定（GORA=0）
+// ティー: バック / レギュラー / フロント（3ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const SAYAMA_GC_EAST = [
+  { hole:1, par:5, bk:507, rg:497, fr:497 },
+  { hole:2, par:4, bk:413, rg:385, fr:357 },
+  { hole:3, par:3, bk:158, rg:141, fr:122 },
+  { hole:4, par:4, bk:341, rg:320, fr:298 },
+  { hole:5, par:4, bk:390, rg:357, fr:357 },
+  { hole:6, par:4, bk:434, rg:409, fr:384 },
+  { hole:7, par:3, bk:169, rg:146, fr:126 },
+  { hole:8, par:5, bk:563, rg:514, fr:489 },
+  { hole:9, par:4, bk:446, rg:418, fr:393 },
+];
+const SAYAMA_GC_SOUTH = [
+  { hole:1, par:5, bk:550, rg:530, fr:509 },
+  { hole:2, par:3, bk:171, rg:156, fr:134 },
+  { hole:3, par:4, bk:411, rg:382, fr:361 },
+  { hole:4, par:4, bk:442, rg:417, fr:394 },
+  { hole:5, par:5, bk:551, rg:513, fr:491 },
+  { hole:6, par:4, bk:347, rg:325, fr:301 },
+  { hole:7, par:4, bk:369, rg:348, fr:326 },
+  { hole:8, par:3, bk:189, rg:168, fr:153 },
+  { hole:9, par:4, bk:420, rg:395, fr:373 },
+];
+const SAYAMA_GC_WEST = [
+  { hole:1, par:4, bk:404, rg:382, fr:366 },
+  { hole:2, par:3, bk:219, rg:198, fr:164 },
+  { hole:3, par:5, bk:523, rg:497, fr:497 },
+  { hole:4, par:4, bk:379, rg:361, fr:337 },
+  { hole:5, par:4, bk:408, rg:391, fr:370 },
+  { hole:6, par:3, bk:192, rg:169, fr:134 },
+  { hole:7, par:4, bk:442, rg:415, fr:376 },
+  { hole:8, par:4, bk:359, rg:345, fr:325 },
+  { hole:9, par:5, bk:529, rg:508, fr:475 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 日高カントリークラブ（埼玉県日高市 / 27H・2グリーン AG/BG ベント）
+// 出典：GDO https://reserve.golfdigest.co.jp/golf-course/345202/course-info/
+//        楽天GORA https://booking.gora.golf.rakuten.co.jp/guide/course_info/disp/c_id/110064/
+// 設計：相馬正胤 / HDCP: 各コース9H独立（1〜9）
+// ティー: Back T.(AG) / Reg.(AG) / Front(AG) / Back T.(BG) / Reg.(BG) / Front(BG)
+// ─────────────────────────────────────────────────────────────────────────────
+const HIDAKA_CC_EAST = [
+  { hole:1, par:4, hdcp:4, bkA:383, rgA:364, frA:364, bkB:363, rgB:344, frB:344 },
+  { hole:2, par:3, hdcp:7, bkA:190, rgA:173, frA:162, bkB:179, rgB:162, frB:151 },
+  { hole:3, par:4, hdcp:1, bkA:468, rgA:430, frA:364, bkB:462, rgB:424, frB:358 },
+  { hole:4, par:5, hdcp:3, bkA:553, rgA:525, frA:511, bkB:540, rgB:512, frB:498 },
+  { hole:5, par:4, hdcp:5, bkA:355, rgA:343, frA:343, bkB:358, rgB:346, frB:346 },
+  { hole:6, par:3, hdcp:8, bkA:183, rgA:162, frA:140, bkB:142, rgB:120, frB:106 },
+  { hole:7, par:4, hdcp:2, bkA:453, rgA:434, frA:358, bkB:455, rgB:436, frB:360 },
+  { hole:8, par:5, hdcp:6, bkA:569, rgA:555, frA:501, bkB:543, rgB:529, frB:475 },
+  { hole:9, par:4, hdcp:9, bkA:347, rgA:328, frA:311, bkB:333, rgB:314, frB:297 },
+];
+const HIDAKA_CC_SOUTH = [
+  { hole:1, par:4, hdcp:3, bkA:415, rgA:399, frA:366, bkB:395, rgB:379, frB:346 },
+  { hole:2, par:4, hdcp:1, bkA:382, rgA:342, frA:314, bkB:404, rgB:364, frB:336 },
+  { hole:3, par:5, hdcp:5, bkA:500, rgA:487, frA:472, bkB:489, rgB:476, frB:461 },
+  { hole:4, par:3, hdcp:7, bkA:161, rgA:150, frA:150, bkB:159, rgB:145, frB:145 },
+  { hole:5, par:5, hdcp:8, bkA:491, rgA:462, frA:447, bkB:502, rgB:473, frB:458 },
+  { hole:6, par:4, hdcp:6, bkA:313, rgA:295, frA:295, bkB:299, rgB:281, frB:281 },
+  { hole:7, par:4, hdcp:2, bkA:326, rgA:306, frA:306, bkB:317, rgB:297, frB:291 },
+  { hole:8, par:3, hdcp:9, bkA:126, rgA:110, frA:110, bkB:130, rgB:112, frB:112 },
+  { hole:9, par:4, hdcp:4, bkA:352, rgA:333, frA:333, bkB:334, rgB:315, frB:315 },
+];
+const HIDAKA_CC_WEST = [
+  { hole:1, par:4, hdcp:8, bkA:362, rgA:343, frA:327, bkB:345, rgB:326, frB:310 },
+  { hole:2, par:5, hdcp:9, bkA:499, rgA:475, frA:454, bkB:496, rgB:472, frB:451 },
+  { hole:3, par:4, hdcp:2, bkA:419, rgA:398, frA:349, bkB:407, rgB:386, frB:337 },
+  { hole:4, par:3, hdcp:7, bkA:177, rgA:166, frA:155, bkB:170, rgB:156, frB:145 },
+  { hole:5, par:4, hdcp:1, bkA:456, rgA:415, frA:352, bkB:448, rgB:407, frB:344 },
+  { hole:6, par:4, hdcp:3, bkA:418, rgA:378, frA:378, bkB:340, rgB:281, frB:281 },
+  { hole:7, par:3, hdcp:5, bkA:219, rgA:198, frA:172, bkB:230, rgB:209, frB:183 },
+  { hole:8, par:5, hdcp:4, bkA:583, rgA:556, frA:497, bkB:573, rgB:546, frB:487 },
+  { hole:9, par:4, hdcp:6, bkA:385, rgA:371, frA:356, bkB:367, rgB:353, frB:338 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 高坂カントリークラブ（埼玉県東松山市 / 36H・2グリーン Ba/Be ベント/バミューダ）
+// 出典：GDO https://reserve.golfdigest.co.jp/golf-course/343101/course-info/
+//        楽天GORA https://booking.gora.golf.rakuten.co.jp/guide/course_info/disp/c_id/110043/
+// 設計：（米山）富沢誠造 / （岩殿）東観光開発 / GDO評価4.9（高評価）
+// ティー: Back / Reg / Ladies（×Be(ベント) / Ba(バミューダ) 2グリーン）
+// ─────────────────────────────────────────────────────────────────────────────
+const TAKASAKA_CC_YONEYAMA_OUT = [
+  { hole:1, par:4, hdcp: 9, bkBe:391, rgBe:376, ldBe:335, bkBa:396, rgBa:381, ldBa:340 },
+  { hole:2, par:4, hdcp: 3, bkBe:400, rgBe:380, ldBe:331, bkBa:407, rgBa:387, ldBa:338 },
+  { hole:3, par:5, hdcp:15, bkBe:582, rgBe:487, ldBe:447, bkBa:584, rgBa:489, ldBa:449 },
+  { hole:4, par:3, hdcp: 7, bkBe:197, rgBe:184, ldBe:121, bkBa:199, rgBa:186, ldBa:123 },
+  { hole:5, par:4, hdcp: 1, bkBe:361, rgBe:332, ldBe:283, bkBa:373, rgBa:344, ldBa:295 },
+  { hole:6, par:3, hdcp:13, bkBe:182, rgBe:148, ldBe:129, bkBa:191, rgBa:157, ldBa:131 },
+  { hole:7, par:5, hdcp: 5, bkBe:500, rgBe:479, ldBe:420, bkBa:503, rgBa:482, ldBa:423 },
+  { hole:8, par:4, hdcp:11, bkBe:393, rgBe:370, ldBe:326, bkBa:395, rgBa:372, ldBa:328 },
+  { hole:9, par:4, hdcp:17, bkBe:423, rgBe:400, ldBe:338, bkBa:416, rgBa:393, ldBa:331 },
+];
+const TAKASAKA_CC_YONEYAMA_IN = [
+  { hole:10, par:4, hdcp: 4, bkBe:402, rgBe:384, ldBe:316, bkBa:405, rgBa:367, ldBa:319 },
+  { hole:11, par:3, hdcp:10, bkBe:177, rgBe:168, ldBe:149, bkBa:180, rgBa:162, ldBa:143 },
+  { hole:12, par:4, hdcp:16, bkBe:379, rgBe:367, ldBe:350, bkBa:385, rgBa:373, ldBa:356 },
+  { hole:13, par:4, hdcp:14, bkBe:382, rgBe:364, ldBe:291, bkBa:370, rgBa:352, ldBa:279 },
+  { hole:14, par:5, hdcp: 2, bkBe:555, rgBe:533, ldBe:447, bkBa:559, rgBa:516, ldBa:451 },
+  { hole:15, par:4, hdcp: 8, bkBe:393, rgBe:357, ldBe:324, bkBa:409, rgBa:373, ldBa:324 },
+  { hole:16, par:3, hdcp: 6, bkBe:172, rgBe:162, ldBe:152, bkBa:169, rgBa:159, ldBa:149 },
+  { hole:17, par:5, hdcp:12, bkBe:489, rgBe:469, ldBe:449, bkBa:490, rgBa:470, ldBa:450 },
+  { hole:18, par:4, hdcp:18, bkBe:395, rgBe:377, ldBe:297, bkBa:393, rgBa:375, ldBa:295 },
+];
+const TAKASAKA_CC_IWADONO_OUT = [
+  { hole:1, par:4, hdcp: 9, bkBe:353, rgBe:338, ldBe:251, bkBa:364, rgBa:349, ldBa:262 },
+  { hole:2, par:5, hdcp: 3, bkBe:498, rgBe:484, ldBe:399, bkBa:497, rgBa:483, ldBa:398 },
+  { hole:3, par:3, hdcp:15, bkBe:194, rgBe:177, ldBe:159, bkBa:173, rgBa:156, ldBa:138 },
+  { hole:4, par:4, hdcp: 1, bkBe:414, rgBe:395, ldBe:316, bkBa:413, rgBa:394, ldBa:315 },
+  { hole:5, par:4, hdcp: 7, bkBe:371, rgBe:357, ldBe:341, bkBa:373, rgBa:359, ldBa:343 },
+  { hole:6, par:3, hdcp:13, bkBe:160, rgBe:146, ldBe:119, bkBa:165, rgBa:151, ldBa:124 },
+  { hole:7, par:4, hdcp:17, bkBe:301, rgBe:280, ldBe:274, bkBa:349, rgBa:328, ldBa:322 },
+  { hole:8, par:5, hdcp:11, bkBe:492, rgBe:465, ldBe:362, bkBa:495, rgBa:468, ldBa:365 },
+  { hole:9, par:4, hdcp: 5, bkBe:348, rgBe:330, ldBe:303, bkBa:365, rgBa:347, ldBa:320 },
+];
+const TAKASAKA_CC_IWADONO_IN = [
+  { hole:10, par:4, hdcp: 4, bkBe:417, rgBe:399, ldBe:331, bkBa:412, rgBa:394, ldBa:326 },
+  { hole:11, par:5, hdcp:10, bkBe:514, rgBe:497, ldBe:445, bkBa:500, rgBa:483, ldBa:431 },
+  { hole:12, par:4, hdcp:16, bkBe:383, rgBe:372, ldBe:351, bkBa:377, rgBa:366, ldBa:345 },
+  { hole:13, par:4, hdcp: 2, bkBe:385, rgBe:371, ldBe:307, bkBa:382, rgBa:368, ldBa:304 },
+  { hole:14, par:3, hdcp: 8, bkBe:170, rgBe:159, ldBe:143, bkBa:162, rgBa:151, ldBa:135 },
+  { hole:15, par:5, hdcp:14, bkBe:549, rgBe:517, ldBe:460, bkBa:545, rgBa:513, ldBa:456 },
+  { hole:16, par:4, hdcp:18, bkBe:346, rgBe:308, ldBe:307, bkBa:345, rgBa:307, ldBa:306 },
+  { hole:17, par:3, hdcp: 6, bkBe:197, rgBe:175, ldBe:141, bkBa:204, rgBa:182, ldBa:148 },
+  { hole:18, par:4, hdcp:12, bkBe:444, rgBe:411, ldBe:324, bkBa:444, rgBa:411, ldBa:324 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// こだまゴルフクラブ（埼玉県本庄市 / 18H・2グリーン New(ベント)/Old(バミューダ)）
+// 出典：GDO https://reserve.golfdigest.co.jp/golf-course/341503/course-info/
+//        楽天GORA https://booking.gora.golf.rakuten.co.jp/guide/course_info/disp/c_id/110031/
+// 設計：上田治（最終作）/川田太三（監修） / GDO評価5.0（最高評価）
+// ティー: BACK / REG. / FRONT / lady（4ティー）× Old/New 2グリーン
+// ─────────────────────────────────────────────────────────────────────────────
+const KODAMA_GC_OUT = [
+  { hole:1, par:4, hdcp: 9, bkN:398, rgN:385, frN:364, ldN:305, bkO:407, rgO:394, frO:373, ldO:314 },
+  { hole:2, par:4, hdcp: 3, bkN:390, rgN:373, frN:355, ldN:290, bkO:406, rgO:389, frO:371, ldO:306 },
+  { hole:3, par:3, hdcp:15, bkN:216, rgN:199, frN:180, ldN:109, bkO:207, rgO:190, frO:171, ldO:100 },
+  { hole:4, par:5, hdcp: 7, bkN:519, rgN:498, frN:482, ldN:408, bkO:565, rgO:544, frO:528, ldO:454 },
+  { hole:5, par:3, hdcp:13, bkN:201, rgN:188, frN:174, ldN:158, bkO:200, rgO:187, frO:173, ldO:157 },
+  { hole:6, par:4, hdcp: 1, bkN:402, rgN:382, frN:360, ldN:254, bkO:408, rgO:388, frO:366, ldO:260 },
+  { hole:7, par:4, hdcp:17, bkN:344, rgN:328, frN:310, ldN:294, bkO:371, rgO:355, frO:337, ldO:321 },
+  { hole:8, par:5, hdcp: 5, bkN:544, rgN:532, frN:509, ldN:395, bkO:556, rgO:544, frO:521, ldO:407 },
+  { hole:9, par:4, hdcp:11, bkN:356, rgN:338, frN:319, ldN:264, bkO:373, rgO:355, frO:336, ldO:281 },
+];
+const KODAMA_GC_IN = [
+  { hole:10, par:4, hdcp:10, bkN:414, rgN:396, frN:378, ldN:318, bkO:418, rgO:400, frO:382, ldO:322 },
+  { hole:11, par:5, hdcp: 4, bkN:538, rgN:515, frN:499, ldN:439, bkO:539, rgO:516, frO:500, ldO:440 },
+  { hole:12, par:3, hdcp:16, bkN:224, rgN:192, frN:168, ldN:140, bkO:228, rgO:196, frO:172, ldO:144 },
+  { hole:13, par:4, hdcp:14, bkN:387, rgN:371, frN:352, ldN:290, bkO:395, rgO:379, frO:360, ldO:298 },
+  { hole:14, par:4, hdcp: 2, bkN:456, rgN:430, frN:407, ldN:337, bkO:466, rgO:440, frO:417, ldO:347 },
+  { hole:15, par:5, hdcp: 8, bkN:549, rgN:528, frN:498, ldN:417, bkO:554, rgO:533, frO:503, ldO:422 },
+  { hole:16, par:4, hdcp: 6, bkN:364, rgN:345, frN:324, ldN:285, bkO:371, rgO:352, frO:331, ldO:292 },
+  { hole:17, par:3, hdcp:18, bkN:184, rgN:164, frN:150, ldN:128, bkO:187, rgO:167, frO:153, ldO:131 },
+  { hole:18, par:4, hdcp:12, bkN:412, rgN:394, frN:370, ldN:312, bkO:415, rgO:397, frO:373, ldO:315 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 鳩山カントリークラブ（埼玉県比企郡鳩山町 / 18H・2グリーン A/B ベント/バミューダ）
+// 出典：GDO https://reserve.golfdigest.co.jp/golf-course/345101/course-info/
+//        楽天GORA https://booking.gora.golf.rakuten.co.jp/guide/course_info/disp/c_id/110058/
+// 設計：三好徳行・小林光昭 / GDO評価4.7
+// ティー: Black / Blue / White / Red / Pink（5ティー）× A/B 2グリーン
+// ─────────────────────────────────────────────────────────────────────────────
+const HATOYAMA_CC_OUT = [
+  { hole:1, par:4, hdcp: 9, bkA:416, blA:397, whA:354, reA:329, pkA:329, bkB:408, blB:389, whB:346, reB:321, pkB:321 },
+  { hole:2, par:3, hdcp:15, bkA:210, blA:196, whA:173, reA:146, pkA:146, bkB:210, blB:169, whB:146, reB:118, pkB:118 },
+  { hole:3, par:4, hdcp: 3, bkA:442, blA:424, whA:364, reA:336, pkA:240, bkB:412, blB:394, whB:334, reB:306, pkB:210 },
+  { hole:4, par:4, hdcp: 1, bkA:430, blA:406, whA:379, reA:344, pkA:263, bkB:426, blB:402, whB:375, reB:340, pkB:259 },
+  { hole:5, par:5, hdcp: 7, bkA:526, blA:502, whA:488, reA:452, pkA:341, bkB:513, blB:489, whB:475, reB:439, pkB:328 },
+  { hole:6, par:4, hdcp:13, bkA:404, blA:394, whA:365, reA:327, pkA:327, bkB:379, blB:369, whB:340, reB:302, pkB:302 },
+  { hole:7, par:4, hdcp: 5, bkA:379, blA:357, whA:321, reA:282, pkA:282, bkB:387, blB:365, whB:329, reB:290, pkB:290 },
+  { hole:8, par:3, hdcp:17, bkA:195, blA:181, whA:170, reA:138, pkA:138, bkB:175, blB:163, whB:153, reB:124, pkB:124 },
+  { hole:9, par:5, hdcp:11, bkA:542, blA:513, whA:475, reA:456, pkA:392, bkB:559, blB:530, whB:492, reB:473, pkB:409 },
+];
+const HATOYAMA_CC_IN = [
+  { hole:10, par:4, hdcp: 4, bkA:442, blA:416, whA:396, reA:375, pkA:253, bkB:459, blB:433, whB:413, reB:392, pkB:270 },
+  { hole:11, par:4, hdcp:16, bkA:368, blA:347, whA:335, reA:319, pkA:319, bkB:368, blB:347, whB:335, reB:319, pkB:319 },
+  { hole:12, par:3, hdcp:10, bkA:204, blA:187, whA:160, reA:125, pkA:125, bkB:213, blB:193, whB:175, reB:143, pkB:143 },
+  { hole:13, par:5, hdcp: 8, bkA:543, blA:510, whA:492, reA:458, pkA:356, bkB:552, blB:519, whB:501, reB:467, pkB:365 },
+  { hole:14, par:4, hdcp:14, bkA:398, blA:381, whA:355, reA:327, pkA:327, bkB:392, blB:375, whB:349, reB:321, pkB:321 },
+  { hole:15, par:4, hdcp: 2, bkA:465, blA:442, whA:395, reA:368, pkA:208, bkB:461, blB:438, whB:391, reB:364, pkB:204 },
+  { hole:16, par:4, hdcp: 6, bkA:464, blA:443, whA:427, reA:394, pkA:278, bkB:462, blB:441, whB:425, reB:392, pkB:276 },
+  { hole:17, par:3, hdcp:18, bkA:160, blA:139, whA:123, reA:107, pkA:107, bkB:165, blB:148, whB:131, reB:109, pkB:109 },
+  { hole:18, par:5, hdcp:12, bkA:567, blA:545, whA:498, reA:470, pkA:470, bkB:564, blB:542, whB:495, reB:467, pkB:467 },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 清澄ゴルフ倶楽部（埼玉県東松山市 / 18H・1グリーン・ベント）
+// 出典：公式サイト（スクリーンショット）
+// 設計：大久保昌 / 埼玉ランキング14位
+// ティー: BLACK / BLUE / WHITE / GREEN / GOLD（5ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const KIYOSUMI_GC_OUT = [
+  { hole:1, par:4, hdcp: 9, bk:410, bl:381, wh:353, gr:315, go:281 },
+  { hole:2, par:5, hdcp: 3, bk:566, bl:539, wh:513, gr:480, go:445 },
+  { hole:3, par:3, hdcp:15, bk:198, bl:171, wh:142, gr:118, go:100 },
+  { hole:4, par:4, hdcp: 1, bk:420, bl:391, wh:369, gr:332, go:315 },
+  { hole:5, par:4, hdcp: 7, bk:425, bl:400, wh:379, gr:347, go:328 },
+  { hole:6, par:4, hdcp:13, bk:404, bl:378, wh:349, gr:308, go:284 },
+  { hole:7, par:4, hdcp:11, bk:381, bl:381, wh:356, gr:334, go:282 },
+  { hole:8, par:3, hdcp:17, bk:180, bl:180, wh:163, gr:143, go:110 },
+  { hole:9, par:5, hdcp: 5, bk:573, bl:543, wh:516, gr:487, go:454 },
+];
+const KIYOSUMI_GC_IN = [
+  { hole:10, par:5, hdcp:10, bk:556, bl:530, wh:503, gr:459, go:441 },
+  { hole:11, par:4, hdcp: 4, bk:427, bl:401, wh:371, gr:333, go:317 },
+  { hole:12, par:4, hdcp:16, bk:390, bl:368, wh:344, gr:315, go:296 },
+  { hole:13, par:3, hdcp:14, bk:206, bl:180, wh:155, gr:135, go:126 },
+  { hole:14, par:5, hdcp: 8, bk:530, bl:513, wh:493, gr:465, go:450 },
+  { hole:15, par:4, hdcp: 2, bk:414, bl:396, wh:380, gr:359, go:330 },
+  { hole:16, par:4, hdcp:12, bk:379, bl:361, wh:345, gr:323, go:231 },
+  { hole:17, par:3, hdcp:18, bk:188, bl:161, wh:136, gr:113, go: 95 },
+  { hole:18, par:4, hdcp: 6, bk:437, bl:415, wh:390, gr:347, go:315 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 石坂ゴルフ倶楽部（埼玉県比企郡鳩山町 / 18H・1グリーン・ベント）
+// 出典：公式サイト https://ishizakagolfclub.com（スクリーンショット）
+// 設計：大日本土木 / 埼玉ランキング14位
+// ティー: Black / Blue / White / Gold / Red（5ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const ISHIZAKA_GC_OUT = [
+  { hole:1, par:5, hdcp:15, bk:550, bl:505, wh:480, go:460, re:430 },
+  { hole:2, par:3, hdcp: 9, bk:200, bl:180, wh:165, go:135, re:110 },
+  { hole:3, par:4, hdcp: 3, bk:410, bl:375, wh:340, go:305, re:255 },
+  { hole:4, par:4, hdcp:13, bk:380, bl:350, wh:350, go:325, re:280 },
+  { hole:5, par:4, hdcp: 7, bk:395, bl:360, wh:360, go:340, re:315 },
+  { hole:6, par:5, hdcp: 1, bk:580, bl:565, wh:525, go:490, re:455 },
+  { hole:7, par:3, hdcp:11, bk:230, bl:200, wh:170, go:160, re:145 },
+  { hole:8, par:4, hdcp:17, bk:350, bl:330, wh:330, go:310, re:275 },
+  { hole:9, par:4, hdcp: 5, bk:470, bl:430, wh:400, go:400, re:370 },
+];
+const ISHIZAKA_GC_IN = [
+  { hole:10, par:4, hdcp:10, bk:405, bl:380, wh:365, go:365, re:330 },
+  { hole:11, par:4, hdcp: 4, bk:375, bl:345, wh:330, go:330, re:315 },
+  { hole:12, par:5, hdcp:16, bk:540, bl:510, wh:510, go:475, re:455 },
+  { hole:13, par:3, hdcp: 8, bk:205, bl:175, wh:150, go:150, re:115 },
+  { hole:14, par:4, hdcp: 2, bk:440, bl:405, wh:365, go:365, re:275 },
+  { hole:15, par:4, hdcp:14, bk:385, bl:360, wh:360, go:330, re:310 },
+  { hole:16, par:3, hdcp:12, bk:185, bl:165, wh:145, go:145, re: 80 },
+  { hole:17, par:5, hdcp:18, bk:540, bl:530, wh:500, go:460, re:430 },
+  { hole:18, par:4, hdcp: 6, bk:410, bl:385, wh:355, go:355, re:330 },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 我孫子ゴルフ倶楽部（千葉県我孫子市 / 18H・1グリーン・ベント）
+// 出典：公式サイト（スクリーンショット）
+// 設計：赤星兄弟 / 改造：ブライアン・シルバ・カイ・ゴールビー
+// 名コース100選 8位 / コースレート72.8（Black Tee）/ 全長6,923Y
+// ティー: Back / Regular / Front / Ladies（4ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const ABIKO_GC_OUT = [
+  { hole:1, par:4, hdcp: 9, bk:365, rg:342, fr:332, ld:293 },
+  { hole:2, par:4, hdcp: 3, bk:422, rg:391, fr:380, ld:348 },
+  { hole:3, par:3, hdcp:15, bk:195, rg:179, fr:146, ld:146 },
+  { hole:4, par:4, hdcp:13, bk:362, rg:326, fr:313, ld:254 },
+  { hole:5, par:4, hdcp: 7, bk:381, rg:359, fr:309, ld:259 },
+  { hole:6, par:5, hdcp: 1, bk:519, rg:488, fr:477, ld:426 },
+  { hole:7, par:3, hdcp:17, bk:204, rg:184, fr:147, ld:147 },
+  { hole:8, par:5, hdcp: 5, bk:562, rg:539, fr:524, ld:460 },
+  { hole:9, par:4, hdcp:11, bk:387, rg:365, fr:351, ld:311 },
+];
+const ABIKO_GC_IN = [
+  { hole:10, par:5, hdcp: 4, bk:537, rg:514, fr:493, ld:443 },
+  { hole:11, par:4, hdcp:16, bk:401, rg:371, fr:361, ld:302 },
+  { hole:12, par:5, hdcp:10, bk:573, rg:536, fr:522, ld:430 },
+  { hole:13, par:3, hdcp: 8, bk:184, rg:157, fr:134, ld: 95 },
+  { hole:14, par:4, hdcp: 2, bk:374, rg:357, fr:348, ld:320 },
+  { hole:15, par:3, hdcp:14, bk:160, rg:157, fr:145, ld:145 },
+  { hole:16, par:4, hdcp: 6, bk:428, rg:397, fr:385, ld:309 },
+  { hole:17, par:4, hdcp:18, bk:437, rg:410, fr:401, ld:349 },
+  { hole:18, par:4, hdcp:12, bk:432, rg:402, fr:389, ld:333 },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 日光カンツリー倶楽部（栃木県日光市 / 18H・1グリーン・ベント）
+// 出典：公式サイト（スクリーンショット）
+// 設計：井上誠一 / 名コース100選 11位 / CR74.8(Back) SR129
+// ティー: BACK / REG（2ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const NIKKO_CC_OUT = [
+  { hole:1, par:4, hdcp:11, bk:419, rg:407 },
+  { hole:2, par:4, hdcp: 5, bk:468, rg:407 },
+  { hole:3, par:3, hdcp:17, bk:200, rg:152 },
+  { hole:4, par:5, hdcp: 1, bk:580, rg:559 },
+  { hole:5, par:4, hdcp: 7, bk:444, rg:386 },
+  { hole:6, par:4, hdcp:13, bk:350, rg:330 },
+  { hole:7, par:4, hdcp: 3, bk:435, rg:400 },
+  { hole:8, par:3, hdcp:15, bk:210, rg:188 },
+  { hole:9, par:5, hdcp: 9, bk:513, rg:484 },
+];
+const NIKKO_CC_IN = [
+  { hole:10, par:5, hdcp:12, bk:518, rg:500 },
+  { hole:11, par:4, hdcp: 4, bk:455, rg:436 },
+  { hole:12, par:3, hdcp:14, bk:235, rg:215 },
+  { hole:13, par:5, hdcp: 2, bk:547, rg:500 },
+  { hole:14, par:4, hdcp:10, bk:350, rg:330 },
+  { hole:15, par:4, hdcp: 6, bk:415, rg:402 },
+  { hole:16, par:3, hdcp:18, bk:225, rg:179 },
+  { hole:17, par:4, hdcp: 8, bk:410, rg:388 },
+  { hole:18, par:4, hdcp:16, bk:462, rg:404 },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 千葉カントリークラブ 野田コース（千葉県野田市 / 18H・1グリーン・ベント）
+// 出典：公式サイト https://www.chibacc.co.jp/noda（スクリーンショット）
+// ティー: Champion / Back / Regular / Front / Ladies（5ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const CHIBA_CC_NODA_OUT = [
+  { hole:1, par:4, hdcp: 9, ch:380, bk:370, rg:360, fr:347, ld:335 },
+  { hole:2, par:3, hdcp:15, ch:209, bk:187, rg:168, fr:158, ld:142 },
+  { hole:3, par:5, hdcp: 3, ch:542, bk:522, rg:502, fr:490, ld:450 },
+  { hole:4, par:4, hdcp: 7, ch:426, bk:413, rg:386, fr:376, ld:344 },
+  { hole:5, par:4, hdcp: 1, ch:461, bk:435, rg:412, fr:392, ld:357 },
+  { hole:6, par:4, hdcp:13, ch:361, bk:361, rg:345, fr:345, ld:337 },
+  { hole:7, par:5, hdcp: 5, ch:538, bk:538, rg:524, fr:510, ld:462 },
+  { hole:8, par:3, hdcp:17, ch:210, bk:201, rg:173, fr:140, ld:121 },
+  { hole:9, par:4, hdcp:11, ch:388, bk:378, rg:347, fr:337, ld:327 },
+];
+const CHIBA_CC_NODA_IN = [
+  { hole:10, par:4, hdcp:10, ch:435, bk:410, rg:400, fr:400, ld:351 },
+  { hole:11, par:5, hdcp: 4, ch:566, bk:543, rg:526, fr:501, ld:467 },
+  { hole:12, par:3, hdcp:16, ch:183, bk:183, rg:164, fr:146, ld:130 },
+  { hole:13, par:4, hdcp:14, ch:362, bk:362, rg:346, fr:333, ld:333 },
+  { hole:14, par:4, hdcp: 2, ch:425, bk:397, rg:380, fr:380, ld:363 },
+  { hole:15, par:4, hdcp: 8, ch:393, bk:373, rg:357, fr:346, ld:307 },
+  { hole:16, par:4, hdcp: 6, ch:451, bk:428, rg:411, fr:391, ld:350 },
+  { hole:17, par:3, hdcp:18, ch:214, bk:197, rg:176, fr:157, ld:157 },
+  { hole:18, par:5, hdcp:12, ch:514, bk:502, rg:481, fr:470, ld:452 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 千葉カントリークラブ 梅郷コース（千葉県野田市 / 18H・1グリーン・ベント）
+// 出典：公式サイト https://www.chibacc.co.jp/umesato（スクリーンショット）
+// 名コース100選 29位 / ティー: Champion / Back / Regular / Front / Ladies（5ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const CHIBA_CC_UMESATO_OUT = [
+  { hole:1, par:4, hdcp: 9, ch:400, bk:378, rg:363, fr:345, ld:345 },
+  { hole:2, par:5, hdcp: 5, ch:517, bk:494, rg:470, fr:433, ld:433 },
+  { hole:3, par:3, hdcp:15, ch:210, bk:210, rg:190, fr:167, ld:167 },
+  { hole:4, par:4, hdcp: 7, ch:456, bk:417, rg:378, fr:363, ld:333 },
+  { hole:5, par:4, hdcp:13, ch:402, bk:378, rg:363, fr:347, ld:347 },
+  { hole:6, par:5, hdcp: 1, ch:601, bk:569, rg:539, fr:513, ld:485 },
+  { hole:7, par:3, hdcp:17, ch:162, bk:162, rg:149, fr:128, ld:128 },
+  { hole:8, par:4, hdcp: 3, ch:446, bk:410, rg:389, fr:374, ld:348 },
+  { hole:9, par:4, hdcp:11, ch:385, bk:365, rg:353, fr:335, ld:335 },
+];
+const CHIBA_CC_UMESATO_IN = [
+  { hole:10, par:4, hdcp: 4, ch:408, bk:408, rg:389, fr:366, ld:336 },
+  { hole:11, par:4, hdcp:16, ch:379, bk:358, rg:345, fr:329, ld:329 },
+  { hole:12, par:4, hdcp:10, ch:382, bk:366, rg:347, fr:334, ld:334 },
+  { hole:13, par:3, hdcp:14, ch:175, bk:175, rg:159, fr:140, ld:140 },
+  { hole:14, par:5, hdcp: 2, ch:562, bk:528, rg:513, fr:489, ld:454 },
+  { hole:15, par:4, hdcp: 8, ch:407, bk:387, rg:369, fr:356, ld:356 },
+  { hole:16, par:3, hdcp:18, ch:204, bk:204, rg:178, fr:157, ld:157 },
+  { hole:17, par:4, hdcp:12, ch:415, bk:381, rg:361, fr:344, ld:314 },
+  { hole:18, par:5, hdcp: 6, ch:572, bk:552, rg:519, fr:487, ld:457 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 千葉カントリークラブ 川間コース（千葉県野田市 / 27H・1グリーン・ベント）
+// 出典：公式サイト https://www.chibacc.co.jp/kawama（スクリーンショット）
+// ティー: Champion / Back / Regular / Front / Ladies（5ティー）
+// HDCP: 各コース9H独立（1〜9）
+// ─────────────────────────────────────────────────────────────────────────────
+const CHIBA_CC_KAWAMA_EAST = [
+  { hole:1, par:4, hdcp:4, ch:400, bk:372, rg:345, fr:345, ld:325 },
+  { hole:2, par:3, hdcp:8, ch:144, bk:144, rg:125, fr:109, ld:109 },
+  { hole:3, par:5, hdcp:2, ch:579, bk:516, rg:487, fr:453, ld:453 },
+  { hole:4, par:5, hdcp:5, ch:520, bk:504, rg:482, fr:465, ld:440 },
+  { hole:5, par:4, hdcp:1, ch:467, bk:440, rg:383, fr:357, ld:350 },
+  { hole:6, par:4, hdcp:7, ch:374, bk:374, rg:353, fr:331, ld:331 },
+  { hole:7, par:3, hdcp:9, ch:203, bk:182, rg:169, fr:152, ld:136 },
+  { hole:8, par:4, hdcp:3, ch:442, bk:424, rg:401, fr:345, ld:345 },
+  { hole:9, par:4, hdcp:6, ch:386, bk:386, rg:368, fr:349, ld:333 },
+];
+const CHIBA_CC_KAWAMA_SOUTH = [
+  { hole:1, par:5, hdcp:2, ch:552, bk:527, rg:492, fr:481, ld:440 },
+  { hole:2, par:4, hdcp:5, ch:431, bk:400, rg:385, fr:374, ld:338 },
+  { hole:3, par:4, hdcp:8, ch:364, bk:364, rg:350, fr:342, ld:314 },
+  { hole:4, par:4, hdcp:1, ch:440, bk:411, rg:391, fr:380, ld:350 },
+  { hole:5, par:3, hdcp:7, ch:159, bk:159, rg:147, fr:134, ld:115 },
+  { hole:6, par:4, hdcp:4, ch:371, bk:333, rg:321, fr:306, ld:291 },
+  { hole:7, par:4, hdcp:3, ch:404, bk:387, rg:375, fr:363, ld:331 },
+  { hole:8, par:3, hdcp:9, ch:221, bk:187, rg:173, fr:155, ld:142 },
+  { hole:9, par:5, hdcp:6, ch:574, bk:512, rg:471, fr:460, ld:460 },
+];
+const CHIBA_CC_KAWAMA_WEST = [
+  { hole:1, par:4, hdcp:5, ch:412, bk:392, rg:380, fr:364, ld:341 },
+  { hole:2, par:4, hdcp:2, ch:415, bk:402, rg:386, fr:374, ld:360 },
+  { hole:3, par:3, hdcp:8, ch:184, bk:166, rg:151, fr:134, ld:120 },
+  { hole:4, par:5, hdcp:1, ch:572, bk:540, rg:507, fr:474, ld:474 },
+  { hole:5, par:4, hdcp:7, ch:362, bk:348, rg:326, fr:303, ld:293 },
+  { hole:6, par:4, hdcp:4, ch:410, bk:377, rg:360, fr:329, ld:329 },
+  { hole:7, par:4, hdcp:3, ch:389, bk:357, rg:337, fr:327, ld:302 },
+  { hole:8, par:3, hdcp:9, ch:210, bk:179, rg:154, fr:141, ld:141 },
+  { hole:9, par:5, hdcp:6, ch:503, bk:487, rg:466, fr:454, ld:404 },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 成田ゴルフ倶楽部（千葉県成田市 / 18H・1グリーン・ベント）
+// 出典：公式サイト（スクリーンショット）
+// 名コース100選 52位 / 設計：川田太三
+// ティー: Blue / White / Green / Red（4ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const NARITA_GC_OUT = [
+  { hole:1, par:4, hdcp:15, bl:393, wh:354, gr:316, re:316 },
+  { hole:2, par:4, hdcp: 9, bl:405, wh:372, gr:352, re:352 },
+  { hole:3, par:5, hdcp: 3, bl:567, wh:532, gr:495, re:440 },
+  { hole:4, par:3, hdcp:13, bl:198, wh:169, gr:143, re:143 },
+  { hole:5, par:4, hdcp: 1, bl:418, wh:391, gr:367, re:260 },
+  { hole:6, par:5, hdcp: 7, bl:550, wh:514, gr:485, re:447 },
+  { hole:7, par:3, hdcp:17, bl:188, wh:176, gr:156, re:155 },
+  { hole:8, par:4, hdcp: 5, bl:424, wh:397, gr:370, re:274 },
+  { hole:9, par:4, hdcp:11, bl:456, wh:400, gr:318, re:318 },
+];
+const NARITA_GC_IN = [
+  { hole:10, par:5, hdcp:10, bl:532, wh:482, gr:445, re:445 },
+  { hole:11, par:4, hdcp: 4, bl:431, wh:398, gr:362, re:297 },
+  { hole:12, par:3, hdcp:16, bl:180, wh:165, gr:127, re:127 },
+  { hole:13, par:4, hdcp: 2, bl:454, wh:412, gr:384, re:307 },
+  { hole:14, par:4, hdcp:14, bl:359, wh:345, gr:325, re:302 },
+  { hole:15, par:4, hdcp: 8, bl:429, wh:408, gr:382, re:273 },
+  { hole:16, par:3, hdcp: 6, bl:208, wh:183, gr:123, re:123 },
+  { hole:17, par:5, hdcp:18, bl:501, wh:470, gr:424, re:424 },
+  { hole:18, par:4, hdcp:12, bl:447, wh:380, gr:337, re:304 },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 紫カントリークラブ すみれコース（千葉県印西市 / 18H・2グリーン A/B ベント）
+// 出典：公式サイト（スクリーンショット）
+// 名コース100選 57位 / 設計：小林英年
+// ティー: Tournament / Champion / Back / Regular / Front（5ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const YUKARI_CC_OUT = [
+  { hole:1, par:4, hdcp:15, toA:415, chA:395, bkA:385, rgA:375, frA:295, toB:430, chB:410, bkB:400, rgB:390, frB:310 },
+  { hole:2, par:4, hdcp: 3, toA:426, chA:413, bkA:390, rgA:378, frA:284, toB:386, chB:373, bkB:350, rgB:338, frB:244 },
+  { hole:3, par:4, hdcp: 9, toA:463, chA:422, bkA:413, rgA:398, frA:347, toB:441, chB:400, bkB:391, rgB:376, frB:325 },
+  { hole:4, par:5, hdcp: 1, toA:566, chA:523, bkA:512, rgA:476, frA:461, toB:546, chB:503, bkB:492, rgB:456, frB:441 },
+  { hole:5, par:4, hdcp: 7, toA:435, chA:421, bkA:398, rgA:383, frA:371, toB:390, chB:376, bkB:353, rgB:338, frB:326 },
+  { hole:6, par:3, hdcp:13, toA:181, chA:165, bkA:157, rgA:130, frA:110, toB:178, chB:162, bkB:154, rgB:127, frB:107 },
+  { hole:7, par:5, hdcp: 5, toA:579, chA:536, bkA:505, rgA:494, frA:456, toB:555, chB:512, bkB:481, rgB:470, frB:432 },
+  { hole:8, par:3, hdcp:11, toA:251, chA:221, bkA:184, rgA:175, frA:141, toB:200, chB:190, bkB:161, rgB:145, frB:116 },
+  { hole:9, par:4, hdcp:17, toA:404, chA:386, bkA:369, rgA:359, frA:339, toB:355, chB:337, bkB:320, rgB:310, frB:290 },
+];
+const YUKARI_CC_IN = [
+  { hole:10, par:4, hdcp:10, toA:423, chA:412, bkA:401, rgA:390, frA:353, toB:431, chB:420, bkB:409, rgB:398, frB:361 },
+  { hole:11, par:3, hdcp:16, toA:172, chA:157, bkA:147, rgA:136, frA:118, toB:191, chB:176, bkB:166, rgB:155, frB:137 },
+  { hole:12, par:5, hdcp: 4, toA:495, chA:480, bkA:466, rgA:455, frA:393, toB:494, chB:479, bkB:465, rgB:454, frB:392 },
+  { hole:13, par:4, hdcp:14, toA:425, chA:400, bkA:390, rgA:364, frA:347, toB:416, chB:391, bkB:381, rgB:355, frB:338 },
+  { hole:14, par:4, hdcp: 2, toA:451, chA:424, bkA:416, rgA:404, frA:349, toB:460, chB:433, bkB:425, rgB:413, frB:358 },
+  { hole:15, par:3, hdcp: 8, toA:227, chA:212, bkA:186, rgA:163, frA:155, toB:181, chB:163, bkB:147, rgB:115, frB:104 },
+  { hole:16, par:4, hdcp:18, toA:428, chA:383, bkA:358, rgA:351, frA:315, toB:463, chB:418, bkB:393, rgB:386, frB:350 },
+  { hole:17, par:4, hdcp: 6, toA:465, chA:441, bkA:421, rgA:396, frA:384, toB:419, chB:395, bkB:375, rgB:350, frB:338 },
+  { hole:18, par:5, hdcp:12, toA:572, chA:516, bkA:503, rgA:477, frA:445, toB:553, chB:497, bkB:484, rgB:458, frB:426 },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 紫カントリークラブ あやめコース EAST（千葉県印西市 / 18H・2グリーン あやめ/むらさき ベント）
+// 出典：公式サイト（スクリーンショット）
+// ティー: Back / Regular / Front / Murasaki(M)（4ティー）× あやめ/むらさき 2グリーン
+// ─────────────────────────────────────────────────────────────────────────────
+const YUKARI_AYAME_EAST_OUT = [
+  { hole:1, par:4, hdcp: 3, bA:375, rA:360, fA:345, mA:300, bM:385, rM:370, fM:355, mM:310 },
+  { hole:2, par:3, hdcp:15, bA:180, rA:173, fA:142, mA:122, bM:192, rM:185, fM:155, mM:137 },
+  { hole:3, par:4, hdcp: 9, bA:357, rA:345, fA:335, mA:314, bM:350, rM:338, fM:328, mM:307 },
+  { hole:4, par:3, hdcp:13, bA:195, rA:174, fA:165, mA:147, bM:160, rM:138, fM:129, mM:111 },
+  { hole:5, par:5, hdcp: 1, bA:510, rA:491, fA:430, mA:430, bM:493, rM:474, fM:423, mM:423 },
+  { hole:6, par:4, hdcp: 7, bA:346, rA:322, fA:274, mA:274, bM:336, rM:312, fM:264, mM:264 },
+  { hole:7, par:4, hdcp: 5, bA:411, rA:398, fA:382, mA:315, bM:393, rM:380, fM:364, mM:297 },
+  { hole:8, par:4, hdcp:17, bA:364, rA:343, fA:329, mA:299, bM:360, rM:339, fM:325, mM:295 },
+  { hole:9, par:5, hdcp:11, bA:511, rA:502, fA:490, mA:430, bM:490, rM:480, fM:468, mM:408 },
+];
+const YUKARI_AYAME_EAST_IN = [
+  { hole:10, par:5, hdcp: 4, bA:510, rA:492, fA:474, mA:428, bM:490, rM:472, fM:454, mM:408 },
+  { hole:11, par:4, hdcp:10, bA:386, rA:361, fA:349, mA:318, bM:362, rM:337, fM:325, mM:294 },
+  { hole:12, par:3, hdcp:16, bA:175, rA:165, fA:152, mA:126, bM:178, rM:168, fM:155, mM:129 },
+  { hole:13, par:4, hdcp: 2, bA:415, rA:384, fA:373, mA:326, bM:392, rM:369, fM:358, mM:311 },
+  { hole:14, par:4, hdcp:14, bA:307, rA:290, fA:277, mA:265, bM:307, rM:290, fM:277, mM:265 },
+  { hole:15, par:4, hdcp: 8, bA:380, rA:366, fA:352, mA:310, bM:365, rM:351, fM:337, mM:298 },
+  { hole:16, par:3, hdcp:18, bA:150, rA:131, fA:118, mA:118, bM:138, rM:119, fM:106, mM:106 },
+  { hole:17, par:4, hdcp: 6, bA:406, rA:389, fA:362, mA:307, bM:383, rM:366, fM:339, mM:284 },
+  { hole:18, par:5, hdcp:12, bA:482, rA:462, fA:448, mA:417, bM:471, rM:451, fM:437, mM:406 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 紫カントリークラブ あやめコース WEST（千葉県印西市 / 18H・2グリーン あやめ/むらさき ベント）
+// 出典：公式サイト（スクリーンショット）
+// ティー: Back / Regular / Front（3ティー）× あやめ/むらさき 2グリーン
+// ─────────────────────────────────────────────────────────────────────────────
+const YUKARI_AYAME_WEST_OUT = [
+  { hole:1, par:4, hdcp: 9, bA:322, rA:314, fA:306, bM:311, rM:303, fM:295 },
+  { hole:2, par:3, hdcp:15, bA:127, rA:119, fA:114, bM:120, rM:112, fM:107 },
+  { hole:3, par:4, hdcp: 3, bA:375, rA:362, fA:348, bM:344, rM:331, fM:317 },
+  { hole:4, par:3, hdcp:13, bA:176, rA:166, fA:157, bM:166, rM:156, fM:147 },
+  { hole:5, par:5, hdcp: 7, bA:450, rA:442, fA:431, bM:435, rM:427, fM:416 },
+  { hole:6, par:4, hdcp: 1, bA:392, rA:383, fA:378, bM:373, rM:364, fM:359 },
+  { hole:7, par:5, hdcp:17, bA:453, rA:444, fA:435, bM:449, rM:440, fM:431 },
+  { hole:8, par:4, hdcp: 5, bA:353, rA:348, fA:338, bM:346, rM:341, fM:331 },
+  { hole:9, par:4, hdcp:11, bA:323, rA:303, fA:294, bM:314, rM:294, fM:285 },
+];
+const YUKARI_AYAME_WEST_IN = [
+  { hole:10, par:4, hdcp:16, bA:321, rA:306, fA:300, bM:321, rM:306, fM:300 },
+  { hole:11, par:4, hdcp: 4, bA:353, rA:344, fA:337, bM:345, rM:336, fM:329 },
+  { hole:12, par:4, hdcp:10, bA:369, rA:355, fA:350, bM:354, rM:340, fM:335 },
+  { hole:13, par:4, hdcp: 2, bA:355, rA:346, fA:320, bM:336, rM:327, fM:301 },
+  { hole:14, par:5, hdcp: 8, bA:458, rA:448, fA:438, bM:439, rM:429, fM:419 },
+  { hole:15, par:5, hdcp:14, bA:444, rA:433, fA:423, bM:442, rM:431, fM:421 },
+  { hole:16, par:3, hdcp:12, bA:158, rA:151, fA:128, bM:149, rM:142, fM:123 },
+  { hole:17, par:4, hdcp: 6, bA:328, rA:310, fA:300, bM:297, rM:279, fM:269 },
+  { hole:18, par:3, hdcp:18, bA:157, rA:145, fA:131, bM:144, rM:132, fM:115 },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 宍戸ヒルズカントリークラブ WESTコース（茨城県笠間市 / 18H・1グリーン・ベント）
+// 出典：公式サイト https://www.hillsgolf.jp/shishido/（スクリーンショット）
+// 名コース100選 64位 / 設計：発知朗 / 日本ゴルフツアー選手権定期開催
+// ティー: Black / Blue / White / Gold / Red（5ティー）/ HDCP非公開
+// ─────────────────────────────────────────────────────────────────────────────
+const SHISHIDO_HILLS_WEST = [
+  { hole:1,  par:4, bk:398, bl:398, wh:358, go:326, re:326 },
+  { hole:2,  par:5, bk:519, bl:519, wh:486, go:415, re:415 },
+  { hole:3,  par:3, bk:192, bl:171, wh:161, go:125, re:125 },
+  { hole:4,  par:4, bk:415, bl:393, wh:359, go:331, re:331 },
+  { hole:5,  par:4, bk:402, bl:374, wh:339, go:339, re:248 },
+  { hole:6,  par:5, bk:588, bl:588, wh:545, go:505, re:505 },
+  { hole:7,  par:3, bk:231, bl:196, wh:164, go:117, re:117 },
+  { hole:8,  par:4, bk:456, bl:411, wh:390, go:330, re:287 },
+  { hole:9,  par:4, bk:508, bl:449, wh:375, go:356, re:356 },
+  { hole:10, par:5, bk:515, bl:494, wh:471, go:417, re:400 },
+  { hole:11, par:4, bk:407, bl:385, wh:374, go:324, re:324 },
+  { hole:12, par:4, bk:408, bl:325, wh:325, go:325, re:291 },
+  { hole:13, par:3, bk:162, bl:146, wh:146, go:132, re:132 },
+  { hole:14, par:4, bk:460, bl:430, wh:383, go:360, re:272 },
+  { hole:15, par:5, bk:638, bl:615, wh:580, go:500, re:464 },
+  { hole:16, par:3, bk:190, bl:155, wh:139, go: 95, re: 95 },
+  { hole:17, par:4, bk:481, bl:430, wh:412, go:387, re:310 },
+  { hole:18, par:4, bk:467, bl:420, wh:374, go:336, re:320 },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 宍戸ヒルズカントリークラブ EASTコース（茨城県笠間市 / 18H・1グリーン・ベント New Green）
+// 出典：公式サイト https://www.hillsgolf.jp/shishido/（スクリーンショット）
+// 設計：発知朗 / HDCP非公開
+// ─────────────────────────────────────────────────────────────────────────────
+const SHISHIDO_HILLS_EAST = [
+  { hole:1,  par:5, bk:562, bl:549, wh:518, go:477, re:425 },
+  { hole:2,  par:3, bk:192, bl:192, wh:170, go:170, re:150 },
+  { hole:3,  par:4, bk:400, bl:381, wh:367, go:367, re:278 },
+  { hole:4,  par:3, bk:176, bl:176, wh:161, go:135, re:135 },
+  { hole:5,  par:4, bk:353, bl:334, wh:316, go:292, re:292 },
+  { hole:6,  par:4, bk:439, bl:439, wh:420, go:398, re:331 },
+  { hole:7,  par:5, bk:496, bl:470, wh:445, go:445, re:358 },
+  { hole:8,  par:4, bk:400, bl:400, wh:385, go:291, re:291 },
+  { hole:9,  par:4, bk:420, bl:408, wh:386, go:372, re:358 },
+  { hole:10, par:4, bk:411, bl:390, wh:374, go:352, re:332 },
+  { hole:11, par:3, bk:187, bl:187, wh:174, go:147, re:147 },
+  { hole:12, par:4, bk:409, bl:409, wh:388, go:368, re:300 },
+  { hole:13, par:4, bk:419, bl:400, wh:359, go:330, re:282 },
+  { hole:14, par:5, bk:501, bl:501, wh:475, go:450, re:450 },
+  { hole:15, par:4, bk:393, bl:393, wh:369, go:345, re:268 },
+  { hole:16, par:3, bk:197, bl:185, wh:167, go:148, re:148 },
+  { hole:17, par:5, bk:523, bl:511, wh:491, go:475, re:435 },
+  { hole:18, par:4, bk:364, bl:364, wh:346, go:328, re:328 },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PGM石岡ゴルフクラブ（茨城県石岡市 / 18H・1グリーン・ベント）
+// 出典：公式サイト（スクリーンショット）
+// 名コース100選 77位 / 設計：J・ニクラウス
+// ティー: Black / Blue / White / Gold / Red（5ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const PGM_ISHIOKA_OUT = [
+  { hole:1, par:4, hdcp:15, bk:352, bl:335, wh:315, go:295, re:225 },
+  { hole:2, par:5, hdcp: 3, bk:533, bl:519, wh:501, go:479, re:417 },
+  { hole:3, par:4, hdcp: 9, bk:382, bl:350, wh:341, go:312, re:272 },
+  { hole:4, par:3, hdcp:13, bk:196, bl:187, wh:156, go:130, re:105 },
+  { hole:5, par:5, hdcp: 7, bk:576, bl:541, wh:510, go:467, re:420 },
+  { hole:6, par:4, hdcp: 1, bk:466, bl:441, wh:383, go:354, re:319 },
+  { hole:7, par:4, hdcp: 5, bk:430, bl:404, wh:375, go:340, re:290 },
+  { hole:8, par:3, hdcp:17, bk:225, bl:198, wh:170, go:151, re:131 },
+  { hole:9, par:4, hdcp:11, bk:429, bl:394, wh:367, go:328, re:286 },
+];
+const PGM_ISHIOKA_IN = [
+  { hole:10, par:4, hdcp:10, bk:389, bl:363, wh:349, go:307, re:276 },
+  { hole:11, par:5, hdcp: 4, bk:495, bl:463, wh:422, go:384, re:384 },
+  { hole:12, par:4, hdcp:16, bk:352, bl:331, wh:304, go:271, re:250 },
+  { hole:13, par:3, hdcp:14, bk:206, bl:191, wh:167, go:141, re:110 },
+  { hole:14, par:4, hdcp: 8, bk:412, bl:387, wh:359, go:320, re:279 },
+  { hole:15, par:4, hdcp: 2, bk:465, bl:413, wh:378, go:342, re:314 },
+  { hole:16, par:5, hdcp: 6, bk:544, bl:476, wh:445, go:407, re:407 },
+  { hole:17, par:3, hdcp:18, bk:184, bl:165, wh:153, go:140, re:117 },
+  { hole:18, par:4, hdcp:12, bk:435, bl:411, wh:386, go:356, re:356 },
+];
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// イーグルポイントゴルフクラブ（茨城県鉾田市 / 18H・1グリーン・ベント）
+// 出典：公式サイト（スクリーンショット）
+// 名コース100選 79位 / 設計：川田太三 / HDCP非公開
+// ティー: Gold / Blue / White / Silver / Red（5ティー）
+// ─────────────────────────────────────────────────────────────────────────────
+const EAGLE_POINT_GC_OUT = [
+  { hole:1, par:4, go:397, bl:361, wh:338, si:318, re:318 },
+  { hole:2, par:4, go:460, bl:435, wh:407, si:384, re:342 },
+  { hole:3, par:5, go:541, bl:501, wh:479, si:461, re:343 },
+  { hole:4, par:4, go:354, bl:329, wh:303, si:285, re:285 },
+  { hole:5, par:3, go:178, bl:155, wh:137, si:128, re:128 },
+  { hole:6, par:4, go:415, bl:393, wh:358, si:337, re:228 },
+  { hole:7, par:4, go:431, bl:369, wh:344, si:317, re:292 },
+  { hole:8, par:5, go:601, bl:567, wh:543, si:507, re:444 },
+  { hole:9, par:3, go:214, bl:176, wh:143, si:125, re:125 },
+];
+const EAGLE_POINT_GC_IN = [
+  { hole:10, par:4, go:431, bl:377, wh:355, si:332, re:274 },
+  { hole:11, par:5, go:539, bl:506, wh:483, si:453, re:345 },
+  { hole:12, par:3, go:210, bl:189, wh:163, si:142, re:142 },
+  { hole:13, par:4, go:372, bl:341, wh:316, si:298, re:298 },
+  { hole:14, par:4, go:471, bl:422, wh:394, si:362, re:335 },
+  { hole:15, par:5, go:570, bl:550, wh:524, si:500, re:388 },
+  { hole:16, par:3, go:216, bl:169, wh:145, si:130, re:130 },
+  { hole:17, par:4, go:432, bl:407, wh:386, si:350, re:303 },
+  { hole:18, par:4, go:460, bl:395, wh:367, si:335, re:335 },
+];
+
 // VENUES マスター — セレクトボックス用統合定義
 // subCourses: ゴルフ場内のコース一覧（18Hなら1エントリ、27Hなら3エントリ等）
 // greens: 使用グリーン選択肢
@@ -6311,6 +7052,465 @@ var VENUES = [
     subCourses: [
       { name: "那須",   holes: NASUNOGHARA_CC_NASU },
       { name: "那珂川", holes: NASUNOGHARA_CC_NAKAGAWA },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 太平洋クラブ江南コース ───
+  {
+    id: "taiheiyo_konan", reading: "タイヘイヨウクラブコウナンコース",
+    name: "太平洋クラブ江南コース",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "ch", label: "Champion" },
+      { id: "bk", label: "Back" },
+      { id: "rg", label: "Regular" },
+      { id: "fr", label: "Front" },
+      { id: "ld", label: "Ladies" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: TAIHEIYO_KONAN_OUT },
+      { name: "IN",  holes: TAIHEIYO_KONAN_IN },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 嵐山カントリークラブ（18H / A・B 2グリーン） ───
+  {
+    id: "ranzan_cc", reading: "ランザンカントリークラブ",
+    name: "嵐山カントリークラブ",
+    greens: [
+      { id: "a", label: "Aグリーン（ベント）" },
+      { id: "b", label: "Bグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "bk", label: "Black" },
+      { id: "bl", label: "Blue" },
+      { id: "wh", label: "White" },
+      { id: "go", label: "Gold" },
+      { id: "la", label: "GREEN" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: RANZAN_CC_OUT },
+      { name: "IN",  holes: RANZAN_CC_IN },
+    ],
+    getYardage: (hole, green, tee) => {
+      const g = green === "b" ? "B" : "A";
+      return hole[tee + g] ?? null;
+    },
+  },
+  // ─── 東松山カントリークラブ（27H / 東・中・西） ───
+  {
+    id: "higashimatsuyama_cc", reading: "ヒガシマツヤマカントリークラブ",
+    name: "東松山カントリークラブ",
+    greens: [
+      { id: "a", label: "Aグリーン（ベント）" },
+      { id: "l", label: "Lグリーン（高麗）" },
+    ],
+    tees: [
+      { id: "ch", label: "チャンピオン" },
+      { id: "bk", label: "バック" },
+      { id: "rg", label: "レギュラー" },
+      { id: "fr", label: "フロント" },
+      { id: "ld", label: "レディース" },
+    ],
+    subCourses: [
+      { name: "東", holes: HIGASHIMATSUYAMA_CC_EAST },
+      { name: "中", holes: HIGASHIMATSUYAMA_CC_CENTER },
+      { name: "西", holes: HIGASHIMATSUYAMA_CC_WEST },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 狭山ゴルフ・クラブ（27H / 東・南・西） ───
+  {
+    id: "sayama_gc", reading: "サヤマゴルフクラブ",
+    name: "狭山ゴルフ・クラブ",
+    greens: [
+      { id: "a", label: "Aグリーン（ベント）" },
+      { id: "b", label: "Bグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "bk", label: "バック" },
+      { id: "rg", label: "レギュラー" },
+      { id: "fr", label: "フロント" },
+    ],
+    subCourses: [
+      { name: "東", holes: SAYAMA_GC_EAST },
+      { name: "南", holes: SAYAMA_GC_SOUTH },
+      { name: "西", holes: SAYAMA_GC_WEST },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 日高カントリークラブ（27H / 東・南・西） ───
+  {
+    id: "hidaka_cc", reading: "ヒダカカントリークラブ",
+    name: "日高カントリークラブ",
+    greens: [
+      { id: "ag", label: "AGグリーン（ベント）" },
+      { id: "bg", label: "BGグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "bk", label: "Back T." },
+      { id: "rg", label: "Reg." },
+      { id: "fr", label: "Front" },
+    ],
+    subCourses: [
+      { name: "東", holes: HIDAKA_CC_EAST },
+      { name: "南", holes: HIDAKA_CC_SOUTH },
+      { name: "西", holes: HIDAKA_CC_WEST },
+    ],
+    getYardage: (hole, green, tee) => {
+      const g = green === "bg" ? "B" : "A";
+      return hole[tee + g] ?? null;
+    },
+  },
+  // ─── 高坂カントリークラブ（36H / 米山・岩殿 × OUT・IN） ───
+  {
+    id: "takasaka_cc", reading: "タカサカカントリークラブ",
+    name: "高坂カントリークラブ",
+    greens: [
+      { id: "be", label: "ベントグリーン" },
+      { id: "ba", label: "バミューダグリーン" },
+    ],
+    tees: [
+      { id: "bk", label: "Back" },
+      { id: "rg", label: "Reg" },
+      { id: "ld", label: "Ladies" },
+    ],
+    subCourses: [
+      { name: "米山OUT", holes: TAKASAKA_CC_YONEYAMA_OUT },
+      { name: "米山IN",  holes: TAKASAKA_CC_YONEYAMA_IN },
+      { name: "岩殿OUT", holes: TAKASAKA_CC_IWADONO_OUT },
+      { name: "岩殿IN",  holes: TAKASAKA_CC_IWADONO_IN },
+    ],
+    getYardage: (hole, green, tee) => {
+      const g = green === "ba" ? "Ba" : "Be";
+      return hole[tee + g] ?? null;
+    },
+  },
+  // ─── こだまゴルフクラブ（18H / New(ベント)・Old(バミューダ) 2グリーン） ───
+  {
+    id: "kodama_gc", reading: "コダマゴルフクラブ",
+    name: "こだまゴルフクラブ",
+    greens: [
+      { id: "n", label: "Newグリーン（ニューベント）" },
+      { id: "o", label: "Oldグリーン（バミューダ）" },
+    ],
+    tees: [
+      { id: "bk", label: "BACK" },
+      { id: "rg", label: "REG." },
+      { id: "fr", label: "FRONT" },
+      { id: "ld", label: "lady" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: KODAMA_GC_OUT },
+      { name: "IN",  holes: KODAMA_GC_IN },
+    ],
+    getYardage: (hole, green, tee) => {
+      const g = green === "o" ? "O" : "N";
+      return hole[tee + g] ?? null;
+    },
+  },
+  // ─── 鳩山カントリークラブ（18H / A・B 2グリーン ベント/バミューダ） ───
+  {
+    id: "hatoyama_cc", reading: "ハトヤマカントリークラブ",
+    name: "鳩山カントリークラブ",
+    greens: [
+      { id: "a", label: "Aグリーン（ベント）" },
+      { id: "b", label: "Bグリーン（バミューダ）" },
+    ],
+    tees: [
+      { id: "bk", label: "Black" },
+      { id: "bl", label: "Blue" },
+      { id: "wh", label: "White" },
+      { id: "re", label: "Red" },
+      { id: "pk", label: "Pink" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: HATOYAMA_CC_OUT },
+      { name: "IN",  holes: HATOYAMA_CC_IN },
+    ],
+    getYardage: (hole, green, tee) => {
+      const g = green === "b" ? "B" : "A";
+      return hole[tee + g] ?? null;
+    },
+  },
+  // ─── 清澄ゴルフ倶楽部 ───
+  {
+    id: "kiyosumi_gc", reading: "キヨスミゴルフクラブ",
+    name: "清澄ゴルフ倶楽部",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "bk", label: "BLACK" },
+      { id: "bl", label: "BLUE" },
+      { id: "wh", label: "WHITE" },
+      { id: "gr", label: "GREEN" },
+      { id: "go", label: "GOLD" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: KIYOSUMI_GC_OUT },
+      { name: "IN",  holes: KIYOSUMI_GC_IN },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 石坂ゴルフ倶楽部 ───
+  {
+    id: "ishizaka_gc", reading: "イシザカゴルフクラブ",
+    name: "石坂ゴルフ倶楽部",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "bk", label: "Black" },
+      { id: "bl", label: "Blue" },
+      { id: "wh", label: "White" },
+      { id: "go", label: "Gold" },
+      { id: "re", label: "Red" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: ISHIZAKA_GC_OUT },
+      { name: "IN",  holes: ISHIZAKA_GC_IN },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 我孫子ゴルフ倶楽部 ───
+  {
+    id: "abiko_gc", reading: "アビコゴルフクラブ",
+    name: "我孫子ゴルフ倶楽部",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "bk", label: "Back" },
+      { id: "rg", label: "Regular" },
+      { id: "fr", label: "Front" },
+      { id: "ld", label: "Ladies" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: ABIKO_GC_OUT },
+      { name: "IN",  holes: ABIKO_GC_IN },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 日光カンツリー倶楽部 ───
+  {
+    id: "nikko_cc", reading: "ニッコウカントリークラブ",
+    name: "日光カンツリー倶楽部",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "bk", label: "BACK" },
+      { id: "rg", label: "REG" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: NIKKO_CC_OUT },
+      { name: "IN",  holes: NIKKO_CC_IN },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 千葉カントリークラブ 野田コース ───
+  {
+    id: "chiba_cc_noda", reading: "チバカントリークラブノダコース",
+    name: "千葉カントリークラブ 野田コース",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "ch", label: "Champion" },
+      { id: "bk", label: "Back" },
+      { id: "rg", label: "Regular" },
+      { id: "fr", label: "Front" },
+      { id: "ld", label: "Ladies" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: CHIBA_CC_NODA_OUT },
+      { name: "IN",  holes: CHIBA_CC_NODA_IN },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 千葉カントリークラブ 梅郷コース（名コース100選29位） ───
+  {
+    id: "chiba_cc_umesato", reading: "チバカントリークラブウメサトコース",
+    name: "千葉カントリークラブ 梅郷コース",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "ch", label: "Champion" },
+      { id: "bk", label: "Back" },
+      { id: "rg", label: "Regular" },
+      { id: "fr", label: "Front" },
+      { id: "ld", label: "Ladies" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: CHIBA_CC_UMESATO_OUT },
+      { name: "IN",  holes: CHIBA_CC_UMESATO_IN },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 千葉カントリークラブ 川間コース（27H / 東・南・西） ───
+  {
+    id: "chiba_cc_kawama", reading: "チバカントリークラブカワマコース",
+    name: "千葉カントリークラブ 川間コース",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "ch", label: "Champion" },
+      { id: "bk", label: "Back" },
+      { id: "rg", label: "Regular" },
+      { id: "fr", label: "Front" },
+      { id: "ld", label: "Ladies" },
+    ],
+    subCourses: [
+      { name: "東", holes: CHIBA_CC_KAWAMA_EAST },
+      { name: "南", holes: CHIBA_CC_KAWAMA_SOUTH },
+      { name: "西", holes: CHIBA_CC_KAWAMA_WEST },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 成田ゴルフ倶楽部（名コース100選52位） ───
+  {
+    id: "narita_gc", reading: "ナリタゴルフクラブ",
+    name: "成田ゴルフ倶楽部",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "bl", label: "Blue" },
+      { id: "wh", label: "White" },
+      { id: "gr", label: "Green" },
+      { id: "re", label: "Red" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: NARITA_GC_OUT },
+      { name: "IN",  holes: NARITA_GC_IN },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 紫カントリークラブ すみれコース（名コース100選57位） ───
+  {
+    id: "yukari_cc_sumire", reading: "ユカリカントリークラブスミレコース",
+    name: "紫カントリークラブ すみれコース",
+    greens: [
+      { id: "a", label: "Aグリーン（ベント）" },
+      { id: "b", label: "Bグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "to", label: "Tournament" },
+      { id: "ch", label: "Champion" },
+      { id: "bk", label: "Back" },
+      { id: "rg", label: "Regular" },
+      { id: "fr", label: "Front" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: YUKARI_CC_OUT },
+      { name: "IN",  holes: YUKARI_CC_IN },
+    ],
+    getYardage: (hole, green, tee) => {
+      const g = green === "b" ? "B" : "A";
+      return hole[tee + g] ?? null;
+    },
+  },
+  // ─── 紫カントリークラブ あやめコース EAST ───
+  {
+    id: "yukari_cc_ayame_east", reading: "ユカリカントリークラブアヤメコースイースト",
+    name: "紫カントリークラブ あやめコース EAST",
+    greens: [
+      { id: "a", label: "あやめグリーン（ベント）" },
+      { id: "m", label: "むらさきグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "b", label: "Back" },
+      { id: "r", label: "Regular" },
+      { id: "f", label: "Front" },
+      { id: "m", label: "Murasaki" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: YUKARI_AYAME_EAST_OUT },
+      { name: "IN",  holes: YUKARI_AYAME_EAST_IN },
+    ],
+    getYardage: (hole, green, tee) => {
+      const g = green === "m" ? "M" : "A";
+      return hole[tee + g] ?? null;
+    },
+  },
+  // ─── 紫カントリークラブ あやめコース WEST ───
+  {
+    id: "yukari_cc_ayame_west", reading: "ユカリカントリークラブアヤメコースウエスト",
+    name: "紫カントリークラブ あやめコース WEST",
+    greens: [
+      { id: "a", label: "あやめグリーン（ベント）" },
+      { id: "m", label: "むらさきグリーン（ベント）" },
+    ],
+    tees: [
+      { id: "b", label: "Back" },
+      { id: "r", label: "Regular" },
+      { id: "f", label: "Front" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: YUKARI_AYAME_WEST_OUT },
+      { name: "IN",  holes: YUKARI_AYAME_WEST_IN },
+    ],
+    getYardage: (hole, green, tee) => {
+      const g = green === "m" ? "M" : "A";
+      return hole[tee + g] ?? null;
+    },
+  },
+  // ─── 宍戸ヒルズカントリークラブ WESTコース（名コース100選64位） ───
+  {
+    id: "shishido_hills_west", reading: "シシドヒルズカントリークラブウエスト",
+    name: "宍戸ヒルズカントリークラブ WESTコース",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "bk", label: "Black" },
+      { id: "bl", label: "Blue" },
+      { id: "wh", label: "White" },
+      { id: "go", label: "Gold" },
+      { id: "re", label: "Red" },
+    ],
+    subCourses: [
+      { name: "FRONT9",  holes: SHISHIDO_HILLS_WEST.slice(0,9) },
+      { name: "BACK9",   holes: SHISHIDO_HILLS_WEST.slice(9,18) },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── 宍戸ヒルズカントリークラブ EASTコース ───
+  {
+    id: "shishido_hills_east", reading: "シシドヒルズカントリークラブイースト",
+    name: "宍戸ヒルズカントリークラブ EASTコース",
+    greens: [{ id: "new", label: "Newグリーン（ベント）" }],
+    tees: [
+      { id: "bk", label: "Black" },
+      { id: "bl", label: "Blue" },
+      { id: "wh", label: "White" },
+      { id: "go", label: "Gold" },
+      { id: "re", label: "Red" },
+    ],
+    subCourses: [
+      { name: "FRONT9",  holes: SHISHIDO_HILLS_EAST.slice(0,9) },
+      { name: "BACK9",   holes: SHISHIDO_HILLS_EAST.slice(9,18) },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── PGM石岡ゴルフクラブ（名コース100選77位） ───
+  {
+    id: "pgm_ishioka_gc", reading: "ピージーエムイシオカゴルフクラブ",
+    name: "PGM石岡ゴルフクラブ",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "bk", label: "Black" },
+      { id: "bl", label: "Blue" },
+      { id: "wh", label: "White" },
+      { id: "go", label: "Gold" },
+      { id: "re", label: "Red" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: PGM_ISHIOKA_OUT },
+      { name: "IN",  holes: PGM_ISHIOKA_IN },
+    ],
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
+  },
+  // ─── イーグルポイントゴルフクラブ（名コース100選79位） ───
+  {
+    id: "eagle_point_gc", reading: "イーグルポイントゴルフクラブ",
+    name: "イーグルポイントゴルフクラブ",
+    greens: [{ id: "bent", label: "ベント（1グリーン）" }],
+    tees: [
+      { id: "go", label: "Gold" },
+      { id: "bl", label: "Blue" },
+      { id: "wh", label: "White" },
+      { id: "si", label: "Silver" },
+      { id: "re", label: "Red" },
+    ],
+    subCourses: [
+      { name: "OUT", holes: EAGLE_POINT_GC_OUT },
+      { name: "IN",  holes: EAGLE_POINT_GC_IN },
     ],
     getYardage: (hole, green, tee) => hole[tee] ?? null,
   },
