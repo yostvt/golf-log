@@ -2112,7 +2112,7 @@ function GolfTracker() {
   }, [handicap == null ? void 0 : handicap.hcp]);
   const S = {
     app: { minHeight: "100vh", background: "#f8fafc", fontFamily: "'Noto Sans JP',sans-serif", color: "#1e293b" },
-    header: { background: "#ffffff", borderBottom: "1px solid #e2e8f0", padding: "13px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100, boxShadow: "0 1px 4px rgba(0,0,0,0.06)" },
+    header: { background: "#ffffff", borderBottom: "1px solid #e2e8f0", padding: "calc(env(safe-area-inset-top) + 13px) 16px 13px", display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 100, boxShadow: "0 1px 4px rgba(0,0,0,0.06)" },
     logo: { fontSize: "17px", fontWeight: "800", background: "linear-gradient(90deg,#16a34a,#3b82f6)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" },
     navBtn: (a) => ({ padding: "5px 11px", borderRadius: "20px", border: "none", cursor: "pointer", fontSize: "12px", fontWeight: "600", background: a ? "rgba(22,163,74,0.12)" : "transparent", color: a ? "#16a34a" : "#94a3b8" }),
     page: { padding: "16px 14px", maxWidth: "480px", margin: "0 auto" },
@@ -5176,3 +5176,10 @@ function GolfTracker() {
   } }, toast.message));
 }
 window.GolfTracker = GolfTracker;
+if (typeof window !== "undefined" && typeof document !== "undefined") {
+  const __scrxRoot = document.getElementById("root");
+  if (__scrxRoot && !window.__SCRX_MOUNTED) {
+    window.__SCRX_MOUNTED = true;
+    ReactDOM.createRoot(__scrxRoot).render(React.createElement(GolfTracker));
+  }
+}
