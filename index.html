@@ -87,22 +87,36 @@
   <script src="app.js"></script>
 
   <script>
-    // app.js がマウントし終えたらローディング画面を非表示
-    window.addEventListener('DOMContentLoaded', function () {
-      const loading = document.getElementById('app-loading');
-      if (!loading) return;
-      // MutationObserver で #root に子要素が入ったら非表示
-      const obs = new MutationObserver(function () {
-        const root = document.getElementById('root');
-        if (root && root.childElementCount > 0) {
-          loading.style.transition = 'opacity 0.3s';
-          loading.style.opacity = '0';
-          setTimeout(function () { loading.remove(); }, 350);
-          obs.disconnect();
-        }
-      });
-      obs.observe(document.getElementById('root'), { childList: true });
-    });
+    (function () {
+      var root = document.getElementById('root');
+
+      // フォールバック・マウント：app.js が自己マウントしていなければ、ここで描画する。
+      // app.js 側と window.__SCRX_MOUNTED を共有し、二重描画を防止。
+      if (root && !window.__SCRX_MOUNTED && window.React && window.ReactDOM && window.GolfTracker) {
+        window.__SCRX_MOUNTED = true;
+        window.ReactDOM.createRoot(root).render(window.React.createElement(window.GolfTracker));
+      }
+
+      // 描画完了後にローディング画面を消す
+      function hideLoading() {
+        var loading = document.getElementById('app-loading');
+        if (!loading) return;
+        loading.style.transition = 'opacity 0.3s';
+        loading.style.opacity = '0';
+        setTimeout(function () { loading.remove(); }, 350);
+      }
+
+      if (root && root.childElementCount > 0) {
+        hideLoading();
+      } else if (root) {
+        var obs = new MutationObserver(function () {
+          if (root.childElementCount > 0) { hideLoading(); obs.disconnect(); }
+        });
+        obs.observe(root, { childList: true });
+        // 保険：万一描画されなくてもローディングだけは5秒で解除（白画面化を防ぐ）
+        setTimeout(function () { obs.disconnect(); hideLoading(); }, 5000);
+      }
+    })();
   </script>
 
 </body>
