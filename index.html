@@ -119,5 +119,21 @@
     })();
   </script>
 
+
+  <script>
+    // Service Worker 登録（ネット優先・自動更新）。新SW有効化時に一度だけ自動リロード。
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function () {});
+        var refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', function () {
+          if (refreshing) return;
+          refreshing = true;
+          window.location.reload();
+        });
+      });
+    }
+  </script>
+
 </body>
 </html>
