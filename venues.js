@@ -3334,12 +3334,12 @@ const KARASUYAMA_CC_HONMARU = [
   { hole:1, par:5, hdcp:5, bk:520, bl:490, wh:470, go:450, re:442 },
   { hole:2, par:3, hdcp:8, bk:187, bl:161, wh:151, go:151, re:133 },
   { hole:3, par:4, hdcp:2, bk:415, bl:381, wh:369, go:360, re:348 },
-  { hole:4, par:4, hdcp:1, bk:432, bl:403, wh:384, go:373, re:368 },
-  { hole:5, par:3, hdcp:7, bk:214, bl:190, wh:182, go:182, re:182 },
-  { hole:6, par:4, hdcp:4, bk:397, bl:373, wh:349, go:335, re:329 },
+  { hole:4, par:4, hdcp:4, bk:432, bl:403, wh:384, go:373, re:368 },
+  { hole:5, par:3, hdcp:1, bk:214, bl:190, wh:182, go:182, re:182 },
+  { hole:6, par:4, hdcp:7, bk:397, bl:373, wh:349, go:335, re:329 },
   { hole:7, par:4, hdcp:3, bk:410, bl:373, wh:343, go:336, re:327 },
-  { hole:8, par:4, hdcp:9, bk:466, bl:450, wh:427, go:385, re:370 },
-  { hole:9, par:5, hdcp:6, bk:554, bl:535, wh:526, go:380, re:380 },
+  { hole:8, par:4, hdcp:6, bk:466, bl:450, wh:427, go:385, re:289 },
+  { hole:9, par:5, hdcp:9, bk:554, bl:535, wh:526, go:380, re:380 },
 ];
 const KARASUYAMA_CC_NINOMARU = [
   { hole:1, par:4, hdcp:8, bk:436, bl:412, wh:394, go:371, re:356 },
@@ -3348,20 +3348,20 @@ const KARASUYAMA_CC_NINOMARU = [
   { hole:4, par:3, hdcp:7, bk:177, bl:147, wh:136, go:136, re:126 },
   { hole:5, par:5, hdcp:1, bk:557, bl:534, wh:508, go:492, re:492 },
   { hole:6, par:4, hdcp:4, bk:440, bl:413, wh:381, go:374, re:362 },
-  { hole:7, par:4, hdcp:6, bk:378, bl:347, wh:326, go:321, re:311 },
-  { hole:8, par:3, hdcp:9, bk:212, bl:182, wh:159, go:152, re:143 },
-  { hole:9, par:4, hdcp:3, bk:437, bl:403, wh:384, go:365, re:338 },
+  { hole:7, par:4, hdcp:3, bk:378, bl:347, wh:326, go:321, re:311 },
+  { hole:8, par:3, hdcp:6, bk:212, bl:182, wh:159, go:152, re:143 },
+  { hole:9, par:4, hdcp:9, bk:437, bl:403, wh:384, go:365, re:338 },
 ];
 const KARASUYAMA_CC_SANMARU = [
   { hole:1, par:4, hdcp:5, bk:415, bl:395, wh:375, go:360, re:353 },
   { hole:2, par:3, hdcp:8, bk:182, bl:170, wh:151, go:151, re:151 },
   { hole:3, par:4, hdcp:2, bk:404, bl:382, wh:351, go:328, re:313 },
   { hole:4, par:4, hdcp:4, bk:417, bl:382, wh:362, go:332, re:327 },
-  { hole:5, par:5, hdcp:7, bk:561, bl:529, wh:495, go:464, re:445 },
-  { hole:6, par:4, hdcp:1, bk:468, bl:438, wh:398, go:392, re:363 },
-  { hole:7, par:3, hdcp:9, bk:194, bl:174, wh:164, go:157, re:147 },
-  { hole:8, par:5, hdcp:3, bk:603, bl:557, wh:529, go:512, re:492 },
-  { hole:9, par:4, hdcp:6, bk:400, bl:363, wh:345, go:325, re:305 },
+  { hole:5, par:5, hdcp:1, bk:561, bl:529, wh:495, go:464, re:445 },
+  { hole:6, par:4, hdcp:7, bk:468, bl:438, wh:398, go:392, re:363 },
+  { hole:7, par:3, hdcp:3, bk:194, bl:174, wh:164, go:157, re:147 },
+  { hole:8, par:5, hdcp:6, bk:603, bl:557, wh:529, go:512, re:492 },
+  { hole:9, par:4, hdcp:9, bk:400, bl:363, wh:345, go:325, re:305 },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -7801,7 +7801,7 @@ var VENUES = [
       { name: "二の丸", holes: KARASUYAMA_CC_NINOMARU },
       { name: "三の丸", holes: KARASUYAMA_CC_SANMARU },
     ],
-    getYardage: (hole, green, tee) => hole[green]?.[tee] ?? null,
+    getYardage: (hole, green, tee) => hole[tee] ?? null,
   },
   // ─── グランディ那須白河ゴルフクラブ（27H / EAST・SOUTH・WEST） ───
   {
