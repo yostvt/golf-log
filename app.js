@@ -40,11 +40,25 @@ function rexyPoseWeather(basePose, weather) {
 function rexyCostumeForWeather(weather) {
   return isWetWeather(weather) ? "rain5" : "basic7";
 }
-// 時間帯あいさつ（朝<11=おはよう / <17=こんにちは / それ以降=こんばんは）
+// 時間帯あいさつ（4〜10=おはよう / 11〜16=こんにちは / 17〜翌3=こんばんは）
 function greetingByTime(nick) {
   const h = new Date().getHours();
-  const g = h < 11 ? "おはよう" : h < 17 ? "こんにちは" : "こんばんは";
-  return nick ? `${g}、${nick}さん！` : `${g}！`;
+  const g = h >= 4 && h < 11 ? "おはよう" : h >= 11 && h < 17 ? "こんにちは" : "こんばんは";
+  return nick ? `${g}、\n${nick}さん！` : `${g}！`;
+}
+// 「業務日」キー：朝4時を境界に日替わり（0〜3時台は前日扱い）。例 "2026-05-30"
+function rexyDayKey() {
+  const d = new Date();
+  if (d.getHours() < 4) d.setDate(d.getDate() - 1);
+  return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+}
+// 文字列キーから決定的にインデックスを得る（同じ日は同じ値）
+function rexyDailyIndex(key, len) {
+  let h = 0;
+  for (let i = 0; i < key.length; i++) {
+    h = h * 31 + key.charCodeAt(i) >>> 0;
+  }
+  return len > 0 ? h % len : 0;
 }
 // 分析ページ吹き出しのランダムセリフ
 const REXY_ANALYTICS_LINES = ["前回より伸びてるところ、見つけにいこう！", "数字はちゃんと味方だよ。一緒に見ていこう！", "弱点が分かれば、あとは伸びしろだね！", "いい流れだよ、この調子！", "ここを直せば、もっと良くなる。一緒にがんばろう！", "焦らず一歩ずつ。ちゃんと見てるよ！", "君ならできる！", "上達のサイン、次につなげよう！", "ふむふむ。きみのいいとこは・・・！", "君の成長、ちゃんと見てるよ！", "いい発見だね！もっとうまくなるよ！", "（大きく変わる予感・・・）大丈夫！"];
@@ -121,7 +135,8 @@ function RexyBubble({
 function AnalyticsRexyGreeting({
   hasData = true
 }) {
-  const [randLine] = useState(() => REXY_ANALYTICS_LINES[Math.floor(Math.random() * REXY_ANALYTICS_LINES.length)]);
+  // 朝4時境界の業務日キーで決定的に抽選 → その日は同じセリフ
+  const randLine = REXY_ANALYTICS_LINES[rexyDailyIndex(rexyDayKey(), REXY_ANALYTICS_LINES.length)];
   if (!REXY_IMAGES.basic8) return null;
   const line = hasData ? randLine : "ホーム画面からラウンドを記録してね。待ってるよ！";
   return /*#__PURE__*/React.createElement("div", {
@@ -1901,49 +1916,49 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreO
   // --- HC帯 × 弱点別アドバイス ---
   const adviceMap = {
     tee: {
-      S: "インパクト時のフェース向き・入射角を確認。ミスショットの傾向（引っ掛け/プッシュ）を把握して根本原因から修正しよう",
-      "A+": "インパクト時のフェース向き・入射角を確認。ミスショットの傾向（引っ掛け/プッシュ）を把握して根本原因から修正しよう",
-      A: "インパクト時のフェース向き・入射角を確認。ミスショットの傾向（引っ掛け/プッシュ）を把握して根本原因から修正しよう",
-      B: "スイング中のインパクトゾーンを安定させることが先決。ハーフショットで芯に当てる感覚を繰り返し確認しよう",
-      C: "クラブを短く持ち、コンパクトなスイングでショット精度を高めよう。飛距離より方向性と芯当てを優先に",
-      D: "まずフルショットを減らしてクォータースイングで芯当てを練習。ミスの方向が安定してきてから大きく振ろう",
-      E: "まずフルショットを減らしてクォータースイングで芯当てを練習。ミスの方向が安定してきてから大きく振ろう"
+      S: "インパクトのフェース向きと入射角をチェックしてみよう。引っ掛け／プッシュ、どっちのミスが多いか分かると、原因から直せるよ！",
+      "A+": "インパクトのフェース向きと入射角をチェックしてみよう。引っ掛け／プッシュ、どっちのミスが多いか分かると、原因から直せるよ！",
+      A: "インパクトのフェース向きと入射角をチェックしてみよう。引っ掛け／プッシュ、どっちのミスが多いか分かると、原因から直せるよ！",
+      B: "まずはインパクトを安定させるのが先決だね。ハーフショットで芯に当てる感覚を、くり返しつかんでいこう！",
+      C: "クラブを短く持って、コンパクトに振ってみよう。飛距離より、方向性と芯当てを優先でいこう！",
+      D: "まずはフルショットを減らして、クォータースイングで芯当て練習を。ミスの方向がそろってきたら、少しずつ大きく振ろう！",
+      E: "まずはフルショットを減らして、クォータースイングで芯当て練習を。ミスの方向がそろってきたら、少しずつ大きく振ろう！"
     },
     long: {
-      S: "残り距離・ライ・風を加味した番手選択精度を高めよう。グリーンの安全なゾーンへのマネジメントも再確認",
-      "A+": "残り距離・ライ・風を加味した番手選択精度を高めよう。グリーンの安全なゾーンへのマネジメントも再確認",
-      A: "残り距離・ライ・風を加味した番手選択精度を高めよう。グリーンの安全なゾーンへのマネジメントも再確認",
-      B: "パーオンにこだわらず手前花道狙いへ。ボギーオン率を安定させてショートゲームに繋げよう",
-      C: "グリーン方向へ正確に向けることを意識。ミスの方向と距離感のクセを自覚して番手を1本上げることも検討",
-      D: "フェアウェイウッドよりUT・ミドルアイアンで安定感を。ショット精度よりボールの置き場所を考えよう",
-      E: "フェアウェイウッドよりUT・ミドルアイアンで安定感を。ショット精度よりボールの置き場所を考えよう"
+      S: "残り距離・ライ・風を読んで、番手選びの精度を上げていこう。グリーンの安全なゾーンを狙うマネジメントも、もう一度見直してみてね！",
+      "A+": "残り距離・ライ・風を読んで、番手選びの精度を上げていこう。グリーンの安全なゾーンを狙うマネジメントも、もう一度見直してみてね！",
+      A: "残り距離・ライ・風を読んで、番手選びの精度を上げていこう。グリーンの安全なゾーンを狙うマネジメントも、もう一度見直してみてね！",
+      B: "パーオンにこだわりすぎず、手前の花道狙いもアリだよ。ボギーオンを安定させて、寄せにつなげていこう！",
+      C: "まずはグリーン方向へまっすぐ。ミスの方向と距離感のクセをつかんで、番手を1本上げるのも手だよ！",
+      D: "FWより、UTやミドルアイアンで安定感を出していこう。ショットの精度より、ボールの置き場所を考えるのが近道だよ！",
+      E: "FWより、UTやミドルアイアンで安定感を出していこう。ショットの精度より、ボールの置き場所を考えるのが近道だよ！"
     },
     short: {
-      S: "60Y以内のロブ・ランニングの使い分けを磨こう。ライ別の球筋バリエーションがスコアの壁を破る",
-      "A+": "60Y以内のロブ・ランニングの使い分けを磨こう。ライ別の球筋バリエーションがスコアの壁を破る",
-      A: "60Y以内のロブ・ランニングの使い分けを磨こう。ライ別の球筋バリエーションがスコアの壁を破る",
-      B: "10m以内に寄せる精度を上げることが目標。週2回以上アプローチ練習に集中して量をこなそう",
-      C: "まずグリーンに確実に乗せることを最優先に。ショートは絶対NG、奥より手前で2パットを取る設計で",
-      D: "トップ・ダフリを撲滅しよう。SWより転がし（PW/AW）を使ってミス幅を減らすことから始めて",
-      E: "トップ・ダフリを撲滅しよう。SWより転がし（PW/AW）を使ってミス幅を減らすことから始めて"
+      S: "60Y以内のロブとランニング、使い分けを磨いていこう。ライ別の球筋が増えると、スコアの壁を破れるよ！",
+      "A+": "60Y以内のロブとランニング、使い分けを磨いていこう。ライ別の球筋が増えると、スコアの壁を破れるよ！",
+      A: "60Y以内のロブとランニング、使い分けを磨いていこう。ライ別の球筋が増えると、スコアの壁を破れるよ！",
+      B: "10m以内に寄せる精度がカギ！週2回はアプローチ練習に集中して、量をこなしていこう！",
+      C: "まずはグリーンに確実に乗せることを最優先に。ショートは禁物、奥より手前で2パット狙いでいこう！",
+      D: "トップとダフリをなくそう。SWより転がし（PW／AW）を使うと、ミス幅がぐっと減るよ。そこから始めよう！",
+      E: "トップとダフリをなくそう。SWより転がし（PW／AW）を使うと、ミス幅がぐっと減るよ。そこから始めよう！"
     },
     putt: {
-      S: "5m超のロングパット距離感精度が鍵。3パットをシーズン通じてゼロにする強い意識で毎練習の最初に取り組もう",
-      "A+": "5m超のロングパット距離感精度が鍵。3パットをシーズン通じてゼロにする強い意識で毎練習の最初に取り組もう",
-      A: "5m超のロングパット距離感精度が鍵。3パットをシーズン通じてゼロにする強い意識で毎練習の最初に取り組もう",
-      B: "2m以内のショートパットをルーティン化。毎回同じ手順で構えることで安定率を上げよう",
-      C: "3パット撲滅が最優先課題。1打目で必ずカップ50cm以内に届かせる距離感練習を繰り返そう",
-      D: "方向性より距離感を先に身に付けよう。ショート/オーバーしないように振り幅とボール転がりを体に覚えさせて",
-      E: "方向性より距離感を先に身に付けよう。ショート/オーバーしないように振り幅とボール転がりを体に覚えさせて"
+      S: "5m超のロングパットの距離感がカギだよ。3パットをゼロにする意識で、毎回の練習の最初に取り組もう！",
+      "A+": "5m超のロングパットの距離感がカギだよ。3パットをゼロにする意識で、毎回の練習の最初に取り組もう！",
+      A: "5m超のロングパットの距離感がカギだよ。3パットをゼロにする意識で、毎回の練習の最初に取り組もう！",
+      B: "2m以内のショートパットをルーティン化しよう。毎回同じ手順で構えると、安定率が上がるよ！",
+      C: "3パット撲滅が最優先！1打目でカップ50cm以内に届かせる距離感を、くり返し練習していこう！",
+      D: "方向性より、まず距離感を身につけよう。ショートもオーバーもしないように、振り幅とボールの転がりを体に覚えさせてね！",
+      E: "方向性より、まず距離感を身につけよう。ショートもオーバーもしないように、振り幅とボールの転がりを体に覚えさせてね！"
     },
     bunker: {
-      S: "そもそもバンカーに入れないコース管理が上級者への近道。ピン位置とハザードを先読みしてバンカー手前に刻む選択肢も持とう。入った場合はスピン量・距離感を安定させて脱出率100%を維持",
-      "A+": "ピン位置とハザードを先読みしてバンカー回避ルートを徹底しよう。入った場合は脱出率100%を死守、距離感の精度向上で「寄せワン」を狙えるレベルへ",
-      A: "ショット前に必ずバンカー回避ルートを確認する習慣をつけよう。入れないことが最善、入った場合は1打で脱出することを最優先にライ・砂の深さを確認してからスタンスを決めて",
-      B: "クラブ選択とターゲット設定でバンカーを避けることを意識しよう。入ってしまった場合は1打で確実に脱出することを最優先に、ライと砂の深さを確認してから打つ手順を徹底して",
-      C: "バンカーに入れないコース管理を第一に考えよう。グリーン手前に刻む勇気が大切。入った場合はバンカー練習を月1回以上取り入れ、焦らず脱出を最優先に",
-      D: "バンカー回避のマネジメントを徹底しよう。無理にピンを狙わずバンカーのない安全ゾーンを常に狙うことでスコアが安定する。入ってしまったら必ず1打で脱出することを最低ラインに",
-      E: "バンカー回避のマネジメントを徹底しよう。無理にピンを狙わずバンカーのない安全ゾーンを常に狙うことでスコアが安定する。入ってしまったら必ず1打で脱出することを最低ラインに"
+      S: "そもそもバンカーに入れないコース管理が、上級者への近道だよ。ピン位置とハザードを先読みして、手前に刻む選択肢も持とう。入ったときはスピン量と距離感を安定させて、脱出率100%をキープ！",
+      "A+": "ピン位置とハザードを先読みして、バンカー回避ルートを徹底しよう。入ったら脱出率100%を死守！距離感を磨いて「寄せワン」も狙えるレベルへ！",
+      A: "ショット前に、バンカー回避ルートを必ず確認する習慣をつけよう。入れないのが一番だけど、入ったらライと砂の深さを見てスタンスを決めて、1打で脱出しよう！",
+      B: "クラブ選びとターゲット設定で、バンカーを避ける意識を持とう。入ってしまったら、ライと砂の深さを確認してから、1打で確実に脱出だよ！",
+      C: "バンカーに入れないコース管理を第一に。手前に刻む勇気も大事だよ。入ったら月1回はバンカー練習を取り入れて、焦らず脱出を最優先に！",
+      D: "バンカー回避のマネジメントを徹底しよう。無理にピンを狙わず、安全ゾーンを狙うとスコアが安定するよ。入ったら、まず1打で脱出を最低ラインに！",
+      E: "バンカー回避のマネジメントを徹底しよう。無理にピンを狙わず、安全ゾーンを狙うとスコアが安定するよ。入ったら、まず1打で脱出を最低ラインに！"
     }
   };
   const priorities = ["最優先", "重要", "推奨"];
@@ -1956,7 +1971,7 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreO
   if (!advice.length) advice.push({
     priority: "維持",
     priorityColor: "#16a34a",
-    text: "全要素が安定しています。現在の練習メニューを継続しましょう"
+    text: "全要素が安定してるね！今の練習メニューを続けていこう！"
   });
 
   // --- トレンド（同ホール数ラウンドのみ比較、横ばい時は最低スコア要素を特定） ---
@@ -8350,7 +8365,7 @@ function GolfTracker() {
       borderRadius: "20px",
       padding: "2px 9px"
     }
-  }, "\u7121\u6599\u7248")), REXY_IMAGES.basic7 ? /*#__PURE__*/React.createElement("div", {
+  }, "\u7121\u6599\u7248")), rounds.length > 0 && (REXY_IMAGES.basic7 ? /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: "8px"
     }
@@ -8364,7 +8379,7 @@ function GolfTracker() {
       fontWeight: "600",
       marginBottom: "3px"
     }
-  }, "\u3053\u3093\u306B\u3061\u306F\u3001", profile.nickname, "\u3055\u3093\uFF01") : null), handicap ? /*#__PURE__*/React.createElement("div", {
+  }, "\u3053\u3093\u306B\u3061\u306F\u3001", profile.nickname, "\u3055\u3093\uFF01") : null)), handicap ? /*#__PURE__*/React.createElement("div", {
     style: S.card({
       border: "1px solid rgba(96,165,250,0.25)",
       marginBottom: "18px",
@@ -12264,14 +12279,7 @@ function GolfTracker() {
     };
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
       style: M.hero
-    }, REXY_IMAGES.basic5 && /*#__PURE__*/React.createElement("div", {
-      style: {
-        marginBottom: "14px"
-      }
-    }, /*#__PURE__*/React.createElement(RexyBubble, {
-      costume: "basic5",
-      size: 64
-    }, "\u521D\u3081\u307E\u3057\u3066\u3001\u307C\u304F\u306FRexy\uFF01\u4E00\u7DD2\u306B\u304C\u3093\u3070\u308D\u3046\uFF01")), /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       style: M.badge
     }, "\u30B9\u30BF\u30FC\u30C8\u30AC\u30A4\u30C9"), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -12314,13 +12322,78 @@ function GolfTracker() {
       }
     }, desc)))), /*#__PURE__*/React.createElement("h2", {
       style: M.heroH
-    }, "ScoRExolution\uFF08\u30B9\u30B3\u30EC\u30DC\uFF09\u3067", /*#__PURE__*/React.createElement("br", null), "\u30B9\u30B3\u30A2\u3092\u6539\u5584\u3057\u3088\u3046\uFF01"), /*#__PURE__*/React.createElement("p", {
-      style: M.heroB
-    }, "\u30B9\u30B3\u30A2\u304C\u4F38\u3073\u60A9\u3080\u7406\u7531\u3063\u3066\u3001\u3060\u3044\u305F\u3044\u300C\u81EA\u5206\u306E\u5F31\u70B9\u3092\u77E5\u3089\u306A\u3044\u304B\u3089\u300D\u306A\u3093\u3067\u3059\u3002", /*#__PURE__*/React.createElement("br", null), "\u30B9\u30B3\u30EC\u30DC\u306F\u30E9\u30A6\u30F3\u30C9\u306E\u30C7\u30FC\u30BF\u3092\u84C4\u7A4D\u3057\u3066\u3001", /*#__PURE__*/React.createElement("b", {
+    }, "ScoRExolution\uFF08\u30B9\u30B3\u30EC\u30DC\uFF09\u3067", /*#__PURE__*/React.createElement("br", null), "\u30B9\u30B3\u30A2\u3092\u6539\u5584\u3057\u3088\u3046\uFF01"), REXY_IMAGES.basic5 ? /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "flex-start",
+        gap: 0,
+        marginTop: "6px"
+      }
+    }, /*#__PURE__*/React.createElement(RexyIcon, {
+      costume: "basic5",
+      size: 84,
+      alt: "",
+      style: {
+        marginTop: "4px"
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 0,
+        height: 0,
+        borderTop: "8px solid transparent",
+        borderBottom: "8px solid transparent",
+        borderRight: "10px solid #f0fdf4",
+        alignSelf: "center",
+        marginLeft: "2px"
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 0,
+        display: "flex",
+        flexDirection: "column",
+        gap: "8px"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "#f0fdf4",
+        border: "1px solid #86efac",
+        borderRadius: "10px",
+        padding: "10px 12px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        fontSize: "13px",
+        color: "#15803d",
+        fontWeight: "600",
+        margin: 0,
+        lineHeight: 1.5
+      }
+    }, "\u521D\u3081\u307E\u3057\u3066\u3001\u307C\u304F\u306FRexy\uFF01", /*#__PURE__*/React.createElement("br", null), "\u4E00\u7DD2\u306B\u304C\u3093\u3070\u308D\u3046\uFF01")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        background: "#f0fdf4",
+        border: "1px solid #86efac",
+        borderRadius: "10px",
+        padding: "10px 12px"
+      }
+    }, /*#__PURE__*/React.createElement("p", {
+      style: {
+        fontSize: "12px",
+        color: "#15803d",
+        margin: 0,
+        lineHeight: 1.7
+      }
+    }, "\u30B9\u30B3\u30A2\u304C\u4F38\u3073\u60A9\u3080\u7406\u7531\u3063\u3066\u3001\u3060\u3044\u305F\u3044\u300C\u81EA\u5206\u306E\u5F31\u70B9\u3092\u77E5\u3089\u306A\u3044\u300D\u304B\u3089\u306A\u3093\u3060\u3002", /*#__PURE__*/React.createElement("br", null), "\u30B9\u30B3\u30EC\u30DC\u3067\u30E9\u30A6\u30F3\u30C9\u306E\u30C7\u30FC\u30BF\u3092\u96C6\u3081\u308C\u3070\u3001", /*#__PURE__*/React.createElement("b", {
       style: {
         color: "#16a34a"
       }
-    }, "\u3069\u3053\u3092\u76F4\u305B\u3070\u30B9\u30B3\u30A2\u304C\u7E2E\u307E\u308B\u304B"), "\u3092\u6559\u3048\u3066\u304F\u308C\u307E\u3059\u3002")), /*#__PURE__*/React.createElement("div", {
+    }, "\u30B9\u30B3\u30A2\u304C\u7E2E\u307E\u308B\u305F\u3081\u306E\u9053\u7B4B"), "\u3092\u307C\u304F\u304C\u6559\u3048\u308B\u3088\uFF01")))) : /*#__PURE__*/React.createElement("p", {
+      style: M.heroB
+    }, "\u30B9\u30B3\u30A2\u304C\u4F38\u3073\u60A9\u3080\u7406\u7531\u3063\u3066\u3001\u3060\u3044\u305F\u3044\u300C\u81EA\u5206\u306E\u5F31\u70B9\u3092\u77E5\u3089\u306A\u3044\u300D\u304B\u3089\u306A\u3093\u3060\u3002", /*#__PURE__*/React.createElement("br", null), "\u30B9\u30B3\u30EC\u30DC\u3067\u30E9\u30A6\u30F3\u30C9\u306E\u30C7\u30FC\u30BF\u3092\u96C6\u3081\u308C\u3070\u3001", /*#__PURE__*/React.createElement("b", {
+      style: {
+        color: "#16a34a"
+      }
+    }, "\u30B9\u30B3\u30A2\u304C\u7E2E\u307E\u308B\u305F\u3081\u306E\u9053\u7B4B"), "\u3092\u307C\u304F\u304C\u6559\u3048\u308B\u3088\uFF01")), /*#__PURE__*/React.createElement("div", {
       style: {
         ...M.card,
         marginBottom: "16px"
@@ -12606,25 +12679,25 @@ function GolfTracker() {
     }, "\u6253\u6570\u3060\u3051\u3067\u306A\u304F\u300C\u3069\u306E\u30B7\u30E7\u30C3\u30C8\u304C\u826F\u304B\u3063\u305F\u304B\u30FB\u60AA\u304B\u3063\u305F\u304B\u300D\u3092\u8A18\u9332\u3059\u308B\u3053\u3068\u3067\u5F31\u70B9\u304C\u898B\u3048\u3066\u304D\u307E\u3059\u3002\u3053\u308C\u304C\u30B9\u30B3\u30A2\u6539\u5584\u306E\u6838\u5FC3\u3067\u3059\u3002")), /*#__PURE__*/React.createElement("div", {
       style: M.cardG
     }, [{
-      ic: "🏌️",
+      ic: "",
       nm: "ティショット",
       when: "全ホール共通",
       req: true,
       btns: [["#16a34a", "○"], ["#fbbf24", "△"], ["#dc2626", "×"]]
     }, {
-      ic: "🌿",
+      ic: "",
       nm: "セカンドショット",
       when: "Par4 / Par5 のみ",
       req: false,
       btns: [["#16a34a", "○"], ["#fbbf24", "△"], ["#dc2626", "×"]]
     }, {
-      ic: "🌿",
+      ic: "",
       nm: "サードショット",
       when: "Par5 のみ",
       req: false,
       btns: [["#16a34a", "○"], ["#fbbf24", "△"], ["#dc2626", "×"]]
     }, {
-      ic: "🎯",
+      ic: "",
       nm: "アプローチ",
       when: "パーオンなら「無」を選択",
       req: true,
@@ -12793,7 +12866,57 @@ function GolfTracker() {
       style: M.secH
     }, "\u8A73\u7D30\u30E2\u30FC\u30C9\u306E\u5165\u529B\u65B9\u6CD5"), /*#__PURE__*/React.createElement("span", {
       style: M.secS
-    }, "1\u6253\u305A\u3064\u8A18\u9332\u3057\u3066\u3001\u8DDD\u96E2\u5225\u30FB\u30AF\u30E9\u30D6\u5225\u306E\u6DF1\u3044\u5206\u6790\u3092\u5F97\u308B")))), /*#__PURE__*/React.createElement("div", {
+    }, "1\u6253\u305A\u3064\u8A18\u9332\u3057\u3066\u3001\u8DDD\u96E2\u5225\u30FB\u30AF\u30E9\u30D6\u5225\u306E\u6DF1\u3044\u5206\u6790\u3092\u5F97\u308B")))), REXY_IMAGES.basic4 ? /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 0,
+        marginBottom: "16px"
+      }
+    }, /*#__PURE__*/React.createElement(RexyIcon, {
+      costume: "basic4",
+      size: 72,
+      alt: ""
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: 0,
+        height: 0,
+        borderTop: "8px solid transparent",
+        borderBottom: "8px solid transparent",
+        borderRight: "10px solid #ffffff",
+        alignSelf: "center",
+        marginLeft: "2px"
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 0,
+        background: "#ffffff",
+        border: "1px solid #e2e8f0",
+        borderRadius: "12px",
+        padding: "14px 16px",
+        boxShadow: "0 1px 4px rgba(0,0,0,0.05)"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        ...M.cardH,
+        marginBottom: "5px"
+      }
+    }, "\u8DDD\u96E2\u5225\uFF0F\u756A\u624B\u5225\u306E\u5F97\u610F\u3068\u82E6\u624B\u304C\u898B\u3048\u3066\u304F\u308B\u3088\uFF01"), /*#__PURE__*/React.createElement("div", {
+      style: M.body
+    }, "1\u6253\u3054\u3068\u306B\u8DDD\u96E2\u30FB\u30AF\u30E9\u30D6\u30FB\u7D50\u679C\u3092\u8A18\u9332\u3059\u308B\u304B\u3089\u3001\u30E9\u30A6\u30F3\u30C9\u306E\u3042\u3068\u306B", /*#__PURE__*/React.createElement("b", {
+      style: {
+        color: "#0ea5e9"
+      }
+    }, "\u6B8B\u308A\u8DDD\u96E2\u5225\u30CA\u30A4\u30B9\u30B7\u30E7\u30C3\u30C8\u7387"), "\u30FB", /*#__PURE__*/React.createElement("b", {
+      style: {
+        color: "#0ea5e9"
+      }
+    }, "\u30AF\u30E9\u30D6\u5225\u30CA\u30A4\u30B9\u30B7\u30E7\u30C3\u30C8\u7387"), "\u30FB", /*#__PURE__*/React.createElement("b", {
+      style: {
+        color: "#0ea5e9"
+      }
+    }, "\u8DDD\u96E2\u5225\u306E\u30D1\u30C3\u30C8\u6570"), "\u3068\u3044\u3063\u305F\u4E0A\u7D1A\u5206\u6790\u304C\u898B\u3089\u308C\u308B\u3088\u3046\u306B\u306A\u308B\u3093\u3060\u3002\u3084\u3063\u3066\u307F\u3088\u3046\uFF01"))) : /*#__PURE__*/React.createElement("div", {
       style: M.bubble
     }, /*#__PURE__*/React.createElement("div", {
       style: M.bubbleArrow
@@ -12802,13 +12925,9 @@ function GolfTracker() {
         ...M.cardH,
         marginBottom: "5px"
       }
-    }, "\u8DDD\u96E2\u5225\uFF0F\u756A\u624B\u5225\u306E\u5F97\u610F\u4E0D\u5F97\u610F\u304C\u898B\u3048\u308B"), /*#__PURE__*/React.createElement("div", {
+    }, "\u8DDD\u96E2\u5225\uFF0F\u756A\u624B\u5225\u306E\u5F97\u610F\u3068\u82E6\u624B\u304C\u898B\u3048\u3066\u304F\u308B\u3088\uFF01"), /*#__PURE__*/React.createElement("div", {
       style: M.body
-    }, "1\u6253\u3054\u3068\u306B\u8DDD\u96E2\u30FB\u4F7F\u7528\u30AF\u30E9\u30D6\u30FB\u7D50\u679C\u3092\u8A18\u9332\u3059\u308B\u306E\u3067\u3001\u30E9\u30A6\u30F3\u30C9\u5F8C\u306B", /*#__PURE__*/React.createElement("b", {
-      style: {
-        color: "#0ea5e9"
-      }
-    }, "\u8DDD\u96E2\u5225\u30D1\u30C3\u30C8\u6570"), "\u30FB", /*#__PURE__*/React.createElement("b", {
+    }, "1\u6253\u3054\u3068\u306B\u8DDD\u96E2\u30FB\u30AF\u30E9\u30D6\u30FB\u7D50\u679C\u3092\u8A18\u9332\u3059\u308B\u304B\u3089\u3001\u30E9\u30A6\u30F3\u30C9\u306E\u3042\u3068\u306B", /*#__PURE__*/React.createElement("b", {
       style: {
         color: "#0ea5e9"
       }
@@ -12816,7 +12935,11 @@ function GolfTracker() {
       style: {
         color: "#0ea5e9"
       }
-    }, "\u30AF\u30E9\u30D6\u5225\u6210\u529F\u7387"), "\u3068\u3044\u3063\u305F\u4E0A\u7D1A\u5206\u6790\u304C\u8FFD\u52A0\u3067\u8868\u793A\u3055\u308C\u307E\u3059\u3002")), /*#__PURE__*/React.createElement("div", {
+    }, "\u30AF\u30E9\u30D6\u5225\u30CA\u30A4\u30B9\u30B7\u30E7\u30C3\u30C8\u7387"), "\u30FB", /*#__PURE__*/React.createElement("b", {
+      style: {
+        color: "#0ea5e9"
+      }
+    }, "\u8DDD\u96E2\u5225\u306E\u30D1\u30C3\u30C8\u6570"), "\u3068\u3044\u3063\u305F\u4E0A\u7D1A\u5206\u6790\u304C\u898B\u3089\u308C\u308B\u3088\u3046\u306B\u306A\u308B\u3093\u3060\u3002\u3084\u3063\u3066\u307F\u3088\u3046\uFF01")), /*#__PURE__*/React.createElement("div", {
       style: M.accentB
     }, /*#__PURE__*/React.createElement("span", {
       style: M.lbl
@@ -12870,17 +12993,17 @@ function GolfTracker() {
     }, /*#__PURE__*/React.createElement(Step, {
       n: "1",
       color: "#0ea5e9",
-      title: "\uD83D\uDCCF \u6B8B\u308A\u8DDD\u96E2\uFF08\u5FC5\u9808\uFF09",
+      title: "\u6B8B\u308A\u8DDD\u96E2\uFF08\u5FC5\u9808\uFF09",
       body: /*#__PURE__*/React.createElement(React.Fragment, null, "\u30C6\u30A3\uFF1D", /*#__PURE__*/React.createElement("b", null, "\u96FB\u5353\u3067\u6570\u5B57\u5165\u529B"), "\uFF08\u30B3\u30FC\u30B9\u8DDD\u96E2\u304C\u81EA\u52D5\u5165\u308B\uFF0F\u30BF\u30C3\u30D7\u3067\u4FEE\u6B63\uFF09\uFF0F\u30A2\u30D7\u30ED\u30FC\u30C1\uFF1D", /*#__PURE__*/React.createElement("b", null, "\u30B9\u30E9\u30A4\u30C0\u30FC"), "\u3067Y\u6570\u6307\u5B9A\uFF0F\u30D1\u30C3\u30C8\uFF1D", /*#__PURE__*/React.createElement("b", null, "\u30B9\u30E9\u30A4\u30C0\u30FC"), "\u3067m\u6570\u6307\u5B9A\u3002")
     }), /*#__PURE__*/React.createElement(Step, {
       n: "2",
       color: "#0ea5e9",
-      title: "\uD83C\uDFCC\uFE0F \u4F7F\u7528\u30AF\u30E9\u30D6\uFF08\u5FC5\u9808\u30FB\u30D1\u30C3\u30C8\u4EE5\u5916\uFF09",
+      title: "\u4F7F\u7528\u30AF\u30E9\u30D6\uFF08\u5FC5\u9808\u30FB\u30D1\u30C3\u30C8\u4EE5\u5916\uFF09",
       body: /*#__PURE__*/React.createElement(React.Fragment, null, "\u767B\u9332\u30AF\u30E9\u30D6\u304B\u3089\u9078\u629E\u3002\u300C\u30AF\u30E9\u30D6\u30BB\u30C3\u30C8\u300D\u30DA\u30FC\u30B8\u3067\u81EA\u5206\u306E\u30AF\u30E9\u30D6\u3092\u767B\u9332\u3057\u3066\u304A\u304F\u3068\u3001\u3053\u3053\u306B\u81EA\u5206\u306E\u30AF\u30E9\u30D6\u3060\u3051\u304C\u8868\u793A\u3055\u308C\u3066\u30B5\u30AF\u30B5\u30AF\u9078\u3079\u307E\u3059\u3002")
     }), /*#__PURE__*/React.createElement(Step, {
       n: "3",
       color: "#0ea5e9",
-      title: "\uD83D\uDCCA \u7D50\u679C\uFF08\u5FC5\u9808\uFF09",
+      title: "\u7D50\u679C\uFF08\u5FC5\u9808\uFF09",
       body: /*#__PURE__*/React.createElement(React.Fragment, null, "\u25CB / \u25B3 / \xD7 \u306E3\u6BB5\u968E\uFF0B\u7279\u6B8A2\u7A2E\uFF08\u30B0\u30EA\u30FC\u30F3\u30AA\u30F3\u30FB\u30AB\u30C3\u30D7\u30A4\u30F3\uFF09\u3002", /*#__PURE__*/React.createElement("b", {
         style: {
           color: "#dc2626"
@@ -12889,7 +13012,7 @@ function GolfTracker() {
     }), /*#__PURE__*/React.createElement(Step, {
       n: "4",
       color: "#0ea5e9",
-      title: "\uD83D\uDCDD \u30E1\u30E2\uFF08\u4EFB\u610F\uFF09",
+      title: "\u30E1\u30E2\uFF08\u4EFB\u610F\uFF09",
       body: "\u300C\u5DE6\u306B\u5F15\u3063\u639B\u3051\u305F\u300D\u306A\u3069\u6C17\u4ED8\u304D\u3092\u6B8B\u305B\u307E\u3059\u3002\u30B9\u30B3\u30A2\u30FB\u5206\u6790\u306B\u306F\u5F71\u97FF\u3057\u307E\u305B\u3093\u3002"
     })), /*#__PURE__*/React.createElement(MockShotForm, null), /*#__PURE__*/React.createElement("div", {
       style: {
@@ -13001,7 +13124,14 @@ function GolfTracker() {
       style: M.secH
     }, "\u5206\u6790\u30DA\u30FC\u30B8\u3067\u30B9\u30B3\u30A2\u30A2\u30C3\u30D7"), /*#__PURE__*/React.createElement("span", {
       style: M.secS
-    }, "\u8A18\u9332\u3057\u305F\u30C7\u30FC\u30BF\u304B\u3089\u300C\u76F4\u3059\u3079\u304D\u30DD\u30A4\u30F3\u30C8\u300D\u3092\u898B\u3064\u3051\u3088\u3046")))), /*#__PURE__*/React.createElement("div", {
+    }, "\u8A18\u9332\u3057\u305F\u30C7\u30FC\u30BF\u304B\u3089\u300C\u76F4\u3059\u3079\u304D\u30DD\u30A4\u30F3\u30C8\u300D\u3092\u898B\u3064\u3051\u3088\u3046\uFF01")))), REXY_IMAGES.basic10 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginBottom: "16px"
+      }
+    }, /*#__PURE__*/React.createElement(RexyBubble, {
+      costume: "basic10",
+      size: 64
+    }, "\u8A18\u9332\u3057\u305F\u30C7\u30FC\u30BF\u304B\u3089\u300C\u76F4\u3059\u3079\u304D\u30DD\u30A4\u30F3\u30C8\u300D\u3092\u898B\u3064\u3051\u3088\u3046\uFF01")), /*#__PURE__*/React.createElement("div", {
       style: M.accentA
     }, /*#__PURE__*/React.createElement("span", {
       style: M.lbl
@@ -13022,39 +13152,39 @@ function GolfTracker() {
         marginBottom: "8px"
       }
     }, "\u5206\u6790\u30DA\u30FC\u30B8\u306E\u69CB\u6210"), [{
-      ic: "🤖",
+      ic: "",
       nm: "AI診断",
       req: "ハンディキャップ設定 + 1ラウンド〜",
       d: "直近20ラウンドの平均から、強み・弱みを文章で診断。総合評価・5要素分析・改善課題・改善アドバイスを1枚にまとめて表示。"
     }, {
-      ic: "📈",
+      ic: "",
       nm: "スコア推移グラフ",
       req: "2ラウンド以上",
       d: "直近5ラウンドのスコア・パット数・5要素評価の変化を確認。"
     }, {
-      ic: "🎯",
+      ic: "",
       nm: "評価レーダーチャート",
       req: "1ラウンド〜",
       d: "5要素（ティショット／ロングゲーム／ショートゲーム／パット／バンカー）の直近5R平均 vs 直近20R平均を可視化。"
     }, {
-      ic: "📊",
+      ic: "",
       nm: "評価スコア推移",
       req: "直近20R",
       d: "5要素それぞれのトレンドを追跡。「先月よりロングが上がった！」など成長を実感。"
     }, {
-      ic: "⛳",
+      ic: "",
       nm: "距離別パット統計",
-      req: "🔍詳細モードのみ",
+      req: "詳細モードのみ",
       d: "1m・2m・3m……のパット成功率を集計。"
     }, {
-      ic: "📏",
+      ic: "",
       nm: "残り距離別 ○/×率",
-      req: "🔍詳細モードのみ",
+      req: "詳細モードのみ",
       d: "「150Yの成功率」など、距離帯ごとの精度を確認。"
     }, {
-      ic: "🏌️",
+      ic: "",
       nm: "クラブ別 ○/×率",
-      req: "🔍詳細モードのみ",
+      req: "詳細モードのみ",
       d: "7I・PWなどクラブごとの結果を集計。苦手なクラブが分かる。"
     }].map(({
       ic,
@@ -13382,21 +13512,29 @@ function GolfTracker() {
         border: "1px solid rgba(22,163,74,0.2)",
         borderRadius: "12px",
         padding: "20px",
-        textAlign: "center",
         marginTop: "16px"
       }
-    }, /*#__PURE__*/React.createElement("div", {
+    }, REXY_IMAGES.basic8 ? /*#__PURE__*/React.createElement("div", {
+      style: {
+        marginBottom: "10px"
+      }
+    }, /*#__PURE__*/React.createElement(RexyBubble, {
+      costume: "basic8",
+      size: 64
+    }, "\u3055\u3042\u3001Rexy\u3068\u4E00\u7DD2\u306B\u30E9\u30A6\u30F3\u30C9\u3092\u958B\u59CB\u3057\u3088\u3046\uFF01")) : /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: "16px",
         fontWeight: "800",
         color: "#1e293b",
-        marginBottom: "6px"
+        marginBottom: "6px",
+        textAlign: "center"
       }
-    }, "\u3055\u3042\u3001\u6B21\u306E\u30E9\u30A6\u30F3\u30C9\u304B\u3089\u8A18\u9332\u3092\u59CB\u3081\u3088\u3046\uFF01"), /*#__PURE__*/React.createElement("div", {
+    }, "\u3055\u3042\u3001Rexy\u3068\u4E00\u7DD2\u306B\u30E9\u30A6\u30F3\u30C9\u3092\u958B\u59CB\u3057\u3088\u3046\uFF01"), /*#__PURE__*/React.createElement("div", {
       style: {
         fontSize: "11px",
         color: "#64748b",
-        lineHeight: 1.7
+        lineHeight: 1.7,
+        textAlign: "center"
       }
     }, "\u30C7\u30FC\u30BF\u304C\u7A4D\u307F\u91CD\u306A\u308B\u307B\u3069\u3001\u6539\u5584\u30DD\u30A4\u30F3\u30C8\u304C\u30AF\u30EA\u30A2\u306B\u306A\u308A\u307E\u3059\u3002", /*#__PURE__*/React.createElement("br", null), "\u30B9\u30B3\u30A2\u30AB\u30FC\u30C9\u3088\u308A\u6DF1\u3044\u300C\u81EA\u5206\u3060\u3051\u306E\u6210\u9577\u8A18\u9332\u300D\u3092\u4F5C\u308A\u307E\u3057\u3087\u3046\u3002")));
   })(), view === "profile" && profileEdit !== null && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
@@ -14708,7 +14846,8 @@ function GolfTracker() {
       color: "#15803d",
       fontWeight: "700",
       fontSize: "15px",
-      lineHeight: 1.4
+      lineHeight: 1.4,
+      whiteSpace: "pre-line"
     }
   }, toast.message)));
 }
