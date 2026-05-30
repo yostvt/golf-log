@@ -3,137 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-
-  <title>ScoRExolution</title>
-  <meta name="description" content="ゴルフスコア管理・分析アプリ" />
-
-  <!-- PWA / Apple -->
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="スコレボ" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="theme-color" content="#f8fafc" />
-
-  <!-- PWA manifest -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="スコレボ" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>ScoRExolution</title>
   <link rel="manifest" href="manifest.json" />
-
-  <!-- Apple touch icon -->
   <link rel="apple-touch-icon" href="icon-192.png" />
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
-
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #f8fafc;
-      color: #1e293b;
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      overscroll-behavior: none;
-    }
-    #root { min-height: 100dvh; }
-
-    /* ローディング画面 */
-    #app-loading {
-      position: fixed;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: #f8fafc;
-      z-index: 9999;
-      gap: 16px;
-    }
-    #app-loading .logo {
-      font-size: 26px;
-      font-weight: 800;
-      background: linear-gradient(90deg, #f59e0b, #ea580c);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-    }
-    #app-loading .spinner {
-      width: 32px;
-      height: 32px;
-      border: 3px solid #e2e8f0;
-      border-top-color: #f59e0b;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; background: #0f172a; }
+    #root { min-height: 100vh; }
   </style>
 </head>
 <body>
-
-  <!-- ローディング表示（React起動前） -->
-  <div id="app-loading">
-    <div class="logo">ScoRExolution</div>
-    <div class="spinner"></div>
-  </div>
-
-  <!-- Reactマウント先 -->
   <div id="root"></div>
-
-  <!-- React / ReactDOM（CDN） -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-
-  <!-- ゴルフ場マスタ（venues.js → グローバル VENUES を定義） -->
   <script src="venues.js"></script>
-
-  <!-- アプリ本体（JSXビルド済み） -->
+  <script src="rexy.js"></script>
   <script src="app.js"></script>
-
-  <script>
-    (function () {
-      var root = document.getElementById('root');
-
-      // フォールバック・マウント：app.js が自己マウントしていなければ、ここで描画する。
-      // app.js 側と window.__SCRX_MOUNTED を共有し、二重描画を防止。
-      if (root && !window.__SCRX_MOUNTED && window.React && window.ReactDOM && window.GolfTracker) {
-        window.__SCRX_MOUNTED = true;
-        window.ReactDOM.createRoot(root).render(window.React.createElement(window.GolfTracker));
-      }
-
-      // 描画完了後にローディング画面を消す
-      function hideLoading() {
-        var loading = document.getElementById('app-loading');
-        if (!loading) return;
-        loading.style.transition = 'opacity 0.3s';
-        loading.style.opacity = '0';
-        setTimeout(function () { loading.remove(); }, 350);
-      }
-
-      if (root && root.childElementCount > 0) {
-        hideLoading();
-      } else if (root) {
-        var obs = new MutationObserver(function () {
-          if (root.childElementCount > 0) { hideLoading(); obs.disconnect(); }
-        });
-        obs.observe(root, { childList: true });
-        // 保険：万一描画されなくてもローディングだけは5秒で解除（白画面化を防ぐ）
-        setTimeout(function () { obs.disconnect(); hideLoading(); }, 5000);
-      }
-    })();
-  </script>
-
-
-  <script>
-    // Service Worker 登録（ネット優先・自動更新）。新SW有効化時に一度だけ自動リロード。
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function () {
-        navigator.serviceWorker.register('sw.js').catch(function () {});
-        var refreshing = false;
-        navigator.serviceWorker.addEventListener('controllerchange', function () {
-          if (refreshing) return;
-          refreshing = true;
-          window.location.reload();
-        });
-      });
-    }
-  </script>
-
 </body>
 </html>
