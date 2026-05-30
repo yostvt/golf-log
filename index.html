@@ -10,7 +10,8 @@
   <meta name="theme-color" content="#0f172a" />
   <title>ScoRExolution</title>
   <link rel="manifest" href="manifest.json" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { min-height: 100%; background: #0f172a; }
@@ -24,5 +25,14 @@
   <script src="venues.js"></script>
   <script src="rexy.js"></script>
   <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js').catch(function (e) {
+          console.warn('SW registration failed:', e);
+        });
+      });
+    }
+  </script>
 </body>
 </html>

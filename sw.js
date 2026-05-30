@@ -1,6 +1,6 @@
-const CACHE_VERSION = 'v20260530164911';
+const CACHE_VERSION = 'v20260530200000';
 const CACHE_NAME = 'scorexolution-' + CACHE_VERSION;
-const ASSETS = ['/', '/index.html', '/app.js', '/venues.js', '/rexy.js', '/manifest.json', '/icon-192.png', '/icon-512.png'];
+const ASSETS = ['/', '/index.html', '/app.js', '/venues.js', '/rexy.js', '/manifest.json', '/icon-192.png', '/icon-512.png', '/icon-512-maskable.png', '/apple-touch-icon.png', '/favicon-32.png'];
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => Promise.all(ASSETS.map(a => cache.add(a).catch(()=>{})))));

@@ -1,8 +1,8 @@
 {
   "name": "ScoRExolution",
-  "short_name": "ScoRExolution",
-  "description": "記録が、上達になる。ゴルフショット記録・分析アプリ",
-  "start_url": "/",
+  "short_name": "スコレボ",
+  "description": "ゴルフスコア管理アプリ",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
@@ -11,12 +11,20 @@
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }
