@@ -1390,25 +1390,20 @@ function ocrDetectFormat(opts) {
   }
   return { fmt: "UNSUPPORTED", debug: dbg };
 }
-function ocrDropSectionTotals(tokens, kind) {
-  var lo = 1, hi = 13;
-  if (kind === "par") {
-    lo = 3;
-    hi = 6;
-  }
-  if (kind === "putt") {
-    lo = 0;
-    hi = 6;
-  }
-  var t = (tokens || []).filter(function(x) {
-    if (x == null) return false;
-    var n = typeof x === "number" ? x : parseInt(String(x).replace(/[^0-9]/g, ""), 10);
-    return !isNaN(n) && n >= lo && n <= hi;
-  }).map(function(x) {
-    return typeof x === "number" ? x : parseInt(String(x).replace(/[^0-9]/g, ""), 10);
+function ocrDropSectionTotals(tokens) {
+  var t = tokens.filter(function(x) {
+    return x != null;
   });
-  if (t.length >= 18) return t.slice(0, 18);
-  return t;
+  if (t.length === 18) return t.slice();
+  if (t.length === 20) return t.slice(0, 9).concat(t.slice(10, 19));
+  if (t.length === 19) {
+    if (String(t[9]).length === 2) return t.slice(0, 9).concat(t.slice(10, 19));
+    if (String(t[18]).length === 2) return t.slice(0, 18);
+  }
+  var singles = t.filter(function(x) {
+    return String(x).length === 1;
+  });
+  return singles.slice(0, 18);
 }
 function ocrScoreFromSymbol(par, sym) {
   if (sym == null) return null;
@@ -1763,7 +1758,13 @@ async function ocrRecognize(canvas, params) {
 async function ocrReadDigit(img, x, y, w, h) {
   var c = ocrToCanvas(img, 3, x, y, w, h);
   var res = await ocrRecognize(c, { tessedit_char_whitelist: "0123456789", tessedit_pageseg_mode: "7" });
-  var txt = (res && res.data && res.data.text || "").replace(/[^0-9]/g, "");
+  var raw = (res && res.data && res.data.text || "").trim();
+  var tokens = raw.split(/\s+/).map(function(s) {
+    return s.replace(/[^0-9]/g, "");
+  }).filter(function(s) {
+    return s.length;
+  });
+  var txt = tokens.length ? tokens[0] : raw.replace(/[^0-9]/g, "");
   if (!txt) return null;
   return parseInt(txt, 10);
 }
@@ -1786,50 +1787,63 @@ function ocrWordsInBand(words, y0, y1) {
   });
 }
 function ocrGuessCourseName(words, fullText, H) {
-  var jp = (words || []).filter(function(w) {
+  var top = (words || []).filter(function(w) {
     var yc = w.bbox ? (w.bbox.y0 + w.bbox.y1) / 2 : 0;
-    return yc < H * 0.08 && /[ぁ-んァ-ヶ一-龠]/.test(w.text);
+    return yc < H * 0.13 && /[ぁ-んァ-ヶ一-龠]/.test(w.text);
   });
-  if (jp.length) {
-    jp.sort(function(a, b) {
-      return a.bbox.y0 - b.bbox.y0;
-    });
-    var baseY = jp[0].bbox.y0;
-    var sameRow = jp.filter(function(w) {
-      return Math.abs(w.bbox.y0 - baseY) < Math.max(H * 0.02, 30);
-    });
-    sameRow.sort(function(a, b) {
+  if (top.length) {
+    top.sort(function(a, b) {
       return a.bbox.x0 - b.bbox.x0;
     });
-    var joined = sameRow.map(function(w) {
+    var joined = top.map(function(w) {
       return w.text;
     }).join("");
-    joined = joined.replace(/[0-9()（）\/.\-:：]/g, "");
     if (joined.length >= 2) return joined;
   }
-  var m = fullText.match(/[ぁ-んァ-ヶ一-龠]{2,}(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|ゴルフ場|CC|GC)/);
+  var m = fullText.match(/[ぁ-んァ-ヶ一-龠]{2,}(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|CC|GC)/);
   return m ? m[0] : "";
 }
 async function ocrExtractVertical(img, words, fmt2) {
   var W = img.width, H = img.height;
   var yTop = H * 0.159, yBot = H * 0.945, hh = yBot - yTop;
-  var scoreTok = await ocrReadColumn(img, W * 0.215, yTop, W * 0.13, hh);
-  var puttTok = await ocrReadColumn(img, W * 0.367, yTop, W * 0.067, hh);
-  var parTok = await ocrReadColumn(img, W * 0.172, yTop, W * 0.05, hh);
-  var scores = ocrDropSectionTotals(scoreTok, "score");
-  var putts = ocrDropSectionTotals(puttTok, "putt");
-  var pars = ocrDropSectionTotals(parTok, "par");
-  var usePar = pars.length === 18;
-  var ty = await ocrReadColumn(img, W * 0.1, H * 0.1, W * 0.074, H * 0.041);
-  var totalYard = ty.length ? ty[0] : null;
-  var frontNums = [10, 11, 12, 13, 14, 15, 16, 17, 18], backNums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var parX = W * 0.172, parW = W * 0.05;
+  var scoreX = W * 0.245, scoreW = W * 0.075;
+  var puttX = W * 0.367, puttW = W * 0.067;
+  var rows = ocrFindHoleRows(words, H);
   var front = [], back = [];
-  for (var i = 0; i < 9; i++) {
-    front.push({ dispHole: frontNums[i], par: usePar ? pars[i] : 4, score: scores[i] != null ? scores[i] : null, putts: putts[i] != null ? putts[i] : null, teeEval: "\u25CB" });
+  var frontNums = [10, 11, 12, 13, 14, 15, 16, 17, 18], backNums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var clampPar = function(n) {
+    return n != null && n >= 3 && n <= 6 ? n : null;
+  };
+  var clampScore = function(n) {
+    return n != null && n >= 1 && n <= 13 ? n : null;
+  };
+  var clampPutt = function(n) {
+    return n != null && n >= 0 && n <= 6 ? n : null;
+  };
+  for (var i = 0; i < 18 && i < rows.length; i++) {
+    var r = rows[i];
+    var ry = r.y0, rh = Math.max(r.y1 - r.y0, H * 0.02);
+    var par = clampPar(await ocrReadDigit(img, parX, ry, parW, rh));
+    var score = clampScore(await ocrReadDigit(img, scoreX, ry, scoreW, rh));
+    var putt = clampPutt(await ocrReadDigit(img, puttX, ry, puttW, rh));
+    var dispHole = r.hole != null ? r.hole : i < 9 ? frontNums[i] : backNums[i - 9];
+    var rec = { dispHole, par: par != null ? par : 4, score, putts: putt, teeEval: "\u25CB" };
+    if (i < 9) front.push(rec);
+    else back.push(rec);
   }
-  for (var j = 0; j < 9; j++) {
-    back.push({ dispHole: backNums[j], par: usePar ? pars[9 + j] : 4, score: scores[9 + j] != null ? scores[9 + j] : null, putts: putts[9 + j] != null ? putts[9 + j] : null, teeEval: "\u25CB" });
+  while (front.length < 9) {
+    var fi = front.length;
+    front.push({ dispHole: frontNums[fi], par: 4, score: null, putts: null, teeEval: "\u25CB" });
   }
+  while (back.length < 9) {
+    var bi = back.length;
+    back.push({ dispHole: backNums[bi], par: 4, score: null, putts: null, teeEval: "\u25CB" });
+  }
+  var ty = await ocrReadColumn(img, W * 0.1, H * 0.1, W * 0.074, H * 0.041);
+  var totalYard = ty && ty.length ? ty.find(function(n) {
+    return n >= 3e3 && n <= 7800;
+  }) || null : null;
   return { front, back, totalYard };
 }
 async function ocrExtractHorizontal(img, words) {
@@ -1859,21 +1873,39 @@ async function ocrExtractSummary(img, words) {
   return { front, back, totalYard: null };
 }
 function ocrFindHoleRows(words, H) {
+  var maxX = 0;
+  (words || []).forEach(function(w) {
+    if (w.bbox && w.bbox.x1 > maxX) maxX = w.bbox.x1;
+  });
+  var W = maxX > 0 ? maxX : 1347;
   var nums = (words || []).filter(function(w) {
-    return /^\d{1,2}$/.test(w.text) && w.bbox && w.bbox.x0 < (w.pageWidth ? w.pageWidth : 99999) * 0.25;
+    if (!w.bbox) return false;
+    if (!/^\d{1,2}$/.test((w.text || "").trim())) return false;
+    var n2 = parseInt(w.text, 10);
+    if (n2 < 1 || n2 > 18) return false;
+    var xc = (w.bbox.x0 + w.bbox.x1) / 2;
+    return xc < W * 0.09;
   });
   nums.sort(function(a, b) {
     return a.bbox.y0 - b.bbox.y0;
   });
-  var rows = nums.map(function(w) {
-    return { hole: parseInt(w.text, 10), y0: w.bbox.y0 - 6, y1: w.bbox.y1 + 6 };
+  var dedup = [];
+  nums.forEach(function(w) {
+    var yc = (w.bbox.y0 + w.bbox.y1) / 2;
+    var last = dedup[dedup.length - 1];
+    if (last && Math.abs((last.bbox.y0 + last.bbox.y1) / 2 - yc) < H * 0.015) return;
+    dedup.push(w);
+  });
+  var rows = dedup.map(function(w) {
+    var h = w.bbox.y1 - w.bbox.y0;
+    return { hole: parseInt(w.text, 10), y0: w.bbox.y0 - h * 0.3, y1: w.bbox.y1 + h * 0.3 };
   });
   if (rows.length < 18) {
-    var y0 = H * 0.16, y1 = H * 0.94, n = 18, pitch = (y1 - y0) / (n + 2);
+    var top = H * 0.16, bot = H * 0.94, n = 18, pitch = (bot - top) / (n + 2);
     rows = [];
     var order = [10, 11, 12, 13, 14, 15, 16, 17, 18, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     for (var i = 0; i < n; i++) {
-      var yy = y0 + pitch * (i + (i >= 9 ? 2 : 1));
+      var yy = top + pitch * (i + (i >= 9 ? 2 : 1));
       rows.push({ hole: order[i], y0: yy - pitch / 2, y1: yy + pitch / 2 });
     }
   }
