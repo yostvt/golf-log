@@ -24,6 +24,9 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="venues.js"></script>
   <script src="rexy.js"></script>
+  <!-- ★ 追加: OCR取り込み用 Tesseract.js（app.js より前に読み込む）。
+       初回のOCR実行時に worker/wasm/言語データ(jpn,eng)をCDNから取得（オンライン必須）。 -->
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@7.0.0/dist/tesseract.min.js"></script>
   <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
