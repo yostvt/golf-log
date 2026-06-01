@@ -1910,25 +1910,27 @@ async function ocrExtractVertical(img, words, fmt2) {
     var par = cellAt(parCx, yc, 3, 6);
     var score = cellAt(scoreCx, yc, 1, 13);
     if (par == null || score == null) {
-      var merged = null;
+      var cand = null, candXc = 0;
+      var lo = parCx - colHalf, hi = scoreCx + colHalf;
       (words || []).forEach(function(w) {
         if (!w.bbox) return;
         var t = (w.text || "").replace(/[^0-9]/g, "");
         if (t.length !== 2) return;
         var wyc = (w.bbox.y0 + w.bbox.y1) / 2, wxc = (w.bbox.x0 + w.bbox.x1) / 2;
         if (Math.abs(wyc - yc) > rowHalf) return;
-        if (wxc >= scoreCx - colHalf && wxc <= scoreCx + colHalf) {
-          var nn = parseInt(t, 10);
-          if (score == null && nn >= 10 && nn <= 13) score = nn;
-          return;
-        }
-        if (wxc < parCx - colHalf || wxc > scoreCx + colHalf) return;
-        merged = t;
+        if (wxc < lo || wxc > hi) return;
+        cand = t;
+        candXc = wxc;
       });
-      if (merged) {
-        var p = parseInt(merged[0], 10), s = parseInt(merged[1], 10);
-        if (par == null && p >= 3 && p <= 6) par = p;
-        if (score == null && s >= 1 && s <= 13) score = s;
+      if (cand) {
+        var nn = parseInt(cand, 10);
+        if (score == null && candXc >= scoreCx - colHalf * 0.5 && nn >= 10 && nn <= 13) {
+          score = nn;
+        } else {
+          var p = parseInt(cand[0], 10), s = parseInt(cand[1], 10);
+          if (par == null && p >= 3 && p <= 6) par = p;
+          if (score == null && s >= 1 && s <= 13) score = s;
+        }
       }
     }
     return { par, score };
