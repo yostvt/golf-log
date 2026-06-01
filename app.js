@@ -1909,6 +1909,9 @@ async function ocrExtractVertical(img, words, fmt2) {
   function parScoreAt(yc) {
     var par = cellAt(parCx, yc, 3, 6);
     var score = cellAt(scoreCx, yc, 1, 13);
+    if (score == null) {
+      score = ocrCellNum(words, scoreCx - colHalf * 1.3, yc - rowHalf, scoreCx + colHalf * 1, yc + rowHalf, 1, 13);
+    }
     if (par == null || score == null) {
       var cand = null, candXc = 0;
       var lo = parCx - colHalf, hi = scoreCx + colHalf;
@@ -1934,6 +1937,27 @@ async function ocrExtractVertical(img, words, fmt2) {
       }
     }
     return { par, score };
+  }
+  function puttAt(yc, knownScore) {
+    var putt = cellAt(puttCx, yc, 0, 6);
+    if (putt != null) return putt;
+    var lo = scoreCx - colHalf * 0.5, hi = puttCx + colHalf;
+    var cand = null;
+    (words || []).forEach(function(w) {
+      if (!w.bbox) return;
+      var t = (w.text || "").replace(/[^0-9]/g, "");
+      if (t.length !== 2) return;
+      var wyc = (w.bbox.y0 + w.bbox.y1) / 2, wxc = (w.bbox.x0 + w.bbox.x1) / 2;
+      if (Math.abs(wyc - yc) > rowHalf) return;
+      if (wxc < lo || wxc > hi) return;
+      cand = t;
+    });
+    if (cand) {
+      var s = parseInt(cand[0], 10), p = parseInt(cand[1], 10);
+      if (knownScore != null && s === knownScore && p >= 0 && p <= 6) return p;
+      if (p >= 0 && p <= 6) return p;
+    }
+    return null;
   }
   var rowYs = ocrBuildRows(words, W, H);
   var frontNums = [10, 11, 12, 13, 14, 15, 16, 17, 18], backNums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -1964,11 +1988,11 @@ async function ocrExtractVertical(img, words, fmt2) {
     }
     for (var i = 0; i < frontYs.length; i++) {
       var ps = parScoreAt(frontYs[i]);
-      front.push({ dispHole: frontNums[i], par: ps.par != null ? ps.par : 4, score: ps.score, putts: cellAt(puttCx, frontYs[i], 0, 13), teeEval: "\u25CB" });
+      front.push({ dispHole: frontNums[i], par: ps.par != null ? ps.par : 4, score: ps.score, putts: puttAt(frontYs[i], ps.score), teeEval: "\u25CB" });
     }
     for (var j = 0; j < backYs.length; j++) {
       var ps2 = parScoreAt(backYs[j]);
-      back.push({ dispHole: backNums[j], par: ps2.par != null ? ps2.par : 4, score: ps2.score, putts: cellAt(puttCx, backYs[j], 0, 13), teeEval: "\u25CB" });
+      back.push({ dispHole: backNums[j], par: ps2.par != null ? ps2.par : 4, score: ps2.score, putts: puttAt(backYs[j], ps2.score), teeEval: "\u25CB" });
     }
   }
   if (front.length < 9 || back.length < 9) {
