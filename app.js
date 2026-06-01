@@ -1375,13 +1375,20 @@ var OCR_SYMBOL_DIFF = {
 function ocrDetectFormat(opts) {
   var ratio = opts.ratio || 0;
   var headerText = opts.headerText || "";
-  var colHeaderText = opts.colHeaderText || "";
-  var isTable = opts.isTable !== false;
-  if (ratio > 1.3) return "F2";
-  if (headerText.indexOf("\u30E9\u30A6\u30F3\u30C9\u5C65\u6B74") >= 0) return "F3";
-  if (/FW\s*キープ|1\s*オン|クラブ/.test(colHeaderText)) return "F4";
-  if (!isTable) return "UNSUPPORTED";
-  return "F1";
+  var fullText = opts.fullText || "";
+  var totalCount = opts.totalCount || 0;
+  var blackBar = !!opts.blackBar;
+  var hasGreen = !!opts.hasGreen;
+  var portrait = ratio <= 1.3;
+  var hasHeaderAnchors = /hole/i.test(headerText) && /yard/i.test(headerText) && /par/i.test(headerText);
+  var dbg = "\u5411\u304D=" + (portrait ? "\u7E26" : "\u6A2A") + " \u9ED2\u30D0\u30FC=" + (blackBar ? "\u6709" : "\u7121") + " \u7DD1\u884C=" + (hasGreen ? "\u6709" : "\u7121") + " Total\xD7" + totalCount + " \u30D8\u30C3\u30C0=" + (hasHeaderAnchors ? "Hole/Yard/Par" : "\u672A\u691C\u51FA");
+  if (blackBar && hasGreen) {
+    return { fmt: ratio > 1.3 ? "F2" : "F3", debug: dbg };
+  }
+  if (portrait && (totalCount >= 2 || hasHeaderAnchors)) {
+    return { fmt: "F1", debug: dbg };
+  }
+  return { fmt: "UNSUPPORTED", debug: dbg };
 }
 function ocrDropSectionTotals(tokens) {
   var t = tokens.filter(function(x) {
@@ -1621,23 +1628,21 @@ async function ocrRunExtraction(file, handlers) {
   var img = await ocrLoadImage(file);
   var W = img.width, H = img.height;
   var ratio = W / H;
+  var colors = ocrSampleColors(img);
   onProgress("OCR\u3092\u6E96\u5099\u4E2D\u2026\uFF08\u521D\u56DE\u306F\u6642\u9593\u304C\u304B\u304B\u308A\u307E\u3059\uFF09");
   await ocrGetWorker(onProgress);
   onProgress("\u5F62\u5F0F\u3092\u5224\u5225\u4E2D\u2026");
-  var full = await ocrRecognize(ocrToCanvas(img, 1), { tessedit_pageseg_mode: "6" });
+  var full = await ocrRecognize(ocrToCanvas(img, 1), { tessedit_pageseg_mode: "6", tessedit_char_whitelist: "" });
   var fullText = full && full.data && full.data.text || "";
   var words = full && full.data && full.data.words || [];
-  var topText = ocrWordsInBand(words, 0, H * 0.13).map(function(w) {
-    return w.text;
-  }).join(" ");
-  var fmt2 = ocrDetectFormat({
-    ratio,
-    headerText: topText + " " + fullText.slice(0, 200),
-    colHeaderText: fullText,
-    isTable: words.length > 20
-  });
+  var hdrCanvas = ocrToCanvas(img, 2, 0, H * 0.05, W, H * 0.11);
+  var hdrRes = await ocrRecognize(hdrCanvas, { tessedit_pageseg_mode: "6", tessedit_char_whitelist: "" });
+  var headerText = hdrRes && hdrRes.data && hdrRes.data.text || "";
+  var totalCount = (fullText.match(/total/gi) || []).length;
+  var det = ocrDetectFormat({ ratio, headerText, fullText, totalCount, blackBar: colors.blackBar, hasGreen: colors.hasGreen });
+  var fmt2 = det.fmt;
   if (fmt2 === "UNSUPPORTED") {
-    return { fmt: "UNSUPPORTED" };
+    return { fmt: "UNSUPPORTED", debug: det.debug };
   }
   onProgress("\u30B9\u30B3\u30A2\u3092\u8AAD\u307F\u53D6\u308A\u4E2D\u2026");
   var courseName = ocrGuessCourseName(words, fullText, H);
@@ -1679,6 +1684,38 @@ function ocrLoadImage(file) {
     };
     im.src = url;
   });
+}
+function ocrSampleColors(img) {
+  var w = 160, h = Math.max(1, Math.round(160 * img.height / img.width));
+  var cv = document.createElement("canvas");
+  cv.width = w;
+  cv.height = h;
+  var ctx = cv.getContext("2d");
+  ctx.drawImage(img, 0, 0, w, h);
+  var data;
+  try {
+    data = ctx.getImageData(0, 0, w, h).data;
+  } catch (e) {
+    return { blackBar: false, hasGreen: false };
+  }
+  var topRows = Math.max(1, Math.round(h * 0.04));
+  var darkTop = 0, topN = 0, green = 0, n = 0;
+  for (var y = 0; y < h; y++) {
+    for (var x = 0; x < w; x++) {
+      var i = (y * w + x) * 4;
+      var r = data[i], g = data[i + 1], b = data[i + 2];
+      if (y < topRows) {
+        topN++;
+        if (r < 70 && g < 70 && b < 70) darkTop++;
+      }
+      n++;
+      if (g > 80 && g - r > 20 && g - b > 20) green++;
+    }
+  }
+  return {
+    blackBar: topN > 0 && darkTop / topN > 0.5,
+    hasGreen: n > 0 && green / n > 0.015
+  };
 }
 function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   scale = scale || 1;
@@ -1725,6 +1762,18 @@ async function ocrReadDigit(img, x, y, w, h) {
   if (!txt) return null;
   return parseInt(txt, 10);
 }
+async function ocrReadColumn(img, x, y, w, h) {
+  var c = ocrToCanvas(img, 3, x, y, w, h);
+  var res = await ocrRecognize(c, { tessedit_char_whitelist: "0123456789", tessedit_pageseg_mode: "6" });
+  var txt = res && res.data && res.data.text || "";
+  return txt.split(/\s+/).map(function(s) {
+    return s.replace(/[^0-9]/g, "");
+  }).filter(function(s) {
+    return s.length;
+  }).map(function(s) {
+    return parseInt(s, 10);
+  });
+}
 function ocrWordsInBand(words, y0, y1) {
   return (words || []).filter(function(w) {
     var yc = w.bbox ? (w.bbox.y0 + w.bbox.y1) / 2 : (w.y0 + w.y1) / 2;
@@ -1749,18 +1798,26 @@ function ocrGuessCourseName(words, fullText, H) {
   return m ? m[0] : "";
 }
 async function ocrExtractVertical(img, words, fmt2) {
-  var anchors = ocrFindHoleRows(words, img.height);
-  var cols = ocrEstimateVerticalColumns(words, img.width, fmt2);
+  var W = img.width, H = img.height;
+  var yTop = H * 0.159, yBot = H * 0.945, hh = yBot - yTop;
+  var scoreTok = await ocrReadColumn(img, W * 0.215, yTop, W * 0.13, hh);
+  var puttTok = await ocrReadColumn(img, W * 0.367, yTop, W * 0.067, hh);
+  var parTok = await ocrReadColumn(img, W * 0.172, yTop, W * 0.05, hh);
+  var scores = ocrDropSectionTotals(scoreTok);
+  var putts = ocrDropSectionTotals(puttTok);
+  var pars = ocrDropSectionTotals(parTok);
+  var usePar = pars.length === 18;
+  var ty = await ocrReadColumn(img, W * 0.1, H * 0.1, W * 0.074, H * 0.041);
+  var totalYard = ty.length ? ty[0] : null;
+  var frontNums = [10, 11, 12, 13, 14, 15, 16, 17, 18], backNums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   var front = [], back = [];
-  for (var i = 0; i < anchors.length && i < 18; i++) {
-    var a = anchors[i];
-    var score = await ocrReadDigit(img, cols.score[0], a.y0, cols.score[1] - cols.score[0], a.y1 - a.y0);
-    var putt = await ocrReadDigit(img, cols.putt[0], a.y0, cols.putt[1] - cols.putt[0], a.y1 - a.y0);
-    var rec = { dispHole: a.hole, par: a.par || 4, score, putts: putt, teeEval: "\u25CB" };
-    if (i < 9) front.push(rec);
-    else back.push(rec);
+  for (var i = 0; i < 9; i++) {
+    front.push({ dispHole: frontNums[i], par: usePar ? pars[i] : 4, score: scores[i] != null ? scores[i] : null, putts: putts[i] != null ? putts[i] : null, teeEval: "\u25CB" });
   }
-  return { front, back, totalYard: ocrFindTotalYard(words) };
+  for (var j = 0; j < 9; j++) {
+    back.push({ dispHole: backNums[j], par: usePar ? pars[9 + j] : 4, score: scores[9 + j] != null ? scores[9 + j] : null, putts: putts[9 + j] != null ? putts[9 + j] : null, teeEval: "\u25CB" });
+  }
+  return { front, back, totalYard };
 }
 async function ocrExtractHorizontal(img, words) {
   var geom = ocrEstimateHorizontalColumns(img, words);
@@ -2512,7 +2569,7 @@ function GolfTracker() {
     try {
       const ex = await ocrRunExtraction(file, { onProgress: (m) => setOcrProgress(m) });
       if (!ex || ex.fmt === "UNSUPPORTED") {
-        setOcrError("\u5BFE\u5FDC\u5F62\u5F0F\u306E\u753B\u50CF\u3067\u306F\u3042\u308A\u307E\u305B\u3093\u3067\u3057\u305F\u3002\u30B9\u30B3\u30A2\u30AB\u30FC\u30C9\uFF0F\u5C65\u6B74\u30B5\u30DE\u30EA\u30FC\u306E\u753B\u9762\u3092\u64AE\u5F71\u30FB\u30B9\u30AF\u30B7\u30E7\u3057\u305F\u753B\u50CF\u3092\u304A\u8A66\u3057\u304F\u3060\u3055\u3044\u3002");
+        setOcrError("\u5BFE\u5FDC\u5F62\u5F0F\u306E\u753B\u50CF\u3067\u306F\u3042\u308A\u307E\u305B\u3093\u3067\u3057\u305F\u3002\u30B9\u30B3\u30A2\u30AB\u30FC\u30C9\uFF08\u7E26\uFF1A\u4E0A\u4E0B\u306BTotal\u884C\uFF0F\u6A2A\u5411\u304D\uFF09\u306E\u753B\u9762\u3092\u64AE\u5F71\u30FB\u30B9\u30AF\u30B7\u30E7\u3057\u305F\u753B\u50CF\u3092\u304A\u8A66\u3057\u304F\u3060\u3055\u3044\u3002" + (ex && ex.debug ? "\n\uFF3B\u5224\u5B9A: " + ex.debug + "\uFF3D" : ""));
         return;
       }
       const venueId = ocrMatchVenue(ex.courseName, VENUES);
@@ -4523,7 +4580,7 @@ function GolfTracker() {
     const modeBadge = { fontSize: "11px", fontWeight: "700", color: "#16a34a", background: "rgba(22,163,74,0.10)", border: "1px solid rgba(22,163,74,0.30)", borderRadius: "20px", padding: "4px 11px", display: "inline-block", marginBottom: "12px" };
     const srcSpan = (t) => t ? /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10.5px", color: "#94a3b8", fontWeight: 400, marginLeft: "6px" } }, "\uFF08", t, "\uFF09") : null;
     if (ocrStep === "detecting") {
-      return /* @__PURE__ */ React.createElement("div", { style: { padding: "36px 6px", textAlign: "center" } }, !ocrError ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { width: "44px", height: "44px", border: "4px solid #f1f5f9", borderTopColor: "#f59e0b", borderRadius: "50%", margin: "0 auto 18px", animation: "ocrsp 0.8s linear infinite" } }), /* @__PURE__ */ React.createElement("p", { style: { color: "#64748b", fontSize: "14px" } }, "\u753B\u50CF\u3092\u89E3\u6790\u4E2D\u2026"), /* @__PURE__ */ React.createElement("p", { style: { marginTop: "8px", fontSize: "13px", fontWeight: "700", color: "#16a34a" } }, ocrProgress), /* @__PURE__ */ React.createElement("p", { style: { marginTop: "14px", fontSize: "11px", color: "#94a3b8", lineHeight: 1.7 } }, "\u521D\u56DE\u306FOCR\u30C7\u30FC\u30BF\u306E\u53D6\u5F97\u306B\u6570\u5341\u79D2\u304B\u304B\u308B\u5834\u5408\u304C\u3042\u308A\u307E\u3059"), /* @__PURE__ */ React.createElement("style", null, "@keyframes ocrsp{to{transform:rotate(360deg);}}")) : /* @__PURE__ */ React.createElement("div", { style: S.card({ textAlign: "left" }) }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "15px", fontWeight: "800", marginBottom: "8px", color: "#1e293b" } }, "\u53D6\u308A\u8FBC\u3081\u307E\u305B\u3093\u3067\u3057\u305F"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "13px", color: "#64748b", lineHeight: 1.7, marginBottom: "16px" } }, ocrError), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", marginBottom: "8px" }), onClick: ocrOpenPicker }, "\u5225\u306E\u753B\u50CF\u3092\u9078\u3076"), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u30DB\u30FC\u30E0\u306B\u623B\u308B"), /* @__PURE__ */ React.createElement("input", { ref: ocrFileRef, type: "file", accept: "image/*", style: { display: "none" }, onChange: ocrHandleFile })));
+      return /* @__PURE__ */ React.createElement("div", { style: { padding: "36px 6px", textAlign: "center" } }, !ocrError ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { width: "44px", height: "44px", border: "4px solid #f1f5f9", borderTopColor: "#f59e0b", borderRadius: "50%", margin: "0 auto 18px", animation: "ocrsp 0.8s linear infinite" } }), /* @__PURE__ */ React.createElement("p", { style: { color: "#64748b", fontSize: "14px" } }, "\u753B\u50CF\u3092\u89E3\u6790\u4E2D\u2026"), /* @__PURE__ */ React.createElement("p", { style: { marginTop: "8px", fontSize: "13px", fontWeight: "700", color: "#16a34a" } }, ocrProgress), /* @__PURE__ */ React.createElement("p", { style: { marginTop: "14px", fontSize: "11px", color: "#94a3b8", lineHeight: 1.7 } }, "\u521D\u56DE\u306FOCR\u30C7\u30FC\u30BF\u306E\u53D6\u5F97\u306B\u6570\u5341\u79D2\u304B\u304B\u308B\u5834\u5408\u304C\u3042\u308A\u307E\u3059"), /* @__PURE__ */ React.createElement("style", null, "@keyframes ocrsp{to{transform:rotate(360deg);}}")) : /* @__PURE__ */ React.createElement("div", { style: S.card({ textAlign: "left" }) }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "15px", fontWeight: "800", marginBottom: "8px", color: "#1e293b" } }, "\u53D6\u308A\u8FBC\u3081\u307E\u305B\u3093\u3067\u3057\u305F"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "13px", color: "#64748b", lineHeight: 1.7, marginBottom: "16px", whiteSpace: "pre-line" } }, ocrError), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", marginBottom: "8px" }), onClick: ocrOpenPicker }, "\u5225\u306E\u753B\u50CF\u3092\u9078\u3076"), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u30DB\u30FC\u30E0\u306B\u623B\u308B"), /* @__PURE__ */ React.createElement("input", { ref: ocrFileRef, type: "file", accept: "image/*", style: { display: "none" }, onChange: ocrHandleFile })));
     }
     if (!ocr) return null;
     const b = ocr.built, su = ocr.setup;
