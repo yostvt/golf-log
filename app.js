@@ -1657,37 +1657,19 @@ async function ocrRunExtraction(file, handlers) {
   } else {
     ex = await ocrExtractVertical(img, words, fmt2);
   }
-  var bandsDbg = [];
-  try {
-    bandsDbg = ocrHoleRowBands(words, W, H).map(function(b) {
-      return b.hole + "@" + Math.round(b.yc);
-    });
-  } catch (e) {
-  }
-  var numWordDump = (words || []).filter(function(w) {
-    return w.bbox && /\d/.test(w.text || "");
-  }).map(function(w) {
-    return { t: (w.text || "").replace(/\s/g, ""), x0: Math.round(w.bbox.x0), x1: Math.round(w.bbox.x1), yc: Math.round((w.bbox.y0 + w.bbox.y1) / 2) };
-  }).sort(function(a, b) {
-    return a.yc - b.yc || a.x0 - b.x0;
-  });
-  var sampleRows = numWordDump.filter(function(d) {
-    return d.yc >= 360 && d.yc <= 580;
-  }).map(function(d) {
-    return d.t + "(" + d.x0 + "-" + d.x1 + ",y" + d.yc + ")";
-  });
   var debug = {
     imgWH: W + "x" + H,
     wordsCount: (words || []).length,
     fmt: fmt2,
     courseName: courseName || "(\u7A7A)",
-    holeBands: bandsDbg,
-    sampleRows: sampleRows.slice(0, 20),
+    rowYs: (ex._rowYs || []).map(function(y) {
+      return Math.round(y);
+    }),
     frontScores: (ex.front || []).map(function(h) {
-      return h.par + ":" + (h.score == null ? "_" : h.score);
+      return h.par + ":" + (h.score == null ? "_" : h.score) + ":" + (h.putts == null ? "_" : h.putts);
     }),
     backScores: (ex.back || []).map(function(h) {
-      return h.par + ":" + (h.score == null ? "_" : h.score);
+      return h.par + ":" + (h.score == null ? "_" : h.score) + ":" + (h.putts == null ? "_" : h.putts);
     })
   };
   return {
@@ -1858,72 +1840,86 @@ function ocrGuessCourseName(words, fullText, H) {
   var m = fullText.match(/[ぁ-んァ-ヶ一-龠]{2,}(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|CC|GC)/);
   return m ? m[0] : "";
 }
-function ocrCellNum(words, x0, y0, x1, y1, lo, hi) {
-  var best = null, bestD = Infinity, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
-  (words || []).forEach(function(w) {
-    if (!w.bbox) return;
-    var t = (w.text || "").replace(/[^0-9]/g, "");
-    if (!t) return;
-    var n = parseInt(t, 10);
-    if (isNaN(n)) return;
-    if (lo != null && (n < lo || n > hi)) return;
-    var wx = (w.bbox.x0 + w.bbox.x1) / 2, wy = (w.bbox.y0 + w.bbox.y1) / 2;
-    if (wx < x0 || wx > x1 || wy < y0 || wy > y1) return;
-    var d = Math.abs(wx - cx) + Math.abs(wy - cy);
-    if (d < bestD) {
-      bestD = d;
-      best = n;
-    }
-  });
-  return best;
-}
-function ocrHoleRowBands(words, W, H) {
-  var nums = (words || []).filter(function(w) {
+function ocrBuildRows(words, W, H) {
+  var anchorX0 = W * 0.255, anchorX1 = W * 0.3;
+  var anchors = (words || []).filter(function(w) {
     if (!w.bbox) return false;
-    var t = (w.text || "").trim();
-    if (!/^\d{1,2}$/.test(t)) return false;
-    var n = parseInt(t, 10);
-    if (n < 1 || n > 18) return false;
     var xc = (w.bbox.x0 + w.bbox.x1) / 2;
-    return xc < W * 0.06;
+    var yc = (w.bbox.y0 + w.bbox.y1) / 2;
+    return xc >= anchorX0 && xc <= anchorX1 && yc > H * 0.14 && yc < H * 0.96 && /\d/.test(w.text || "");
   });
-  nums.sort(function(a, b) {
+  anchors.sort(function(a, b) {
     return a.bbox.y0 - b.bbox.y0;
   });
   var rows = [];
-  nums.forEach(function(w) {
+  anchors.forEach(function(w) {
     var yc = (w.bbox.y0 + w.bbox.y1) / 2;
     var last = rows[rows.length - 1];
-    if (last && Math.abs(last.yc - yc) < H * 0.015) return;
-    rows.push({ hole: parseInt(w.text, 10), y0: w.bbox.y0, y1: w.bbox.y1, yc });
+    if (last && Math.abs(last - yc) < H * 0.02) return;
+    rows.push(yc);
   });
   return rows;
 }
 async function ocrExtractVertical(img, words, fmt2) {
   var W = img.width, H = img.height;
-  var parX0 = W * 0.165, parX1 = W * 0.225;
-  var scoreX0 = W * 0.235, scoreX1 = W * 0.33;
-  var puttX0 = W * 0.36, puttX1 = W * 0.44;
-  var bands = ocrHoleRowBands(words, W, H);
+  var parCx = W * 0.208, scoreCx = W * 0.276, puttCx = W * 0.402;
+  var colHalf = W * 0.03;
+  var rowHalf = H * 0.025;
+  function cellAt(cx, yc, lo, hi) {
+    return ocrCellNum(words, cx - colHalf, yc - rowHalf, cx + colHalf, yc + rowHalf, lo, hi);
+  }
+  function parScoreAt(yc) {
+    var par = cellAt(parCx, yc, 3, 6);
+    var score = cellAt(scoreCx, yc, 1, 13);
+    if (par == null || score == null) {
+      var merged = null;
+      (words || []).forEach(function(w) {
+        if (!w.bbox) return;
+        var t = (w.text || "").replace(/[^0-9]/g, "");
+        if (t.length !== 2) return;
+        var wyc = (w.bbox.y0 + w.bbox.y1) / 2;
+        var wxc = (w.bbox.x0 + w.bbox.x1) / 2;
+        if (Math.abs(wyc - yc) > rowHalf) return;
+        if (wxc < parCx - colHalf || wxc > scoreCx + colHalf) return;
+        merged = t;
+      });
+      if (merged) {
+        var p = parseInt(merged[0], 10), s = parseInt(merged[1], 10);
+        if (par == null && p >= 3 && p <= 6) par = p;
+        if (score == null && s >= 1 && s <= 13) score = s;
+      }
+    }
+    return { par, score };
+  }
+  var rowYs = ocrBuildRows(words, W, H);
   var frontNums = [10, 11, 12, 13, 14, 15, 16, 17, 18], backNums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   var front = [], back = [];
-  if (bands.length >= 14) {
-    for (var i = 0; i < bands.length && i < 18; i++) {
-      var b = bands[i];
-      var pad = (b.y1 - b.y0) * 0.5, y0 = b.y0 - pad, y1 = b.y1 + pad;
-      var par = ocrCellNum(words, parX0, y0, parX1, y1, 3, 6);
-      var score = ocrCellNum(words, scoreX0, y0, scoreX1, y1, 1, 13);
-      var putt = ocrCellNum(words, puttX0, y0, puttX1, y1, 0, 6);
-      var rec = { dispHole: b.hole, par: par != null ? par : 4, score, putts: putt, teeEval: "\u25CB" };
-      if (b.hole >= 10) front.push(rec);
-      else back.push(rec);
+  if (rowYs.length >= 16) {
+    var gaps = [];
+    for (var g = 1; g < rowYs.length; g++) gaps.push({ i: g, d: rowYs[g] - rowYs[g - 1] });
+    gaps.sort(function(a, b) {
+      return b.d - a.d;
+    });
+    var splitIdx = gaps.length ? gaps[0].i : 9;
+    var frontYs = rowYs.slice(0, splitIdx).slice(-9 < 0 ? 0 : 0);
+    frontYs = rowYs.slice(0, splitIdx);
+    var backYs = rowYs.slice(splitIdx);
+    frontYs = frontYs.slice(0, 9);
+    backYs = backYs.slice(0, 9);
+    for (var i = 0; i < frontYs.length; i++) {
+      var ps = parScoreAt(frontYs[i]);
+      front.push({ dispHole: frontNums[i], par: ps.par != null ? ps.par : 4, score: ps.score, putts: cellAt(puttCx, frontYs[i], 0, 6), teeEval: "\u25CB" });
+    }
+    for (var j = 0; j < backYs.length; j++) {
+      var ps2 = parScoreAt(backYs[j]);
+      back.push({ dispHole: backNums[j], par: ps2.par != null ? ps2.par : 4, score: ps2.score, putts: cellAt(puttCx, backYs[j], 0, 6), teeEval: "\u25CB" });
     }
   }
   if (front.length < 9 || back.length < 9) {
     var yTop = H * 0.159, yBot = H * 0.945, hh = yBot - yTop;
-    var scoreTok = await ocrReadColumn(img, W * 0.235, yTop, W * 0.095, hh);
-    var puttTok = await ocrReadColumn(img, W * 0.36, yTop, W * 0.08, hh);
-    var parTok = await ocrReadColumn(img, W * 0.165, yTop, W * 0.06, hh);
+    var scoreTok = await ocrReadColumn(img, scoreCx - colHalf, yTop, colHalf * 2, hh);
+    var puttTok = await ocrReadColumn(img, puttCx - colHalf, yTop, colHalf * 2, hh);
+    var parTok = await ocrReadColumn(img, parCx - colHalf, yTop, colHalf * 2, hh);
     var scores = ocrDropSectionTotals(scoreTok, "score");
     var putts = ocrDropSectionTotals(puttTok, "putt");
     var pars = ocrDropSectionTotals(parTok, "par");
@@ -1944,7 +1940,26 @@ async function ocrExtractVertical(img, words, fmt2) {
   front = front.slice(0, 9);
   back = back.slice(0, 9);
   var totalYard = ocrCellNum(words, W * 0.08, H * 0.09, W * 0.2, H * 0.16, 3e3, 7800);
-  return { front, back, totalYard };
+  return { front, back, totalYard, _rowYs: rowYs };
+}
+function ocrCellNum(words, x0, y0, x1, y1, lo, hi) {
+  var best = null, bestD = Infinity, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+  (words || []).forEach(function(w) {
+    if (!w.bbox) return;
+    var t = (w.text || "").replace(/[^0-9]/g, "");
+    if (!t) return;
+    var n = parseInt(t, 10);
+    if (isNaN(n)) return;
+    if (lo != null && (n < lo || n > hi)) return;
+    var wx = (w.bbox.x0 + w.bbox.x1) / 2, wy = (w.bbox.y0 + w.bbox.y1) / 2;
+    if (wx < x0 || wx > x1 || wy < y0 || wy > y1) return;
+    var d = Math.abs(wx - cx) + Math.abs(wy - cy);
+    if (d < bestD) {
+      bestD = d;
+      best = n;
+    }
+  });
+  return best;
 }
 async function ocrExtractHorizontal(img, words) {
   var geom = ocrEstimateHorizontalColumns(img, words);
@@ -4773,7 +4788,7 @@ function GolfTracker() {
       }, true), field("\u524D\u534A\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.frontCourse, srcSpan(su.edited.front ? "\u624B\u52D5" : "\u753B\u50CF\u306E\u524D\u5F8C\u534A\u304B\u3089")), () => setOcrEditField("front"), b.matched), field("\u5F8C\u534A\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.backCourse, srcSpan(su.edited.back ? "\u624B\u52D5" : "\u753B\u50CF\u306E\u524D\u5F8C\u534A\u304B\u3089")), () => setOcrEditField("back"), b.matched), field("\u65E5\u4ED8", /* @__PURE__ */ React.createElement(React.Fragment, null, su.date, srcSpan(su.edited.date ? "\u624B\u52D5" : su.dateSrc)), () => setOcrEditField("date"), true), field("\u30C6\u30A3\u30FC", /* @__PURE__ */ React.createElement(React.Fragment, null, teeLabel, srcSpan(su.edited.tee ? "\u624B\u52D5" : su.teeUncertain ? "\u8DDD\u96E2\u5224\u5B9A\uFF08\u8981\u78BA\u8A8D\uFF09" : su.teeSrc)), () => setOcrEditField("tee"), true), field("\u30B0\u30EA\u30FC\u30F3", /* @__PURE__ */ React.createElement(React.Fragment, null, greenLabel, srcSpan(su.edited.green ? "\u624B\u52D5" : su.greenSrc)), () => setOcrEditField("green"), true), field("\u5929\u6C17", /* @__PURE__ */ React.createElement(React.Fragment, null, WMAP[su.weather], srcSpan(su.edited.weather ? "\u624B\u52D5" : su.weatherSrc)), () => setOcrEditField("weather"), true), field("\u98A8", /* @__PURE__ */ React.createElement(React.Fragment, null, WINDLAB[su.wind], srcSpan(su.edited.wind ? "\u624B\u52D5" : su.windSrc)), () => setOcrEditField("wind"), true), field("\u30E2\u30FC\u30C9", /* @__PURE__ */ React.createElement(React.Fragment, null, "\u7C21\u6613\u30E2\u30FC\u30C9"), null, false), /* @__PURE__ */ React.createElement("div", { style: { height: "6px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", padding: "14px" }), onClick: () => {
         setOcrStep("score");
         setOcrSel(null);
-      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u30DB\u30FC\u30EB\u884C(hole@yc):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.holeBands || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "10-11\u756A\u4ED8\u8FD1\u306E\u6570\u5B57word(text(x0-x1,y)):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.sampleRows || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" "))), sheet);
+      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v2"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" "))), sheet);
     }
     if (ocrStep === "score") {
       const cellBase = { margin: "0 3px", textAlign: "center", fontSize: "15px", fontWeight: "800", border: "1px solid #e2e8f0", borderRadius: "8px", padding: "6px 0", background: "#fff", cursor: "pointer" };
