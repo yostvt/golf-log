@@ -1838,7 +1838,7 @@ function ocrGuessCourseName(words, fullText, H) {
     var joined = clean(top.map(function(w) {
       return w.text;
     }).join(""));
-    joined = joined.replace(/倶[月品]楽部|倶楽部/g, "\u5036\u697D\u90E8");
+    joined = joined.replace(/倶[月品]楽部|倶楽部/g, "\u5036\u697D\u90E8").replace(/(倶楽部|クラブ|GC|CC).*$/, "$1");
     if (joined.length >= 2) return joined;
   }
   var m = fullText.match(/[ぁ-んァ-ヶ一-龠]{2,}(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|CC|GC)/);
@@ -1937,7 +1937,7 @@ async function ocrExtractVertical(img, words, fmt2) {
   var frontNums = [10, 11, 12, 13, 14, 15, 16, 17, 18], backNums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   var front = [], back = [];
   function isSubtotalRow(yc) {
-    var big = ocrCellNum(words, scoreCx - colHalf, yc - rowHalf, puttCx + colHalf, yc + rowHalf, 18, 200);
+    var big = ocrCellNum(words, scoreCx - colHalf * 1.5, yc - rowHalf, scoreCx + colHalf * 1.5, yc + rowHalf, 30, 300);
     return big != null;
   }
   var holeYs = rowYs.filter(function(yc) {
