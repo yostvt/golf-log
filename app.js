@@ -1390,20 +1390,25 @@ function ocrDetectFormat(opts) {
   }
   return { fmt: "UNSUPPORTED", debug: dbg };
 }
-function ocrDropSectionTotals(tokens) {
-  var t = tokens.filter(function(x) {
-    return x != null;
-  });
-  if (t.length === 18) return t.slice();
-  if (t.length === 20) return t.slice(0, 9).concat(t.slice(10, 19));
-  if (t.length === 19) {
-    if (String(t[9]).length === 2) return t.slice(0, 9).concat(t.slice(10, 19));
-    if (String(t[18]).length === 2) return t.slice(0, 18);
+function ocrDropSectionTotals(tokens, kind) {
+  var lo = 1, hi = 13;
+  if (kind === "par") {
+    lo = 3;
+    hi = 6;
   }
-  var singles = t.filter(function(x) {
-    return String(x).length === 1;
+  if (kind === "putt") {
+    lo = 0;
+    hi = 6;
+  }
+  var t = (tokens || []).filter(function(x) {
+    if (x == null) return false;
+    var n = typeof x === "number" ? x : parseInt(String(x).replace(/[^0-9]/g, ""), 10);
+    return !isNaN(n) && n >= lo && n <= hi;
+  }).map(function(x) {
+    return typeof x === "number" ? x : parseInt(String(x).replace(/[^0-9]/g, ""), 10);
   });
-  return singles.slice(0, 18);
+  if (t.length >= 18) return t.slice(0, 18);
+  return t;
 }
 function ocrScoreFromSymbol(par, sym) {
   if (sym == null) return null;
@@ -1781,20 +1786,28 @@ function ocrWordsInBand(words, y0, y1) {
   });
 }
 function ocrGuessCourseName(words, fullText, H) {
-  var top = (words || []).filter(function(w) {
+  var jp = (words || []).filter(function(w) {
     var yc = w.bbox ? (w.bbox.y0 + w.bbox.y1) / 2 : 0;
-    return yc < H * 0.13 && /[ぁ-んァ-ヶ一-龠]/.test(w.text);
+    return yc < H * 0.08 && /[ぁ-んァ-ヶ一-龠]/.test(w.text);
   });
-  if (top.length) {
-    top.sort(function(a, b) {
+  if (jp.length) {
+    jp.sort(function(a, b) {
+      return a.bbox.y0 - b.bbox.y0;
+    });
+    var baseY = jp[0].bbox.y0;
+    var sameRow = jp.filter(function(w) {
+      return Math.abs(w.bbox.y0 - baseY) < Math.max(H * 0.02, 30);
+    });
+    sameRow.sort(function(a, b) {
       return a.bbox.x0 - b.bbox.x0;
     });
-    var joined = top.map(function(w) {
+    var joined = sameRow.map(function(w) {
       return w.text;
     }).join("");
+    joined = joined.replace(/[0-9()（）\/.\-:：]/g, "");
     if (joined.length >= 2) return joined;
   }
-  var m = fullText.match(/[ぁ-んァ-ヶ一-龠]{2,}(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|CC|GC)/);
+  var m = fullText.match(/[ぁ-んァ-ヶ一-龠]{2,}(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|ゴルフ場|CC|GC)/);
   return m ? m[0] : "";
 }
 async function ocrExtractVertical(img, words, fmt2) {
@@ -1803,9 +1816,9 @@ async function ocrExtractVertical(img, words, fmt2) {
   var scoreTok = await ocrReadColumn(img, W * 0.215, yTop, W * 0.13, hh);
   var puttTok = await ocrReadColumn(img, W * 0.367, yTop, W * 0.067, hh);
   var parTok = await ocrReadColumn(img, W * 0.172, yTop, W * 0.05, hh);
-  var scores = ocrDropSectionTotals(scoreTok);
-  var putts = ocrDropSectionTotals(puttTok);
-  var pars = ocrDropSectionTotals(parTok);
+  var scores = ocrDropSectionTotals(scoreTok, "score");
+  var putts = ocrDropSectionTotals(puttTok, "putt");
+  var pars = ocrDropSectionTotals(parTok, "par");
   var usePar = pars.length === 18;
   var ty = await ocrReadColumn(img, W * 0.1, H * 0.1, W * 0.074, H * 0.041);
   var totalYard = ty.length ? ty[0] : null;
