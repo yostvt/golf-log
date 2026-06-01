@@ -1657,28 +1657,27 @@ async function ocrRunExtraction(file, handlers) {
   } else {
     ex = await ocrExtractVertical(img, words, fmt2);
   }
-  var tessVer = "";
+  var bandsDbg = [];
   try {
-    tessVer = window.Tesseract && window.Tesseract.version ? window.Tesseract.version : "(\u4E0D\u660E)";
+    bandsDbg = ocrHoleRowBands(words, W, H).map(function(b) {
+      return b.hole + "@" + Math.round(b.yc);
+    });
   } catch (e) {
-    tessVer = "err";
   }
   var debug = {
     imgWH: W + "x" + H,
     wordsCount: (words || []).length,
     fmt: fmt2,
-    tessVer,
-    dataKeys: _ocrLastDataKeys ? _ocrLastDataKeys.join(",") : "(null)",
-    blocksLen: _ocrLastBlocksLen,
-    firstWord: _ocrLastWordsSample || "(\u306A\u3057)",
     courseName: courseName || "(\u7A7A)",
+    weather: (fullText.match(/晴|曇|雨|雪|微風|無風|強風/g) || []).join("") || "(\u7A7A)",
+    holeBands: bandsDbg,
     frontScores: (ex.front || []).map(function(h) {
       return h.par + ":" + (h.score == null ? "_" : h.score);
     }),
     backScores: (ex.back || []).map(function(h) {
       return h.par + ":" + (h.score == null ? "_" : h.score);
     }),
-    fullTextHead: (fullText || "").replace(/\s+/g, " ").slice(0, 200)
+    fullTextHead: (fullText || "").replace(/\s+/g, " ").slice(0, 160)
   };
   return {
     fmt: fmt2,
@@ -1774,45 +1773,35 @@ async function ocrTerminateWorker() {
     _ocrWorker = null;
   }
 }
-var _ocrLastDataKeys = null;
-var _ocrLastBlocksLen = null;
-var _ocrLastWordsSample = null;
 async function ocrRecognize(canvas, params) {
   var w = await ocrGetWorker();
   await w.setParameters(params || { tessedit_pageseg_mode: "6" });
   var res;
   try {
-    res = await w.recognize(canvas, {}, { text: true, blocks: true, hocr: false, tsv: false });
+    res = await w.recognize(canvas, {}, { text: true, blocks: true });
   } catch (e) {
     res = await w.recognize(canvas);
   }
   try {
-    if (res && res.data) {
-      _ocrLastDataKeys = Object.keys(res.data);
-      _ocrLastBlocksLen = Array.isArray(res.data.blocks) ? res.data.blocks.length : res.data.blocks ? -2 : -1;
-      if ((!res.data.words || !res.data.words.length) && res.data.blocks) {
-        var collected = [];
-        var walk = function(node) {
-          if (!node) return;
-          if (Array.isArray(node)) {
-            node.forEach(walk);
-            return;
-          }
-          if (node.words && node.words.length) node.words.forEach(function(wd) {
-            collected.push(wd);
-          });
-          ["blocks", "paragraphs", "lines", "symbols", "children"].forEach(function(k) {
-            if (node[k]) walk(node[k]);
-          });
-        };
-        walk(res.data.blocks);
-        if (collected.length) res.data.words = collected;
-      }
-      var ws = res.data.words || [];
-      _ocrLastWordsSample = ws.length ? JSON.stringify(ws[0]).slice(0, 120) : "(words\u7A7A)";
+    if (res && res.data && (!res.data.words || !res.data.words.length) && res.data.blocks) {
+      var collected = [];
+      var walk = function(node) {
+        if (!node) return;
+        if (Array.isArray(node)) {
+          node.forEach(walk);
+          return;
+        }
+        if (node.words && node.words.length) node.words.forEach(function(wd) {
+          collected.push(wd);
+        });
+        ["blocks", "paragraphs", "lines", "symbols", "children"].forEach(function(k) {
+          if (node[k]) walk(node[k]);
+        });
+      };
+      walk(res.data.blocks);
+      if (collected.length) res.data.words = collected;
     }
   } catch (e) {
-    _ocrLastWordsSample = "diag-err:" + (e && e.message);
   }
   return res;
 }
@@ -1858,39 +1847,152 @@ function ocrGuessCourseName(words, fullText, H) {
   var m = fullText.match(/[ぁ-んァ-ヶ一-龠]{2,}(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|CC|GC)/);
   return m ? m[0] : "";
 }
+function ocrCellNum(words, x0, y0, x1, y1, lo, hi) {
+  var best = null, bestD = Infinity;
+  var cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+  (words || []).forEach(function(w) {
+    if (!w.bbox) return;
+    var t = (w.text || "").replace(/[^0-9]/g, "");
+    if (!t) return;
+    var n = parseInt(t, 10);
+    if (isNaN(n)) return;
+    if (lo != null && (n < lo || n > hi)) return;
+    var wx = (w.bbox.x0 + w.bbox.x1) / 2, wy = (w.bbox.y0 + w.bbox.y1) / 2;
+    if (wx < x0 || wx > x1 || wy < y0 || wy > y1) return;
+    var d = Math.abs(wx - cx) + Math.abs(wy - cy);
+    if (d < bestD) {
+      bestD = d;
+      best = n;
+    }
+  });
+  return best;
+}
+function ocrHoleRowBands(words, W, H) {
+  var nums = (words || []).filter(function(w) {
+    if (!w.bbox) return false;
+    var t = (w.text || "").trim();
+    if (!/^\d{1,2}$/.test(t)) return false;
+    var n = parseInt(t, 10);
+    if (n < 1 || n > 18) return false;
+    var xc = (w.bbox.x0 + w.bbox.x1) / 2;
+    return xc < W * 0.085;
+  });
+  nums.sort(function(a, b) {
+    return a.bbox.y0 - b.bbox.y0;
+  });
+  var rows = [];
+  nums.forEach(function(w) {
+    var yc = (w.bbox.y0 + w.bbox.y1) / 2;
+    var last = rows[rows.length - 1];
+    if (last && Math.abs(last.yc - yc) < H * 0.015) return;
+    rows.push({ hole: parseInt(w.text, 10), y0: w.bbox.y0, y1: w.bbox.y1, yc });
+  });
+  return rows;
+}
 async function ocrExtractVertical(img, words, fmt2) {
   var W = img.width, H = img.height;
-  var yTop = H * 0.159, yBot = H * 0.945, hh = yBot - yTop;
-  var scoreTok = await ocrReadColumn(img, W * 0.215, yTop, W * 0.13, hh);
-  var puttTok = await ocrReadColumn(img, W * 0.367, yTop, W * 0.067, hh);
-  var parTok = await ocrReadColumn(img, W * 0.172, yTop, W * 0.05, hh);
-  var scores = ocrDropSectionTotals(scoreTok);
-  var putts = ocrDropSectionTotals(puttTok);
-  var pars = ocrDropSectionTotals(parTok);
-  var usePar = pars.length === 18;
-  var ty = await ocrReadColumn(img, W * 0.1, H * 0.1, W * 0.074, H * 0.041);
-  var totalYard = ty.length ? ty[0] : null;
+  var parX0 = W * 0.165, parX1 = W * 0.225;
+  var scoreX0 = W * 0.235, scoreX1 = W * 0.33;
+  var puttX0 = W * 0.36, puttX1 = W * 0.44;
+  var bands = ocrHoleRowBands(words, W, H);
   var frontNums = [10, 11, 12, 13, 14, 15, 16, 17, 18], backNums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   var front = [], back = [];
-  for (var i = 0; i < 9; i++) {
-    front.push({ dispHole: frontNums[i], par: usePar ? pars[i] : 4, score: scores[i] != null ? scores[i] : null, putts: putts[i] != null ? putts[i] : null, teeEval: "\u25CB" });
+  if (bands.length >= 14) {
+    for (var i = 0; i < bands.length && i < 18; i++) {
+      var b = bands[i];
+      var pad = (b.y1 - b.y0) * 0.5;
+      var y0 = b.y0 - pad, y1 = b.y1 + pad;
+      var par = ocrCellNum(words, parX0, y0, parX1, y1, 3, 6);
+      var score = ocrCellNum(words, scoreX0, y0, scoreX1, y1, 1, 13);
+      var putt = ocrCellNum(words, puttX0, y0, puttX1, y1, 0, 6);
+      var rec = { dispHole: b.hole, par: par != null ? par : 4, score, putts: putt, teeEval: "\u25CB" };
+      if (b.hole >= 10) front.push(rec);
+      else back.push(rec);
+    }
   }
-  for (var j = 0; j < 9; j++) {
-    back.push({ dispHole: backNums[j], par: usePar ? pars[9 + j] : 4, score: scores[9 + j] != null ? scores[9 + j] : null, putts: putts[9 + j] != null ? putts[9 + j] : null, teeEval: "\u25CB" });
+  if (front.length < 9 || back.length < 9) {
+    var yTop = H * 0.159, yBot = H * 0.945, hh = yBot - yTop;
+    var scoreTok = await ocrReadColumn(img, W * 0.235, yTop, W * 0.095, hh);
+    var puttTok = await ocrReadColumn(img, W * 0.36, yTop, W * 0.08, hh);
+    var parTok = await ocrReadColumn(img, W * 0.165, yTop, W * 0.06, hh);
+    var scores = ocrDropSectionTotals(scoreTok, "score");
+    var putts = ocrDropSectionTotals(puttTok, "putt");
+    var pars = ocrDropSectionTotals(parTok, "par");
+    var usePar = pars.length === 18;
+    front = [];
+    back = [];
+    for (var k = 0; k < 9; k++) front.push({ dispHole: frontNums[k], par: usePar ? pars[k] : 4, score: scores[k] != null ? scores[k] : null, putts: putts[k] != null ? putts[k] : null, teeEval: "\u25CB" });
+    for (var m = 0; m < 9; m++) back.push({ dispHole: backNums[m], par: usePar ? pars[9 + m] : 4, score: scores[9 + m] != null ? scores[9 + m] : null, putts: putts[9 + m] != null ? putts[9 + m] : null, teeEval: "\u25CB" });
+  }
+  while (front.length < 9) {
+    var fi = front.length;
+    front.push({ dispHole: frontNums[fi], par: 4, score: null, putts: null, teeEval: "\u25CB" });
+  }
+  while (back.length < 9) {
+    var bi = back.length;
+    back.push({ dispHole: backNums[bi], par: 4, score: null, putts: null, teeEval: "\u25CB" });
+  }
+  front = front.slice(0, 9);
+  back = back.slice(0, 9);
+  var totalYard = ocrCellNum(words, W * 0.08, H * 0.09, W * 0.2, H * 0.16, 3e3, 7800);
+  if (totalYard == null) {
+    var ty = await ocrReadColumn(img, W * 0.1, H * 0.1, W * 0.074, H * 0.041);
+    totalYard = ty && ty.length ? ty.find(function(n) {
+      return n >= 3e3 && n <= 7800;
+    }) || null : null;
   }
   return { front, back, totalYard };
 }
 async function ocrExtractHorizontal(img, words) {
-  var geom = ocrEstimateHorizontalColumns(img, words);
+  var W = img.width, H = img.height;
+  var holeNumsOrder = [10, 11, 12, 13, 14, 15, 16, 17, 18, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  var headWords = (words || []).filter(function(w) {
+    if (!w.bbox) return false;
+    var t = (w.text || "").trim();
+    if (!/^\d{1,2}$/.test(t)) return false;
+    var n = parseInt(t, 10);
+    if (n < 1 || n > 18) return false;
+    return (w.bbox.y0 + w.bbox.y1) / 2 < H * 0.3;
+  });
+  var colCenters = {};
+  headWords.forEach(function(w) {
+    var n = parseInt(w.text, 10);
+    var xc2 = (w.bbox.x0 + w.bbox.x1) / 2;
+    if (colCenters[n] == null) colCenters[n] = xc2;
+  });
   var front = [], back = [];
-  for (var i = 0; i < geom.holeXs.length && i < 18; i++) {
-    var xc = geom.holeXs[i];
-    var w = geom.cellW;
-    var score = await ocrReadDigit(img, xc - w / 2, geom.scoreY, w, geom.rowH);
-    var putt = await ocrReadDigit(img, xc - w / 2, geom.puttY, w, geom.rowH);
-    var rec = { dispHole: geom.holeNums[i], par: geom.pars[i] || 4, score, putts: putt, teeEval: "\u25CB" };
-    if (i < 9) front.push(rec);
-    else back.push(rec);
+  var haveCols = Object.keys(colCenters).length >= 12;
+  if (haveCols) {
+    var colW = W * 0.045;
+    for (var i = 0; i < holeNumsOrder.length; i++) {
+      var hn = holeNumsOrder[i];
+      var xc = colCenters[hn];
+      if (xc == null) {
+        (i < 9 ? front : back).push({ dispHole: hn, par: 4, score: null, putts: null, teeEval: "\u25CB" });
+        continue;
+      }
+      var par = ocrCellNum(words, xc - colW, H * 0.3, xc + colW, H * 0.44, 3, 6);
+      var score = ocrCellNum(words, xc - colW, H * 0.44, xc + colW, H * 0.66, 1, 13);
+      var putt = ocrCellNum(words, xc - colW, H * 0.62, xc + colW, H * 0.8, 0, 6);
+      var rec = { dispHole: hn, par: par != null ? par : 4, score, putts: putt, teeEval: "\u25CB" };
+      if (i < 9) front.push(rec);
+      else back.push(rec);
+    }
+  }
+  if (!haveCols || front.filter(function(h) {
+    return h.score != null;
+  }).length < 5) {
+    var geom = ocrEstimateHorizontalColumns(img, words);
+    front = [];
+    back = [];
+    for (var j = 0; j < geom.holeXs.length && j < 18; j++) {
+      var gx = geom.holeXs[j], gw = geom.cellW;
+      var s = await ocrReadDigit(img, gx - gw / 2, geom.scoreY, gw, geom.rowH);
+      var p = await ocrReadDigit(img, gx - gw / 2, geom.puttY, gw, geom.rowH);
+      var r = { dispHole: geom.holeNums[j], par: geom.pars[j] || 4, score: s, putts: p, teeEval: "\u25CB" };
+      if (j < 9) front.push(r);
+      else back.push(r);
+    }
   }
   return { front, back, totalYard: ocrFindTotalYard(words) };
 }
@@ -4707,7 +4809,7 @@ function GolfTracker() {
       }, true), field("\u524D\u534A\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.frontCourse, srcSpan(su.edited.front ? "\u624B\u52D5" : "\u753B\u50CF\u306E\u524D\u5F8C\u534A\u304B\u3089")), () => setOcrEditField("front"), b.matched), field("\u5F8C\u534A\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.backCourse, srcSpan(su.edited.back ? "\u624B\u52D5" : "\u753B\u50CF\u306E\u524D\u5F8C\u534A\u304B\u3089")), () => setOcrEditField("back"), b.matched), field("\u65E5\u4ED8", /* @__PURE__ */ React.createElement(React.Fragment, null, su.date, srcSpan(su.edited.date ? "\u624B\u52D5" : su.dateSrc)), () => setOcrEditField("date"), true), field("\u30C6\u30A3\u30FC", /* @__PURE__ */ React.createElement(React.Fragment, null, teeLabel, srcSpan(su.edited.tee ? "\u624B\u52D5" : su.teeUncertain ? "\u8DDD\u96E2\u5224\u5B9A\uFF08\u8981\u78BA\u8A8D\uFF09" : su.teeSrc)), () => setOcrEditField("tee"), true), field("\u30B0\u30EA\u30FC\u30F3", /* @__PURE__ */ React.createElement(React.Fragment, null, greenLabel, srcSpan(su.edited.green ? "\u624B\u52D5" : su.greenSrc)), () => setOcrEditField("green"), true), field("\u5929\u6C17", /* @__PURE__ */ React.createElement(React.Fragment, null, WMAP[su.weather], srcSpan(su.edited.weather ? "\u624B\u52D5" : su.weatherSrc)), () => setOcrEditField("weather"), true), field("\u98A8", /* @__PURE__ */ React.createElement(React.Fragment, null, WINDLAB[su.wind], srcSpan(su.edited.wind ? "\u624B\u52D5" : su.windSrc)), () => setOcrEditField("wind"), true), field("\u30E2\u30FC\u30C9", /* @__PURE__ */ React.createElement(React.Fragment, null, "\u7C21\u6613\u30E2\u30FC\u30C9"), null, false), /* @__PURE__ */ React.createElement("div", { style: { height: "6px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", padding: "14px" }), onClick: () => {
         setOcrStep("score");
         setOcrSel(null);
-      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD\uFF08\u623B\u308A\u5024\u69CB\u9020\uFF09"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5", marginTop: "4px" } }, "Tesseract version: ", ocr.meta.ocrDebug.tessVer), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, "data keys: ", ocr.meta.ocrDebug.dataKeys), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, "blocks\u9577: ", String(ocr.meta.ocrDebug.blocksLen)), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5", marginTop: "4px" } }, "\u5148\u982Dword:"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, ocr.meta.ocrDebug.firstWord), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "fullText\u5148\u982D:"), /* @__PURE__ */ React.createElement("div", null, ocr.meta.ocrDebug.fullTextHead)), sheet);
+      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName, " / \u5929\u6C17: ", ocr.meta.ocrDebug.weather), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u30DB\u30FC\u30EB\u884C(hole@yc):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.holeBands || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" "))), sheet);
     }
     if (ocrStep === "score") {
       const cellBase = { margin: "0 3px", textAlign: "center", fontSize: "15px", fontWeight: "800", border: "1px solid #e2e8f0", borderRadius: "8px", padding: "6px 0", background: "#fff", cursor: "pointer" };
