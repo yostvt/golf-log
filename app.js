@@ -1632,14 +1632,21 @@ async function ocrRunExtraction(file, handlers) {
   var W = img.width, H = img.height;
   var ratio = W / H;
   var colors = ocrSampleColors(img);
-  onProgress(OCR_ENGINE === "vision" ? "\u89E3\u6790\u4E2D\u2026\uFF08Google Vision\uFF09" : "OCR\u3092\u6E96\u5099\u4E2D\u2026\uFF08\u521D\u56DE\u306F\u6642\u9593\u304C\u304B\u304B\u308A\u307E\u3059\uFF09");
+  if (OCR_ENGINE === "vision") {
+    var keyState = !GOOGLE_VISION_API_KEY || GOOGLE_VISION_API_KEY === "AIzaSyCzbvgjRT35Uki1hOIjKv4A63e9mDfgV3M" ? "\u672A\u8A2D\u5B9A" : "\u8A2D\u5B9A\u6E08(\u2026" + String(GOOGLE_VISION_API_KEY).slice(-4) + ")";
+    onProgress("\u2460Vision\u9001\u4FE1\u6E96\u5099 / \u30AD\u30FC:" + keyState + " / \u753B\u50CF:" + W + "x" + H);
+  } else {
+    onProgress("OCR\u3092\u6E96\u5099\u4E2D\u2026\uFF08\u521D\u56DE\u306F\u6642\u9593\u304C\u304B\u304B\u308A\u307E\u3059\uFF09");
+  }
   if (OCR_ENGINE !== "vision") {
     await ocrGetWorker(onProgress);
   }
-  onProgress("\u5F62\u5F0F\u3092\u5224\u5225\u4E2D\u2026");
+  if (OCR_ENGINE === "vision") onProgress("\u2461Vision API\u306B\u9001\u4FE1\u4E2D\u2026\uFF08\u5FDC\u7B54\u5F85\u3061\uFF09");
+  else onProgress("\u5F62\u5F0F\u3092\u5224\u5225\u4E2D\u2026");
   var full = await ocrRecognize(ocrToCanvas(img, 1), { tessedit_pageseg_mode: "6", tessedit_char_whitelist: "" });
   var fullText = full && full.data && full.data.text || "";
   var words = full && full.data && full.data.words || [];
+  if (OCR_ENGINE === "vision") onProgress("\u2462Vision\u5FDC\u7B54\u53D7\u4FE1 / words:" + words.length + " \u4EF6 / \u89E3\u6790\u4E2D\u2026");
   if (OCR_ENGINE === "vision") {
     _visionCache = { text: fullText, words, W, H };
   }
