@@ -1622,7 +1622,7 @@ async function ocrRunExtraction(file, handlers) {
   handlers = handlers || {};
   var onProgress = handlers.onProgress || function() {
   };
-  if (typeof window === "undefined" || !window.Tesseract) {
+  if (OCR_ENGINE !== "vision" && (typeof window === "undefined" || !window.Tesseract)) {
     throw new Error("OCR\u30A8\u30F3\u30B8\u30F3\uFF08Tesseract.js\uFF09\u304C\u8AAD\u307F\u8FBC\u307E\u308C\u3066\u3044\u307E\u305B\u3093\u3002\u30AA\u30F3\u30E9\u30A4\u30F3\u74B0\u5883\u3067\u518D\u5EA6\u304A\u8A66\u3057\u304F\u3060\u3055\u3044\u3002");
   }
   onProgress("\u753B\u50CF\u3092\u8AAD\u307F\u8FBC\u307F\u4E2D\u2026");
@@ -1630,15 +1630,25 @@ async function ocrRunExtraction(file, handlers) {
   var W = img.width, H = img.height;
   var ratio = W / H;
   var colors = ocrSampleColors(img);
-  onProgress("OCR\u3092\u6E96\u5099\u4E2D\u2026\uFF08\u521D\u56DE\u306F\u6642\u9593\u304C\u304B\u304B\u308A\u307E\u3059\uFF09");
-  await ocrGetWorker(onProgress);
+  onProgress(OCR_ENGINE === "vision" ? "\u89E3\u6790\u4E2D\u2026\uFF08Google Vision\uFF09" : "OCR\u3092\u6E96\u5099\u4E2D\u2026\uFF08\u521D\u56DE\u306F\u6642\u9593\u304C\u304B\u304B\u308A\u307E\u3059\uFF09");
+  if (OCR_ENGINE !== "vision") {
+    await ocrGetWorker(onProgress);
+  }
   onProgress("\u5F62\u5F0F\u3092\u5224\u5225\u4E2D\u2026");
   var full = await ocrRecognize(ocrToCanvas(img, 1), { tessedit_pageseg_mode: "6", tessedit_char_whitelist: "" });
   var fullText = full && full.data && full.data.text || "";
   var words = full && full.data && full.data.words || [];
-  var hdrCanvas = ocrToCanvas(img, 2, 0, H * 0.05, W, H * 0.11);
-  var hdrRes = await ocrRecognize(hdrCanvas, { tessedit_pageseg_mode: "6", tessedit_char_whitelist: "" });
-  var headerText = hdrRes && hdrRes.data && hdrRes.data.text || "";
+  if (OCR_ENGINE === "vision") {
+    _visionCache = { text: fullText, words, W, H };
+  }
+  var headerText;
+  if (OCR_ENGINE === "vision") {
+    headerText = fullText;
+  } else {
+    var hdrCanvas = ocrToCanvas(img, 2, 0, H * 0.05, W, H * 0.11);
+    var hdrRes = await ocrRecognize(hdrCanvas, { tessedit_pageseg_mode: "6", tessedit_char_whitelist: "" });
+    headerText = hdrRes && hdrRes.data && hdrRes.data.text || "";
+  }
   var totalCount = (fullText.match(/total/gi) || []).length;
   var det = ocrDetectFormat({ ratio, headerText, fullText, totalCount, blackBar: colors.blackBar, hasGreen: colors.hasGreen });
   var fmt2 = det.fmt;
@@ -1673,6 +1683,7 @@ async function ocrRunExtraction(file, handlers) {
       imgWH: W + "x" + H,
       wordsCount: (words || []).length,
       fmt: fmt2,
+      engine: OCR_ENGINE,
       courseName: courseName || "(\u7A7A)",
       rowYs: (ex._rowYs || []).map(function(y) {
         return Math.round(y);
@@ -1747,6 +1758,52 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   ctx.drawImage(img, sx, sy, sw, sh, 0, 0, c.width, c.height);
   return c;
 }
+var GOOGLE_VISION_API_KEY = "PASTE_YOUR_API_KEY_HERE";
+var OCR_ENGINE = "vision";
+function ocrCanvasToBase64(canvas) {
+  var dataUrl = canvas.toDataURL("image/png");
+  return dataUrl.replace(/^data:image\/(png|jpeg);base64,/, "");
+}
+var _visionCache = null;
+async function ocrVisionRecognize(canvas) {
+  var b64 = ocrCanvasToBase64(canvas);
+  var body = {
+    requests: [{
+      image: { content: b64 },
+      features: [{ type: "DOCUMENT_TEXT_DETECTION" }],
+      imageContext: { languageHints: ["ja", "en"] }
+    }]
+  };
+  var resp = await fetch("https://vision.googleapis.com/v1/images:annotate?key=" + GOOGLE_VISION_API_KEY, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
+  });
+  if (!resp.ok) {
+    var errTxt = await resp.text();
+    throw new Error("Vision API\u30A8\u30E9\u30FC(" + resp.status + "): " + errTxt.slice(0, 200));
+  }
+  var json = await resp.json();
+  var ann = json.responses && json.responses[0];
+  var fullText = ann && ann.fullTextAnnotation && ann.fullTextAnnotation.text || "";
+  var words = [];
+  var ta = ann && ann.textAnnotations || [];
+  for (var i = 1; i < ta.length; i++) {
+    var v = ta[i].boundingPoly && ta[i].boundingPoly.vertices;
+    if (!v || v.length < 4) continue;
+    var xs = v.map(function(p) {
+      return p.x || 0;
+    });
+    var ys = v.map(function(p) {
+      return p.y || 0;
+    });
+    words.push({
+      text: ta[i].description || "",
+      bbox: { x0: Math.min.apply(null, xs), y0: Math.min.apply(null, ys), x1: Math.max.apply(null, xs), y1: Math.max.apply(null, ys) }
+    });
+  }
+  return { data: { text: fullText, words } };
+}
 var _ocrWorker = null;
 async function ocrGetWorker(onProgress) {
   if (_ocrWorker) return _ocrWorker;
@@ -1767,38 +1824,18 @@ async function ocrTerminateWorker() {
   }
 }
 async function ocrRecognize(canvas, params) {
+  if (OCR_ENGINE === "vision") {
+    return await ocrVisionRecognize(canvas);
+  }
   var w = await ocrGetWorker();
   await w.setParameters(params || { tessedit_pageseg_mode: "6" });
-  var res;
-  try {
-    res = await w.recognize(canvas, {}, { text: true, blocks: true });
-  } catch (e) {
-    res = await w.recognize(canvas);
-  }
-  try {
-    if (res && res.data && (!res.data.words || !res.data.words.length) && res.data.blocks) {
-      var collected = [];
-      var walk = function(node) {
-        if (!node) return;
-        if (Array.isArray(node)) {
-          node.forEach(walk);
-          return;
-        }
-        if (node.words && node.words.length) node.words.forEach(function(wd) {
-          collected.push(wd);
-        });
-        ["blocks", "paragraphs", "lines", "symbols", "children"].forEach(function(k) {
-          if (node[k]) walk(node[k]);
-        });
-      };
-      walk(res.data.blocks);
-      if (collected.length) res.data.words = collected;
-    }
-  } catch (e) {
-  }
-  return res;
+  return await w.recognize(canvas);
 }
 async function ocrReadDigit(img, x, y, w, h) {
+  if (OCR_ENGINE === "vision" && _visionCache) {
+    var n = ocrCellNum(_visionCache.words, x, y, x + w, y + h, null, null);
+    return n;
+  }
   var c = ocrToCanvas(img, 3, x, y, w, h);
   var res = await ocrRecognize(c, { tessedit_char_whitelist: "0123456789", tessedit_pageseg_mode: "7" });
   var txt = (res && res.data && res.data.text || "").replace(/[^0-9]/g, "");
@@ -1806,6 +1843,20 @@ async function ocrReadDigit(img, x, y, w, h) {
   return parseInt(txt, 10);
 }
 async function ocrReadColumn(img, x, y, w, h) {
+  if (OCR_ENGINE === "vision" && _visionCache) {
+    var inCol = (_visionCache.words || []).filter(function(wd) {
+      if (!wd.bbox) return false;
+      var xc = (wd.bbox.x0 + wd.bbox.x1) / 2, yc = (wd.bbox.y0 + wd.bbox.y1) / 2;
+      return xc >= x && xc <= x + w && yc >= y && yc <= y + h && /\d/.test(wd.text || "");
+    }).sort(function(a, b) {
+      return a.bbox.y0 - b.bbox.y0;
+    });
+    return inCol.map(function(wd) {
+      return parseInt((wd.text || "").replace(/[^0-9]/g, ""), 10);
+    }).filter(function(v) {
+      return !isNaN(v);
+    });
+  }
   var c = ocrToCanvas(img, 3, x, y, w, h);
   var res = await ocrRecognize(c, { tessedit_char_whitelist: "0123456789", tessedit_pageseg_mode: "6" });
   var txt = res && res.data && res.data.text || "";
@@ -1844,12 +1895,30 @@ function ocrGuessCourseName(words, fullText, H) {
   var m = fullText.match(/[ぁ-んァ-ヶ一-龠]{2,}(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|CC|GC)/);
   return m ? clean(m[0]).replace(/倶[月品]楽部/g, "\u5036\u697D\u90E8") : "";
 }
+function ocrCellNum(words, x0, y0, x1, y1, lo, hi) {
+  var best = null, bestD = Infinity, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+  (words || []).forEach(function(w) {
+    if (!w.bbox) return;
+    var t = (w.text || "").replace(/[^0-9]/g, "");
+    if (!t) return;
+    var n = parseInt(t, 10);
+    if (isNaN(n)) return;
+    if (lo != null && (n < lo || n > hi)) return;
+    var wx = (w.bbox.x0 + w.bbox.x1) / 2, wy = (w.bbox.y0 + w.bbox.y1) / 2;
+    if (wx < x0 || wx > x1 || wy < y0 || wy > y1) return;
+    var d = Math.abs(wx - cx) + Math.abs(wy - cy);
+    if (d < bestD) {
+      bestD = d;
+      best = n;
+    }
+  });
+  return best;
+}
 function ocrBuildRows(words, W, H) {
   var anchorX0 = W * 0.25, anchorX1 = W * 0.31;
   var anchors = (words || []).filter(function(w) {
     if (!w.bbox) return false;
-    var xc = (w.bbox.x0 + w.bbox.x1) / 2;
-    var yc = (w.bbox.y0 + w.bbox.y1) / 2;
+    var xc = (w.bbox.x0 + w.bbox.x1) / 2, yc = (w.bbox.y0 + w.bbox.y1) / 2;
     return xc >= anchorX0 && xc <= anchorX1 && yc > H * 0.14 && yc < H * 0.96 && /\d/.test(w.text || "");
   });
   anchors.sort(function(a, b) {
@@ -1880,25 +1949,6 @@ function ocrBuildRows(words, W, H) {
   }
   return filled;
 }
-function ocrCellNum(words, x0, y0, x1, y1, lo, hi) {
-  var best = null, bestD = Infinity, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
-  (words || []).forEach(function(w) {
-    if (!w.bbox) return;
-    var t = (w.text || "").replace(/[^0-9]/g, "");
-    if (!t) return;
-    var n = parseInt(t, 10);
-    if (isNaN(n)) return;
-    if (lo != null && (n < lo || n > hi)) return;
-    var wx = (w.bbox.x0 + w.bbox.x1) / 2, wy = (w.bbox.y0 + w.bbox.y1) / 2;
-    if (wx < x0 || wx > x1 || wy < y0 || wy > y1) return;
-    var d = Math.abs(wx - cx) + Math.abs(wy - cy);
-    if (d < bestD) {
-      bestD = d;
-      best = n;
-    }
-  });
-  return best;
-}
 async function ocrExtractVertical(img, words, fmt2) {
   var W = img.width, H = img.height;
   var parCx = W * 0.208, scoreCx = W * 0.276, puttCx = W * 0.402;
@@ -1909,12 +1959,9 @@ async function ocrExtractVertical(img, words, fmt2) {
   function parScoreAt(yc) {
     var par = cellAt(parCx, yc, 3, 6);
     var score = cellAt(scoreCx, yc, 1, 13);
-    if (score == null) {
-      score = ocrCellNum(words, scoreCx - colHalf * 1.3, yc - rowHalf, scoreCx + colHalf * 1, yc + rowHalf, 1, 13);
-    }
+    if (score == null) score = ocrCellNum(words, scoreCx - colHalf * 1.3, yc - rowHalf, scoreCx + colHalf, yc + rowHalf, 1, 13);
     if (par == null || score == null) {
-      var cand = null, candXc = 0;
-      var lo = parCx - colHalf, hi = scoreCx + colHalf;
+      var cand = null, candXc = 0, lo = parCx - colHalf, hi = scoreCx + colHalf;
       (words || []).forEach(function(w) {
         if (!w.bbox) return;
         var t = (w.text || "").replace(/[^0-9]/g, "");
@@ -1927,9 +1974,8 @@ async function ocrExtractVertical(img, words, fmt2) {
       });
       if (cand) {
         var nn = parseInt(cand, 10);
-        if (score == null && candXc >= scoreCx - colHalf * 0.5 && nn >= 10 && nn <= 13) {
-          score = nn;
-        } else {
+        if (score == null && candXc >= scoreCx - colHalf * 0.5 && nn >= 10 && nn <= 13) score = nn;
+        else {
           var p = parseInt(cand[0], 10), s = parseInt(cand[1], 10);
           if (par == null && p >= 3 && p <= 6) par = p;
           if (score == null && s >= 1 && s <= 13) score = s;
@@ -1941,8 +1987,7 @@ async function ocrExtractVertical(img, words, fmt2) {
   function puttAt(yc, knownScore) {
     var putt = cellAt(puttCx, yc, 0, 6);
     if (putt != null) return putt;
-    var lo = scoreCx - colHalf * 0.5, hi = puttCx + colHalf;
-    var cand = null;
+    var lo = scoreCx - colHalf * 0.5, hi = puttCx + colHalf, cand = null;
     (words || []).forEach(function(w) {
       if (!w.bbox) return;
       var t = (w.text || "").replace(/[^0-9]/g, "");
@@ -1964,8 +2009,7 @@ async function ocrExtractVertical(img, words, fmt2) {
   var front = [], back = [];
   function isSubtotalRow(yc) {
     var narrow = colHalf * 0.7;
-    var v = ocrCellNum(words, scoreCx - narrow, yc - rowHalf, scoreCx + narrow, yc + rowHalf, 30, 99);
-    return v != null;
+    return ocrCellNum(words, scoreCx - narrow, yc - rowHalf, scoreCx + narrow, yc + rowHalf, 30, 99) != null;
   }
   var holeYs = rowYs.filter(function(yc) {
     return !isSubtotalRow(yc);
@@ -2000,9 +2044,9 @@ async function ocrExtractVertical(img, words, fmt2) {
     var scoreTok = await ocrReadColumn(img, scoreCx - colHalf, yTop, colHalf * 2, hh);
     var puttTok = await ocrReadColumn(img, puttCx - colHalf, yTop, colHalf * 2, hh);
     var parTok = await ocrReadColumn(img, parCx - colHalf, yTop, colHalf * 2, hh);
-    var scores = ocrDropSectionTotals(scoreTok, "score");
-    var putts = ocrDropSectionTotals(puttTok, "putt");
-    var pars = ocrDropSectionTotals(parTok, "par");
+    var scores = ocrDropSectionTotals(scoreTok);
+    var putts = ocrDropSectionTotals(puttTok);
+    var pars = ocrDropSectionTotals(parTok);
     var usePar = pars.length === 18;
     front = [];
     back = [];
@@ -4849,7 +4893,7 @@ function GolfTracker() {
       }, true), field("\u524D\u534A\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.frontCourse, srcSpan(su.edited.front ? "\u624B\u52D5" : "\u753B\u50CF\u306E\u524D\u5F8C\u534A\u304B\u3089")), () => setOcrEditField("front"), b.matched), field("\u5F8C\u534A\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.backCourse, srcSpan(su.edited.back ? "\u624B\u52D5" : "\u753B\u50CF\u306E\u524D\u5F8C\u534A\u304B\u3089")), () => setOcrEditField("back"), b.matched), field("\u65E5\u4ED8", /* @__PURE__ */ React.createElement(React.Fragment, null, su.date, srcSpan(su.edited.date ? "\u624B\u52D5" : su.dateSrc)), () => setOcrEditField("date"), true), field("\u30C6\u30A3\u30FC", /* @__PURE__ */ React.createElement(React.Fragment, null, teeLabel, srcSpan(su.edited.tee ? "\u624B\u52D5" : su.teeUncertain ? "\u8DDD\u96E2\u5224\u5B9A\uFF08\u8981\u78BA\u8A8D\uFF09" : su.teeSrc)), () => setOcrEditField("tee"), true), field("\u30B0\u30EA\u30FC\u30F3", /* @__PURE__ */ React.createElement(React.Fragment, null, greenLabel, srcSpan(su.edited.green ? "\u624B\u52D5" : su.greenSrc)), () => setOcrEditField("green"), true), field("\u5929\u6C17", /* @__PURE__ */ React.createElement(React.Fragment, null, WMAP[su.weather], srcSpan(su.edited.weather ? "\u624B\u52D5" : su.weatherSrc)), () => setOcrEditField("weather"), true), field("\u98A8", /* @__PURE__ */ React.createElement(React.Fragment, null, WINDLAB[su.wind], srcSpan(su.edited.wind ? "\u624B\u52D5" : su.windSrc)), () => setOcrEditField("wind"), true), field("\u30E2\u30FC\u30C9", /* @__PURE__ */ React.createElement(React.Fragment, null, "\u7C21\u6613\u30E2\u30FC\u30C9"), null, false), /* @__PURE__ */ React.createElement("div", { style: { height: "6px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", padding: "14px" }), onClick: () => {
         setOcrStep("score");
         setOcrSel(null);
-      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v4"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" "))), sheet);
+      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v5 [", ocr.meta.ocrDebug.engine, "]"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" "))), sheet);
     }
     if (ocrStep === "score") {
       const cellBase = { margin: "0 3px", textAlign: "center", fontSize: "15px", fontWeight: "800", border: "1px solid #e2e8f0", borderRadius: "8px", padding: "6px 0", background: "#fff", cursor: "pointer" };
