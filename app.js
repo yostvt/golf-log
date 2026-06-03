@@ -1835,6 +1835,33 @@ async function ocrVisionRecognize(canvas) {
       bbox: { x0: Math.min.apply(null, xs), y0: Math.min.apply(null, ys), x1: Math.max.apply(null, xs), y1: Math.max.apply(null, ys) }
     });
   }
+  try {
+    var pages = ann && ann.fullTextAnnotation && ann.fullTextAnnotation.pages || [];
+    pages.forEach(function(pg) {
+      (pg.blocks || []).forEach(function(bl) {
+        (bl.paragraphs || []).forEach(function(pa) {
+          (pa.words || []).forEach(function(wd) {
+            (wd.symbols || []).forEach(function(sym) {
+              var sv = sym.boundingBox && sym.boundingBox.vertices;
+              if (!sv || sv.length < 4) return;
+              var sxs = sv.map(function(p) {
+                return p.x || 0;
+              });
+              var sys = sv.map(function(p) {
+                return p.y || 0;
+              });
+              words.push({
+                text: sym.text || "",
+                _sym: true,
+                bbox: { x0: Math.min.apply(null, sxs), y0: Math.min.apply(null, sys), x1: Math.max.apply(null, sxs), y1: Math.max.apply(null, sys) }
+              });
+            });
+          });
+        });
+      });
+    });
+  } catch (e) {
+  }
   return { data: { text: fullText, words } };
 }
 var _ocrWorker = null;
@@ -1929,7 +1956,7 @@ function ocrGuessCourseName(words, fullText, H) {
   return m ? clean(m[0]).replace(/倶[月品]楽部/g, "\u5036\u697D\u90E8") : "";
 }
 function ocrCellNum(words, x0, y0, x1, y1, lo, hi) {
-  var best = null, bestD = Infinity, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
+  var best = null, bestScore = Infinity, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
   (words || []).forEach(function(w) {
     if (!w.bbox) return;
     var t = (w.text || "").replace(/[^0-9]/g, "");
@@ -1939,9 +1966,11 @@ function ocrCellNum(words, x0, y0, x1, y1, lo, hi) {
     if (lo != null && (n < lo || n > hi)) return;
     var wx = (w.bbox.x0 + w.bbox.x1) / 2, wy = (w.bbox.y0 + w.bbox.y1) / 2;
     if (wx < x0 || wx > x1 || wy < y0 || wy > y1) return;
-    var d = Math.abs(wx - cx) + Math.abs(wy - cy);
-    if (d < bestD) {
-      bestD = d;
+    var dist = Math.abs(wx - cx) + Math.abs(wy - cy);
+    var penalty = (t.length > 1 ? 1e3 : 0) + (w._sym ? 0 : 50);
+    var sc = dist + penalty;
+    if (sc < bestScore) {
+      bestScore = sc;
       best = n;
     }
   });
@@ -1950,7 +1979,7 @@ function ocrCellNum(words, x0, y0, x1, y1, lo, hi) {
 function ocrBuildRows(words, W, H) {
   var anchorX0 = W * 0.25, anchorX1 = W * 0.31;
   var anchors = (words || []).filter(function(w) {
-    if (!w.bbox) return false;
+    if (!w.bbox || w._sym) return false;
     var xc = (w.bbox.x0 + w.bbox.x1) / 2, yc = (w.bbox.y0 + w.bbox.y1) / 2;
     return xc >= anchorX0 && xc <= anchorX1 && yc > H * 0.14 && yc < H * 0.96 && /\d/.test(w.text || "");
   });
