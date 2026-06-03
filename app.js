@@ -1772,15 +1772,29 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
 var GOOGLE_VISION_API_KEY = "AIzaSyCzbvgjRT35Uki1hOIjKv4A63e9mDfgV3M";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
-  var dataUrl = canvas.toDataURL("image/png");
+  var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
   return dataUrl.replace(/^data:image\/(png|jpeg);base64,/, "");
+}
+function ocrMakeVisionCanvas(srcCanvas, maxSide) {
+  var w = srcCanvas.width, h = srcCanvas.height;
+  var scale = Math.min(1, maxSide / Math.max(w, h));
+  if (scale >= 1) return { canvas: srcCanvas, scale: 1 };
+  var c = document.createElement("canvas");
+  c.width = Math.round(w * scale);
+  c.height = Math.round(h * scale);
+  var ctx = c.getContext("2d");
+  ctx.imageSmoothingEnabled = true;
+  ctx.drawImage(srcCanvas, 0, 0, c.width, c.height);
+  return { canvas: c, scale };
 }
 var _visionCache = null;
 async function ocrVisionRecognize(canvas) {
   if (!GOOGLE_VISION_API_KEY || GOOGLE_VISION_API_KEY === "AIzaSyCzbvgjRT35Uki1hOIjKv4A63e9mDfgV3M") {
     throw new Error("API\u30AD\u30FC\u672A\u8A2D\u5B9A: app.js\u306EGOOGLE_VISION_API_KEY\u306B\u30AD\u30FC\u3092\u8A2D\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044");
   }
-  var b64 = ocrCanvasToBase64(canvas);
+  var vc = ocrMakeVisionCanvas(canvas, 1600);
+  var invScale = vc.scale ? 1 / vc.scale : 1;
+  var b64 = ocrCanvasToBase64(vc.canvas);
   var body = {
     requests: [{
       image: { content: b64 },
@@ -1827,10 +1841,10 @@ async function ocrVisionRecognize(canvas) {
     var v = ta[i].boundingPoly && ta[i].boundingPoly.vertices;
     if (!v || v.length < 4) continue;
     var xs = v.map(function(p) {
-      return p.x || 0;
+      return (p.x || 0) * invScale;
     });
     var ys = v.map(function(p) {
-      return p.y || 0;
+      return (p.y || 0) * invScale;
     });
     words.push({
       text: ta[i].description || "",
@@ -1847,10 +1861,10 @@ async function ocrVisionRecognize(canvas) {
               var sv = sym.boundingBox && sym.boundingBox.vertices;
               if (!sv || sv.length < 4) return;
               var sxs = sv.map(function(p) {
-                return p.x || 0;
+                return (p.x || 0) * invScale;
               });
               var sys = sv.map(function(p) {
-                return p.y || 0;
+                return (p.y || 0) * invScale;
               });
               words.push({
                 text: sym.text || "",
