@@ -1386,6 +1386,8 @@ function ocrDetectFormat(opts) {
     return { fmt: ratio > 1.3 ? "F2" : "F3", debug: dbg };
   }
   if (portrait && (totalCount >= 2 || hasHeaderAnchors)) {
+    var hasDetailCols = /FW\s*キープ|フェアウェイ/i.test(fullText) || /パーオン/.test(fullText) && /ボギーオン/.test(fullText) || /1\s*オン|１オン/.test(fullText) && /バンカー/.test(fullText) && /ペナ/.test(fullText);
+    if (hasDetailCols) return { fmt: "F4", debug: dbg + " \u8A73\u7D30\u5217=\u6709" };
     return { fmt: "F1", debug: dbg };
   }
   return { fmt: "UNSUPPORTED", debug: dbg };
@@ -1689,14 +1691,14 @@ async function ocrRunExtraction(file, handlers) {
         return Math.round(y);
       }),
       puttWords: (words || []).filter(function(w) {
-        if (!w.bbox) return false;
+        if (!w.bbox || w._sym) return false;
         var yc = (w.bbox.y0 + w.bbox.y1) / 2, xc = (w.bbox.x0 + w.bbox.x1) / 2;
-        return yc >= 380 && yc <= 600 && xc >= W * 0.3;
+        return yc >= 380 && yc <= 445 && xc >= W * 0.42;
       }).sort(function(a, b) {
-        return a.bbox.y0 - b.bbox.y0 || a.bbox.x0 - b.bbox.x0;
+        return a.bbox.x0 - b.bbox.x0;
       }).map(function(w) {
-        return (w.text || "").replace(/\s/g, "") + "(" + Math.round((w.bbox.x0 + w.bbox.x1) / 2) + ",y" + Math.round((w.bbox.y0 + w.bbox.y1) / 2) + ")";
-      }).slice(0, 15),
+        return (w.text || "").replace(/\s/g, "") + "(x" + Math.round((w.bbox.x0 + w.bbox.x1) / 2) + ",%" + Math.round((w.bbox.x0 + w.bbox.x1) / 2 / W * 1e3) / 10 + ")";
+      }).slice(0, 20),
       frontScores: (ex.front || []).map(function(h) {
         return h.par + ":" + (h.score == null ? "_" : h.score) + ":" + (h.putts == null ? "_" : h.putts);
       }),
@@ -1767,7 +1769,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   ctx.drawImage(img, sx, sy, sw, sh, 0, 0, c.width, c.height);
   return c;
 }
-var GOOGLE_VISION_API_KEY = "AIzaSyBtv1rdzFe9lo-aAlVXV6JH59Nr-IxHVRg";
+var GOOGLE_VISION_API_KEY = "AIzaSyCzbvgjRT35Uki1hOIjKv4A63e9mDfgV3M";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/png");
@@ -1775,7 +1777,7 @@ function ocrCanvasToBase64(canvas) {
 }
 var _visionCache = null;
 async function ocrVisionRecognize(canvas) {
-  if (!GOOGLE_VISION_API_KEY || GOOGLE_VISION_API_KEY === "PASTE_YOUR_API_KEY_HERE") {
+  if (!GOOGLE_VISION_API_KEY || GOOGLE_VISION_API_KEY === "AIzaSyCzbvgjRT35Uki1hOIjKv4A63e9mDfgV3M") {
     throw new Error("API\u30AD\u30FC\u672A\u8A2D\u5B9A: app.js\u306EGOOGLE_VISION_API_KEY\u306B\u30AD\u30FC\u3092\u8A2D\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044");
   }
   var b64 = ocrCanvasToBase64(canvas);
@@ -1936,6 +1938,7 @@ function ocrWordsInBand(words, y0, y1) {
 }
 function ocrGuessCourseName(words, fullText, H) {
   var top = (words || []).filter(function(w) {
+    if (w._sym) return false;
     var yc = w.bbox ? (w.bbox.y0 + w.bbox.y1) / 2 : 0;
     return yc < H * 0.1 && /[ぁ-んァ-ヶ一-龠]/.test(w.text);
   });
@@ -4955,7 +4958,7 @@ function GolfTracker() {
       }, true), field("\u524D\u534A\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.frontCourse, srcSpan(su.edited.front ? "\u624B\u52D5" : "\u753B\u50CF\u306E\u524D\u5F8C\u534A\u304B\u3089")), () => setOcrEditField("front"), b.matched), field("\u5F8C\u534A\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.backCourse, srcSpan(su.edited.back ? "\u624B\u52D5" : "\u753B\u50CF\u306E\u524D\u5F8C\u534A\u304B\u3089")), () => setOcrEditField("back"), b.matched), field("\u65E5\u4ED8", /* @__PURE__ */ React.createElement(React.Fragment, null, su.date, srcSpan(su.edited.date ? "\u624B\u52D5" : su.dateSrc)), () => setOcrEditField("date"), true), field("\u30C6\u30A3\u30FC", /* @__PURE__ */ React.createElement(React.Fragment, null, teeLabel, srcSpan(su.edited.tee ? "\u624B\u52D5" : su.teeUncertain ? "\u8DDD\u96E2\u5224\u5B9A\uFF08\u8981\u78BA\u8A8D\uFF09" : su.teeSrc)), () => setOcrEditField("tee"), true), field("\u30B0\u30EA\u30FC\u30F3", /* @__PURE__ */ React.createElement(React.Fragment, null, greenLabel, srcSpan(su.edited.green ? "\u624B\u52D5" : su.greenSrc)), () => setOcrEditField("green"), true), field("\u5929\u6C17", /* @__PURE__ */ React.createElement(React.Fragment, null, WMAP[su.weather], srcSpan(su.edited.weather ? "\u624B\u52D5" : su.weatherSrc)), () => setOcrEditField("weather"), true), field("\u98A8", /* @__PURE__ */ React.createElement(React.Fragment, null, WINDLAB[su.wind], srcSpan(su.edited.wind ? "\u624B\u52D5" : su.windSrc)), () => setOcrEditField("wind"), true), field("\u30E2\u30FC\u30C9", /* @__PURE__ */ React.createElement(React.Fragment, null, "\u7C21\u6613\u30E2\u30FC\u30C9"), null, false), /* @__PURE__ */ React.createElement("div", { style: { height: "6px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", padding: "14px" }), onClick: () => {
         setOcrStep("score");
         setOcrSel(null);
-      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v5 [", ocr.meta.ocrDebug.engine, "]"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "score\u301Cputt\u4ED8\u8FD1word(10-12\u756A):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttWords || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" "))), sheet);
+      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v5 [", ocr.meta.ocrDebug.engine, "]"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "10\u756A\u884C \u53F3\u5074\u5217word(x\u5EA7\u6A19,%):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttWords || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" "))), sheet);
     }
     if (ocrStep === "score") {
       const cellBase = { margin: "0 3px", textAlign: "center", fontSize: "15px", fontWeight: "800", border: "1px solid #e2e8f0", borderRadius: "8px", padding: "6px 0", background: "#fff", cursor: "pointer" };
