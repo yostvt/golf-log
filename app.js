@@ -1810,21 +1810,23 @@ async function ocrVisionRecognize(canvas) {
     }]
   };
   var controller = new AbortController();
+  var timedOut = false;
   var timer = setTimeout(function() {
+    timedOut = true;
     controller.abort();
-  }, 25e3);
+  }, 1e4);
   var resp;
   try {
     resp = await fetch("https://vision.googleapis.com/v1/images:annotate?key=" + GOOGLE_VISION_API_KEY, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
       body: JSON.stringify(body),
       signal: controller.signal
     });
   } catch (e) {
     clearTimeout(timer);
-    if (e && e.name === "AbortError") throw new Error("Vision API\u30BF\u30A4\u30E0\u30A2\u30A6\u30C8\uFF0825\u79D2\uFF09\u3002\u30CD\u30C3\u30C8\u30EF\u30FC\u30AF\u304BCORS\u306E\u554F\u984C\u306E\u53EF\u80FD\u6027\u3002");
-    throw new Error("Vision API\u901A\u4FE1\u30A8\u30E9\u30FC: " + (e && e.message || e));
+    if (timedOut || e && e.name === "AbortError") throw new Error("Vision API\u30BF\u30A4\u30E0\u30A2\u30A6\u30C8\uFF0810\u79D2\uFF09\u3002\u9001\u4FE1\u306F\u5230\u9054\u3057\u305F\u304C\u5FDC\u7B54\u306A\u3057\u3002CORS/\u30CD\u30C3\u30C8\u30EF\u30FC\u30AF\u306E\u53EF\u80FD\u6027\u3002");
+    throw new Error("Vision API\u901A\u4FE1\u30A8\u30E9\u30FC: " + (e && e.message || e) + "\uFF08fetch\u81EA\u4F53\u304C\u5931\u6557\uFF1DCORS\u30D6\u30ED\u30C3\u30AF\u306E\u53EF\u80FD\u6027\uFF09");
   }
   clearTimeout(timer);
   if (!resp.ok) {
