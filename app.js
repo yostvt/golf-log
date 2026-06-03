@@ -1758,7 +1758,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   ctx.drawImage(img, sx, sy, sw, sh, 0, 0, c.width, c.height);
   return c;
 }
-var GOOGLE_VISION_API_KEY = AIzaSyBtv1rdzFe9lo-aAlVXV6JH59Nr-IxHVRg;
+var GOOGLE_VISION_API_KEY = "AIzaSyBtv1rdzFe9lo-aAlVXV6JH59Nr-IxHVRg";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/png");
