@@ -1765,7 +1765,8 @@ async function ocrRunExtraction(file, handlers) {
       detailHeader: (function() {
         var rys = ex._rowYs || [];
         if (!rys.length) return [];
-        var y1 = rys[0] - rowHalf * 0.8, y0 = H * 0.1, x0 = W * 0.4, x1 = W * 0.99;
+        var rh = H * 0.025;
+        var y1 = rys[0] - rh * 0.8, y0 = H * 0.1, x0 = W * 0.4, x1 = W * 0.99;
         return (words || []).filter(function(w) {
           if (!w.bbox) return false;
           var wy = (w.bbox.y0 + w.bbox.y1) / 2, wx = (w.bbox.x0 + w.bbox.x1) / 2;
@@ -1841,7 +1842,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "/api/vision";
-var APP_VERSION = "06031130";
+var APP_VERSION = "06031145";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -2095,9 +2096,9 @@ function ocrBuildRows(words, W, H) {
 async function ocrExtractVertical(img, words, fmt2) {
   var W = img.width, H = img.height;
   var parCx = W * 0.208, scoreCx = W * 0.276, puttCx = W * 0.402;
-  var colHalf = W * 0.034, rowHalf2 = H * 0.025;
+  var colHalf = W * 0.034, rowHalf = H * 0.025;
   function cellAt(cx, yc, lo, hi) {
-    return ocrCellNum(words, cx - colHalf, yc - rowHalf2, cx + colHalf, yc + rowHalf2, lo, hi);
+    return ocrCellNum(words, cx - colHalf, yc - rowHalf, cx + colHalf, yc + rowHalf, lo, hi);
   }
   function read2DigitCell(cx, yc, lo, hi) {
     var inCell = [];
@@ -2107,7 +2108,7 @@ async function ocrExtractVertical(img, words, fmt2) {
       var t = (w.text || "").replace(/[^0-9]/g, "");
       if (!t) return;
       var wxc = (w.bbox.x0 + w.bbox.x1) / 2, wyc = (w.bbox.y0 + w.bbox.y1) / 2;
-      if (Math.abs(wyc - yc) > rowHalf2) return;
+      if (Math.abs(wyc - yc) > rowHalf) return;
       if (wxc < cx - colHalf || wxc > cx + colHalf) return;
       inCell.push({ t, n: parseInt(t, 10), x: wxc, sym: !!w._sym });
     });
@@ -2148,7 +2149,7 @@ async function ocrExtractVertical(img, words, fmt2) {
     var par = cellAt(parCx, yc, 3, 6);
     var score = read2DigitCell(scoreCx, yc, 10, 19);
     if (score == null) score = cellAt(scoreCx, yc, 1, 19);
-    if (score == null) score = ocrCellNum(words, scoreCx - colHalf * 1.3, yc - rowHalf2, scoreCx + colHalf, yc + rowHalf2, 1, 19);
+    if (score == null) score = ocrCellNum(words, scoreCx - colHalf * 1.3, yc - rowHalf, scoreCx + colHalf, yc + rowHalf, 1, 19);
     if (par == null || score == null) {
       var cand = null, candXc = 0, lo = parCx - colHalf, hi = scoreCx + colHalf;
       (words || []).forEach(function(w) {
@@ -2156,7 +2157,7 @@ async function ocrExtractVertical(img, words, fmt2) {
         var t = (w.text || "").replace(/[^0-9]/g, "");
         if (t.length !== 2) return;
         var wyc = (w.bbox.y0 + w.bbox.y1) / 2, wxc = (w.bbox.x0 + w.bbox.x1) / 2;
-        if (Math.abs(wyc - yc) > rowHalf2) return;
+        if (Math.abs(wyc - yc) > rowHalf) return;
         if (wxc < lo || wxc > hi) return;
         cand = t;
         candXc = wxc;
@@ -2183,7 +2184,7 @@ async function ocrExtractVertical(img, words, fmt2) {
       var t = (w.text || "").replace(/[^0-9]/g, "");
       if (t.length !== 2) return;
       var wyc = (w.bbox.y0 + w.bbox.y1) / 2, wxc = (w.bbox.x0 + w.bbox.x1) / 2;
-      if (Math.abs(wyc - yc) > rowHalf2) return;
+      if (Math.abs(wyc - yc) > rowHalf) return;
       if (wxc < lo || wxc > hi) return;
       cand = t;
     });
@@ -2201,7 +2202,7 @@ async function ocrExtractVertical(img, words, fmt2) {
   var front = [], back = [];
   function isSubtotalRow(yc) {
     var narrow = colHalf * 0.7;
-    if (ocrCellNum(words, scoreCx - narrow, yc - rowHalf2, scoreCx + narrow, yc + rowHalf2, 30, 99) != null) return true;
+    if (ocrCellNum(words, scoreCx - narrow, yc - rowHalf, scoreCx + narrow, yc + rowHalf, 30, 99) != null) return true;
     if (cellAt(parCx, yc, 10, 99) != null) return true;
     return false;
   }
