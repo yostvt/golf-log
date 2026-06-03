@@ -1766,6 +1766,9 @@ function ocrCanvasToBase64(canvas) {
 }
 var _visionCache = null;
 async function ocrVisionRecognize(canvas) {
+  if (!GOOGLE_VISION_API_KEY || GOOGLE_VISION_API_KEY === "PASTE_YOUR_API_KEY_HERE") {
+    throw new Error("API\u30AD\u30FC\u672A\u8A2D\u5B9A: app.js\u306EGOOGLE_VISION_API_KEY\u306B\u30AD\u30FC\u3092\u8A2D\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044");
+  }
   var b64 = ocrCanvasToBase64(canvas);
   var body = {
     requests: [{
@@ -1774,16 +1777,37 @@ async function ocrVisionRecognize(canvas) {
       imageContext: { languageHints: ["ja", "en"] }
     }]
   };
-  var resp = await fetch("https://vision.googleapis.com/v1/images:annotate?key=" + GOOGLE_VISION_API_KEY, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body)
-  });
+  var controller = new AbortController();
+  var timer = setTimeout(function() {
+    controller.abort();
+  }, 25e3);
+  var resp;
+  try {
+    resp = await fetch("https://vision.googleapis.com/v1/images:annotate?key=" + GOOGLE_VISION_API_KEY, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: controller.signal
+    });
+  } catch (e) {
+    clearTimeout(timer);
+    if (e && e.name === "AbortError") throw new Error("Vision API\u30BF\u30A4\u30E0\u30A2\u30A6\u30C8\uFF0825\u79D2\uFF09\u3002\u30CD\u30C3\u30C8\u30EF\u30FC\u30AF\u304BCORS\u306E\u554F\u984C\u306E\u53EF\u80FD\u6027\u3002");
+    throw new Error("Vision API\u901A\u4FE1\u30A8\u30E9\u30FC: " + (e && e.message || e));
+  }
+  clearTimeout(timer);
   if (!resp.ok) {
-    var errTxt = await resp.text();
-    throw new Error("Vision API\u30A8\u30E9\u30FC(" + resp.status + "): " + errTxt.slice(0, 200));
+    var errTxt = "";
+    try {
+      errTxt = await resp.text();
+    } catch (e2) {
+    }
+    throw new Error("Vision API\u30A8\u30E9\u30FC(" + resp.status + "): " + errTxt.slice(0, 300));
   }
   var json = await resp.json();
+  if (json.responses && json.responses[0] && json.responses[0].error) {
+    var er = json.responses[0].error;
+    throw new Error("Vision API\u30A8\u30E9\u30FC: " + (er.message || JSON.stringify(er)).slice(0, 300));
+  }
   var ann = json.responses && json.responses[0];
   var fullText = ann && ann.fullTextAnnotation && ann.fullTextAnnotation.text || "";
   var words = [];
