@@ -1761,6 +1761,20 @@ async function ocrRunExtraction(file, handlers) {
           out.push("P" + bk[i].dispHole + ":[" + toks.join(" ") + "]");
         }
         return out;
+      })(),
+      detailHeader: (function() {
+        var rys = ex._rowYs || [];
+        if (!rys.length) return [];
+        var y1 = rys[0] - rowHalf * 0.8, y0 = H * 0.1, x0 = W * 0.4, x1 = W * 0.99;
+        return (words || []).filter(function(w) {
+          if (!w.bbox) return false;
+          var wy = (w.bbox.y0 + w.bbox.y1) / 2, wx = (w.bbox.x0 + w.bbox.x1) / 2;
+          return wy >= y0 && wy <= y1 && wx >= x0 && wx <= x1;
+        }).sort(function(a, b) {
+          return a.bbox.x0 - b.bbox.x0;
+        }).map(function(w) {
+          return (w.text || "").replace(/\s/g, "") + "@" + Math.round((w.bbox.x0 + w.bbox.x1) / 2 / W * 1e3) / 10 + "%" + (w._sym ? "s" : "");
+        }).slice(0, 40);
       })()
     }
   };
@@ -1827,7 +1841,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "/api/vision";
-var APP_VERSION = "06031110";
+var APP_VERSION = "06031130";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -2081,9 +2095,9 @@ function ocrBuildRows(words, W, H) {
 async function ocrExtractVertical(img, words, fmt2) {
   var W = img.width, H = img.height;
   var parCx = W * 0.208, scoreCx = W * 0.276, puttCx = W * 0.402;
-  var colHalf = W * 0.034, rowHalf = H * 0.025;
+  var colHalf = W * 0.034, rowHalf2 = H * 0.025;
   function cellAt(cx, yc, lo, hi) {
-    return ocrCellNum(words, cx - colHalf, yc - rowHalf, cx + colHalf, yc + rowHalf, lo, hi);
+    return ocrCellNum(words, cx - colHalf, yc - rowHalf2, cx + colHalf, yc + rowHalf2, lo, hi);
   }
   function read2DigitCell(cx, yc, lo, hi) {
     var inCell = [];
@@ -2093,7 +2107,7 @@ async function ocrExtractVertical(img, words, fmt2) {
       var t = (w.text || "").replace(/[^0-9]/g, "");
       if (!t) return;
       var wxc = (w.bbox.x0 + w.bbox.x1) / 2, wyc = (w.bbox.y0 + w.bbox.y1) / 2;
-      if (Math.abs(wyc - yc) > rowHalf) return;
+      if (Math.abs(wyc - yc) > rowHalf2) return;
       if (wxc < cx - colHalf || wxc > cx + colHalf) return;
       inCell.push({ t, n: parseInt(t, 10), x: wxc, sym: !!w._sym });
     });
@@ -2134,7 +2148,7 @@ async function ocrExtractVertical(img, words, fmt2) {
     var par = cellAt(parCx, yc, 3, 6);
     var score = read2DigitCell(scoreCx, yc, 10, 19);
     if (score == null) score = cellAt(scoreCx, yc, 1, 19);
-    if (score == null) score = ocrCellNum(words, scoreCx - colHalf * 1.3, yc - rowHalf, scoreCx + colHalf, yc + rowHalf, 1, 19);
+    if (score == null) score = ocrCellNum(words, scoreCx - colHalf * 1.3, yc - rowHalf2, scoreCx + colHalf, yc + rowHalf2, 1, 19);
     if (par == null || score == null) {
       var cand = null, candXc = 0, lo = parCx - colHalf, hi = scoreCx + colHalf;
       (words || []).forEach(function(w) {
@@ -2142,7 +2156,7 @@ async function ocrExtractVertical(img, words, fmt2) {
         var t = (w.text || "").replace(/[^0-9]/g, "");
         if (t.length !== 2) return;
         var wyc = (w.bbox.y0 + w.bbox.y1) / 2, wxc = (w.bbox.x0 + w.bbox.x1) / 2;
-        if (Math.abs(wyc - yc) > rowHalf) return;
+        if (Math.abs(wyc - yc) > rowHalf2) return;
         if (wxc < lo || wxc > hi) return;
         cand = t;
         candXc = wxc;
@@ -2169,7 +2183,7 @@ async function ocrExtractVertical(img, words, fmt2) {
       var t = (w.text || "").replace(/[^0-9]/g, "");
       if (t.length !== 2) return;
       var wyc = (w.bbox.y0 + w.bbox.y1) / 2, wxc = (w.bbox.x0 + w.bbox.x1) / 2;
-      if (Math.abs(wyc - yc) > rowHalf) return;
+      if (Math.abs(wyc - yc) > rowHalf2) return;
       if (wxc < lo || wxc > hi) return;
       cand = t;
     });
@@ -2187,7 +2201,7 @@ async function ocrExtractVertical(img, words, fmt2) {
   var front = [], back = [];
   function isSubtotalRow(yc) {
     var narrow = colHalf * 0.7;
-    if (ocrCellNum(words, scoreCx - narrow, yc - rowHalf, scoreCx + narrow, yc + rowHalf, 30, 99) != null) return true;
+    if (ocrCellNum(words, scoreCx - narrow, yc - rowHalf2, scoreCx + narrow, yc + rowHalf2, 30, 99) != null) return true;
     if (cellAt(parCx, yc, 10, 99) != null) return true;
     return false;
   }
@@ -5101,7 +5115,7 @@ function GolfTracker() {
           window.scrollTo(0, 0);
         } catch (e) {
         }
-      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v5 [", ocr.meta.ocrDebug.engine, "]"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "10\u756A\u884C \u53F3\u5074\u5217word(x\u5EA7\u6A19,%):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttWords || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "\u5F8C\u534A\u30D1\u30C3\u30C8\u30BB\u30EB tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttCellsBack || []).join("  ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fcd34d" } }, "\u5F8C\u534A \u8A73\u7D30\u5217 tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fcd34d" } }, (ocr.meta.ocrDebug.detailColsBack || []).join("  "))), sheet);
+      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v5 [", ocr.meta.ocrDebug.engine, "]"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "10\u756A\u884C \u53F3\u5074\u5217word(x\u5EA7\u6A19,%):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttWords || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "\u5F8C\u534A\u30D1\u30C3\u30C8\u30BB\u30EB tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttCellsBack || []).join("  ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fcd34d" } }, "\u5F8C\u534A \u8A73\u7D30\u5217 tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fcd34d" } }, (ocr.meta.ocrDebug.detailColsBack || []).join("  ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#86efac" } }, "\u8A73\u7D30\u5217\u30D8\u30C3\u30C0\u30FC tokens(@x%):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#86efac" } }, (ocr.meta.ocrDebug.detailHeader || []).join("  "))), sheet);
     }
     if (ocrStep === "score") {
       const OX = [
