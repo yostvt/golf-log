@@ -1992,7 +1992,7 @@ function ocrCellNum(words, x0, y0, x1, y1, lo, hi) {
   return best;
 }
 function ocrBuildRows(words, W, H) {
-  var anchorX0 = W * 0.25, anchorX1 = W * 0.31;
+  var anchorX0 = W * 0.183, anchorX1 = W * 0.233;
   var anchors = (words || []).filter(function(w) {
     if (!w.bbox || w._sym) return false;
     var xc = (w.bbox.x0 + w.bbox.x1) / 2, yc = (w.bbox.y0 + w.bbox.y1) / 2;
@@ -2086,7 +2086,9 @@ async function ocrExtractVertical(img, words, fmt2) {
   var front = [], back = [];
   function isSubtotalRow(yc) {
     var narrow = colHalf * 0.7;
-    return ocrCellNum(words, scoreCx - narrow, yc - rowHalf, scoreCx + narrow, yc + rowHalf, 30, 99) != null;
+    if (ocrCellNum(words, scoreCx - narrow, yc - rowHalf, scoreCx + narrow, yc + rowHalf, 30, 99) != null) return true;
+    if (cellAt(parCx, yc, 10, 99) != null) return true;
+    return false;
   }
   var holeYs = rowYs.filter(function(yc) {
     return !isSubtotalRow(yc);
