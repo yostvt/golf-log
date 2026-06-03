@@ -1776,6 +1776,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "/api/vision";
+var APP_VERSION = "06030735";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -2036,7 +2037,7 @@ async function ocrExtractVertical(img, words, fmt2) {
   function read2DigitCell(cx, yc, lo, hi) {
     var inCell = [];
     (words || []).forEach(function(w) {
-      if (!w.bbox) return;
+      if (!w.bbox || w._sym) return;
       var t = (w.text || "").replace(/[^0-9]/g, "");
       if (!t) return;
       var wxc = (w.bbox.x0 + w.bbox.x1) / 2, wyc = (w.bbox.y0 + w.bbox.y1) / 2;
@@ -2060,7 +2061,8 @@ async function ocrExtractVertical(img, words, fmt2) {
       return a.x - b.x;
     });
     for (var i2 = 0; i2 < ones.length - 1; i2++) {
-      if (ones[i2 + 1].x - ones[i2].x > colHalf) continue;
+      var gap = ones[i2 + 1].x - ones[i2].x;
+      if (gap < colHalf * 0.25 || gap > colHalf) continue;
       var v = ones[i2].n * 10 + ones[i2 + 1].n;
       if (v >= lo && v <= hi) return v;
     }
@@ -6547,7 +6549,7 @@ function GolfTracker() {
   } }, (() => {
     const tc = toast.pose || rexyCostumeForWeather(currentRound ? currentRound.weather : null);
     return REXY_IMAGES[tc] ? /* @__PURE__ */ React.createElement(RexyIcon, { costume: tc, size: 46, alt: "" }) : null;
-  })(), /* @__PURE__ */ React.createElement("span", { style: { color: "#15803d", fontWeight: "700", fontSize: "15px", lineHeight: 1.4, whiteSpace: "pre-line" } }, toast.message)));
+  })(), /* @__PURE__ */ React.createElement("span", { style: { color: "#15803d", fontWeight: "700", fontSize: "15px", lineHeight: 1.4, whiteSpace: "pre-line" } }, toast.message)), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver. ", APP_VERSION));
 }
 window.GolfTracker = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {

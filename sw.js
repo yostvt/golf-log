@@ -1,5 +1,5 @@
 // ※ CACHE_VERSION はデプロイ毎にビルドが自動更新（タイムスタンプ）。OCR導入に伴い一度バンプ。
-const CACHE_VERSION = 'v20260603072436';
+const CACHE_VERSION = 'v20260603075447';
 const CACHE_NAME = 'scorexolution-' + CACHE_VERSION;
 const ASSETS = ['/', '/index.html', '/app.js', '/venues.js', '/rexy.js', '/manifest.json', '/icon-192.png', '/icon-512.png', '/icon-512-maskable.png', '/apple-touch-icon.png', '/favicon-32.png'];
 
