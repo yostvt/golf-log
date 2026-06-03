@@ -1742,6 +1742,25 @@ async function ocrRunExtraction(file, handlers) {
           out.push("P" + bk[i].dispHole + ":[" + toks.join(" ") + "]");
         }
         return out;
+      })(),
+      detailColsBack: (function() {
+        var rys = ex._rowYs || [], rh = H * 0.025, bk = ex.back || [], out = [];
+        var start = rys.length - bk.length, x0 = W * 0.42, x1 = W * 0.99;
+        for (var i = 0; i < bk.length; i++) {
+          var yc = rys[start + i];
+          if (yc == null) continue;
+          var toks = (words || []).filter(function(w) {
+            if (!w.bbox) return false;
+            var wy = (w.bbox.y0 + w.bbox.y1) / 2, wx = (w.bbox.x0 + w.bbox.x1) / 2;
+            return Math.abs(wy - yc) <= rh && wx >= x0 && wx <= x1;
+          }).sort(function(a, b) {
+            return a.bbox.x0 - b.bbox.x0;
+          }).map(function(w) {
+            return (w.text || "").replace(/\s/g, "") + "@" + Math.round((w.bbox.x0 + w.bbox.x1) / 2 / W * 1e3) / 10 + "%" + (w._sym ? "s" : "");
+          });
+          out.push("P" + bk[i].dispHole + ":[" + toks.join(" ") + "]");
+        }
+        return out;
       })()
     }
   };
@@ -1808,7 +1827,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "/api/vision";
-var APP_VERSION = "06030915";
+var APP_VERSION = "06031110";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -2069,16 +2088,27 @@ async function ocrExtractVertical(img, words, fmt2) {
   function read2DigitCell(cx, yc, lo, hi) {
     var inCell = [];
     (words || []).forEach(function(w) {
-      if (!w.bbox || w._sym) return;
+      if (!w.bbox) return;
+      if (/[A-Za-z]/.test(w.text || "")) return;
       var t = (w.text || "").replace(/[^0-9]/g, "");
       if (!t) return;
       var wxc = (w.bbox.x0 + w.bbox.x1) / 2, wyc = (w.bbox.y0 + w.bbox.y1) / 2;
       if (Math.abs(wyc - yc) > rowHalf) return;
       if (wxc < cx - colHalf || wxc > cx + colHalf) return;
-      inCell.push({ t, n: parseInt(t, 10), x: wxc });
+      inCell.push({ t, n: parseInt(t, 10), x: wxc, sym: !!w._sym });
     });
     if (!inCell.length) return null;
-    var two = inCell.filter(function(c) {
+    inCell.sort(function(a, b) {
+      return a.x - b.x;
+    });
+    var uniq = [];
+    inCell.forEach(function(c) {
+      var dup = uniq.some(function(u) {
+        return u.t === c.t && u.sym !== c.sym && Math.abs(u.x - c.x) < colHalf * 0.5;
+      });
+      if (!dup) uniq.push(c);
+    });
+    var two = uniq.filter(function(c) {
       return c.t.length >= 2 && c.n >= lo && c.n <= hi;
     });
     if (two.length) {
@@ -2087,7 +2117,7 @@ async function ocrExtractVertical(img, words, fmt2) {
       });
       return two[0].n;
     }
-    var ones = inCell.filter(function(c) {
+    var ones = uniq.filter(function(c) {
       return c.t.length === 1;
     }).sort(function(a, b) {
       return a.x - b.x;
@@ -3124,6 +3154,16 @@ function GolfTracker() {
     setOcrStep("done");
     setOcrSel(null);
     setOcrEditField(null);
+    try {
+      window.scrollTo(0, 0);
+    } catch (e) {
+    }
+    requestAnimationFrame(function() {
+      try {
+        window.scrollTo(0, 0);
+      } catch (e) {
+      }
+    });
   };
   const ocrRebindVenue = (newVenueId) => {
     setOcr((prev) => {
@@ -5057,7 +5097,11 @@ function GolfTracker() {
       }, true), field("\u524D\u534A\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.frontCourse, srcSpan(su.edited.front ? "\u624B\u52D5" : "\u753B\u50CF\u306E\u524D\u5F8C\u534A\u304B\u3089")), () => setOcrEditField("front"), b.matched), field("\u5F8C\u534A\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.backCourse, srcSpan(su.edited.back ? "\u624B\u52D5" : "\u753B\u50CF\u306E\u524D\u5F8C\u534A\u304B\u3089")), () => setOcrEditField("back"), b.matched), field("\u65E5\u4ED8", /* @__PURE__ */ React.createElement(React.Fragment, null, su.date, srcSpan(su.edited.date ? "\u624B\u52D5" : su.dateSrc)), () => setOcrEditField("date"), true), field("\u30C6\u30A3\u30FC", /* @__PURE__ */ React.createElement(React.Fragment, null, teeLabel, srcSpan(su.edited.tee ? "\u624B\u52D5" : su.teeUncertain ? "\u8DDD\u96E2\u5224\u5B9A\uFF08\u8981\u78BA\u8A8D\uFF09" : su.teeSrc)), () => setOcrEditField("tee"), true), field("\u30B0\u30EA\u30FC\u30F3", /* @__PURE__ */ React.createElement(React.Fragment, null, greenLabel, srcSpan(su.edited.green ? "\u624B\u52D5" : su.greenSrc)), () => setOcrEditField("green"), true), field("\u5929\u6C17", /* @__PURE__ */ React.createElement(React.Fragment, null, WMAP[su.weather], srcSpan(su.edited.weather ? "\u624B\u52D5" : su.weatherSrc)), () => setOcrEditField("weather"), true), field("\u98A8", /* @__PURE__ */ React.createElement(React.Fragment, null, WINDLAB[su.wind], srcSpan(su.edited.wind ? "\u624B\u52D5" : su.windSrc)), () => setOcrEditField("wind"), true), field("\u30E2\u30FC\u30C9", /* @__PURE__ */ React.createElement(React.Fragment, null, "\u7C21\u6613\u30E2\u30FC\u30C9"), null, false), /* @__PURE__ */ React.createElement("div", { style: { height: "6px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", padding: "14px" }), onClick: () => {
         setOcrStep("score");
         setOcrSel(null);
-      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v5 [", ocr.meta.ocrDebug.engine, "]"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "10\u756A\u884C \u53F3\u5074\u5217word(x\u5EA7\u6A19,%):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttWords || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "\u5F8C\u534A\u30D1\u30C3\u30C8\u30BB\u30EB tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttCellsBack || []).join("  "))), sheet);
+        try {
+          window.scrollTo(0, 0);
+        } catch (e) {
+        }
+      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v5 [", ocr.meta.ocrDebug.engine, "]"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "10\u756A\u884C \u53F3\u5074\u5217word(x\u5EA7\u6A19,%):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttWords || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "\u5F8C\u534A\u30D1\u30C3\u30C8\u30BB\u30EB tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttCellsBack || []).join("  ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fcd34d" } }, "\u5F8C\u534A \u8A73\u7D30\u5217 tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fcd34d" } }, (ocr.meta.ocrDebug.detailColsBack || []).join("  "))), sheet);
     }
     if (ocrStep === "score") {
       const OX = [
@@ -5110,6 +5154,10 @@ function GolfTracker() {
       return /* @__PURE__ */ React.createElement("div", { style: { paddingBottom: "150px" } }, /* @__PURE__ */ React.createElement("div", { style: modeBadge }, "\u{1F4F7} \u30B9\u30B3\u30A2\u767B\u9332\uFF08\u8AAD\u307F\u53D6\u308A\u5185\u5BB9\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#0369a1", background: "rgba(14,165,233,0.08)", border: "1px solid rgba(14,165,233,0.30)", borderRadius: "10px", padding: "9px 11px", marginBottom: "12px", lineHeight: 1.6 } }, "\u30DB\u30FC\u30EB\u3092\u30BF\u30C3\u30D7\u3059\u308B\u3068\u3001\u7C21\u6613\u30E2\u30FC\u30C9\u3068\u540C\u3058\u5165\u529B\u30AB\u30FC\u30C9\u304C\u958B\u304D\u3001\u30B9\u30B3\u30A2\u30FB\u30D1\u30C3\u30C8\u30FBOB\u30FB\u30DA\u30CA\u30EB\u30C6\u30A3\u30FB\u30D0\u30F3\u30AB\u30FC\u30FB\u30B7\u30E7\u30C3\u30C8\u8A55\u4FA1\u3092\u307E\u3068\u3081\u3066\u4FEE\u6B63\u3067\u304D\u307E\u3059\u3002", b.fmt === "F1" || b.fmt === "F3" ? "\uFF08\u3053\u306E\u753B\u50CF\u306FOB/\u30DA\u30CA/\u30D0\u30F3\u30AB\u30FC/\u30C6\u30A3\u306E\u8A18\u8F09\u304C\u7121\u3044\u305F\u3081\u3001\u5FC5\u8981\u306A\u3089\u624B\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044\uFF09" : "\uFF08OB/\u30DA\u30CA/\u30D0\u30F3\u30AB\u30FC/\u30C6\u30A3\u306F\u753B\u50CF\u304B\u3089\u53D6\u308A\u8FBC\u307F\u30FB\u8981\u78BA\u8A8D\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", fontWeight: "700", color: "#64748b", margin: "4px 2px 6px" } }, "\u524D\u534A\uFF08", b.frontCourse, "\uFF09 ", b.frontHoleNums[0], "\u301C", b.frontHoleNums[b.frontHoleNums.length - 1], "\u756A"), renderGrid(frontKeys, "\u524D\u534A"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", fontWeight: "700", color: "#64748b", margin: "4px 2px 6px" } }, "\u5F8C\u534A\uFF08", b.backCourse, "\uFF09 ", b.backHoleNums[0], "\u301C", b.backHoleNums[b.backHoleNums.length - 1], "\u756A"), renderGrid(backKeys, "\u5F8C\u534A"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#94a3b8", lineHeight: 1.7, margin: "0 2px 12px" } }, "\u5404\u884C\u3092\u30BF\u30C3\u30D7\u2192\u30AB\u30FC\u30C9\u3067\u5168\u9805\u76EE\u3092\u4FEE\u6B63\u3002H\u306E\u4E0B\u306EOB/P(\u30DA\u30CA)/B(\u30D0\u30F3\u30AB\u30FC)\u306F\u4EF6\u6570\u3002\u9EC4\u8272\u306E\u30D1\u30C3\u30C8\u306F\u672A\u5165\u529B\uFF08\u8981\u624B\u5165\u529B\uFF09\u3002"), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { width: "100%", padding: "14px" }), onClick: ocrRegister }, "\u7C21\u6613\u30E2\u30FC\u30C9\u3067\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: () => {
         setOcrStep("setup");
         setOcrSel(null);
+        try {
+          window.scrollTo(0, 0);
+        } catch (e) {
+        }
       } }, "\u8A2D\u5B9A\u306B\u623B\u308B"), ocrSel && ed && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { onClick: () => setOcrSel(null), style: { position: "fixed", inset: 0, background: "rgba(15,23,42,0.35)", zIndex: 180 } }), /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", left: "50%", transform: "translateX(-50%)", bottom: 0, width: "100%", maxWidth: "480px", boxSizing: "border-box", background: "#fff", borderTopLeftRadius: "18px", borderTopRightRadius: "18px", padding: "16px 16px calc(20px + env(safe-area-inset-bottom))", boxShadow: "0 -8px 28px rgba(0,0,0,0.25)", zIndex: 200, maxHeight: "86vh", overflowY: "auto" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "16px", color: "#1e293b" } }, edDispHole, "\u756A ", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#64748b", fontWeight: "700" } }, "Par", edPar)), /* @__PURE__ */ React.createElement("button", { onClick: () => setOcrSel(null), style: { border: 0, background: "#f1f5f9", borderRadius: "8px", padding: "6px 12px", fontWeight: "800", color: "#475569", cursor: "pointer" } }, "\u9589\u3058\u308B")), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginBottom: "14px" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30B9\u30B3\u30A2\uFF08\u6253\u6570\uFF09"), /* @__PURE__ */ React.createElement(NumInput, { val: (_a2 = ed.score) != null ? _a2 : edPar, min: 1, max: 20, onChange: (v) => {
         var _a3;
         const mp = Math.max(0, v - 1);
