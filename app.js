@@ -1776,6 +1776,34 @@ async function ocrRunExtraction(file, handlers) {
         }).map(function(w) {
           return (w.text || "").replace(/\s/g, "") + "@" + Math.round((w.bbox.x0 + w.bbox.x1) / 2 / W * 1e3) / 10 + "%" + (w._sym ? "s" : "");
         }).slice(0, 40);
+      })(),
+      gridRows: (function() {
+        var items = (words || []).filter(function(w) {
+          return w.bbox;
+        }).map(function(w) {
+          return { x: (w.bbox.x0 + w.bbox.x1) / 2, y: (w.bbox.y0 + w.bbox.y1) / 2, t: (w.text || "").replace(/\s/g, ""), sym: !!w._sym };
+        });
+        items.sort(function(a, b) {
+          return a.y - b.y;
+        });
+        var rows = [], cur = null, thr = H * 0.012;
+        items.forEach(function(it) {
+          if (!cur || Math.abs(it.y - cur.y) > thr) {
+            cur = { y: it.y, toks: [it] };
+            rows.push(cur);
+          } else {
+            cur.toks.push(it);
+            cur.y = (cur.y + it.y) / 2;
+          }
+        });
+        return rows.slice(0, 45).map(function(r) {
+          r.toks.sort(function(a, b) {
+            return a.x - b.x;
+          });
+          return Math.round(r.y / H * 1e3) / 10 + "%: " + r.toks.slice(0, 32).map(function(t) {
+            return t.t + "@" + Math.round(t.x / W * 1e3) / 10 + (t.sym ? "s" : "");
+          }).join(" ");
+        });
       })()
     }
   };
@@ -1842,7 +1870,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "/api/vision";
-var APP_VERSION = "06031145";
+var APP_VERSION = "06031300";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -2197,6 +2225,14 @@ async function ocrExtractVertical(img, words, fmt2) {
     }
     return null;
   }
+  function detailCountsAt(yc) {
+    if (fmt2 !== "F4") return {};
+    return {
+      ob: cellAt(W * 0.82, yc, 0, 9) || 0,
+      bunker: cellAt(W * 0.89, yc, 0, 9) || 0,
+      penalty: cellAt(W * 0.96, yc, 0, 9) || 0
+    };
+  }
   var rowYs = ocrBuildRows(words, W, H);
   var frontNums = [10, 11, 12, 13, 14, 15, 16, 17, 18], backNums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   var front = [], back = [];
@@ -2227,11 +2263,11 @@ async function ocrExtractVertical(img, words, fmt2) {
     }
     for (var i = 0; i < frontYs.length; i++) {
       var ps = parScoreAt(frontYs[i]);
-      front.push({ dispHole: frontNums[i], par: ps.par != null ? ps.par : 4, score: ps.score, putts: puttAt(frontYs[i], ps.score), teeEval: "\u25CB" });
+      front.push(__spreadValues({ dispHole: frontNums[i], par: ps.par != null ? ps.par : 4, score: ps.score, putts: puttAt(frontYs[i], ps.score), teeEval: "\u25CB" }, detailCountsAt(frontYs[i])));
     }
     for (var j = 0; j < backYs.length; j++) {
       var ps2 = parScoreAt(backYs[j]);
-      back.push({ dispHole: backNums[j], par: ps2.par != null ? ps2.par : 4, score: ps2.score, putts: puttAt(backYs[j], ps2.score), teeEval: "\u25CB" });
+      back.push(__spreadValues({ dispHole: backNums[j], par: ps2.par != null ? ps2.par : 4, score: ps2.score, putts: puttAt(backYs[j], ps2.score), teeEval: "\u25CB" }, detailCountsAt(backYs[j])));
     }
   }
   if (front.length < 9 || back.length < 9) {
@@ -5116,7 +5152,64 @@ function GolfTracker() {
           window.scrollTo(0, 0);
         } catch (e) {
         }
-      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v5 [", ocr.meta.ocrDebug.engine, "]"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "10\u756A\u884C \u53F3\u5074\u5217word(x\u5EA7\u6A19,%):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttWords || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "\u5F8C\u534A\u30D1\u30C3\u30C8\u30BB\u30EB tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttCellsBack || []).join("  ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fcd34d" } }, "\u5F8C\u534A \u8A73\u7D30\u5217 tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fcd34d" } }, (ocr.meta.ocrDebug.detailColsBack || []).join("  ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#86efac" } }, "\u8A73\u7D30\u5217\u30D8\u30C3\u30C0\u30FC tokens(@x%):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#86efac" } }, (ocr.meta.ocrDebug.detailHeader || []).join("  "))), sheet);
+      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrCancel }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("button", { onClick: (e) => {
+        var d = ocr.meta.ocrDebug;
+        var text = [
+          "\u{1F527} OCR\u8A3A\u65AD v5 [" + d.engine + "]",
+          "\u753B\u50CF: " + d.imgWH + " / words: " + d.wordsCount + " / fmt: " + d.fmt,
+          "\u30B3\u30FC\u30B9\u540D: " + d.courseName,
+          "\u691C\u51FA\u884CY(" + (d.rowYs || []).length + "\u884C):",
+          (d.rowYs || []).join(", "),
+          "\u524D\u534A par:score:putt:",
+          (d.frontScores || []).join(" "),
+          "10\u756A\u884C \u53F3\u5074\u5217word(x\u5EA7\u6A19,%):",
+          (d.puttWords || []).join(" "),
+          "\u5F8C\u534A par:score:putt:",
+          (d.backScores || []).join(" "),
+          "\u5F8C\u534A\u30D1\u30C3\u30C8\u30BB\u30EB tokens(@x%, s=symbol):",
+          (d.puttCellsBack || []).join("  "),
+          "\u5F8C\u534A \u8A73\u7D30\u5217 tokens(@x%, s=symbol):",
+          (d.detailColsBack || []).join("  "),
+          "\u8A73\u7D30\u5217\u30D8\u30C3\u30C0\u30FC tokens(@x%):",
+          (d.detailHeader || []).join("  "),
+          "\u5168\u884C\u30B0\u30EA\u30C3\u30C9(y%: tok@x%, s=symbol):",
+          (d.gridRows || []).join("\n")
+        ].join("\n");
+        var btn = e.currentTarget;
+        var ok = function() {
+          btn.textContent = "\u30B3\u30D4\u30FC\u3057\u307E\u3057\u305F \u2713";
+          setTimeout(function() {
+            btn.textContent = "\u{1F4CB} \u8A3A\u65AD\u3092\u5168\u30B3\u30D4\u30FC";
+          }, 1800);
+        };
+        var fallback = function() {
+          try {
+            var ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.top = "0";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            ta.setSelectionRange(0, text.length);
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+            ok();
+          } catch (err) {
+            btn.textContent = "\u30B3\u30D4\u30FC\u4E0D\u53EF\uFF08\u624B\u52D5\u9078\u629E\u3057\u3066\u304F\u3060\u3055\u3044\uFF09";
+          }
+        };
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(ok, fallback);
+          } else {
+            fallback();
+          }
+        } catch (err) {
+          fallback();
+        }
+      }, style: { width: "100%", marginBottom: "8px", padding: "8px", borderRadius: "8px", border: "1px solid #334155", background: "#1e293b", color: "#93c5fd", fontWeight: "700", fontSize: "11px", cursor: "pointer" } }, "\u{1F4CB} \u8A3A\u65AD\u3092\u5168\u30B3\u30D4\u30FC"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fbbf24", fontWeight: "700", marginBottom: "6px" } }, "\u{1F527} OCR\u8A3A\u65AD v5 [", ocr.meta.ocrDebug.engine, "]"), /* @__PURE__ */ React.createElement("div", null, "\u753B\u50CF: ", ocr.meta.ocrDebug.imgWH, " / words: ", ocr.meta.ocrDebug.wordsCount, " / fmt: ", ocr.meta.ocrDebug.fmt), /* @__PURE__ */ React.createElement("div", null, "\u30B3\u30FC\u30B9\u540D: ", ocr.meta.ocrDebug.courseName), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u691C\u51FA\u884CY(", (ocr.meta.ocrDebug.rowYs || []).length, "\u884C):"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.rowYs || []).join(", ") || "(\u306A\u3057)"), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u524D\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.frontScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "10\u756A\u884C \u53F3\u5074\u5217word(x\u5EA7\u6A19,%):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttWords || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#7dd3fc" } }, "\u5F8C\u534A par:score:putt:"), /* @__PURE__ */ React.createElement("div", null, (ocr.meta.ocrDebug.backScores || []).join(" ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fca5a5" } }, "\u5F8C\u534A\u30D1\u30C3\u30C8\u30BB\u30EB tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fca5a5" } }, (ocr.meta.ocrDebug.puttCellsBack || []).join("  ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#fcd34d" } }, "\u5F8C\u534A \u8A73\u7D30\u5217 tokens(@x%, s=symbol):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#fcd34d" } }, (ocr.meta.ocrDebug.detailColsBack || []).join("  ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#86efac" } }, "\u8A73\u7D30\u5217\u30D8\u30C3\u30C0\u30FC tokens(@x%):"), /* @__PURE__ */ React.createElement("div", { style: { color: "#86efac" } }, (ocr.meta.ocrDebug.detailHeader || []).join("  ")), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "4px", color: "#a5b4fc" } }, "\u5168\u884C\u30B0\u30EA\u30C3\u30C9(y%: tok@x%, s=symbol):"), (ocr.meta.ocrDebug.gridRows || []).map((r, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { color: "#a5b4fc" } }, r))), sheet);
     }
     if (ocrStep === "score") {
       const OX = [
