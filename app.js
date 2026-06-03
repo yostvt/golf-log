@@ -1870,7 +1870,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "/api/vision";
-var APP_VERSION = "06031345";
+var APP_VERSION = "06031400";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -2044,23 +2044,51 @@ function ocrWordsInBand(words, y0, y1) {
   });
 }
 function ocrGuessCourseName(words, fullText, H) {
-  var top = (words || []).filter(function(w) {
-    if (w._sym) return false;
-    var yc = w.bbox ? (w.bbox.y0 + w.bbox.y1) / 2 : 0;
-    return yc < H * 0.1 && /[ぁ-んァ-ヶ一-龠]/.test(w.text);
-  });
   var clean = function(x) {
-    return String(x || "").replace(/微風|無風|弱風|強風|中風/g, "").replace(/晴れ|晴|曇り|曇|雨|雪|くもり|はれ/g, "").replace(/IN|OUT|Total|PT|Par|Yard|HC|Hole/gi, "").replace(/\d{4}\/\d{1,2}\/\d{1,2}/g, "").replace(/[()（）月火水木金土日]/g, "").replace(/[☀☁🌧☔❄🌤]/g, "").replace(/\s+/g, "").trim();
+    return String(x || "").replace(/スコア?カード|画面|回転/g, "").replace(/微風|無風|弱風|強風|中風/g, "").replace(/晴れ|晴|曇り|曇|雨|雪|くもり|はれ/g, "").replace(/IN|OUT|Total|PT|Par|Yard|HC|Hole/gi, "").replace(/\d{4}\/\d{1,2}\/\d{1,2}/g, "").replace(/[()（）月火水木金土日【】]/g, "").replace(/[☀☁🌧☔❄🌤]/g, "").replace(/\s+/g, "").trim();
   };
-  if (top.length) {
-    top.sort(function(a, b) {
+  var JUNK = /スコア|カード|画面|回転|ティー|レギュラー|レディース|バック|フロント|グリーン|ベント|コーライ|ホール|前半|後半|ショット|成功|バンカー|ペナ|パット/;
+  var KEY = /(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|カントリー|倶楽部|クラブ|ゴルフ|GOLF|CC|GC)/i;
+  var nameFrom = function(ws) {
+    ws.sort(function(a, b) {
       return a.bbox.x0 - b.bbox.x0;
     });
-    var joined = clean(top.map(function(w) {
+    var j2 = clean(ws.map(function(w) {
       return w.text;
     }).join(""));
-    joined = joined.replace(/倶[月品]楽部|倶楽部/g, "\u5036\u697D\u90E8").replace(/(倶楽部|クラブ|GC|CC).*$/, "$1");
-    if (joined.length >= 2) return joined;
+    return j2.replace(/倶[月品]楽部|倶楽部/g, "\u5036\u697D\u90E8").replace(/(倶楽部|クラブ|GC|CC).*$/, "$1");
+  };
+  var cjk = (words || []).filter(function(w) {
+    if (!w.bbox || w._sym) return false;
+    var yc = (w.bbox.y0 + w.bbox.y1) / 2;
+    return yc < H * 0.28 && /[ぁ-んァ-ヶ一-龠a-zA-Z]/.test(w.text || "") && !JUNK.test(w.text || "");
+  });
+  cjk.sort(function(a, b) {
+    return a.bbox.y0 - b.bbox.y0;
+  });
+  var clusters = [], cc = null, thr = H * 0.02;
+  cjk.forEach(function(w) {
+    var yc = (w.bbox.y0 + w.bbox.y1) / 2;
+    if (!cc || Math.abs(yc - cc.y) > thr) {
+      cc = { y: yc, ws: [w] };
+      clusters.push(cc);
+    } else {
+      cc.ws.push(w);
+      cc.y = (cc.y * (cc.ws.length - 1) + yc) / cc.ws.length;
+    }
+  });
+  for (var i = 0; i < clusters.length; i++) {
+    var j = clusters[i].ws.map(function(w) {
+      return w.text;
+    }).join("");
+    if (KEY.test(j)) {
+      var nm = nameFrom(clusters[i].ws.slice());
+      if (nm.length >= 2) return nm;
+    }
+  }
+  if (clusters.length) {
+    var nm2 = nameFrom(clusters[0].ws.slice());
+    if (nm2.length >= 2) return nm2;
   }
   var m = fullText.match(/[ぁ-んァ-ヶ一-龠]{2,}(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|CC|GC)/);
   return m ? clean(m[0]).replace(/倶[月品]楽部/g, "\u5036\u697D\u90E8") : "";
