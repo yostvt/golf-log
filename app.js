@@ -1633,8 +1633,7 @@ async function ocrRunExtraction(file, handlers) {
   var ratio = W / H;
   var colors = ocrSampleColors(img);
   if (OCR_ENGINE === "vision") {
-    var keyState = !GOOGLE_VISION_API_KEY || GOOGLE_VISION_API_KEY === "AIzaSyCzbvgjRT35Uki1hOIjKv4A63e9mDfgV3M" ? "\u672A\u8A2D\u5B9A" : "\u8A2D\u5B9A\u6E08(\u2026" + String(GOOGLE_VISION_API_KEY).slice(-4) + ")";
-    onProgress("\u2460Vision\u9001\u4FE1\u6E96\u5099 / \u30AD\u30FC:" + keyState + " / \u753B\u50CF:" + W + "x" + H);
+    onProgress("\u2460Vision\u9001\u4FE1\u6E96\u5099 / \u4E2D\u7D99:" + OCR_RELAY_URL + " / \u753B\u50CF:" + W + "x" + H);
   } else {
     onProgress("OCR\u3092\u6E96\u5099\u4E2D\u2026\uFF08\u521D\u56DE\u306F\u6642\u9593\u304C\u304B\u304B\u308A\u307E\u3059\uFF09");
   }
@@ -1776,7 +1775,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   ctx.drawImage(img, sx, sy, sw, sh, 0, 0, c.width, c.height);
   return c;
 }
-var GOOGLE_VISION_API_KEY = "AIzaSyCzbvgjRT35Uki1hOIjKv4A63e9mDfgV3M";
+var OCR_RELAY_URL = "/api/vision";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -1796,37 +1795,27 @@ function ocrMakeVisionCanvas(srcCanvas, maxSide) {
 }
 var _visionCache = null;
 async function ocrVisionRecognize(canvas) {
-  if (!GOOGLE_VISION_API_KEY || GOOGLE_VISION_API_KEY === "AIzaSyCzbvgjRT35Uki1hOIjKv4A63e9mDfgV3M") {
-    throw new Error("API\u30AD\u30FC\u672A\u8A2D\u5B9A: app.js\u306EGOOGLE_VISION_API_KEY\u306B\u30AD\u30FC\u3092\u8A2D\u5B9A\u3057\u3066\u304F\u3060\u3055\u3044");
-  }
   var vc = ocrMakeVisionCanvas(canvas, 1600);
   var invScale = vc.scale ? 1 / vc.scale : 1;
   var b64 = ocrCanvasToBase64(vc.canvas);
-  var body = {
-    requests: [{
-      image: { content: b64 },
-      features: [{ type: "DOCUMENT_TEXT_DETECTION" }],
-      imageContext: { languageHints: ["ja", "en"] }
-    }]
-  };
   var controller = new AbortController();
   var timedOut = false;
   var timer = setTimeout(function() {
     timedOut = true;
     controller.abort();
-  }, 1e4);
+  }, 15e3);
   var resp;
   try {
-    resp = await fetch("https://vision.googleapis.com/v1/images:annotate?key=" + GOOGLE_VISION_API_KEY, {
+    resp = await fetch(OCR_RELAY_URL, {
       method: "POST",
-      headers: { "Content-Type": "text/plain;charset=UTF-8" },
-      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ image: b64 }),
       signal: controller.signal
     });
   } catch (e) {
     clearTimeout(timer);
-    if (timedOut || e && e.name === "AbortError") throw new Error("Vision API\u30BF\u30A4\u30E0\u30A2\u30A6\u30C8\uFF0810\u79D2\uFF09\u3002\u9001\u4FE1\u306F\u5230\u9054\u3057\u305F\u304C\u5FDC\u7B54\u306A\u3057\u3002CORS/\u30CD\u30C3\u30C8\u30EF\u30FC\u30AF\u306E\u53EF\u80FD\u6027\u3002");
-    throw new Error("Vision API\u901A\u4FE1\u30A8\u30E9\u30FC: " + (e && e.message || e) + "\uFF08fetch\u81EA\u4F53\u304C\u5931\u6557\uFF1DCORS\u30D6\u30ED\u30C3\u30AF\u306E\u53EF\u80FD\u6027\uFF09");
+    if (timedOut || e && e.name === "AbortError") throw new Error("OCR\u4E2D\u7D99\u30BF\u30A4\u30E0\u30A2\u30A6\u30C8\uFF0815\u79D2\uFF09\u3002\u30CD\u30C3\u30C8\u30EF\u30FC\u30AF\u72B6\u6CC1\u3092\u3054\u78BA\u8A8D\u304F\u3060\u3055\u3044\u3002");
+    throw new Error("OCR\u4E2D\u7D99\u3078\u306E\u901A\u4FE1\u30A8\u30E9\u30FC: " + (e && e.message || e));
   }
   clearTimeout(timer);
   if (!resp.ok) {
@@ -1835,7 +1824,7 @@ async function ocrVisionRecognize(canvas) {
       errTxt = await resp.text();
     } catch (e2) {
     }
-    throw new Error("Vision API\u30A8\u30E9\u30FC(" + resp.status + "): " + errTxt.slice(0, 300));
+    throw new Error("OCR\u4E2D\u7D99\u30A8\u30E9\u30FC(" + resp.status + "): " + errTxt.slice(0, 300));
   }
   var json = await resp.json();
   if (json.responses && json.responses[0] && json.responses[0].error) {
