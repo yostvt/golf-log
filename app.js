@@ -2033,10 +2033,44 @@ async function ocrExtractVertical(img, words, fmt2) {
   function cellAt(cx, yc, lo, hi) {
     return ocrCellNum(words, cx - colHalf, yc - rowHalf, cx + colHalf, yc + rowHalf, lo, hi);
   }
+  function read2DigitCell(cx, yc, lo, hi) {
+    var inCell = [];
+    (words || []).forEach(function(w) {
+      if (!w.bbox) return;
+      var t = (w.text || "").replace(/[^0-9]/g, "");
+      if (!t) return;
+      var wxc = (w.bbox.x0 + w.bbox.x1) / 2, wyc = (w.bbox.y0 + w.bbox.y1) / 2;
+      if (Math.abs(wyc - yc) > rowHalf) return;
+      if (wxc < cx - colHalf || wxc > cx + colHalf) return;
+      inCell.push({ t, n: parseInt(t, 10), x: wxc });
+    });
+    if (!inCell.length) return null;
+    var two = inCell.filter(function(c) {
+      return c.t.length >= 2 && c.n >= lo && c.n <= hi;
+    });
+    if (two.length) {
+      two.sort(function(a, b) {
+        return Math.abs(a.x - cx) - Math.abs(b.x - cx);
+      });
+      return two[0].n;
+    }
+    var ones = inCell.filter(function(c) {
+      return c.t.length === 1;
+    }).sort(function(a, b) {
+      return a.x - b.x;
+    });
+    for (var i2 = 0; i2 < ones.length - 1; i2++) {
+      if (ones[i2 + 1].x - ones[i2].x > colHalf) continue;
+      var v = ones[i2].n * 10 + ones[i2 + 1].n;
+      if (v >= lo && v <= hi) return v;
+    }
+    return null;
+  }
   function parScoreAt(yc) {
     var par = cellAt(parCx, yc, 3, 6);
-    var score = cellAt(scoreCx, yc, 1, 13);
-    if (score == null) score = ocrCellNum(words, scoreCx - colHalf * 1.3, yc - rowHalf, scoreCx + colHalf, yc + rowHalf, 1, 13);
+    var score = read2DigitCell(scoreCx, yc, 10, 19);
+    if (score == null) score = cellAt(scoreCx, yc, 1, 19);
+    if (score == null) score = ocrCellNum(words, scoreCx - colHalf * 1.3, yc - rowHalf, scoreCx + colHalf, yc + rowHalf, 1, 19);
     if (par == null || score == null) {
       var cand = null, candXc = 0, lo = parCx - colHalf, hi = scoreCx + colHalf;
       (words || []).forEach(function(w) {
@@ -2051,18 +2085,19 @@ async function ocrExtractVertical(img, words, fmt2) {
       });
       if (cand) {
         var nn = parseInt(cand, 10);
-        if (score == null && candXc >= scoreCx - colHalf * 0.5 && nn >= 10 && nn <= 13) score = nn;
+        if (score == null && candXc >= scoreCx - colHalf * 0.5 && nn >= 10 && nn <= 19) score = nn;
         else {
           var p = parseInt(cand[0], 10), s = parseInt(cand[1], 10);
           if (par == null && p >= 3 && p <= 6) par = p;
-          if (score == null && s >= 1 && s <= 13) score = s;
+          if (score == null && s >= 1 && s <= 19) score = s;
         }
       }
     }
     return { par, score };
   }
   function puttAt(yc, knownScore) {
-    var putt = cellAt(puttCx, yc, 0, 6);
+    var putt = read2DigitCell(puttCx, yc, 10, 12);
+    if (putt == null) putt = cellAt(puttCx, yc, 0, 9);
     if (putt != null) return putt;
     var lo = scoreCx - colHalf * 0.5, hi = puttCx + colHalf, cand = null;
     (words || []).forEach(function(w) {
@@ -2076,8 +2111,10 @@ async function ocrExtractVertical(img, words, fmt2) {
     });
     if (cand) {
       var s = parseInt(cand[0], 10), p = parseInt(cand[1], 10);
-      if (knownScore != null && s === knownScore && p >= 0 && p <= 6) return p;
-      if (p >= 0 && p <= 6) return p;
+      var pv = parseInt(cand, 10);
+      if (knownScore != null && s === knownScore && p >= 0 && p <= 9) return p;
+      if (pv >= 10 && pv <= 12) return pv;
+      if (p >= 0 && p <= 9) return p;
     }
     return null;
   }
