@@ -1421,8 +1421,8 @@ function ocrScoreFromSymbol(par, sym) {
 }
 function ocrDeriveTee(fmt2, par, fwKeepOk, oneOnOk) {
   if (fmt2 === "F1" || fmt2 === "F3") return "\u25CB";
-  if (par === 3) return oneOnOk ? "\u25CB" : "\u25B3";
-  return fwKeepOk ? "\u25CB" : "\u25B3";
+  if (par === 3) return oneOnOk === false ? "\u25B3" : "\u25CB";
+  return fwKeepOk === false ? "\u25B3" : "\u25CB";
 }
 function ocrMatchTeeByLabel(text, venue) {
   if (!text || !venue || !venue.tees) return null;
@@ -1542,8 +1542,21 @@ function ocrBuildRound(input, opts) {
       });
       return found;
     };
-    var fSC = subByFirstHole(front);
-    var bSC = subByFirstHole(back);
+    var normSub = function(s) {
+      return String(s || "").replace(/コース|コ−ス|\s/g, "");
+    };
+    var subByName = function(label) {
+      var key = normSub(label);
+      if (!key) return null;
+      var found = null;
+      (venue.subCourses || []).forEach(function(sc) {
+        var n = normSub(sc.name);
+        if (n && (n.indexOf(key) >= 0 || key.indexOf(n) >= 0)) found = sc;
+      });
+      return found;
+    };
+    var fSC = subByName(input.frontCourseName) || subByFirstHole(front);
+    var bSC = subByName(input.backCourseName) || subByFirstHole(back);
     if (fSC) frontCourse = fSC.name;
     if (bSC) backCourse = bSC.name;
     var parFromMaster = function(section, sc) {
@@ -1577,8 +1590,8 @@ function ocrBuildRound(input, opts) {
     holePars = allSrc.map(function(h) {
       return h.par;
     });
-    frontCourse = front[0] && front[0].dispHole >= 10 ? "IN" : "OUT";
-    backCourse = back[0] && back[0].dispHole <= 9 ? "OUT" : "IN";
+    frontCourse = input.frontCourseName || (front[0] && front[0].dispHole >= 10 ? "IN" : "OUT");
+    backCourse = input.backCourseName || (back[0] && back[0].dispHole <= 9 ? "OUT" : "IN");
   }
   var simpleHoleData = {};
   var _normTee = function(t) {
@@ -1679,7 +1692,7 @@ async function ocrRunExtraction(file, handlers) {
   onProgress("\u30B9\u30B3\u30A2\u3092\u8AAD\u307F\u53D6\u308A\u4E2D\u2026");
   var courseName = ocrGuessCourseName(words, fullText, H);
   var dateText = (fullText.match(/\d{4}\s*[\/年.\-]\s*\d{1,2}\s*[\/月.\-]\s*\d{1,2}/) || [""])[0];
-  var teeText = (fullText.match(/(BLUE|WHITE|SILVER|RED|GOLD|BACK|REG\w*|LADIES)/i) || [""])[0];
+  var teeText = (fullText.match(/(BLUE|WHITE|SILVER|RED|GOLD|BACK|REG\w*|LADIES|レギュラー|バック|フロント|レディース|ホワイト|ブルー|ゴールド|シルバー|レッド|フルバック)/i) || [""])[0];
   var greenText = (fullText.match(/(ベント|コーライ|高麗|ペンクロス|bent|korai)/i) || [""])[0];
   var ex;
   if (ratio > 1.3) {
@@ -1700,6 +1713,8 @@ async function ocrRunExtraction(file, handlers) {
     totalYard: ex.totalYard || null,
     front: ex.front,
     back: ex.back,
+    frontCourseName: ex.frontCourseName || null,
+    backCourseName: ex.backCourseName || null,
     ocrDebug: {
       imgWH: W + "x" + H,
       wordsCount: (words || []).length,
@@ -1870,7 +1885,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "/api/vision";
-var APP_VERSION = "06031400";
+var APP_VERSION = "06031530";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -2093,11 +2108,26 @@ function ocrGuessCourseName(words, fullText, H) {
   var m = fullText.match(/[ぁ-んァ-ヶ一-龠]{2,}(ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|CC|GC)/);
   return m ? clean(m[0]).replace(/倶[月品]楽部/g, "\u5036\u697D\u90E8") : "";
 }
+function ocrNormDigits(s) {
+  if (!s) return "";
+  var out = "";
+  for (var i = 0; i < s.length; i++) {
+    var c = s.charCodeAt(i);
+    if (c >= 65296 && c <= 65305) out += String(c - 65296);
+    else if (c >= 9312 && c <= 9320) out += String(c - 9312 + 1);
+    else if (c >= 9321 && c <= 9330) out += String(c - 9321 + 10);
+    else if (c === 9450) out += "0";
+    else if (c >= 10102 && c <= 10110) out += String(c - 10102 + 1);
+    else if (c >= 10112 && c <= 10120) out += String(c - 10112 + 1);
+    else out += s[i];
+  }
+  return out;
+}
 function ocrCellNum(words, x0, y0, x1, y1, lo, hi) {
   var best = null, bestScore = Infinity, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2;
   (words || []).forEach(function(w) {
     if (!w.bbox) return;
-    var t = (w.text || "").replace(/[^0-9]/g, "");
+    var t = ocrNormDigits(w.text || "").replace(/[^0-9]/g, "");
     if (!t) return;
     var n = parseInt(t, 10);
     if (isNaN(n)) return;
@@ -2161,7 +2191,7 @@ async function ocrExtractVertical(img, words, fmt2) {
     (words || []).forEach(function(w) {
       if (!w.bbox) return;
       if (/[A-Za-z]/.test(w.text || "")) return;
-      var t = (w.text || "").replace(/[^0-9]/g, "");
+      var t = ocrNormDigits(w.text || "").replace(/[^0-9]/g, "");
       if (!t) return;
       var wxc = (w.bbox.x0 + w.bbox.x1) / 2, wyc = (w.bbox.y0 + w.bbox.y1) / 2;
       if (Math.abs(wyc - yc) > rowHalf) return;
@@ -2357,7 +2387,7 @@ async function ocrExtractHorizontal(img, words) {
     }
     return null;
   }
-  var parR = findRow(/par/i), puttR = findRow(/パット/), fwR = findRow(/キープ|1on/i), bunkerR = findRow(/バンカー/), obR = findRow(/ob/i), penR = findRow(/ペナ/);
+  var parR = findRow(/par/i), puttR = findRow(/パット/), fwR = findRow(/キープ|1on/i), bunkerR = findRow(/バンカー/), obR = findRow(/ob/i), penR = findRow(/ペナ/), headerR = findRow(/ホール|hole/i);
   var scoreY = null;
   if (parR && puttR) {
     var best = 0;
@@ -2413,6 +2443,41 @@ async function ocrExtractHorizontal(img, words) {
     if (/[←→↑↓<>＜＞]/.test(s)) return "\u25B3";
     return "\u25CB";
   }
+  function headerHoleAt(cx2) {
+    if (!headerR) return null;
+    var x0 = cx2 - cellW / 2, x1 = cx2 + cellW / 2, y0 = headerR.y - rowH / 2, y1 = headerR.y + rowH / 2;
+    var cand = [];
+    (words || []).forEach(function(w) {
+      if (!w.bbox) return;
+      var t = ocrNormDigits(w.text || "").replace(/[^0-9]/g, "");
+      if (!t) return;
+      var n = parseInt(t, 10);
+      if (isNaN(n) || n < 1 || n > 18) return;
+      var wx = (w.bbox.x0 + w.bbox.x1) / 2, wy = (w.bbox.y0 + w.bbox.y1) / 2;
+      if (wx < x0 || wx > x1 || wy < y0 || wy > y1) return;
+      cand.push({ n, len: t.length, dx: Math.abs(wx - cx2) });
+    });
+    if (!cand.length) return null;
+    cand.sort(function(a, b) {
+      return b.len - a.len || a.dx - b.dx;
+    });
+    return cand[0].n;
+  }
+  function subCourseLabel(xLo, xHi) {
+    var t = (words || []).filter(function(w) {
+      if (!w.bbox || w._sym) return false;
+      var yc = (w.bbox.y0 + w.bbox.y1) / 2, xc = (w.bbox.x0 + w.bbox.x1) / 2;
+      return yc > H * 0.185 && yc < H * 0.25 && xc >= xLo && xc <= xHi && /[A-Za-z一-龠ァ-ヶぁ-ん]/.test(w.text || "");
+    });
+    t.sort(function(a, b) {
+      return a.bbox.x0 - b.bbox.x0;
+    });
+    return t.map(function(w) {
+      return w.text;
+    }).join("").replace(/\s/g, "");
+  }
+  var frontCourseName = subCourseLabel(W * 0.15, W * 0.45);
+  var backCourseName = subCourseLabel(W * 0.5, W * 0.92);
   var front = [], back = [];
   for (var i = 0; i < 18; i++) {
     var cx = colX[i];
@@ -2423,12 +2488,15 @@ async function ocrExtractHorizontal(img, words) {
     var bunker = readAt(cx, bunkerR ? bunkerR.y : null, 0, 9) || 0;
     var penalty = readAt(cx, penR ? penR.y : null, 0, 9) || 0;
     var tee = teeAt(cx);
+    var teeOk = tee === "\u25CB";
     var approachEval = score != null && putt != null && score - putt <= par - 2 ? "none" : "good";
-    var rec = { dispHole: i < 9 ? i + 1 : i - 8, par, score, putts: putt, ob, bunker, penalty, teeEval: tee, approachEval };
+    var dispHole = headerHoleAt(cx);
+    if (dispHole == null) dispHole = i < 9 ? i + 1 : i - 8;
+    var rec = { dispHole, par, score, putts: putt, ob, bunker, penalty, teeEval: tee, fwKeepOk: teeOk, oneOnOk: teeOk, approachEval };
     if (i < 9) front.push(rec);
     else back.push(rec);
   }
-  return { front, back, totalYard: ocrFindTotalYard(words) };
+  return { front, back, totalYard: ocrFindTotalYard(words), frontCourseName, backCourseName };
 }
 async function ocrExtractSummary(img, words) {
   var sec = ocrFindSummaryRows(img, words);
@@ -3179,6 +3247,8 @@ function GolfTracker() {
         greenText: ex.greenText,
         teeText: ex.teeText,
         totalYard: ex.totalYard,
+        frontCourseName: ex.frontCourseName,
+        backCourseName: ex.backCourseName,
         front: applyTee(ex.front || []),
         back: applyTee(ex.back || [])
       });
@@ -3199,7 +3269,7 @@ function GolfTracker() {
         windSrc: wd.found ? wd.uncertain ? "\u753B\u50CF\u304B\u3089\u63A8\u5B9A\uFF08\u8981\u78BA\u8A8D\uFF09" : "\u753B\u50CF\u304B\u3089" : "\u65E2\u5B9A\uFF08\u8981\u5165\u529B\uFF09",
         edited: {}
       };
-      setOcr({ built, setup, venueId, meta: { fmt: ex.fmt, courseName: ex.courseName, totalYard: ex.totalYard, teeText: ex.teeText, greenText: ex.greenText, ocrDebug: ex.ocrDebug } });
+      setOcr({ built, setup, venueId, meta: { fmt: ex.fmt, courseName: ex.courseName, totalYard: ex.totalYard, teeText: ex.teeText, greenText: ex.greenText, frontCourseName: ex.frontCourseName, backCourseName: ex.backCourseName, ocrDebug: ex.ocrDebug } });
       setOcrStep("setup");
     } catch (err) {
       setOcrError(err && err.message || "\u753B\u50CF\u306E\u89E3\u6790\u306B\u5931\u6557\u3057\u307E\u3057\u305F\u3002");
@@ -3355,6 +3425,8 @@ function GolfTracker() {
         greenText: prev.meta.greenText,
         teeText: prev.meta.teeText,
         totalYard: prev.meta.totalYard,
+        frontCourseName: prev.meta.frontCourseName,
+        backCourseName: prev.meta.backCourseName,
         front,
         back
       });
