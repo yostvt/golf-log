@@ -1870,7 +1870,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "/api/vision";
-var APP_VERSION = "06031300";
+var APP_VERSION = "06031345";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -2298,14 +2298,105 @@ async function ocrExtractVertical(img, words, fmt2) {
   return { front, back, totalYard, _rowYs: typeof holeYs !== "undefined" ? holeYs : rowYs };
 }
 async function ocrExtractHorizontal(img, words) {
-  var geom = ocrEstimateHorizontalColumns(img, words);
+  var W = img.width, H = img.height;
+  var its = (words || []).filter(function(w) {
+    return w.bbox && (w.text || "").trim();
+  }).map(function(w) {
+    return { x: (w.bbox.x0 + w.bbox.x1) / 2, y: (w.bbox.y0 + w.bbox.y1) / 2, t: (w.text || "").replace(/\s/g, "") };
+  });
+  its.sort(function(a, b) {
+    return a.y - b.y;
+  });
+  var rows = [], cur = null, thr = H * 0.012;
+  its.forEach(function(it) {
+    if (!cur || Math.abs(it.y - cur.y) > thr) {
+      cur = { y: it.y, n: 1, toks: [it] };
+      rows.push(cur);
+    } else {
+      cur.toks.push(it);
+      cur.y = (cur.y * cur.n + it.y) / (cur.n + 1);
+      cur.n++;
+    }
+  });
+  function findRow(re) {
+    for (var i2 = 0; i2 < rows.length; i2++) {
+      var label = rows[i2].toks.filter(function(t) {
+        return t.x < W * 0.2;
+      }).map(function(t) {
+        return t.t;
+      }).join("");
+      if (re.test(label)) return { y: rows[i2].y, idx: i2 };
+    }
+    return null;
+  }
+  var parR = findRow(/par/i), puttR = findRow(/パット/), fwR = findRow(/キープ|1on/i), bunkerR = findRow(/バンカー/), obR = findRow(/ob/i), penR = findRow(/ペナ/);
+  var scoreY = null;
+  if (parR && puttR) {
+    var best = 0;
+    for (var r = parR.idx + 1; r < puttR.idx; r++) {
+      var nd = rows[r].toks.filter(function(t) {
+        return /^\d$/.test(t.t) && t.x > W * 0.18 && t.x < W * 0.85;
+      }).length;
+      if (nd > best) {
+        best = nd;
+        scoreY = rows[r].y;
+      }
+    }
+  }
+  var colPct = [
+    20.8,
+    24.1,
+    27.3,
+    30.5,
+    33.7,
+    37,
+    40.2,
+    43.4,
+    46.7,
+    57.6,
+    60.9,
+    64.1,
+    67.3,
+    70.6,
+    73.8,
+    77,
+    80.3,
+    83.4
+  ];
+  var colX = colPct.map(function(p) {
+    return W * p / 100;
+  });
+  var cellW = W * 0.026, rowH = H * 0.05;
+  function readAt(cx2, y, lo, hi) {
+    if (y == null) return null;
+    return ocrCellNum(words, cx2 - cellW / 2, y - rowH / 2, cx2 + cellW / 2, y + rowH / 2, lo, hi);
+  }
+  function teeAt(cx2) {
+    if (!fwR) return "\u25CB";
+    var x0 = cx2 - cellW / 2, x1 = cx2 + cellW / 2, y0 = fwR.y - rowH / 2, y1 = fwR.y + rowH / 2;
+    var s = (words || []).filter(function(w) {
+      if (!w.bbox) return false;
+      var wx = (w.bbox.x0 + w.bbox.x1) / 2, wy = (w.bbox.y0 + w.bbox.y1) / 2;
+      return wx >= x0 && wx <= x1 && wy >= y0 && wy <= y1;
+    }).map(function(w) {
+      return (w.text || "").trim();
+    }).join("");
+    if (/[◉○◯〇Oo°ＯΟ]/.test(s)) return "\u25CB";
+    if (/[←→↑↓<>＜＞]/.test(s)) return "\u25B3";
+    return "\u25CB";
+  }
   var front = [], back = [];
-  for (var i = 0; i < geom.holeXs.length && i < 18; i++) {
-    var xc = geom.holeXs[i];
-    var w = geom.cellW;
-    var score = await ocrReadDigit(img, xc - w / 2, geom.scoreY, w, geom.rowH);
-    var putt = await ocrReadDigit(img, xc - w / 2, geom.puttY, w, geom.rowH);
-    var rec = { dispHole: geom.holeNums[i], par: geom.pars[i] || 4, score, putts: putt, teeEval: "\u25CB" };
+  for (var i = 0; i < 18; i++) {
+    var cx = colX[i];
+    var par = readAt(cx, parR ? parR.y : null, 3, 6) || 4;
+    var score = readAt(cx, scoreY, 1, 19);
+    var putt = readAt(cx, puttR ? puttR.y : null, 0, 9);
+    var ob = readAt(cx, obR ? obR.y : null, 0, 9) || 0;
+    var bunker = readAt(cx, bunkerR ? bunkerR.y : null, 0, 9) || 0;
+    var penalty = readAt(cx, penR ? penR.y : null, 0, 9) || 0;
+    var tee = teeAt(cx);
+    var approachEval = score != null && putt != null && score - putt <= par - 2 ? "none" : "good";
+    var rec = { dispHole: i < 9 ? i + 1 : i - 8, par, score, putts: putt, ob, bunker, penalty, teeEval: tee, approachEval };
     if (i < 9) front.push(rec);
     else back.push(rec);
   }
