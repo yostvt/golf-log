@@ -118,44 +118,39 @@
     const el = document.createElement("div");
     el.style.cssText = [
       "position:absolute;inset:0;display:flex;flex-direction:column",
-      "justify-content:flex-end;align-items:flex-start;padding:10px 12px 11px;color:#fff",
+      "justify-content:flex-end;align-items:flex-start;padding:16px 18px 17px;color:#fff",
       "font-family:'M PLUS Rounded 1c',sans-serif;pointer-events:none",
     ].join(";");
 
-    /* 日付・天気 */
     const dateEl = document.createElement("div");
-    dateEl.style.cssText = `font-size:11px;font-weight:700;opacity:0.80;letter-spacing:0.06em;margin-bottom:2px;text-shadow:${TSS}`;
+    dateEl.style.cssText = `font-size:17px;font-weight:700;opacity:0.80;letter-spacing:0.06em;margin-bottom:3px;text-shadow:${TSS}`;
     dateEl.textContent = `${date} ${weather}`;
     el.appendChild(dateEl);
 
-    /* コース名 */
     const courseEl = document.createElement("div");
-    courseEl.style.cssText = `font-size:11px;font-weight:800;margin-bottom:8px;text-align:left;text-shadow:${TS}`;
+    courseEl.style.cssText = `font-size:17px;font-weight:800;margin-bottom:12px;text-align:left;text-shadow:${TS}`;
     courseEl.textContent = cleanCourse(r.course);
     el.appendChild(courseEl);
 
-    /* スコア行 */
     const scoreRow = document.createElement("div");
-    scoreRow.style.cssText = "display:flex;align-items:flex-end;gap:10px";
+    scoreRow.style.cssText = "display:flex;align-items:flex-end;gap:15px";
 
-    /* トータル */
     const totalEl = document.createElement("div");
-    totalEl.style.cssText = `font-size:36px;font-weight:900;line-height:1;text-shadow:${TS}`;
+    totalEl.style.cssText = `font-size:54px;font-weight:900;line-height:1;text-shadow:${TS}`;
     totalEl.textContent = totalScore;
     scoreRow.appendChild(totalEl);
 
-    /* 前後半 */
     const splitEl = document.createElement("div");
-    splitEl.style.cssText = "display:flex;flex-direction:column;gap:2px;padding-bottom:3px";
+    splitEl.style.cssText = "display:flex;flex-direction:column;gap:3px;padding-bottom:5px";
     [[frontLabel, frontScore], [backLabel, backScore]].forEach(([label, score]) => {
       if (score == null) return;
       const row = document.createElement("div");
-      row.style.cssText = "display:flex;gap:4px;align-items:baseline";
+      row.style.cssText = "display:flex;gap:6px;align-items:baseline";
       const lbl = document.createElement("span");
-      lbl.style.cssText = `font-size:8px;font-weight:800;opacity:0.75;width:44px;text-shadow:${TSS}`;
+      lbl.style.cssText = `font-size:12px;font-weight:800;opacity:0.75;width:66px;text-shadow:${TSS}`;
       lbl.textContent = label;
       const val = document.createElement("span");
-      val.style.cssText = `font-size:15px;font-weight:900;line-height:1;text-shadow:${TS}`;
+      val.style.cssText = `font-size:22px;font-weight:900;line-height:1;text-shadow:${TS}`;
       val.textContent = score;
       row.appendChild(lbl); row.appendChild(val);
       splitEl.appendChild(row);
@@ -181,46 +176,46 @@
     ].join(";");
 
     const band = document.createElement("div");
-    band.style.cssText = "padding:5px 10px 7px";
+    band.style.cssText = "padding:8px 16px 11px";
 
-    /* トータル行 */
-    const totalRow = document.createElement("div");
-    totalRow.style.cssText = "display:flex;justify-content:flex-end;align-items:baseline;gap:5px;margin-bottom:1px";
+    /* 日付(左) … TOTAL(右) */
+    const topRow = document.createElement("div");
+    topRow.style.cssText = "display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px";
+    const dateEl = document.createElement("span");
+    dateEl.style.cssText = `font-size:14px;font-weight:700;opacity:0.72;text-shadow:${TSS}`;
+    dateEl.textContent = `${date} ${weather}`;
+    const totalGrp = document.createElement("div");
+    totalGrp.style.cssText = "display:flex;align-items:baseline;gap:7px";
     const totalLbl = document.createElement("span");
-    totalLbl.style.cssText = `font-size:9px;font-weight:800;opacity:0.70;text-shadow:${TSS}`;
+    totalLbl.style.cssText = `font-size:14px;font-weight:800;opacity:0.70;text-shadow:${TSS}`;
     totalLbl.textContent = "TOTAL";
     const totalVal = document.createElement("span");
-    totalVal.style.cssText = `font-size:36px;font-weight:900;line-height:1;text-shadow:${TS}`;
+    totalVal.style.cssText = `font-size:54px;font-weight:900;line-height:1;text-shadow:${TS}`;
     totalVal.textContent = totalScore;
-    totalRow.appendChild(totalLbl); totalRow.appendChild(totalVal);
-    band.appendChild(totalRow);
+    totalGrp.appendChild(totalLbl); totalGrp.appendChild(totalVal);
+    topRow.appendChild(dateEl); topRow.appendChild(totalGrp);
+    band.appendChild(topRow);
 
-    /* コース名・日付・天気行 */
-    const metaRow = document.createElement("div");
-    metaRow.style.cssText = "display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px";
-    const courseEl = document.createElement("span");
-    courseEl.style.cssText = `font-size:9px;font-weight:800;opacity:0.82;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-right:6px;text-shadow:${TSS}`;
+    /* コース名（独立1行・全幅で見切れ防止） */
+    const courseEl = document.createElement("div");
+    courseEl.style.cssText = `font-size:15px;font-weight:800;opacity:0.88;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px;text-align:left;text-shadow:${TSS}`;
     courseEl.textContent = cleanCourse(r.course);
-    const dateEl = document.createElement("span");
-    dateEl.style.cssText = `font-size:9px;font-weight:700;opacity:0.70;flex-shrink:0;white-space:nowrap;text-shadow:${TSS}`;
-    dateEl.textContent = `${date} ${weather}`;
-    metaRow.appendChild(courseEl); metaRow.appendChild(dateEl);
-    band.appendChild(metaRow);
+    band.appendChild(courseEl);
 
     /* 記号行ビルダー */
     function buildSymRow(label, symbols, subtotal) {
       const row = document.createElement("div");
-      row.style.cssText = "display:flex;align-items:center;gap:1px;margin-bottom:2px";
+      row.style.cssText = "display:flex;align-items:center;gap:2px;margin-bottom:3px";
 
       const lbl = document.createElement("div");
-      lbl.style.cssText = `font-size:8px;font-weight:900;width:14px;flex-shrink:0;opacity:0.75;text-shadow:${TSS}`;
+      lbl.style.cssText = `font-size:12px;font-weight:900;width:30px;flex-shrink:0;white-space:nowrap;opacity:0.75;text-shadow:${TSS}`;
       lbl.textContent = label;
       row.appendChild(lbl);
 
       symbols.forEach(({ sym, color }) => {
         const cell = document.createElement("div");
         cell.style.cssText = [
-          "flex:1;text-align:center;font-size:13px;font-weight:900;line-height:1.1",
+          "flex:1;text-align:center;font-size:20px;font-weight:900;line-height:1.1",
           `color:${color}`,
           "filter:drop-shadow(0 1px 4px rgba(0,0,0,1))",
         ].join(";");
@@ -230,7 +225,7 @@
 
       if (subtotal != null) {
         const sub = document.createElement("div");
-        sub.style.cssText = `font-size:12px;font-weight:900;width:16px;text-align:right;flex-shrink:0;text-shadow:${TSS}`;
+        sub.style.cssText = `font-size:18px;font-weight:900;width:26px;text-align:right;flex-shrink:0;text-shadow:${TSS}`;
         sub.textContent = subtotal;
         row.appendChild(sub);
       }
@@ -254,17 +249,17 @@
     const el = document.createElement("div");
     el.style.cssText = [
       "position:absolute;inset:0;display:flex;flex-direction:column",
-      "justify-content:flex-end;align-items:flex-start;padding:14px 14px 13px;color:#fff",
+      "justify-content:flex-end;align-items:flex-start;padding:21px 21px 20px;color:#fff",
       "font-family:'M PLUS Rounded 1c',sans-serif;pointer-events:none",
     ].join(";");
 
     const dateEl = document.createElement("div");
-    dateEl.style.cssText = `font-size:9px;font-weight:700;opacity:0.75;letter-spacing:0.06em;margin-bottom:3px;text-shadow:${TSS}`;
+    dateEl.style.cssText = `font-size:14px;font-weight:700;opacity:0.75;letter-spacing:0.06em;margin-bottom:4px;text-shadow:${TSS}`;
     dateEl.textContent = `${date} ${weather}`;
     el.appendChild(dateEl);
 
     const courseEl = document.createElement("div");
-    courseEl.style.cssText = `font-size:11px;font-weight:800;line-height:1.3;text-align:left;text-shadow:${TS}`;
+    courseEl.style.cssText = `font-size:17px;font-weight:800;line-height:1.3;text-align:left;text-shadow:${TS}`;
     courseEl.textContent = cleanCourse(r.course);
     el.appendChild(courseEl);
 
@@ -277,16 +272,16 @@
   function buildBranding() {
     const el = document.createElement("div");
     el.style.cssText = [
-      "position:absolute;top:10px;right:12px",
-      "display:flex;align-items:center;gap:4px;pointer-events:none",
+      "position:absolute;top:14px;right:16px",
+      "display:flex;align-items:center;gap:6px;pointer-events:none",
     ].join(";");
     const rexy = document.createElement("img");
     rexy.src = REXY_BADGE;
-    rexy.style.cssText = "height:26px;width:auto;display:block;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.85))";
+    rexy.style.cssText = "height:40px;width:auto;display:block;filter:drop-shadow(0 1px 5px rgba(0,0,0,0.85))";
     const text = document.createElement("span");
     text.style.cssText = [
       "font-family:'M PLUS Rounded 1c',sans-serif",
-      "font-size:12px;font-weight:900",
+      "font-size:18px;font-weight:900",
       "color:rgba(255,255,255,0.80)",
       "text-shadow:0 1px 6px rgba(0,0,0,0.9)",
     ].join(";");
@@ -402,6 +397,51 @@
       React.createElement("div", {
         style: { position: "absolute", top: 0, left: 0, width: 800, height: 600, transformOrigin: "top left", transform: `scale(${scale})` },
       }, children)
+    );
+  }
+
+  /* ============================================================
+   * PreviewCanvas: 生成と同じDOMビルダー(buildOverlay/buildBranding)で
+   * 800x600を実寸描画し、コンテナ幅に合わせ縮小表示 → プレビュー=生成画像。
+   * ============================================================ */
+  function PreviewCanvas({ r, totalScore, styleId, photoSrc }) {
+    const { useRef, useState, useLayoutEffect, useEffect } = React;
+    const outerRef = useRef(null);
+    const stageRef = useRef(null);
+    const [scale, setScale] = useState(0.42);
+    useLayoutEffect(() => {
+      const measure = () => { if (outerRef.current) setScale(outerRef.current.clientWidth / 800); };
+      measure();
+      window.addEventListener("resize", measure);
+      return () => window.removeEventListener("resize", measure);
+    }, []);
+    useEffect(() => {
+      const stage = stageRef.current;
+      if (!stage) return;
+      stage.innerHTML = "";
+      const bg = document.createElement("div");
+      if (photoSrc) {
+        bg.style.cssText = "position:absolute;inset:0;background-position:center;background-repeat:no-repeat;background-size:cover;background-image:url('" + photoSrc + "')";
+      } else {
+        bg.style.cssText = "position:absolute;inset:0;background:linear-gradient(160deg,#1a3a2a,#0f2d1a,#152310);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.30);font-family:'M PLUS Rounded 1c',sans-serif;font-size:34px;font-weight:700";
+        bg.textContent = "写真を選ぶとここに表示";
+      }
+      stage.appendChild(bg);
+      let ov;
+      if (styleId === "A") ov = buildOverlayA(r, totalScore);
+      else if (styleId === "B") ov = buildOverlayB(r, totalScore);
+      else ov = buildOverlayC(r);
+      stage.appendChild(ov);
+      stage.appendChild(buildBranding());
+    }, [r.id, totalScore, styleId, photoSrc]);
+    return React.createElement("div", {
+      ref: outerRef,
+      style: { position: "relative", width: "100%", aspectRatio: "4/3", borderRadius: 12, overflow: "hidden", background: "#111", boxShadow: "0 4px 20px rgba(0,0,0,0.18)", margin: "10px 0 14px" },
+    },
+      React.createElement("div", {
+        ref: stageRef,
+        style: { position: "absolute", top: 0, left: 0, width: 800, height: 600, transformOrigin: "top left", transform: `scale(${scale})` },
+      })
     );
   }
 
@@ -536,7 +576,8 @@
 
           /* プレビュー */
           React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b", textAlign: "left", margin: "12px 0 7px" } }, "プレビュー"),
-          React.createElement(PreviewStage, null,
+          React.createElement(PreviewCanvas, { r, totalScore, styleId: style, photoSrc }),
+          false && React.createElement(PreviewStage, null,
             /* 背景 */
             photoSrc
               ? React.createElement("img", { src: photoSrc, style: { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" } })

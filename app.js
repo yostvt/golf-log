@@ -1885,7 +1885,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06031630";
+var APP_VERSION = "06031645";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -5262,7 +5262,7 @@ function GolfTracker() {
     const teeRates = calcHistoricalTeeRates(rounds);
     return [...rounds].sort((a, b) => {
       return dateToNum(b.date) - dateToNum(a.date);
-    }).map((r) => /* @__PURE__ */ React.createElement(RoundCardErrorBoundary, { key: r.id }, /* @__PURE__ */ React.createElement(RoundCard, { r, teeRates })));
+    }).map((r) => /* @__PURE__ */ React.createElement(RoundCardErrorBoundary, { key: r.id }, RoundCard({ r, teeRates })));
   })()), view === "ocr" && ocrStep && (() => {
     var _a2, _b2;
     const venue = ocr && ocr.venueId ? VENUES.find((v) => v.id === ocr.venueId) : null;
