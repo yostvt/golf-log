@@ -198,7 +198,7 @@
 
     /* コース名（独立1行・全幅で見切れ防止） */
     const courseEl = document.createElement("div");
-    courseEl.style.cssText = `font-size:15px;font-weight:800;opacity:0.88;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px;text-align:left;text-shadow:${TSS}`;
+    courseEl.style.cssText = `font-size:15px;font-weight:800;opacity:0.88;margin-bottom:7px;text-align:left;line-height:1.25;text-shadow:${TSS}`;
     courseEl.textContent = cleanCourse(r.course);
     band.appendChild(courseEl);
 
@@ -208,7 +208,7 @@
       row.style.cssText = "display:flex;align-items:center;gap:2px;margin-bottom:3px";
 
       const lbl = document.createElement("div");
-      lbl.style.cssText = `font-size:12px;font-weight:900;width:30px;flex-shrink:0;white-space:nowrap;opacity:0.75;text-shadow:${TSS}`;
+      lbl.style.cssText = `font-size:12px;font-weight:900;width:60px;flex-shrink:0;white-space:nowrap;opacity:0.78;text-shadow:${TSS}`;
       lbl.textContent = label;
       row.appendChild(lbl);
 
@@ -232,8 +232,8 @@
       return row;
     }
 
-    if (frontSymbols.length) band.appendChild(buildSymRow(frontLabel.slice(0, 2), frontSymbols, frontScore));
-    if (backSymbols.length)  band.appendChild(buildSymRow(backLabel.slice(0, 2),  backSymbols,  backScore));
+    if (frontSymbols.length) band.appendChild(buildSymRow(frontLabel, frontSymbols, frontScore));
+    if (backSymbols.length)  band.appendChild(buildSymRow(backLabel,  backSymbols,  backScore));
 
     outer.appendChild(band);
     return outer;
@@ -301,26 +301,26 @@
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
-  function saveOrShareBlob(blob, fileName, onDone, onError) {
+  function saveOrShareBlob(blob, fileName, onSaved, onError, onCancel) {
     try {
       const file = new File([blob], fileName, { type: "image/png" });
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
         navigator.share({ files: [file] })
-          .then(() => onDone())
+          .then(() => onSaved())
           .catch((err) => {
-            // 共有シートをキャンセル → 正常終了扱い（保存画面に留まらない）
-            if (err && (err.name === "AbortError" || /abort|cancel/i.test(err.message || ""))) { onDone(); return; }
-            try { downloadBlob(blob, fileName); onDone(); }
+            // 共有シートをキャンセル → メッセージ無しで戻すだけ
+            if (err && (err.name === "AbortError" || /abort|cancel/i.test(err.message || ""))) { onCancel && onCancel(); return; }
+            try { downloadBlob(blob, fileName); onSaved(); }
             catch (e2) { onError && onError("保存に失敗しました: " + (e2.message || e2)); }
           });
         return;
       }
     } catch (e) { /* File/Web共有未対応 → ダウンロードへ */ }
-    try { downloadBlob(blob, fileName); onDone(); }
+    try { downloadBlob(blob, fileName); onSaved(); }
     catch (e3) { onError && onError("保存に失敗しました: " + (e3.message || e3)); }
   }
 
-  function generateAndSave(photoSrc, style, r, totalScore, onDone, onError) {
+  function generateAndSave(photoSrc, style, r, totalScore, onSaved, onError, onCancel) {
     loadH2C((err) => {
       if (err) { onError("html2canvasの読み込みに失敗しました"); return; }
 
@@ -363,7 +363,7 @@
           /* PNG に変換してダウンロード */
           canvas.toBlob((blob) => {
             const fileName = `scorexo_${(r.date || "").replace(/\//g, "")}.png`;
-            saveOrShareBlob(blob, fileName, onDone, onError);
+            saveOrShareBlob(blob, fileName, onSaved, onError, onCancel);
           }, "image/png");
         }).catch((e) => {
           document.body.removeChild(wrap);
@@ -452,8 +452,10 @@
     const [style, setStyle]         = useState("A");
     const [saving, setSaving]       = useState(false);
     const [errMsg, setErrMsg]       = useState("");
+    const [savedMsg, setSavedMsg]   = useState("");
     const fileRef                   = useRef(null);
     const cameraRef                 = useRef(null);
+    const savedTimerRef             = useRef(null);
 
     /* スクロールロック */
     useEffect(() => {
@@ -474,11 +476,12 @@
     /* 保存 */
     const handleSave = useCallback(() => {
       if (!photoSrc) { setErrMsg("背景写真を選んでください"); return; }
-      setErrMsg(""); setSaving(true);
+      setErrMsg(""); setSavedMsg(""); setSaving(true);
       generateAndSave(
         photoSrc, style, r, totalScore,
-        () => setSaving(false),
-        (msg) => { setSaving(false); setErrMsg(msg); }
+        () => { setSaving(false); setSavedMsg("✓ 画像を保存しました"); if (savedTimerRef.current) clearTimeout(savedTimerRef.current); savedTimerRef.current = setTimeout(() => setSavedMsg(""), 3000); },
+        (msg) => { setSaving(false); setErrMsg(msg); },
+        () => { setSaving(false); }
       );
     }, [photoSrc, style, r, totalScore]);
 
@@ -655,6 +658,7 @@
 
           /* エラーメッセージ */
           errMsg && React.createElement("div", { style: { fontSize: 11, color: "#dc2626", textAlign: "center", marginBottom: 8, fontWeight: 700 } }, errMsg),
+          savedMsg && React.createElement("div", { style: { fontSize: 13, color: "#16a34a", textAlign: "center", marginBottom: 8, fontWeight: 800 } }, savedMsg),
 
           /* 保存ボタン */
           React.createElement("button", {
