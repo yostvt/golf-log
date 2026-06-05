@@ -1885,7 +1885,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06031600";
+var APP_VERSION = "06031615";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -2071,7 +2071,7 @@ function ocrGuessCourseName(words, fullText, H) {
     var j2 = clean(ws.map(function(w) {
       return w.text;
     }).join(""));
-    return j2.replace(/倶[月品]楽部|倶楽部/g, "\u5036\u697D\u90E8").replace(/(倶楽部|クラブ|GC|CC)\s*((?:EAST|WEST|NORTH|SOUTH|イースト|ウエスト|ウェスト|ノース|サウス)\w*)?.*$/i, "$1$2");
+    return j2.replace(/倶[月品]楽部|倶楽部/g, "\u5036\u697D\u90E8").replace(/(倶楽部|クラブ|GC|CC)\s*((?:EAST|WEST|NORTH|SOUTH|イースト|ウエスト|ウェスト|ノース|サウス))?.*$/i, "$1$2");
   };
   var cjk = (words || []).filter(function(w) {
     if (!w.bbox || w._sym) return false;
