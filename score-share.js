@@ -285,6 +285,33 @@
   /* ============================================================
    * 画像を生成して保存 (html2canvas → <a> download)
    * ============================================================ */
+  /* PNG Blob を保存。iOS等はWeb共有(共有シート→「画像を保存」でカメラロール)、非対応はダウンロード */
+  function downloadBlob(blob, fileName) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = fileName;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  function saveOrShareBlob(blob, fileName, onDone, onError) {
+    try {
+      const file = new File([blob], fileName, { type: "image/png" });
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        navigator.share({ files: [file] })
+          .then(() => onDone())
+          .catch((err) => {
+            // 共有シートをキャンセル → 正常終了扱い（保存画面に留まらない）
+            if (err && (err.name === "AbortError" || /abort|cancel/i.test(err.message || ""))) { onDone(); return; }
+            try { downloadBlob(blob, fileName); onDone(); }
+            catch (e2) { onError && onError("保存に失敗しました: " + (e2.message || e2)); }
+          });
+        return;
+      }
+    } catch (e) { /* File/Web共有未対応 → ダウンロードへ */ }
+    try { downloadBlob(blob, fileName); onDone(); }
+    catch (e3) { onError && onError("保存に失敗しました: " + (e3.message || e3)); }
+  }
+
   function generateAndSave(photoSrc, style, r, totalScore, onDone, onError) {
     loadH2C((err) => {
       if (err) { onError("html2canvasの読み込みに失敗しました"); return; }
@@ -329,15 +356,8 @@
           document.body.removeChild(wrap);
           /* PNG に変換してダウンロード */
           canvas.toBlob((blob) => {
-            const url = URL.createObjectURL(blob);
-            const a   = document.createElement("a");
-            a.href    = url;
-            a.download = `scorexo_${(r.date || "").replace(/\//g, "")}.png`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            onDone();
+            const fileName = `scorexo_${(r.date || "").replace(/\//g, "")}.png`;
+            saveOrShareBlob(blob, fileName, onDone, onError);
           }, "image/png");
         }).catch((e) => {
           document.body.removeChild(wrap);
@@ -575,9 +595,9 @@
               fontFamily: "'M PLUS Rounded 1c', sans-serif",
               display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
             },
-          }, saving ? "⏳ 生成中..." : "⬇️ カメラロールに保存"),
+          }, saving ? "⏳ 生成中..." : "📷 画像を保存"),
           React.createElement("div", { style: { fontSize: 10, color: "#94a3b8", textAlign: "center", marginTop: 7 } },
-            "Safari の「共有」→「写真に保存」で保存されます"
+            "iPhoneは共有シートの「画像を保存」でカメラロールへ。PCはダウンロードされます"
           ),
         )
       )
