@@ -1,7 +1,11 @@
-// ※ CACHE_VERSION はデプロイ毎にビルドが自動更新（タイムスタンプ）。OCR導入に伴い一度バンプ。
-const CACHE_VERSION = 'v20260605003213';
+// ※ CACHE_VERSION はデプロイ毎に更新（タイムスタンプ）。サブディレクトリ配信対応で相対パス化。
+const CACHE_VERSION = 'v20260605031041';
 const CACHE_NAME = 'scorexolution-' + CACHE_VERSION;
-const ASSETS = ['/', '/index.html', '/app.js', '/venues.js', '/rexy.js', '/manifest.json', '/icon-192.png', '/icon-512.png', '/icon-512-maskable.png', '/apple-touch-icon.png', '/favicon-32.png'];
+// 相対パス（先頭スラッシュ無し）。sw.js の置き場所を基準に解決されるため、
+//   ルート配信(pages.dev)        → /app.js 等
+//   サブディレクトリ配信(本番)   → /app_scorexo/app.js 等
+// の両方で正しく動く。
+const ASSETS = ['./', './index.html', './app.js', './venues.js', './rexy.js', './score-share.js', './manifest.json', './icon-192.png', './icon-512.png', './icon-512-maskable.png', './apple-touch-icon.png', './favicon-32.png'];
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();
@@ -25,26 +29,9 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// 自オリジンはキャッシュ優先＋ネット fallback。Tesseract.js のCDN資産(別オリジン)は
-// ここを素通り＝ネットワーク取得（OCRは「初回オンライン必須」で割り切る方針／第1弾）。
+// 自オリジンはキャッシュ優先＋ネット fallback。別オリジン(CDN/中継)は素通り。
 self.addEventListener('fetch', (event) => {
+  // 中継API等はキャッシュしない（常にネットワーク）
+  if (event.request.method !== 'GET') return;
   event.respondWith(caches.match(event.request).then((cached) => cached || fetch(event.request)));
 });
-
-// ─────────────────────────────────────────────────────────────────────────────
-// 【任意・次フェーズ】OCR資産（Tesseract.js worker/wasm/言語データ）をオフライン対応に
-// したい場合は、別キャッシュに stale-while-revalidate で保存する。CORS(opaque)に注意。
-// 第1弾では未適用（オンライン必須）。必要になったら以下を fetch ハンドラに統合する想定:
-//
-//   const OCR_CDN = /cdn\.jsdelivr\.net|unpkg\.com|tessdata|tesseract/;
-//   if (OCR_CDN.test(event.request.url)) {
-//     event.respondWith(
-//       caches.open('scorexo-ocr').then(async (c) => {
-//         const hit = await c.match(event.request);
-//         const net = fetch(event.request).then((r) => { if (r && (r.ok || r.type === 'opaque')) c.put(event.request, r.clone()); return r; }).catch(() => hit);
-//         return hit || net;
-//       })
-//     );
-//     return;
-//   }
-// ─────────────────────────────────────────────────────────────────────────────

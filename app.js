@@ -1885,7 +1885,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06031615";
+var APP_VERSION = "06031630";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -4130,7 +4130,7 @@ function GolfTracker() {
           style: { padding: "5px 12px", borderRadius: "20px", border: "1px solid rgba(148,163,184,0.4)", background: "rgba(148,163,184,0.08)", color: "#94a3b8", fontSize: "11px", fontWeight: "700", cursor: "pointer" }
         },
         "\u{1F58A} \u4FEE\u6B63"
-      )), sa ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "20px", color: sa.totalScore - sa.totalPar >= 0 ? "#f97316" : "#16a34a" } }, sa.totalScore), /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "9px" } }, "(", sa.totalScore - sa.totalPar >= 0 ? "+" : "", sa.totalScore - sa.totalPar, ")")) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "20px", color: scoreColor(tot) } }, fmt(tot)), /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "9px" } }, "\u8A55\u4FA1\u30B9\u30B3\u30A2")))), !isCollapsed && /* @__PURE__ */ React.createElement(React.Fragment, null, sa && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "10px" } }, (() => {
+      )), sa ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "20px", color: sa.totalScore - sa.totalPar >= 0 ? "#f97316" : "#16a34a" } }, sa.totalScore), /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "9px" } }, "(", sa.totalScore - sa.totalPar >= 0 ? "+" : "", sa.totalScore - sa.totalPar, ")")) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "20px", color: scoreColor(tot) } }, fmt(tot)), /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "9px" } }, "\u8A55\u4FA1\u30B9\u30B3\u30A2")), window.ScoreShareButton && r.isComplete && React.createElement(window.ScoreShareButton, { r, totalScore: sa ? sa.totalScore : Math.round(tot) }))), !isCollapsed && /* @__PURE__ */ React.createElement(React.Fragment, null, sa && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "10px" } }, (() => {
         const shd = r.simpleHoleData || {};
         const frontHoles = Array.from({ length: 9 }, (_, i) => i + 1).filter((h) => shd[h]);
         const backHoles = Array.from({ length: 9 }, (_, i) => i + 10).filter((h) => shd[h]);
