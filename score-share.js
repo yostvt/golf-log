@@ -40,6 +40,16 @@
   const TS  = "0 1px 8px rgba(0,0,0,1), 0 0 16px rgba(0,0,0,0.7)";
   const TSS = "0 1px 5px rgba(0,0,0,1)";
 
+  /* コース名から末尾の括弧（サブコース表記 例:（カメリア→シバザクラ））を除去 */
+  function cleanCourse(name) {
+    return String(name || "").replace(/[（(][^（）()]*[）)]\s*$/, "").trim();
+  }
+  /* Rexyマスコット画像src（rexy.js の window.REXY_IMAGES）。未ロード時は空文字 */
+  function rexyImgSrc() {
+    const R = (typeof window !== "undefined" && window.REXY_IMAGES) || {};
+    return R.basic || R.basic7 || R.basic8 || R.basic1 || "";
+  }
+
   /* ============================================================
    * html2canvas ロード（初回のみ）
    * ============================================================ */
@@ -105,7 +115,7 @@
     const el = document.createElement("div");
     el.style.cssText = [
       "position:absolute;inset:0;display:flex;flex-direction:column",
-      "justify-content:flex-end;padding:10px 12px 11px;color:#fff",
+      "justify-content:flex-end;align-items:flex-start;padding:10px 12px 11px;color:#fff",
       "font-family:'M PLUS Rounded 1c',sans-serif;pointer-events:none",
     ].join(";");
 
@@ -117,8 +127,8 @@
 
     /* コース名 */
     const courseEl = document.createElement("div");
-    courseEl.style.cssText = `font-size:11px;font-weight:800;margin-bottom:8px;text-shadow:${TS}`;
-    courseEl.textContent = r.course || "";
+    courseEl.style.cssText = `font-size:11px;font-weight:800;margin-bottom:8px;text-align:left;text-shadow:${TS}`;
+    courseEl.textContent = cleanCourse(r.course);
     el.appendChild(courseEl);
 
     /* スコア行 */
@@ -187,7 +197,7 @@
     metaRow.style.cssText = "display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px";
     const courseEl = document.createElement("span");
     courseEl.style.cssText = `font-size:9px;font-weight:800;opacity:0.82;text-shadow:${TSS}`;
-    courseEl.textContent = r.course || "";
+    courseEl.textContent = cleanCourse(r.course);
     const dateEl = document.createElement("span");
     dateEl.style.cssText = `font-size:9px;font-weight:700;opacity:0.70;text-shadow:${TSS}`;
     dateEl.textContent = `${date} ${weather}`;
@@ -251,8 +261,8 @@
     el.appendChild(dateEl);
 
     const courseEl = document.createElement("div");
-    courseEl.style.cssText = `font-size:16px;font-weight:900;line-height:1.4;text-shadow:${TS}`;
-    courseEl.textContent = r.course || "";
+    courseEl.style.cssText = `font-size:11px;font-weight:800;line-height:1.3;text-align:left;text-shadow:${TS}`;
+    courseEl.textContent = cleanCourse(r.course);
     el.appendChild(courseEl);
 
     return el;
@@ -267,9 +277,15 @@
       "position:absolute;top:10px;right:12px",
       "display:flex;align-items:center;gap:4px;pointer-events:none",
     ].join(";");
-    const rexy = document.createElement("span");
-    rexy.style.cssText = "font-size:15px;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.8))";
-    rexy.textContent = "🦖";
+    const rexySrc = rexyImgSrc();
+    const rexy = document.createElement(rexySrc ? "img" : "span");
+    if (rexySrc) {
+      rexy.src = rexySrc;
+      rexy.style.cssText = "height:24px;width:auto;display:block;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.8))";
+    } else {
+      rexy.style.cssText = "font-size:15px;filter:drop-shadow(0 1px 4px rgba(0,0,0,0.8))";
+      rexy.textContent = "";
+    }
     const text = document.createElement("span");
     text.style.cssText = [
       "font-family:'M PLUS Rounded 1c',sans-serif",
@@ -325,12 +341,10 @@
         "overflow:hidden;border-radius:0",
       ].join(";");
 
-      /* 背景画像 */
-      const img = document.createElement("img");
-      img.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0";
-      img.crossOrigin = "anonymous";
-      img.src = photoSrc;
-      wrap.appendChild(img);
+      /* 背景画像：html2canvasはobject-fitを正しく描画しない→background-size:coverで縦横比保持 */
+      const bg = document.createElement("div");
+      bg.style.cssText = "position:absolute;inset:0;background-position:center;background-repeat:no-repeat;background-size:cover;background-image:url('" + photoSrc + "')";
+      wrap.appendChild(bg);
 
       /* スコアオーバーレイ */
       let overlay;
@@ -444,14 +458,15 @@
         /* ハンドル */
         React.createElement("div", { style: { width: 36, height: 4, background: "#e2e8f0", borderRadius: 2, margin: "12px auto 4px" } }),
         /* タイトル */
-        React.createElement("div", { style: { fontSize: 15, fontWeight: 800, textAlign: "center", padding: "8px 16px 12px", borderBottom: "1px solid #f1f5f9" } },
-          "📸 フォトカードを作成"
+        React.createElement("div", { style: { position: "relative", padding: "8px 16px 12px", borderBottom: "1px solid #f1f5f9" } },
+          React.createElement("div", { style: { fontSize: 15, fontWeight: 800, textAlign: "center" } }, "フォトカードを作成"),
+          React.createElement("button", { onClick: onClose, "aria-label": "閉じる", style: { position: "absolute", top: "50%", right: 12, transform: "translateY(-50%)", width: 30, height: 30, borderRadius: 15, border: "none", background: "#f1f5f9", color: "#64748b", fontSize: 20, fontWeight: 800, lineHeight: 1, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'M PLUS Rounded 1c',sans-serif" } }, "×"),
         ),
 
         React.createElement("div", { style: { padding: "12px 16px 24px" } },
 
           /* 背景写真 */
-          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b", marginBottom: 7 } }, "背景写真"),
+          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b", textAlign: "left", marginBottom: 7 } }, "背景写真"),
           React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 9 } },
             /* カメラロール */
             React.createElement("div", {
@@ -462,7 +477,6 @@
               },
               onClick: () => fileRef.current?.click(),
             },
-              React.createElement("div", { style: { fontSize: 20, marginBottom: 3 } }, "🖼️"),
               React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: photoSrc ? "#0284c7" : "#64748b" } }, "カメラロールから"),
               React.createElement("input", { ref: fileRef, type: "file", accept: "image/*", style: { display: "none" }, onChange: handleFile }),
             ),
@@ -471,14 +485,13 @@
               style: { border: "2px solid #e2e8f0", borderRadius: 12, padding: "10px 8px", textAlign: "center", cursor: "pointer" },
               onClick: () => cameraRef.current?.click(),
             },
-              React.createElement("div", { style: { fontSize: 20, marginBottom: 3 } }, "📷"),
               React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b" } }, "撮影する"),
               React.createElement("input", { ref: cameraRef, type: "file", accept: "image/*", capture: "environment", style: { display: "none" }, onChange: handleFile }),
             ),
           ),
 
           /* スタイルタブ */
-          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b", margin: "12px 0 7px" } }, "表示スタイル"),
+          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b", textAlign: "left", margin: "12px 0 7px" } }, "表示スタイル"),
           React.createElement("div", { style: { display: "flex", background: "#f1f5f9", borderRadius: 10, padding: 3, gap: 2 } },
             ...[["A", "シンプル"], ["B", "ホール別"], ["C", "写真のみ"]].map(([id, sub]) =>
               React.createElement("button", {
@@ -501,7 +514,7 @@
           ),
 
           /* プレビュー */
-          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b", margin: "12px 0 7px" } }, "プレビュー"),
+          React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b", textAlign: "left", margin: "12px 0 7px" } }, "プレビュー"),
           React.createElement("div", { style: previewStyle },
             /* 背景 */
             photoSrc
@@ -514,9 +527,9 @@
                 ),
 
             /* スタイル A */
-            style === "A" && React.createElement("div", { style: { ...overlayBase, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "10px 12px 11px" } },
+            style === "A" && React.createElement("div", { style: { ...overlayBase, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "flex-start", padding: "10px 12px 11px" } },
               React.createElement("div", { style: { fontSize: 11, fontWeight: 700, opacity: 0.80, letterSpacing: "0.06em", marginBottom: 2, textShadow: TSS } }, `${date} ${weather}`),
-              React.createElement("div", { style: { fontSize: 11, fontWeight: 800, marginBottom: 8, textShadow: TS } }, r.course || ""),
+              React.createElement("div", { style: { fontSize: 11, fontWeight: 800, marginBottom: 8, textAlign: "left", textShadow: TS } }, cleanCourse(r.course)),
               React.createElement("div", { style: { display: "flex", alignItems: "flex-end", gap: 10 } },
                 React.createElement("div", { style: { fontSize: 36, fontWeight: 900, lineHeight: 1, textShadow: TS } }, totalScore),
                 React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 2, paddingBottom: 3 } },
@@ -543,7 +556,7 @@
                 ),
                 /* コース + 日付・天気 */
                 React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 4 } },
-                  React.createElement("span", { style: { fontSize: 9, fontWeight: 800, opacity: 0.82, textShadow: TSS } }, r.course || ""),
+                  React.createElement("span", { style: { fontSize: 9, fontWeight: 800, opacity: 0.82, textShadow: TSS } }, cleanCourse(r.course)),
                   React.createElement("span", { style: { fontSize: 9, fontWeight: 700, opacity: 0.70, textShadow: TSS } }, `${date} ${weather}`),
                 ),
                 /* 記号行 */
@@ -568,12 +581,12 @@
             /* スタイル C */
             style === "C" && React.createElement("div", { style: { ...overlayBase, display: "flex", flexDirection: "column", justifyContent: "flex-end", padding: "14px 14px 13px" } },
               React.createElement("div", { style: { fontSize: 9, fontWeight: 700, opacity: 0.75, letterSpacing: "0.06em", marginBottom: 3, textShadow: TSS } }, `${date} ${weather}`),
-              React.createElement("div", { style: { fontSize: 16, fontWeight: 900, lineHeight: 1.4, textShadow: TS } }, r.course || ""),
+              React.createElement("div", { style: { fontSize: 11, fontWeight: 800, lineHeight: 1.3, textAlign: "left", textShadow: TS } }, cleanCourse(r.course)),
             ),
 
             /* ブランディング（全スタイル共通） */
             React.createElement("div", { style: { position: "absolute", top: 10, right: 12, display: "flex", alignItems: "center", gap: 4, pointerEvents: "none" } },
-              React.createElement("span", { style: { fontSize: 15, filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.8))" } }, "🦖"),
+              (rexyImgSrc() ? React.createElement("img", { src: rexyImgSrc(), style: { height: 24, width: "auto", display: "block", filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.8))" } }) : null),
               React.createElement("span", { style: { fontFamily: "'M PLUS Rounded 1c',sans-serif", fontSize: 12, fontWeight: 900, color: "rgba(255,255,255,0.80)", textShadow: "0 1px 6px rgba(0,0,0,0.9)" } }, "スコレボ"),
             ),
           ),
@@ -595,7 +608,7 @@
               fontFamily: "'M PLUS Rounded 1c', sans-serif",
               display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
             },
-          }, saving ? "⏳ 生成中..." : "📷 画像を保存"),
+          }, saving ? "生成中…" : "画像を保存"),
           React.createElement("div", { style: { fontSize: 10, color: "#94a3b8", textAlign: "center", marginTop: 7 } },
             "iPhoneは共有シートの「画像を保存」でカメラロールへ。PCはダウンロードされます"
           ),
