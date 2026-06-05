@@ -557,7 +557,7 @@
           /* スタイルタブ */
           React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: "#64748b", textAlign: "left", margin: "12px 0 7px" } }, "表示スタイル"),
           React.createElement("div", { style: { display: "flex", background: "#f1f5f9", borderRadius: 10, padding: 3, gap: 2 } },
-            ...[["A", "シンプル"], ["B", "ホール別"], ["C", "写真のみ"]].map(([id, sub]) =>
+            ...[["A", "シンプル"], ["B", "ホール別"], ["C", "スコアなし"]].map(([id, sub]) =>
               React.createElement("button", {
                 key: id,
                 style: {
