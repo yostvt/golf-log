@@ -2095,7 +2095,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06071346";
+var APP_VERSION = "06071621";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -5984,8 +5984,8 @@ function GolfTracker() {
         color: current === l.v ? l.color : "#475569"
       } }, l.label)));
       const NumInput = ({ val, onChange, min = 0, max = 20 }) => /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" } }, /* @__PURE__ */ React.createElement("button", { onClick: () => onChange(Math.max(min, (val || 0) - 1)), style: { width: "40px", height: "40px", borderRadius: "10px", border: "1.5px solid #cbd5e1", background: "#f1f5f9", color: "#0f172a", cursor: "pointer", fontSize: "22px", fontWeight: "800" } }, "\u2212"), /* @__PURE__ */ React.createElement("span", { style: { minWidth: "30px", textAlign: "center", fontWeight: "800", fontSize: "22px", color: "#1e293b" } }, val == null ? "\u2014" : val), /* @__PURE__ */ React.createElement("button", { onClick: () => onChange(Math.min(max, (val == null ? min : val) + 1)), style: { width: "40px", height: "40px", borderRadius: "10px", border: "1.5px solid #cbd5e1", background: "#f1f5f9", color: "#0f172a", cursor: "pointer", fontSize: "22px", fontWeight: "800" } }, "\uFF0B"));
-      const evLabel = { good: "\u25CB", fair: "\u25B3", bad: "\xD7", none: "\u7121" };
-      const evColor = { good: "#16a34a", fair: "#b45309", bad: "#dc2626", none: "#94a3b8" };
+      const evLabel = { good: "\u25CB", fair: "\u25B3", bad: "\xD7", none: "\u7121", fw: "\u25CB", rough: "\u25B3", miss: "\xD7", bunker: "\u30D0\u30F3", onepen: "\u30EF\u30F3", ob: "OB" };
+      const evColor = { good: "#16a34a", fair: "#b45309", bad: "#dc2626", none: "#94a3b8", fw: "#16a34a", rough: "#b45309", miss: "#dc2626", bunker: "#fb923c", onepen: "#a78bfa", ob: "#ef4444" };
       const cellBase = { margin: "0 3px", textAlign: "center", fontSize: "15px", fontWeight: "800", border: "1px solid #e2e8f0", borderRadius: "8px", padding: "6px 0", background: "#fff" };
       const renderGrid = (keys, label) => {
         let ss = 0, ps = 0, pn = 0;
