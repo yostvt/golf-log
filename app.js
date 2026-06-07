@@ -2095,7 +2095,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06071335";
+var APP_VERSION = "06071346";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3065,7 +3065,6 @@ function DrumPicker({ value, onChange, min, max, step, label, accent = "#16a34a"
   return /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" } }, label && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8", fontWeight: "700" } }, label), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", height: ITEM_H * 3 + "px", width: "82px" } }, /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: ITEM_H + "px", left: 0, right: 0, height: ITEM_H + "px", background: accent + "14", border: "1px solid " + accent, borderRadius: "8px", pointerEvents: "none" } }), /* @__PURE__ */ React.createElement("div", { ref, onScroll, style: { height: "100%", overflowY: "scroll", scrollSnapType: "y mandatory", WebkitOverflowScrolling: "touch", paddingTop: ITEM_H + "px", paddingBottom: ITEM_H + "px" } }, items.map((v) => /* @__PURE__ */ React.createElement("div", { key: v, style: { height: ITEM_H + "px", lineHeight: ITEM_H + "px", textAlign: "center", scrollSnapAlign: "center", fontSize: v === value ? "21px" : "15px", fontWeight: v === value ? "800" : "500", color: v === value ? accent : "#cbd5e1" } }, v)))));
 }
 function ShotEvalEditor({ par, data, onChange, S, showRequired = false, adjustCounts = true }) {
-  const [localTee, setLocalTee] = useState(() => normTee6(data.teeEval));
   const OX = [
     { v: "good", label: "\u25CB", color: "#34d399" },
     { v: "fair", label: "\u25B3", color: "#fbbf24" },
@@ -3084,15 +3083,15 @@ function ShotEvalEditor({ par, data, onChange, S, showRequired = false, adjustCo
     color: current === l.v ? l.color : "#475569"
   } }, l.label)));
   const teeOpts = par <= 3 ? [{ v: "fw", label: "\u30AA\u30F3\u25CB", color: "#34d399" }, { v: "rough", label: "\u5468\u308A\u25B3", color: "#fbbf24" }, { v: "miss", label: "\u30DF\u30B9\xD7", color: "#f87171" }, { v: "bunker", label: "\u30D0\u30F3\u30AB\u30FC", color: "#fb923c" }, { v: "onepen", label: "\u30EF\u30F3\u30DA\u30CA", color: "#a78bfa" }, { v: "ob", label: "OB", color: "#ef4444" }] : [{ v: "fw", label: "\u30D5\u30A7\u30A2\u30A6\u30A7\u30A4\u25CB", color: "#34d399" }, { v: "rough", label: "\u30E9\u30D5\u25B3", color: "#fbbf24" }, { v: "miss", label: "\u30DF\u30B9\xD7", color: "#f87171" }, { v: "bunker", label: "\u30D0\u30F3\u30AB\u30FC", color: "#fb923c" }, { v: "onepen", label: "\u30EF\u30F3\u30DA\u30CA", color: "#a78bfa" }, { v: "ob", label: "OB", color: "#ef4444" }];
+  const curTee = normTee6(data.teeEval);
   return /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "12px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30B7\u30E7\u30C3\u30C8\u8A55\u4FA1"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "600", color: showRequired && !data.teeEval ? "#dc2626" : "#94a3b8" } }, "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8", showRequired ? /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px" } }, " *") : null), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "5px", flexWrap: "wrap" } }, teeOpts.map((l) => {
-    const active = localTee === l.v;
+    const active = curTee === l.v;
     return /* @__PURE__ */ React.createElement("button", { key: l.v, onClick: () => {
       const newKey = active ? null : l.v;
-      setLocalTee(newKey);
       const patch = { teeEval: newKey };
       if (adjustCounts) {
         const ck = (k) => k === "bunker" ? "bunker" : k === "onepen" ? "penalty" : k === "ob" ? "ob" : null;
-        const oldCk = ck(normTee6(data.teeEval)), newCk = ck(newKey);
+        const oldCk = ck(curTee), newCk = ck(newKey);
         if (oldCk !== newCk) {
           if (oldCk) patch[oldCk] = Math.max(0, (data[oldCk] || 0) - 1);
           if (newCk) patch[newCk] = (data[newCk] || 0) + 1;
@@ -6025,7 +6024,7 @@ function GolfTracker() {
         var _a3;
         const mp = Math.max(0, v - 1);
         upd(__spreadValues({ score: v }, ((_a3 = ed.putts) != null ? _a3 : 0) > mp ? { putts: mp } : {}));
-      } })), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30D1\u30C3\u30C8\u6570"), /* @__PURE__ */ React.createElement(NumInput, { val: ed.putts, min: 0, max: Math.max(0, ((_b2 = ed.score) != null ? _b2 : edPar) - 1), onChange: (v) => upd({ putts: v }) }))), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px", marginBottom: "14px" } }, [{ key: "ob", label: "OB" }, { key: "penalty", label: "\u30DA\u30CA\u30EB\u30C6\u30A3" }, { key: "bunker", label: "\u30D0\u30F3\u30AB\u30FC" }].map(({ key, label }) => /* @__PURE__ */ React.createElement("div", { key }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, label), /* @__PURE__ */ React.createElement(NumInput, { val: ed[key], min: 0, max: 5, onChange: (v) => upd({ [key]: v }) })))), /* @__PURE__ */ React.createElement(ShotEvalEditor, { key: ocrSel == null ? void 0 : ocrSel.hole, par: edPar, data: ed, onChange: upd, S, adjustCounts: false }))), sheet);
+      } })), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30D1\u30C3\u30C8\u6570"), /* @__PURE__ */ React.createElement(NumInput, { val: ed.putts, min: 0, max: Math.max(0, ((_b2 = ed.score) != null ? _b2 : edPar) - 1), onChange: (v) => upd({ putts: v }) }))), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px", marginBottom: "14px" } }, [{ key: "ob", label: "OB" }, { key: "penalty", label: "\u30DA\u30CA\u30EB\u30C6\u30A3" }, { key: "bunker", label: "\u30D0\u30F3\u30AB\u30FC" }].map(({ key, label }) => /* @__PURE__ */ React.createElement("div", { key }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, label), /* @__PURE__ */ React.createElement(NumInput, { val: ed[key], min: 0, max: 5, onChange: (v) => upd({ [key]: v }) })))), /* @__PURE__ */ React.createElement(ShotEvalEditor, { par: edPar, data: ed, onChange: upd, S, adjustCounts: false }))), sheet);
     }
     if (ocrStep === "done" && ocrDoneInfo) {
       const di = ocrDoneInfo;
@@ -6175,7 +6174,7 @@ function GolfTracker() {
       { key: "ob", label: "OB" },
       { key: "penalty", label: "\u30DA\u30CA\u30EB\u30C6\u30A3" },
       { key: "bunker", label: "\u30D0\u30F3\u30AB\u30FC" }
-    ].map(({ key, label }) => /* @__PURE__ */ React.createElement("div", { key }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, label), /* @__PURE__ */ React.createElement(NumInput, { val: shd[key], onChange: (v) => setShd({ [key]: v }), min: 0, max: 5 })))), /* @__PURE__ */ React.createElement(ShotEvalEditor, { key: currentHole, par, data: shd, onChange: setShd, S, showRequired: true }), /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: "480px", boxSizing: "border-box", background: "#ffffff", borderTop: "1px solid #e2e8f0", padding: "8px 14px calc(8px + env(safe-area-inset-bottom))", boxShadow: "0 -2px 10px rgba(0,0,0,0.08)", zIndex: 90 } }, (() => {
+    ].map(({ key, label }) => /* @__PURE__ */ React.createElement("div", { key }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, label), /* @__PURE__ */ React.createElement(NumInput, { val: shd[key], onChange: (v) => setShd({ [key]: v }), min: 0, max: 5 })))), /* @__PURE__ */ React.createElement(ShotEvalEditor, { par, data: shd, onChange: setShd, S, showRequired: true }), /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: "480px", boxSizing: "border-box", background: "#ffffff", borderTop: "1px solid #e2e8f0", padding: "8px 14px calc(8px + env(safe-area-inset-bottom))", boxShadow: "0 -2px 10px rgba(0,0,0,0.08)", zIndex: 90 } }, (() => {
       const firstHole = 1;
       const lastHole = 18;
       const _frontLastHole = 9;
