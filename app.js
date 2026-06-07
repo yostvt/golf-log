@@ -2095,7 +2095,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06071316";
+var APP_VERSION = "06071335";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3066,9 +3066,6 @@ function DrumPicker({ value, onChange, min, max, step, label, accent = "#16a34a"
 }
 function ShotEvalEditor({ par, data, onChange, S, showRequired = false, adjustCounts = true }) {
   const [localTee, setLocalTee] = useState(() => normTee6(data.teeEval));
-  useEffect(() => {
-    setLocalTee(normTee6(data.teeEval));
-  }, [data.teeEval]);
   const OX = [
     { v: "good", label: "\u25CB", color: "#34d399" },
     { v: "fair", label: "\u25B3", color: "#fbbf24" },
@@ -6178,7 +6175,7 @@ function GolfTracker() {
       { key: "ob", label: "OB" },
       { key: "penalty", label: "\u30DA\u30CA\u30EB\u30C6\u30A3" },
       { key: "bunker", label: "\u30D0\u30F3\u30AB\u30FC" }
-    ].map(({ key, label }) => /* @__PURE__ */ React.createElement("div", { key }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, label), /* @__PURE__ */ React.createElement(NumInput, { val: shd[key], onChange: (v) => setShd({ [key]: v }), min: 0, max: 5 })))), /* @__PURE__ */ React.createElement(ShotEvalEditor, { par, data: shd, onChange: setShd, S, showRequired: true }), /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: "480px", boxSizing: "border-box", background: "#ffffff", borderTop: "1px solid #e2e8f0", padding: "8px 14px calc(8px + env(safe-area-inset-bottom))", boxShadow: "0 -2px 10px rgba(0,0,0,0.08)", zIndex: 90 } }, (() => {
+    ].map(({ key, label }) => /* @__PURE__ */ React.createElement("div", { key }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, label), /* @__PURE__ */ React.createElement(NumInput, { val: shd[key], onChange: (v) => setShd({ [key]: v }), min: 0, max: 5 })))), /* @__PURE__ */ React.createElement(ShotEvalEditor, { key: currentHole, par, data: shd, onChange: setShd, S, showRequired: true }), /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", bottom: 0, left: "50%", transform: "translateX(-50%)", width: "100%", maxWidth: "480px", boxSizing: "border-box", background: "#ffffff", borderTop: "1px solid #e2e8f0", padding: "8px 14px calc(8px + env(safe-area-inset-bottom))", boxShadow: "0 -2px 10px rgba(0,0,0,0.08)", zIndex: 90 } }, (() => {
       const firstHole = 1;
       const lastHole = 18;
       const _frontLastHole = 9;
