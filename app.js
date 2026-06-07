@@ -2095,7 +2095,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06071240";
+var APP_VERSION = "06071316";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3064,7 +3064,11 @@ function DrumPicker({ value, onChange, min, max, step, label, accent = "#16a34a"
   };
   return /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" } }, label && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8", fontWeight: "700" } }, label), /* @__PURE__ */ React.createElement("div", { style: { position: "relative", height: ITEM_H * 3 + "px", width: "82px" } }, /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: ITEM_H + "px", left: 0, right: 0, height: ITEM_H + "px", background: accent + "14", border: "1px solid " + accent, borderRadius: "8px", pointerEvents: "none" } }), /* @__PURE__ */ React.createElement("div", { ref, onScroll, style: { height: "100%", overflowY: "scroll", scrollSnapType: "y mandatory", WebkitOverflowScrolling: "touch", paddingTop: ITEM_H + "px", paddingBottom: ITEM_H + "px" } }, items.map((v) => /* @__PURE__ */ React.createElement("div", { key: v, style: { height: ITEM_H + "px", lineHeight: ITEM_H + "px", textAlign: "center", scrollSnapAlign: "center", fontSize: v === value ? "21px" : "15px", fontWeight: v === value ? "800" : "500", color: v === value ? accent : "#cbd5e1" } }, v)))));
 }
-function ShotEvalEditor({ par, data, onChange, S, showRequired = false }) {
+function ShotEvalEditor({ par, data, onChange, S, showRequired = false, adjustCounts = true }) {
+  const [localTee, setLocalTee] = useState(() => normTee6(data.teeEval));
+  useEffect(() => {
+    setLocalTee(normTee6(data.teeEval));
+  }, [data.teeEval]);
   const OX = [
     { v: "good", label: "\u25CB", color: "#34d399" },
     { v: "fair", label: "\u25B3", color: "#fbbf24" },
@@ -3084,15 +3088,18 @@ function ShotEvalEditor({ par, data, onChange, S, showRequired = false }) {
   } }, l.label)));
   const teeOpts = par <= 3 ? [{ v: "fw", label: "\u30AA\u30F3\u25CB", color: "#34d399" }, { v: "rough", label: "\u5468\u308A\u25B3", color: "#fbbf24" }, { v: "miss", label: "\u30DF\u30B9\xD7", color: "#f87171" }, { v: "bunker", label: "\u30D0\u30F3\u30AB\u30FC", color: "#fb923c" }, { v: "onepen", label: "\u30EF\u30F3\u30DA\u30CA", color: "#a78bfa" }, { v: "ob", label: "OB", color: "#ef4444" }] : [{ v: "fw", label: "\u30D5\u30A7\u30A2\u30A6\u30A7\u30A4\u25CB", color: "#34d399" }, { v: "rough", label: "\u30E9\u30D5\u25B3", color: "#fbbf24" }, { v: "miss", label: "\u30DF\u30B9\xD7", color: "#f87171" }, { v: "bunker", label: "\u30D0\u30F3\u30AB\u30FC", color: "#fb923c" }, { v: "onepen", label: "\u30EF\u30F3\u30DA\u30CA", color: "#a78bfa" }, { v: "ob", label: "OB", color: "#ef4444" }];
   return /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "12px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30B7\u30E7\u30C3\u30C8\u8A55\u4FA1"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "600", color: showRequired && !data.teeEval ? "#dc2626" : "#94a3b8" } }, "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8", showRequired ? /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px" } }, " *") : null), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "5px", flexWrap: "wrap" } }, teeOpts.map((l) => {
-    const active = normTee6(data.teeEval) === l.v;
+    const active = localTee === l.v;
     return /* @__PURE__ */ React.createElement("button", { key: l.v, onClick: () => {
       const newKey = active ? null : l.v;
-      const ck = (k) => k === "bunker" ? "bunker" : k === "onepen" ? "penalty" : k === "ob" ? "ob" : null;
-      const oldCk = ck(normTee6(data.teeEval)), newCk = ck(newKey);
+      setLocalTee(newKey);
       const patch = { teeEval: newKey };
-      if (oldCk !== newCk) {
-        if (oldCk) patch[oldCk] = Math.max(0, (data[oldCk] || 0) - 1);
-        if (newCk) patch[newCk] = (data[newCk] || 0) + 1;
+      if (adjustCounts) {
+        const ck = (k) => k === "bunker" ? "bunker" : k === "onepen" ? "penalty" : k === "ob" ? "ob" : null;
+        const oldCk = ck(normTee6(data.teeEval)), newCk = ck(newKey);
+        if (oldCk !== newCk) {
+          if (oldCk) patch[oldCk] = Math.max(0, (data[oldCk] || 0) - 1);
+          if (newCk) patch[newCk] = (data[newCk] || 0) + 1;
+        }
       }
       onChange(patch);
     }, style: {
@@ -4701,7 +4708,6 @@ function GolfTracker() {
         const items = [];
         if (frontHoles.length) items.push(`${frontLabel}\uFF1A${frontScore}\uFF08${sign(frontScore - frontPar2)}\uFF09`);
         if (backHoles.length) items.push(`${backLabel}\uFF1A${backScore}\uFF08${sign(backScore - backPar2)}\uFF09`);
-        if (items.length > 1) items.push(`\u5408\u8A08\uFF1A${sa.totalScore}\uFF08${sign(sa.totalScore - sa.totalPar)}\uFF09`);
         return /* @__PURE__ */ React.createElement("div", { style: { padding: "8px 10px", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "6px", fontSize: "12px", color: "#1e293b", fontWeight: "700", textAlign: "center", marginBottom: "8px" } }, items.join("\u3000"));
       })(), (() => {
         const shd = r.simpleHoleData || {};
@@ -4719,8 +4725,8 @@ function GolfTracker() {
         const girRate = allHoles.length > 0 ? Math.round(girHoles.length / allHoles.length * 100) : null;
         const rateColor = (v) => v == null ? "#94a3b8" : v >= 60 ? "#16a34a" : v >= 30 ? "#fbbf24" : "#dc2626";
         const cell = (label, val) => /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, label, " ", /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(val), fontWeight: "700" } }, val != null ? `${val}%` : "\u2212"));
-        return /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", fontSize: "11px", paddingTop: "6px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u6210\u529F\u7387"), cell("Par5", p5), cell("Par4", p4), cell("Par3", p3), /* @__PURE__ */ React.createElement("span", { style: { flexBasis: "100%", height: 0 } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D1\u30FC\u30AA\u30F3\u7387"), /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(girRate), fontWeight: "700" } }, girRate != null ? `${girRate}%` : "\u2212"));
-      })(), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", marginTop: "5px", paddingTop: "5px", fontSize: "11px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u30D1\u30C3\u30C8 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "700" } }, sa.totalPutts)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "OB ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalOB > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa.totalOB)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u30DA\u30CA\u30EB\u30C6\u30A3 ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalPen > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa.totalPen)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, "\u30D0\u30F3\u30AB\u30FC ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalBunker > 0 ? "#fbbf24" : "#e2e8f0", fontWeight: "700" } }, sa.totalBunker))), /* @__PURE__ */ React.createElement(
+        return /* @__PURE__ */ React.createElement("div", { style: { paddingTop: "6px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", fontSize: "11px", marginBottom: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u6210\u529F\u7387"), cell("Par5", p5), cell("Par4", p4), cell("Par3", p3)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D1\u30FC\u30AA\u30F3\u7387"), /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(girRate), fontWeight: "700" } }, girRate != null ? `${girRate}%` : "\u2212")));
+      })(), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", marginTop: "5px", paddingTop: "5px", fontSize: "11px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D1\u30C3\u30C8 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "700" } }, sa.totalPutts)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "OB ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalOB > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa.totalOB)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30DA\u30CA\u30EB\u30C6\u30A3 ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalPen > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa.totalPen)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D0\u30F3\u30AB\u30FC ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalBunker > 0 ? "#fbbf24" : "#e2e8f0", fontWeight: "700" } }, sa.totalBunker))), /* @__PURE__ */ React.createElement(
         "button",
         {
           onClick: () => setShotDetailRid(shotDetailRid === r.rid ? null : r.rid),
@@ -6022,7 +6028,7 @@ function GolfTracker() {
         var _a3;
         const mp = Math.max(0, v - 1);
         upd(__spreadValues({ score: v }, ((_a3 = ed.putts) != null ? _a3 : 0) > mp ? { putts: mp } : {}));
-      } })), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30D1\u30C3\u30C8\u6570"), /* @__PURE__ */ React.createElement(NumInput, { val: ed.putts, min: 0, max: Math.max(0, ((_b2 = ed.score) != null ? _b2 : edPar) - 1), onChange: (v) => upd({ putts: v }) }))), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px", marginBottom: "14px" } }, [{ key: "ob", label: "OB" }, { key: "penalty", label: "\u30DA\u30CA\u30EB\u30C6\u30A3" }, { key: "bunker", label: "\u30D0\u30F3\u30AB\u30FC" }].map(({ key, label }) => /* @__PURE__ */ React.createElement("div", { key }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, label), /* @__PURE__ */ React.createElement(NumInput, { val: ed[key], min: 0, max: 5, onChange: (v) => upd({ [key]: v }) })))), /* @__PURE__ */ React.createElement(ShotEvalEditor, { par: edPar, data: ed, onChange: upd, S }))), sheet);
+      } })), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30D1\u30C3\u30C8\u6570"), /* @__PURE__ */ React.createElement(NumInput, { val: ed.putts, min: 0, max: Math.max(0, ((_b2 = ed.score) != null ? _b2 : edPar) - 1), onChange: (v) => upd({ putts: v }) }))), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px", marginBottom: "14px" } }, [{ key: "ob", label: "OB" }, { key: "penalty", label: "\u30DA\u30CA\u30EB\u30C6\u30A3" }, { key: "bunker", label: "\u30D0\u30F3\u30AB\u30FC" }].map(({ key, label }) => /* @__PURE__ */ React.createElement("div", { key }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, label), /* @__PURE__ */ React.createElement(NumInput, { val: ed[key], min: 0, max: 5, onChange: (v) => upd({ [key]: v }) })))), /* @__PURE__ */ React.createElement(ShotEvalEditor, { key: ocrSel == null ? void 0 : ocrSel.hole, par: edPar, data: ed, onChange: upd, S, adjustCounts: false }))), sheet);
     }
     if (ocrStep === "done" && ocrDoneInfo) {
       const di = ocrDoneInfo;
