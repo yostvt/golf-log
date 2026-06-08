@@ -2363,7 +2363,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06080222";
+var APP_VERSION = "06081348";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -4987,6 +4987,8 @@ function GolfTracker() {
         const allHoles = Object.entries(shd).filter(([, d]) => (d == null ? void 0 : d.score) != null);
         const girHoles = allHoles.filter(([h, d]) => (d.score || 0) - (d.putts || 0) <= (pars[parseInt(h) - 1] || 4) - 2);
         const girRate = allHoles.length > 0 ? Math.round(girHoles.length / allHoles.length * 100) : null;
+        const bogeyOnHoles = allHoles.filter(([h, d]) => (d.score || 0) - (d.putts || 0) === (pars[parseInt(h) - 1] || 4) - 1);
+        const bogeyOnRate = allHoles.length > 0 ? Math.round(bogeyOnHoles.length / allHoles.length * 100) : null;
         const rateColor = (v) => v == null ? "#94a3b8" : v >= 60 ? "#16a34a" : v >= 30 ? "#fbbf24" : "#dc2626";
         const cell = (label, val) => /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, label, " ", /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(val), fontWeight: "700" } }, val != null ? `${val}%` : "\u2212"));
         return /* @__PURE__ */ React.createElement("div", { style: { paddingTop: "6px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", fontSize: "11px", marginBottom: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u6210\u529F\u7387"), cell("Par5", p5), cell("Par4", p4), cell("Par3", p3)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D1\u30FC\u30AA\u30F3\u7387"), /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(girRate), fontWeight: "700" } }, girRate != null ? `${girRate}%` : "\u2212"), /* @__PURE__ */ React.createElement("span", { style: { color: "#e2e8f0" } }, "|"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30DC\u30AE\u30FC\u30AA\u30F3\u7387"), /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(bogeyOnRate), fontWeight: "700" } }, bogeyOnRate != null ? `${bogeyOnRate}%` : "\u2212")));
@@ -5799,7 +5801,7 @@ function GolfTracker() {
       const avgGIR = statsWeight ? Math.round(gir / statsWeight * 10) / 10 : 0;
       const avgBogeyOn = statsWeight ? Math.round(bogeyOn / statsWeight * 10) / 10 : 0;
       const girRate = holes ? Math.round(gir / holes * 1e3) / 10 : 0;
-      const bogeyOnRate2 = holes ? Math.round(bogeyOn / holes * 1e3) / 10 : 0;
+      const bogeyOnRate = holes ? Math.round(bogeyOn / holes * 1e3) / 10 : 0;
       const recoveryRate = recTot ? Math.round(recOk / recTot * 1e3) / 10 : null;
       const parBreakRate = pbTot ? Math.round(pbHoles / pbTot * 1e3) / 10 : null;
       let putts = 0, puttHoles = 0;
@@ -5821,7 +5823,7 @@ function GolfTracker() {
       });
       const avgOB = statsWeight ? Math.round(ob / statsWeight * 10) / 10 : 0;
       const avgPenalty = statsWeight ? Math.round(pen / statsWeight * 10) / 10 : 0;
-      return { avgScore, avgGIR, avgBogeyOn, girRate, bogeyOnRate: bogeyOnRate2, recoveryRate, parBreakRate, avgPuttPerHole, avgTotalPutts, avgOB, avgPenalty };
+      return { avgScore, avgGIR, avgBogeyOn, girRate, bogeyOnRate, recoveryRate, parBreakRate, avgPuttPerHole, avgTotalPutts, avgOB, avgPenalty };
     };
     const s20 = calcStats(sc20);
     const s5 = calcStats(sc5);
