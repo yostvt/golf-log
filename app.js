@@ -2363,7 +2363,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06081348";
+var APP_VERSION = "06081520";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -4987,7 +4987,7 @@ function GolfTracker() {
         const allHoles = Object.entries(shd).filter(([, d]) => (d == null ? void 0 : d.score) != null);
         const girHoles = allHoles.filter(([h, d]) => (d.score || 0) - (d.putts || 0) <= (pars[parseInt(h) - 1] || 4) - 2);
         const girRate = allHoles.length > 0 ? Math.round(girHoles.length / allHoles.length * 100) : null;
-        const bogeyOnHoles = allHoles.filter(([h, d]) => (d.score || 0) - (d.putts || 0) === (pars[parseInt(h) - 1] || 4) - 1);
+        const bogeyOnHoles = allHoles.filter(([h, d]) => (d.score || 0) - (d.putts || 0) <= (pars[parseInt(h) - 1] || 4) - 1);
         const bogeyOnRate = allHoles.length > 0 ? Math.round(bogeyOnHoles.length / allHoles.length * 100) : null;
         const rateColor = (v) => v == null ? "#94a3b8" : v >= 60 ? "#16a34a" : v >= 30 ? "#fbbf24" : "#dc2626";
         const cell = (label, val) => /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, label, " ", /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(val), fontWeight: "700" } }, val != null ? `${val}%` : "\u2212"));
@@ -5790,7 +5790,7 @@ function GolfTracker() {
           const shotsToGreen = (h.score || 0) - (h.putts || 0);
           const isGIR = shotsToGreen <= par2 - 2;
           if (isGIR) gir++;
-          else if (shotsToGreen === par2 - 1) bogeyOn++;
+          if (shotsToGreen <= par2 - 1) bogeyOn++;
           if (!isGIR) {
             recTot++;
             if ((h.score || 0) <= par2) recOk++;
