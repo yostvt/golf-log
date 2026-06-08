@@ -644,6 +644,175 @@ function calcSimpleSG(simpleHoleData, holePars, hcp, holeLengths, avgDrive) {
     holes: rows
   };
 }
+function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
+  const HC = hcp != null ? hcp : 0, DRIVE = avgDrive || 220, ADV = DRIVE * 0.85;
+  const fT = 1 + 0.28 * HC / 18, fL = 1 + 0.4 * HC / 18, fS = 1 + 0.17 * HC / 18;
+  const ip = interpBaseline;
+  const num = (v) => Number.isFinite(v) ? v : 0;
+  const distF = (d) => d > 100 ? fL : fS;
+  const resultLie = (s) => {
+    if (!s) return "fairway";
+    if (s.subType === "bunker") return "sand";
+    if (s.subType === "1pen" || s.subType === "ob") return "fairway";
+    if (s.quality === "\u25CB") return "fairway";
+    if (s.quality === "\u25B3" || s.quality === "\xD7") return "rough";
+    return "fairway";
+  };
+  const shotDist = (s) => {
+    if (!s) return null;
+    if (s.remainDistRaw != null && Number.isFinite(s.remainDistRaw) && s.remainDistRaw > 0) return s.remainDistRaw;
+    if (s.remainDist != null && DIST_LABEL_MID[s.remainDist] != null) return DIST_LABEL_MID[s.remainDist];
+    return null;
+  };
+  let TS = 0, LG = 0, SGS = 0, PT = 0, BK = 0, total = 0, score = 0, par = 0, n = 0;
+  const rows = [];
+  const oldFmtHoles = {};
+  Object.entries(holeData || {}).forEach(([hk, hd]) => {
+    const hi = parseInt(hk);
+    if (!hd || !hd.done || !Array.isArray(hd.shots) || hd.shots.length === 0) return;
+    const pr = holePars && holePars[hi - 1] || 4;
+    const len = holeLengths ? holeLengths[hi - 1] : null;
+    if (len == null || !(len > 0)) return;
+    const shots = hd.shots;
+    if (!shots.some((s) => s.quality !== void 0)) {
+      oldFmtHoles[hk] = hd;
+      return;
+    }
+    const extraPen = hd.extraPenalty || 0;
+    const sc = shots.reduce((a, s) => a + (s.shotCount || 1), 0) + extraPen;
+    if (!(sc > 0)) return;
+    const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + (s.shotCount || 1), 0);
+    n++;
+    score += sc;
+    par += pr;
+    const isP3 = pr <= 3;
+    const hExp = ip(PRO_BASELINE.tee, len) * fT;
+    const holeSG = hExp - sc;
+    total += holeSG;
+    let eP;
+    const apprShots = shots.filter((s) => s.categoryKey === "approach");
+    if (putts === 0) eP = 0;
+    else if (hd.pinDist != null && PUTT_LABEL_M[hd.pinDist] != null) {
+      eP = ip(PRO_BASELINE.green, PUTT_LABEL_M[hd.pinDist] * 3.281);
+    } else {
+      const lastQ = apprShots.length > 0 ? apprShots[apprShots.length - 1].quality : null;
+      eP = lastQ === "\u25CB" ? 1.38 : lastQ === "\u25B3" ? 1.72 : lastQ === "\xD7" ? 1.9 : 2;
+    }
+    const pt = num(eP - putts);
+    PT += pt;
+    const greenAim = holeSG - pt;
+    const teeShot = shots.find((s) => s.categoryKey === "tee");
+    const afterTee = teeShot ? shots[shots.indexOf(teeShot) + 1] : null;
+    let tSG = 0;
+    if (!isP3) {
+      let afterExp = null;
+      if (afterTee && afterTee.categoryKey === "putt") afterExp = eP;
+      else {
+        const d1 = shotDist(afterTee);
+        if (d1 != null) afterExp = ip(PRO_BASELINE[resultLie(teeShot)], d1) * distF(d1);
+      }
+      if (afterExp != null) {
+        const use = teeShot ? Math.max(1, teeShot.shotCount || 1) : 1;
+        tSG = hExp - use - afterExp;
+      } else {
+        const key = !teeShot ? "fw" : teeShot.subType === "bunker" ? "bunker" : teeShot.subType === "1pen" ? "onepen" : teeShot.subType === "ob" ? "ob" : teeShot.quality === "\u25CB" ? "fw" : teeShot.quality === "\u25B3" ? "rough" : "miss";
+        const c = SG_TEE_LIE[key];
+        let rem = c.miss ? len - DRIVE * 0.5 : len - DRIVE;
+        rem = Math.max(rem, 5);
+        tSG = hExp - c.use - ip(PRO_BASELINE[c.lie], rem) * distF(rem);
+      }
+      tSG = num(tSG);
+    }
+    TS += tSG;
+    const lsHole = greenAim - tSG;
+    const lsShots = [];
+    shots.forEach((s) => {
+      if (s.categoryKey === "approach") lsShots.push({ s, isTee: false });
+      else if (isP3 && s.categoryKey === "tee") lsShots.push({ s, isTee: true });
+    });
+    let est = isP3 ? len : Math.max(len - DRIVE, 5);
+    const items = lsShots.map((it) => {
+      const d = it.isTee ? len : shotDist(it.s) != null ? shotDist(it.s) : est;
+      est = Math.max(d - ADV, 5);
+      return { s: it.s, isTee: it.isTee, d };
+    });
+    let lg = 0, sgS = 0;
+    if (items.length === 0) {
+      const rr = isP3 ? len : Math.max(len - DRIVE, 5);
+      if (rr > 100) lg = lsHole;
+      else sgS = lsHole;
+    } else {
+      let sumL = 0, sumS = 0, nL = 0, nS = 0;
+      items.forEach((it, k) => {
+        const cost = Math.max(1, it.s.shotCount || 1);
+        const before = it.isTee ? hExp : ip(PRO_BASELINE[k === 0 ? resultLie(isP3 ? null : teeShot) : resultLie(items[k - 1].s)], it.d) * distF(it.d);
+        const after = k === items.length - 1 ? eP : ip(PRO_BASELINE[resultLie(it.s)], items[k + 1].d) * distF(items[k + 1].d);
+        const v = num(before - cost - after);
+        if (it.d > 100) {
+          sumL += v;
+          nL++;
+        } else {
+          sumS += v;
+          nS++;
+        }
+      });
+      const resid = lsHole - (sumL + sumS), dn = nL + nS;
+      lg = num(sumL + resid * nL / dn);
+      sgS = num(sumS + resid * nS / dn);
+    }
+    LG += lg;
+    SGS += sgS;
+    let holeBK = 0;
+    const teeBunk = !isP3 && !!teeShot && teeShot.subType === "bunker";
+    if (teeBunk) holeBK += tSG;
+    const bunkCount = shots.filter((s) => s.subType === "bunker").length;
+    if (bunkCount - (teeBunk ? 1 : 0) > 0) holeBK += HC / 18 - (sc - pr);
+    holeBK = num(holeBK);
+    BK += holeBK;
+    const hadBunker = teeBunk || bunkCount > 0;
+    rows.push({
+      hole: hi,
+      par: pr,
+      ts: isP3 ? null : rnd2(tSG),
+      lg: rnd2(lg),
+      sg: rnd2(sgS),
+      pt: rnd2(pt),
+      bk: hadBunker ? rnd2(holeBK) : null,
+      score: sc,
+      putts
+    });
+  });
+  if (Object.keys(oldFmtHoles).length > 0) {
+    try {
+      const sd = deriveSimpleHoleData(oldFmtHoles, holePars);
+      const fb = calcSimpleSG(sd, holePars || Array(18).fill(4), hcp, holeLengths, avgDrive);
+      TS += fb.teeScore;
+      LG += fb.longScore;
+      SGS += fb.shortScore;
+      PT += fb.puttScore;
+      BK += fb.bunkerScore;
+      total += fb.totalSG;
+      score += fb.totalScore;
+      par += fb.totalPar;
+      n += fb.holeCount;
+      rows.push(...fb.holes);
+    } catch (e) {
+    }
+  }
+  rows.sort((a, b) => a.hole - b.hole);
+  return {
+    teeScore: rnd2(TS),
+    longScore: rnd2(LG),
+    shortScore: rnd2(SGS),
+    puttScore: rnd2(PT),
+    bunkerScore: rnd2(BK),
+    totalSG: rnd2(total),
+    totalScore: score,
+    totalPar: par,
+    holeCount: n,
+    holes: rows
+  };
+}
 function calcDetailAnalytics(holeData, holePars, hcp = null, teeRates = null) {
   var _a, _b, _c, _d, _e, _f, _g;
   const pars = holePars || Array(18).fill(4);
@@ -950,7 +1119,25 @@ function calcSegmentAnalysis(rounds, n) {
 function calcAnalytics(r, hcp, teeRates = null, avgDrive = null) {
   if (r.inputMode === "detail" && r.holeData && Object.keys(r.holeData).length > 0) {
     const sa2 = calcDetailAnalytics(r.holeData, r.holePars, hcp, teeRates);
-    return sa2 ? __spreadProps(__spreadValues({}, sa2), { isDetailMode: true }) : null;
+    if (!sa2) return null;
+    if (avgDrive != null && hcp != null) {
+      const venue = VENUES.find((v) => v.id === r.venueId);
+      if (venue) {
+        const allHoles = getRoundHoles(r);
+        const holeLengths = allHoles.map((h) => {
+          const y = h ? venue.getYardage(h, r.green, r.tee) : null;
+          return y && y > 0 ? y : null;
+        });
+        if (holeLengths.some((v) => v != null)) {
+          try {
+            const sg = calcDetailSG(r.holeData, r.holePars || Array(18).fill(4), hcp, holeLengths, avgDrive);
+            return __spreadProps(__spreadValues({}, sa2), { sg, sgReady: true, isDetailMode: true });
+          } catch (e) {
+          }
+        }
+      }
+    }
+    return __spreadProps(__spreadValues({}, sa2), { sg: null, sgReady: false, isDetailMode: true });
   }
   const sa = calcSimpleAnalytics(r.simpleHoleData || {}, r.holePars || Array(18).fill(4), hcp, teeRates);
   if (!sa) return null;
@@ -2176,7 +2363,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06072333";
+var APP_VERSION = "06080222";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -4802,7 +4989,7 @@ function GolfTracker() {
         const girRate = allHoles.length > 0 ? Math.round(girHoles.length / allHoles.length * 100) : null;
         const rateColor = (v) => v == null ? "#94a3b8" : v >= 60 ? "#16a34a" : v >= 30 ? "#fbbf24" : "#dc2626";
         const cell = (label, val) => /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, label, " ", /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(val), fontWeight: "700" } }, val != null ? `${val}%` : "\u2212"));
-        return /* @__PURE__ */ React.createElement("div", { style: { paddingTop: "6px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", fontSize: "11px", marginBottom: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u6210\u529F\u7387"), cell("Par5", p5), cell("Par4", p4), cell("Par3", p3)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D1\u30FC\u30AA\u30F3\u7387"), /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(girRate), fontWeight: "700" } }, girRate != null ? `${girRate}%` : "\u2212")));
+        return /* @__PURE__ */ React.createElement("div", { style: { paddingTop: "6px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", fontSize: "11px", marginBottom: "5px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u6210\u529F\u7387"), cell("Par5", p5), cell("Par4", p4), cell("Par3", p3)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center", fontSize: "11px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D1\u30FC\u30AA\u30F3\u7387"), /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(girRate), fontWeight: "700" } }, girRate != null ? `${girRate}%` : "\u2212"), /* @__PURE__ */ React.createElement("span", { style: { color: "#e2e8f0" } }, "|"), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30DC\u30AE\u30FC\u30AA\u30F3\u7387"), /* @__PURE__ */ React.createElement("span", { style: { color: rateColor(bogeyOnRate), fontWeight: "700" } }, bogeyOnRate != null ? `${bogeyOnRate}%` : "\u2212")));
       })(), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", marginTop: "5px", paddingTop: "5px", fontSize: "11px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D1\u30C3\u30C8 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "700" } }, sa.totalPutts)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "OB ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalOB > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa.totalOB)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30DA\u30CA\u30EB\u30C6\u30A3 ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalPen > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa.totalPen)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D0\u30F3\u30AB\u30FC ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalBunker > 0 ? "#fbbf24" : "#e2e8f0", fontWeight: "700" } }, sa.totalBunker))), /* @__PURE__ */ React.createElement(
         "button",
         {
@@ -5590,7 +5777,7 @@ function GolfTracker() {
         return a + (((_b2 = (_a2 = r.holePars) == null ? void 0 : _a2.length) != null ? _b2 : 18) <= 12 ? 0.5 : 1);
       }, 0);
       const avgScore = statsWeight ? Math.round(list.reduce((a, r) => a + Object.values(r.simpleHoleData || {}).reduce((s, h) => s + (h.score || 0), 0), 0) / statsWeight * 10) / 10 : 0;
-      let gir = 0, holes = 0, recOk = 0, recTot = 0, pbHoles = 0, pbTot = 0;
+      let gir = 0, bogeyOn = 0, holes = 0, recOk = 0, recTot = 0, pbHoles = 0, pbTot = 0;
       list.forEach((r) => {
         const hd2 = r.simpleHoleData || {};
         const pars = r.holePars || Array(18).fill(4);
@@ -5598,8 +5785,10 @@ function GolfTracker() {
           const par2 = pars[parseInt(hStr) - 1] || 4;
           holes++;
           pbTot++;
-          const isGIR = (h.score || 0) - (h.putts || 0) <= par2 - 2;
+          const shotsToGreen = (h.score || 0) - (h.putts || 0);
+          const isGIR = shotsToGreen <= par2 - 2;
           if (isGIR) gir++;
+          else if (shotsToGreen === par2 - 1) bogeyOn++;
           if (!isGIR) {
             recTot++;
             if ((h.score || 0) <= par2) recOk++;
@@ -5608,7 +5797,9 @@ function GolfTracker() {
         });
       });
       const avgGIR = statsWeight ? Math.round(gir / statsWeight * 10) / 10 : 0;
+      const avgBogeyOn = statsWeight ? Math.round(bogeyOn / statsWeight * 10) / 10 : 0;
       const girRate = holes ? Math.round(gir / holes * 1e3) / 10 : 0;
+      const bogeyOnRate2 = holes ? Math.round(bogeyOn / holes * 1e3) / 10 : 0;
       const recoveryRate = recTot ? Math.round(recOk / recTot * 1e3) / 10 : null;
       const parBreakRate = pbTot ? Math.round(pbHoles / pbTot * 1e3) / 10 : null;
       let putts = 0, puttHoles = 0;
@@ -5630,7 +5821,7 @@ function GolfTracker() {
       });
       const avgOB = statsWeight ? Math.round(ob / statsWeight * 10) / 10 : 0;
       const avgPenalty = statsWeight ? Math.round(pen / statsWeight * 10) / 10 : 0;
-      return { avgScore, avgGIR, girRate, recoveryRate, parBreakRate, avgPuttPerHole, avgTotalPutts, avgOB, avgPenalty };
+      return { avgScore, avgGIR, avgBogeyOn, girRate, bogeyOnRate: bogeyOnRate2, recoveryRate, parBreakRate, avgPuttPerHole, avgTotalPutts, avgOB, avgPenalty };
     };
     const s20 = calcStats(sc20);
     const s5 = calcStats(sc5);
@@ -5647,6 +5838,8 @@ function GolfTracker() {
       { label: "\u5E73\u5747\u30C8\u30FC\u30BF\u30EB\u30D1\u30C3\u30C8\u6570\uFF0818H\uFF09", v5: fmt2(s5 == null ? void 0 : s5.avgTotalPutts), v20: fmt2(s20.avgTotalPutts), color: "#64748b", unit: "\u6253", n5: s5 == null ? void 0 : s5.avgTotalPutts, n20: s20.avgTotalPutts, betterLow: true, diffUnit: "\u6253" },
       { label: "\u30D1\u30FC\u30AA\u30F3\u7387", v5: fmtPct(s5 == null ? void 0 : s5.girRate), v20: fmtPct(s20.girRate), color: "#fbbf24", unit: "", n5: s5 == null ? void 0 : s5.girRate, n20: s20.girRate, betterLow: false, diffUnit: "pt" },
       { label: "\u5E73\u5747\u30D1\u30FC\u30AA\u30F3\u6570\uFF0818H\uFF09", v5: fmt2(s5 == null ? void 0 : s5.avgGIR) + " \u56DE", v20: fmt2(s20.avgGIR) + " \u56DE", color: "#a78bfa", unit: "", n5: s5 == null ? void 0 : s5.avgGIR, n20: s20.avgGIR, betterLow: false, diffUnit: "\u56DE" },
+      { label: "\u30DC\u30AE\u30FC\u30AA\u30F3\u7387", v5: fmtPct(s5 == null ? void 0 : s5.bogeyOnRate), v20: fmtPct(s20.bogeyOnRate), color: "#38bdf8", unit: "", n5: s5 == null ? void 0 : s5.bogeyOnRate, n20: s20.bogeyOnRate, betterLow: false, diffUnit: "pt" },
+      { label: "\u5E73\u5747\u30DC\u30AE\u30FC\u30AA\u30F3\u6570\uFF0818H\uFF09", v5: fmt2(s5 == null ? void 0 : s5.avgBogeyOn) + " \u56DE", v20: fmt2(s20.avgBogeyOn) + " \u56DE", color: "#7dd3fc", unit: "", n5: s5 == null ? void 0 : s5.avgBogeyOn, n20: s20.avgBogeyOn, betterLow: false, diffUnit: "\u56DE" },
       { label: "\u30EA\u30AB\u30D0\u30EA\u30FC\u7387", v5: fmtPct(s5 == null ? void 0 : s5.recoveryRate), v20: fmtPct(s20.recoveryRate), color: "#fb923c", unit: "", n5: s5 == null ? void 0 : s5.recoveryRate, n20: s20.recoveryRate, betterLow: false, diffUnit: "pt" },
       { label: "\u30D1\u30FC\u30D6\u30EC\u30A4\u30AF\u7387", v5: fmtPct(s5 == null ? void 0 : s5.parBreakRate), v20: fmtPct(s20.parBreakRate), color: "#f472b6", unit: "", n5: s5 == null ? void 0 : s5.parBreakRate, n20: s20.parBreakRate, betterLow: false, diffUnit: "pt" },
       { label: "OB\u6570\uFF0818H\uFF09", v5: fmt2(s5 == null ? void 0 : s5.avgOB), v20: fmt2(s20.avgOB), color: "#dc2626", unit: "\u56DE", n5: s5 == null ? void 0 : s5.avgOB, n20: s20.avgOB, betterLow: true, diffUnit: "\u6253", mult: 2 },
