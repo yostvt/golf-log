@@ -1667,7 +1667,7 @@ function AiDiagnosisPanel({ sa, sa5 = null, shd, hcp, rounds, roundId, teeRates 
       return /* @__PURE__ */ React.createElement("div", { style: { flex: 1, position: "relative", height: "7px", background: "#f1f5f9", borderRadius: "4px" } }, /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", left: "50%", top: 0, bottom: 0, width: "1px", background: "#cbd5e1" } }), /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 0, height: "100%", borderRadius: "4px", background: pos ? "#16a34a" : "#2563eb", left: pos ? "50%" : 50 - w + "%", width: w + "%" } }));
     };
     const Row = ({ abbr, main, cmp }) => /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#64748b", width: "26px", flexShrink: 0, textAlign: "right" } }, abbr), /* @__PURE__ */ React.createElement(Bar, { v: main }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: col(main), minWidth: "38px", textAlign: "right" } }, fmt2(main)), hasCmp && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8", minWidth: "34px", textAlign: "right" } }, fmt2(cmp)));
-    return /* @__PURE__ */ React.createElement("div", null, hasCmp && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: "0", fontSize: "8px", color: "#94a3b8", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { minWidth: "38px", textAlign: "right", fontWeight: "700" } }, "\u76F4\u8FD15R"), /* @__PURE__ */ React.createElement("span", { style: { minWidth: "34px", textAlign: "right" } }, "20R")), ITEMS.map((it) => /* @__PURE__ */ React.createElement(Row, { key: it.key, abbr: it.abbr, main: hasCmp ? v5(it.key) : v20(it.key), cmp: v20(it.key) })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginTop: "2px", paddingTop: "8px", borderTop: "1px dashed #e2e8f0" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#1e293b", width: "26px", flexShrink: 0, textAlign: "right" } }, "\u8A08"), /* @__PURE__ */ React.createElement("span", { style: { flex: 1, fontSize: "12px", color: "#64748b" } }, hasCmp ? /* @__PURE__ */ React.createElement(React.Fragment, null, fmt2(v20("totalSG")), /* @__PURE__ */ React.createElement("span", { style: { margin: "0 5px", color: "#cbd5e1" } }, "\u2192"), /* @__PURE__ */ React.createElement("b", { style: { color: col(v5("totalSG")) } }, fmt2(v5("totalSG"))), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "8px", color: "#94a3b8", marginLeft: "5px" } }, "(20R\u21925R)")) : /* @__PURE__ */ React.createElement("b", { style: { color: col(v20("totalSG")) } }, fmt2(v20("totalSG"))))), v20("bunkerScore") != null && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "8px", paddingTop: "8px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement(Row, { abbr: "BK", main: hasCmp ? v5("bunkerScore") : v20("bunkerScore"), cmp: v20("bunkerScore") })), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "8px", paddingTop: "6px", borderTop: "1px dashed #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b", fontWeight: "700", marginBottom: "3px" } }, "\u51E1\u4F8B"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "2px 10px", fontSize: "9px", color: "#64748b" } }, /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "TS"), "\uFF1D\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\uFF08Par4/5\uFF09"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "LG"), "\uFF1D\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\uFF08100Y\u8D85\uFF09"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "SG"), "\uFF1D\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\uFF08100Y\u4EE5\u4E0B\uFF09"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "PT"), "\uFF1D\u30D1\u30C3\u30C8"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "BK"), "\uFF1D\u30D0\u30F3\u30AB\u30FC\uFF08\u5408\u8A08\u306B\u306F\u542B\u307E\u308C\u307E\u305B\u3093\uFF09"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "\u8A08"), "\uFF1DTS/LG/SG/PT\u306E\u5408\u8A08")), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "8px", marginTop: "3px" } }, React.createElement("span", { style: { color: "#16a34a" } }, "\uFF0B\uFF1D\u7372\u5F97\uFF08\u7DD1\uFF09"), React.createElement("span", { style: { color: "#94a3b8" } }, " / "), React.createElement("span", { style: { color: "#2563eb" } }, "\u25B3\uFF1D\u640D\u5931\uFF08\u9752\uFF09"))), sa.sg.holes && sa.sg.holes.length > 0 && (() => {
+    return /* @__PURE__ */ React.createElement("div", null, hasCmp && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: "0", fontSize: "8px", color: "#94a3b8", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { minWidth: "38px", textAlign: "right", fontWeight: "700" } }, "\u76F4\u8FD15R"), /* @__PURE__ */ React.createElement("span", { style: { minWidth: "34px", textAlign: "right" } }, "20R")), ITEMS.map((it) => /* @__PURE__ */ React.createElement(Row, { key: it.key, abbr: it.abbr, main: hasCmp ? v5(it.key) : v20(it.key), cmp: v20(it.key) })), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginTop: "2px", paddingTop: "8px", borderTop: "1px dashed #e2e8f0" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#1e293b", width: "26px", flexShrink: 0, textAlign: "right" } }, "\u8A08"), /* @__PURE__ */ React.createElement("span", { style: { flex: 1, fontSize: "12px", color: "#64748b" } }, hasCmp ? /* @__PURE__ */ React.createElement(React.Fragment, null, fmt2(v20("totalSG")), /* @__PURE__ */ React.createElement("span", { style: { margin: "0 5px", color: "#cbd5e1" } }, "\u2192"), /* @__PURE__ */ React.createElement("b", { style: { color: col(v5("totalSG")) } }, fmt2(v5("totalSG"))), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "8px", color: "#94a3b8", marginLeft: "5px" } }, "(20R\u21925R)")) : /* @__PURE__ */ React.createElement("b", { style: { color: col(v20("totalSG")) } }, fmt2(v20("totalSG"))))), v20("bunkerScore") != null && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "8px", paddingTop: "8px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement(Row, { abbr: "BK", main: hasCmp ? v5("bunkerScore") : v20("bunkerScore"), cmp: v20("bunkerScore") })), /* @__PURE__ */ React.createElement("div", { style: { marginTop: "8px", paddingTop: "6px", borderTop: "1px dashed #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b", fontWeight: "700", marginBottom: "3px" } }, "\u51E1\u4F8B"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "2px 10px", fontSize: "9px", color: "#64748b" } }, /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "TS"), "\uFF1D\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\uFF08Par4/5\uFF09"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "LG"), "\uFF1D\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\uFF08100Y\u8D85\uFF09"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "SG"), "\uFF1D\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\uFF08100Y\u4EE5\u4E0B\uFF09"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "PT"), "\uFF1D\u30D1\u30C3\u30C8"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "BK"), "\uFF1D\u30D0\u30F3\u30AB\u30FC\uFF08\u5408\u8A08\u306B\u306F\u542B\u307E\u308C\u307E\u305B\u3093\uFF09"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("b", null, "\u8A08"), "\uFF1DTS/LG/SG/PT\u306E\u5408\u8A08")), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "8px", marginTop: "3px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a" } }, "\uFF0B\uFF1D\u7372\u5F97\uFF08\u7DD1\uFF09"), /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, " / "), /* @__PURE__ */ React.createElement("span", { style: { color: "#2563eb" } }, "\u25B3\uFF1D\u640D\u5931\uFF08\u9752\uFF09"))), sa.sg.holes && sa.sg.holes.length > 0 && (() => {
       const rows = sa.sg.holes;
       const RL = [
         { k: "par", label: "Par", raw: true },
@@ -2363,7 +2363,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06081520";
+var APP_VERSION = "06102115";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -4745,7 +4745,14 @@ function GolfTracker() {
         WebkitTapHighlightColor: "transparent"
       } }, label))), /* @__PURE__ */ React.createElement("div", { "data-venue-scroll": true, style: { maxHeight: "260px", overflowY: "auto", WebkitOverflowScrolling: "touch" } }, venueTab === "fav" ? favVenues.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { padding: "24px 16px", textAlign: "center", color: "#94a3b8", fontSize: "12px", lineHeight: 1.7 } }, "\u304A\u6C17\u306B\u5165\u308A\u304C\u672A\u767B\u9332\u3067\u3059", /* @__PURE__ */ React.createElement("br", null), "\u30DE\u30A4\u30DA\u30FC\u30B8\u3067\u767B\u9332\u3057\u3066\u304F\u3060\u3055\u3044") : favVenues.map((v) => /* @__PURE__ */ React.createElement(VenueItem, { key: v.id, v })) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "4px", padding: "8px 10px", borderBottom: "1px solid #f1f5f9", background: "#f8fafc" } }, existingRows.map((label) => /* @__PURE__ */ React.createElement("button", { key: label, onClick: () => {
         const el = document.getElementById(`venue-row-${label}`);
-        if (el) { const c = el.closest('[data-venue-scroll]'); if (c) { c.scrollTop += el.getBoundingClientRect().top - c.getBoundingClientRect().top; } else { el.scrollIntoView({ block: "start" }); } }
+        if (el) {
+          const c = el.closest("[data-venue-scroll]");
+          if (c) {
+            c.scrollTop += el.getBoundingClientRect().top - c.getBoundingClientRect().top;
+          } else {
+            el.scrollIntoView({ block: "start" });
+          }
+        }
       }, style: {
         padding: "3px 7px",
         borderRadius: "6px",
@@ -5405,70 +5412,68 @@ function GolfTracker() {
     });
     const fmtEval = (v) => v == null ? "" : (v >= 0 ? "+" : "") + Math.round(v);
     return /* @__PURE__ */ React.createElement(React.Fragment, null, (() => {
-      var _a2, _b2;
-      const W = 320, H = 180, padL = 62, padR = 28, padT = 22, padB = 28;
+      const W = 340, H = 244, padL = 34, padR = 38, padT = 14, padB = 42;
       const n = saList.length;
-      const xOf = (i) => padL + i / (n - 1) * (W - padL - padR);
-      const yOfL = (v) => padT + (1 - (v - combinedMin) / (combinedMax - combinedMin)) * (H - padT - padB);
-      const latestPar = ((_a2 = saList[saList.length - 1]) == null ? void 0 : _a2.totalPar) || 72;
-      const hcpVal = effectiveHcp != null ? effectiveHcp : 0;
-      const zeroAnchorL = latestPar + hcpVal;
-      const zeroY = yOfL(zeroAnchorL);
-      const leftRange = combinedMax - combinedMin;
-      const evalScale = (H - padT - padB) / leftRange;
-      const yOfR = (v) => zeroY - v * evalScale;
-      const gridVals = [combinedMin, Math.round((combinedMin + combinedMax) / 2), combinedMax];
-      const gridValsR = gridVals.map((lv) => Math.round((zeroAnchorL - lv) * -1));
-      const barW = Math.floor((W - padL - padR) / n * 0.65);
-      return /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "12px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30B9\u30B3\u30A2\u30FB\u30D1\u30C3\u30C8\u6570\u30FB\u8A55\u4FA1\u5408\u8A08\u63A8\u79FB\uFF08\u76F4\u8FD15R\uFF09"), /* @__PURE__ */ React.createElement("svg", { width: "100%", viewBox: `0 0 ${W} ${H}`, style: { display: "block" } }, gridVals.map((v, i) => /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("line", { x1: padL, y1: yOfL(v).toFixed(1), x2: W - padR, y2: yOfL(v).toFixed(1), stroke: "#f1f5f9", strokeWidth: "1" }), /* @__PURE__ */ React.createElement("text", { x: "2", y: (yOfL(v) + 4).toFixed(1), textAnchor: "start", fill: "#475569", fontSize: "9" }, v))), evalTotals.map((v, i) => {
-        const x = xOf(i);
-        const y0 = yOfR(0);
-        const y1 = yOfR(-v);
-        const barColor = v >= 0 ? "rgba(96,165,250,0.45)" : "rgba(248,113,113,0.45)";
-        const textY = Math.max(y0, y1) + 10;
-        return /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement(
-          "rect",
-          {
-            x: (x - barW / 2).toFixed(1),
-            y: Math.min(y0, y1).toFixed(1),
-            width: barW,
-            height: Math.max(2, Math.abs(y0 - y1)).toFixed(1),
-            fill: barColor,
-            rx: "2"
+      const plotTop = padT, plotBot = H - padB;
+      const x0 = padL + 16, x1 = W - padR - 16;
+      const xOf = (i) => n <= 1 ? (x0 + x1) / 2 : x0 + i / (n - 1) * (x1 - x0);
+      const gap = 24;
+      const bandH = (plotBot - plotTop - gap) / 2;
+      const scTop = plotTop, scBot = plotTop + bandH;
+      const ptTop = scBot + gap, ptBot = plotBot;
+      const sMin0 = Math.min(...scores), sMax0 = Math.max(...scores);
+      const pMin0 = Math.min(...putts), pMax0 = Math.max(...putts);
+      const sPad = Math.max(1, Math.round((sMax0 - sMin0) * 0.25));
+      const pPad = Math.max(1, Math.round((pMax0 - pMin0) * 0.25));
+      const sMin = sMin0 - sPad, sMax = sMax0 + sPad;
+      const pMin = pMin0 - pPad, pMax = pMax0 + pPad;
+      const yScore = (v) => scBot - (v - sMin) / (sMax - sMin) * (scBot - scTop);
+      const yPutt = (v) => ptBot - (v - pMin) / (pMax - pMin) * (ptBot - ptTop);
+      const sgTot = saList.map((x) => x.sa && x.sa.sg ? x.sa.sg.totalSG : null);
+      const bkSg = saList.map((x) => x.sa && x.sa.sg ? x.sa.sg.bunkerScore : null);
+      const ptSg = saList.map((x) => x.sa && x.sa.sg ? x.sa.sg.puttScore : null);
+      const sgtV = sgTot.filter((v) => v != null);
+      const bkV = bkSg.filter((v) => v != null);
+      const ptV = ptSg.filter((v) => v != null);
+      const hasSGt = sgtV.length > 0, hasBK = bkV.length > 0, hasPT = ptV.length > 0;
+      const padRng = (lo, hi) => {
+        const p = Math.max(0.5, (hi - lo) * 0.3);
+        return [Math.floor(lo - p), Math.ceil(hi + p)];
+      };
+      const upperV = [...sgtV, ...bkV];
+      const [sgtMin, sgtMax] = upperV.length ? padRng(Math.min(...upperV), Math.max(...upperV)) : [-1, 1];
+      const [ptMin2, ptMax2] = hasPT ? padRng(Math.min(...ptV), Math.max(...ptV)) : [-1, 1];
+      const yRsg = (v) => scBot - (v - sgtMin) / (sgtMax - sgtMin || 1) * (scBot - scTop);
+      const yRpt = (v) => ptBot - (v - ptMin2) / (ptMax2 - ptMin2 || 1) * (ptBot - ptTop);
+      const barW = Math.min(24, Math.floor((x1 - x0) / n * 0.6));
+      const fmtSG = (v) => v == null ? "" : (v >= 0 ? "+" : "") + Math.round(v * 10) / 10;
+      const linePath = (vals, yFn) => {
+        let d = "", started = false;
+        vals.forEach((v, i) => {
+          if (v == null) {
+            started = false;
+            return;
           }
-        ), /* @__PURE__ */ React.createElement(
-          "text",
-          {
-            x: x.toFixed(1),
-            y: textY.toFixed(1),
-            textAnchor: "middle",
-            fill: v >= 0 ? "#0ea5e9" : "#dc2626",
-            fontSize: "8",
-            fontWeight: "700"
-          },
-          v >= 0 ? "+" : "",
-          v
-        ));
-      }), /* @__PURE__ */ React.createElement("line", { x1: padL, y1: zeroY.toFixed(1), x2: W - padR, y2: zeroY.toFixed(1), stroke: "rgba(148,163,184,0.35)", strokeWidth: "1", strokeDasharray: "3 2" }), (() => {
-        const pts = scores.map((v, i) => [xOf(i), yOfL(v)]);
-        const d = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
-        return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("path", { d, fill: "none", stroke: "#94a3b8", strokeWidth: "2", strokeLinejoin: "round", strokeLinecap: "round" }), pts.map(([x, y], i) => /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: "3.5", fill: "#94a3b8" }), /* @__PURE__ */ React.createElement("text", { x: x.toFixed(1), y: (y - 6).toFixed(1), textAnchor: "middle", fill: "#94a3b8", fontSize: "9", fontWeight: "700" }, scores[i]))));
-      })(), (() => {
-        const pts = putts.map((v, i) => [xOf(i), yOfL(v)]);
-        const d = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
-        return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("path", { d, fill: "none", stroke: "#64748b", strokeWidth: "2", strokeLinejoin: "round", strokeLinecap: "round" }), pts.map(([x, y], i) => /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: "3.5", fill: "#64748b" }), /* @__PURE__ */ React.createElement("text", { x: x.toFixed(1), y: (y + 15).toFixed(1), textAnchor: "middle", fill: "#64748b", fontSize: "9", fontWeight: "700" }, putts[i]))));
-      })(), saList.map((x, i) => /* @__PURE__ */ React.createElement("text", { key: i, x: xOf(i).toFixed(1), y: H - 4, textAnchor: "middle", fill: "#475569", fontSize: "8" }, x.date.replace(/\d{4}\//, "").replace(/\/(\d)$/, "/0$1"))), avg20Score != null && avg20Score >= combinedMin && avg20Score <= combinedMax && (() => {
-        const y = yOfL(avg20Score);
-        return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("line", { x1: padL, y1: y.toFixed(1), x2: W - padR, y2: y.toFixed(1), stroke: "#94a3b8", strokeWidth: "1.2", strokeDasharray: "5 3", opacity: "0.7" }), /* @__PURE__ */ React.createElement("text", { x: (W - padR + 2).toFixed(1), y: (y + 3).toFixed(1), textAnchor: "start", fill: "#94a3b8", fontSize: "8", fontWeight: "700" }, avg20Score));
-      })(), avg20Putts != null && avg20Putts >= combinedMin && avg20Putts <= combinedMax && (() => {
-        const y = yOfL(avg20Putts);
-        return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("line", { x1: padL, y1: y.toFixed(1), x2: W - padR, y2: y.toFixed(1), stroke: "#64748b", strokeWidth: "1.2", strokeDasharray: "5 3", opacity: "0.7" }), /* @__PURE__ */ React.createElement("text", { x: (W - padR + 2).toFixed(1), y: (y + 3).toFixed(1), textAnchor: "start", fill: "#64748b", fontSize: "8", fontWeight: "700" }, avg20Putts));
-      })()), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "6px" } }, [
-        { label: "\u7DCF\u6253\u6570\uFF08\u5DE6\u8EF8\uFF09", color: "#94a3b8", bar: false },
-        { label: "\u30D1\u30C3\u30C8\u6570\uFF08\u5DE6\u8EF8\uFF09", color: "#64748b", bar: false },
-        { label: "\u8A55\u4FA1\u5408\u8A08 +", color: "#0ea5e9", bar: true },
-        { label: "\u8A55\u4FA1\u5408\u8A08 -", color: "#dc2626", bar: true }
-      ].map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: s.bar ? "10px" : "2px", background: s.color, opacity: s.bar ? 0.7 : 1, borderRadius: "2px" } }), /* @__PURE__ */ React.createElement("span", { style: { color: s.color } }, s.label))), (avg20Score != null || avg20Putts != null) && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: "1px", borderTop: "1.5px dashed #94a3b8" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#64748b" } }, "20R\u5E73\u5747"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "4px" } }, "\u203B\u53F3\u8EF80 = Par", (_b2 = saList[saList.length - 1]) == null ? void 0 : _b2.totalPar, "+HCP", Math.round(hcpVal * 10) / 10, " = ", Math.round(zeroAnchorL)));
+          const x = xOf(i), y = yFn(v);
+          d += started ? ` L${x.toFixed(1)},${y.toFixed(1)}` : `M${x.toFixed(1)},${y.toFixed(1)}`;
+          started = true;
+        });
+        return d;
+      };
+      const C_SCORE = "#0ea5e9", C_PUTT = "#16a34a", C_SGTOT = "#ea580c", C_BK = "#ea580c", C_PT = "#ea580c";
+      return /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "12px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30B9\u30B3\u30A2\u30FB\u30D1\u30C3\u30C8\u6570\u30FB5\u8981\u7D20\u63A8\u79FB\uFF08\u76F4\u8FD15R\uFF09"), /* @__PURE__ */ React.createElement("svg", { width: "100%", viewBox: `0 0 ${W} ${H}`, style: { display: "block" } }, /* @__PURE__ */ React.createElement("line", { x1: padL, y1: scTop.toFixed(1), x2: W - padR, y2: scTop.toFixed(1), stroke: "#f1f5f9", strokeWidth: "1" }), /* @__PURE__ */ React.createElement("line", { x1: padL, y1: scBot.toFixed(1), x2: W - padR, y2: scBot.toFixed(1), stroke: "#f1f5f9", strokeWidth: "1" }), /* @__PURE__ */ React.createElement("line", { x1: padL, y1: ptTop.toFixed(1), x2: W - padR, y2: ptTop.toFixed(1), stroke: "#f1f5f9", strokeWidth: "1" }), /* @__PURE__ */ React.createElement("line", { x1: padL, y1: ptBot.toFixed(1), x2: W - padR, y2: ptBot.toFixed(1), stroke: "#f1f5f9", strokeWidth: "1" }), /* @__PURE__ */ React.createElement("text", { x: padL - 4, y: (scTop + 3).toFixed(1), textAnchor: "end", fill: "#0ea5e9", fontSize: "8" }, sMax), /* @__PURE__ */ React.createElement("text", { x: padL - 4, y: (scBot + 0).toFixed(1), textAnchor: "end", fill: "#0ea5e9", fontSize: "8" }, sMin), /* @__PURE__ */ React.createElement("text", { x: padL - 4, y: (ptTop + 3).toFixed(1), textAnchor: "end", fill: "#16a34a", fontSize: "8" }, pMax), /* @__PURE__ */ React.createElement("text", { x: padL - 4, y: (ptBot + 0).toFixed(1), textAnchor: "end", fill: "#16a34a", fontSize: "8" }, pMin), /* @__PURE__ */ React.createElement("line", { x1: padL - 3, y1: (scBot + gap * 0.4).toFixed(1), x2: padL + 5, y2: (scBot + gap * 0.62).toFixed(1), stroke: "#cbd5e1", strokeWidth: "1.3" }), /* @__PURE__ */ React.createElement("line", { x1: padL - 3, y1: (scBot + gap * 0.58).toFixed(1), x2: padL + 5, y2: (scBot + gap * 0.8).toFixed(1), stroke: "#cbd5e1", strokeWidth: "1.3" }), /* @__PURE__ */ React.createElement("text", { x: "2", y: (scBot + gap / 2 + 3).toFixed(1), textAnchor: "start", fill: "#cbd5e1", fontSize: "7" }, "\u7701\u7565"), upperV.length > 0 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("text", { x: W - padR + 3, y: (scTop + 3).toFixed(1), textAnchor: "start", fill: C_SGTOT, fontSize: "8" }, fmtSG(sgtMax)), /* @__PURE__ */ React.createElement("text", { x: W - padR + 3, y: (scBot + 0).toFixed(1), textAnchor: "start", fill: C_SGTOT, fontSize: "8" }, fmtSG(sgtMin)), sgtMin < 0 && sgtMax > 0 && /* @__PURE__ */ React.createElement("line", { x1: padL, y1: yRsg(0).toFixed(1), x2: W - padR, y2: yRsg(0).toFixed(1), stroke: "rgba(234,88,12,0.20)", strokeWidth: "1", strokeDasharray: "3 2" })), hasPT && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("text", { x: W - padR + 3, y: (ptTop + 3).toFixed(1), textAnchor: "start", fill: C_PT, fontSize: "8" }, fmtSG(ptMax2)), /* @__PURE__ */ React.createElement("text", { x: W - padR + 3, y: (ptBot + 0).toFixed(1), textAnchor: "start", fill: C_PT, fontSize: "8" }, fmtSG(ptMin2)), ptMin2 < 0 && ptMax2 > 0 && /* @__PURE__ */ React.createElement("line", { x1: padL, y1: yRpt(0).toFixed(1), x2: W - padR, y2: yRpt(0).toFixed(1), stroke: "rgba(234,88,12,0.22)", strokeWidth: "1", strokeDasharray: "3 2" })), scores.map((v, i) => {
+        const x = xOf(i), y = yScore(v);
+        return /* @__PURE__ */ React.createElement("g", { key: "sc" + i }, /* @__PURE__ */ React.createElement("rect", { x: (x - barW / 2).toFixed(1), y: y.toFixed(1), width: barW, height: Math.max(2, scBot - y).toFixed(1), fill: C_SCORE, rx: "2" }), /* @__PURE__ */ React.createElement("text", { x: x.toFixed(1), y: (scBot + 12).toFixed(1), textAnchor: "middle", fill: "#475569", fontSize: "9", fontWeight: "700" }, v));
+      }), putts.map((v, i) => {
+        const x = xOf(i), y = yPutt(v);
+        return /* @__PURE__ */ React.createElement("g", { key: "pt" + i }, /* @__PURE__ */ React.createElement("rect", { x: (x - barW / 2).toFixed(1), y: y.toFixed(1), width: barW, height: Math.max(2, ptBot - y).toFixed(1), fill: C_PUTT, rx: "2" }), /* @__PURE__ */ React.createElement("text", { x: x.toFixed(1), y: (ptBot + 12).toFixed(1), textAnchor: "middle", fill: "#475569", fontSize: "9", fontWeight: "700" }, v));
+      }), hasSGt && /* @__PURE__ */ React.createElement("path", { d: linePath(sgTot, yRsg), fill: "none", stroke: C_SGTOT, strokeWidth: "2", strokeLinejoin: "round", strokeLinecap: "round" }), hasSGt && sgTot.map((v, i) => v == null ? null : /* @__PURE__ */ React.createElement("g", { key: "sgt" + i }, /* @__PURE__ */ React.createElement("circle", { cx: xOf(i).toFixed(1), cy: yRsg(v).toFixed(1), r: "3.2", fill: C_SGTOT }), /* @__PURE__ */ React.createElement("text", { x: xOf(i).toFixed(1), y: (yRsg(v) + 12).toFixed(1), textAnchor: "middle", fill: C_SGTOT, fontSize: "8", fontWeight: "700", stroke: "white", strokeWidth: "2.5", paintOrder: "stroke" }, fmtSG(v)))), hasBK && /* @__PURE__ */ React.createElement("path", { d: linePath(bkSg, yRsg), fill: "none", stroke: C_BK, strokeWidth: "2", strokeDasharray: "2 3", strokeLinejoin: "round", strokeLinecap: "round" }), hasBK && bkSg.map((v, i) => v == null ? null : /* @__PURE__ */ React.createElement("g", { key: "bk" + i }, /* @__PURE__ */ React.createElement("circle", { cx: xOf(i).toFixed(1), cy: yRsg(v).toFixed(1), r: "3.2", fill: C_BK }), /* @__PURE__ */ React.createElement("text", { x: xOf(i).toFixed(1), y: (yRsg(v) - 6).toFixed(1), textAnchor: "middle", fill: C_BK, fontSize: "8", fontWeight: "700", stroke: "white", strokeWidth: "2.5", paintOrder: "stroke" }, fmtSG(v)))), hasPT && /* @__PURE__ */ React.createElement("path", { d: linePath(ptSg, yRpt), fill: "none", stroke: C_PT, strokeWidth: "2", strokeDasharray: "5 3", strokeLinejoin: "round", strokeLinecap: "round" }), hasPT && ptSg.map((v, i) => v == null ? null : /* @__PURE__ */ React.createElement("g", { key: "pts" + i }, /* @__PURE__ */ React.createElement("circle", { cx: xOf(i).toFixed(1), cy: yRpt(v).toFixed(1), r: "3.2", fill: C_PT }), /* @__PURE__ */ React.createElement("text", { x: xOf(i).toFixed(1), y: (yRpt(v) - 6).toFixed(1), textAnchor: "middle", fill: C_PT, fontSize: "8", fontWeight: "700", stroke: "white", strokeWidth: "2.5", paintOrder: "stroke" }, fmtSG(v)))), saList.map((x, i) => /* @__PURE__ */ React.createElement("text", { key: "d" + i, x: xOf(i).toFixed(1), y: H - 6, textAnchor: "middle", fill: "#475569", fontSize: "8" }, x.date.replace(/\d{4}\//, "").replace(/\/(\d)$/, "/0$1")))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "6px" } }, [
+        { label: "\u30B9\u30B3\u30A2", color: C_SCORE, bar: true },
+        { label: "\u30D1\u30C3\u30C8\u6570", color: C_PUTT, bar: true },
+        { label: "TS/LG/SG/PT\u306E\u5408\u8A08", color: C_SGTOT, line: "solid" },
+        { label: "BK", color: C_BK, line: "dotted" },
+        { label: "PT", color: C_PT, line: "dashed" }
+      ].map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: s.bar ? "10px" : "0px", background: s.bar ? s.color : "transparent", borderTop: s.bar ? "none" : `2px ${s.line} ${s.color}`, borderRadius: s.bar ? "2px" : "0" } }), /* @__PURE__ */ React.createElement("span", { style: { color: s.color } }, s.label)))));
     })(), (() => {
       const W = 320, H = 210, padL = 62, padR = 12, padT = 20, padB = 24;
       const n = saList.length;
@@ -5654,8 +5659,8 @@ function GolfTracker() {
     var _a2, _b2, _c2, _d2;
     const teeRatesAna = calcHistoricalTeeRates(rounds);
     const completed = [...rounds.filter((r) => r.isComplete && Object.keys(r.simpleHoleData || {}).length > 0)].sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).filter((r) => {
-      var _r1;
-      const sa = calcAnalytics(r, (_r1 = r.hcp) != null ? _r1 : null, teeRatesAna, avgDrive);
+      var _a3;
+      const sa = calcAnalytics(r, (_a3 = r.hcp) != null ? _a3 : null, teeRatesAna, avgDrive);
       return !!(sa && sa.sgReady && sa.sg);
     });
     if (completed.length === 0) return null;
@@ -7886,7 +7891,6 @@ function GolfTracker() {
     return REXY_IMAGES[tc] ? /* @__PURE__ */ React.createElement(RexyIcon, { costume: tc, size: 46, alt: "" }) : null;
   })(), /* @__PURE__ */ React.createElement("span", { style: { color: "#15803d", fontWeight: "700", fontSize: "15px", lineHeight: 1.4, whiteSpace: "pre-line" } }, toast.message)), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver. ", APP_VERSION));
 }
-window.GolfTracker = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const __scrxRoot = document.getElementById("root");
   if (__scrxRoot && !window.__SCRX_MOUNTED) {
