@@ -2363,7 +2363,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06102115";
+var APP_VERSION = "06110701";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -5475,184 +5475,67 @@ function GolfTracker() {
         { label: "PT", color: C_PT, line: "dashed" }
       ].map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: s.bar ? "10px" : "0px", background: s.bar ? s.color : "transparent", borderTop: s.bar ? "none" : `2px ${s.line} ${s.color}`, borderRadius: s.bar ? "2px" : "0" } }), /* @__PURE__ */ React.createElement("span", { style: { color: s.color } }, s.label)))));
     })(), (() => {
-      const W = 320, H = 210, padL = 62, padR = 12, padT = 20, padB = 24;
+      const W = 340, H = 222, padL = 34, padR = 38, padT = 14, padB = 32;
       const n = saList.length;
       const seriesDef = useSG ? [
-        { label: "TS \u30C6\u30A3", color: "#0ea5e9", key: "teeScore", vals: saList.map((x) => {
-          var _a2;
-          return (_a2 = sgGetV(x.sa, "teeScore")) != null ? _a2 : 0;
-        }) },
-        { label: "LG \u30ED\u30F3\u30B0", color: "#16a34a", key: "longScore", vals: saList.map((x) => {
-          var _a2;
-          return (_a2 = sgGetV(x.sa, "longScore")) != null ? _a2 : 0;
-        }) },
-        { label: "SG \u30B7\u30E7\u30FC\u30C8", color: "#fbbf24", key: "shortScore", vals: saList.map((x) => {
-          var _a2;
-          return (_a2 = sgGetV(x.sa, "shortScore")) != null ? _a2 : 0;
-        }) },
-        { label: "PT \u30D1\u30C3\u30C8", color: "#f472b6", key: "puttScore", vals: saList.map((x) => {
-          var _a2;
-          return (_a2 = sgGetV(x.sa, "puttScore")) != null ? _a2 : 0;
-        }) }
+        { label: "TS \u30C6\u30A3", color: "#0ea5e9", key: "teeScore", dash: false },
+        { label: "LG \u30ED\u30F3\u30B0", color: "#16a34a", key: "longScore", dash: false },
+        { label: "SG \u30B7\u30E7\u30FC\u30C8", color: "#fbbf24", key: "shortScore", dash: false },
+        { label: "PT \u30D1\u30C3\u30C8", color: "#f472b6", key: "puttScore", dash: false },
+        ...saList.some((x) => sgGetV(x.sa, "bunkerScore") != null) ? [{ label: "BK \u30D0\u30F3\u30AB\u30FC", color: "#fb923c", key: "bunkerScore", dash: true }] : []
       ] : [
-        { label: "A \u30C6\u30A3", color: "#0ea5e9", key: "teeScore", vals: saList.map((x) => {
-          var _a2;
-          return (_a2 = x.sa.teeScore) != null ? _a2 : 0;
-        }) },
-        { label: "B \u30ED\u30F3\u30B0\u30B2\u30FC\u30E0", color: "#16a34a", key: "longScore", vals: saList.map((x) => {
-          var _a2;
-          return (_a2 = x.sa.longScore) != null ? _a2 : 0;
-        }) },
-        { label: "C \u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0", color: "#fbbf24", key: "shortScore", vals: saList.map((x) => {
-          var _a2;
-          return (_a2 = x.sa.shortScore) != null ? _a2 : 0;
-        }) },
-        { label: "D \u30D1\u30C3\u30C8", color: "#f472b6", key: "puttScore", vals: saList.map((x) => {
-          var _a2;
-          return (_a2 = x.sa.puttScore) != null ? _a2 : 0;
-        }) },
-        ...saList.some((x) => x.sa.bunkerScore != null) ? [{ label: "E \u30D0\u30F3\u30AB\u30FC", color: "#fb923c", key: "bunkerScore", vals: saList.map((x) => {
-          var _a2;
-          return (_a2 = x.sa.bunkerScore) != null ? _a2 : 0;
-        }) }] : []
+        { label: "A \u30C6\u30A3", color: "#0ea5e9", key: "teeScore", dash: false },
+        { label: "B \u30ED\u30F3\u30B0\u30B2\u30FC\u30E0", color: "#16a34a", key: "longScore", dash: false },
+        { label: "C \u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0", color: "#fbbf24", key: "shortScore", dash: false },
+        { label: "D \u30D1\u30C3\u30C8", color: "#f472b6", key: "puttScore", dash: false },
+        ...saList.some((x) => sgGetV(x.sa, "bunkerScore") != null) ? [{ label: "E \u30D0\u30F3\u30AB\u30FC", color: "#fb923c", key: "bunkerScore", dash: true }] : []
       ];
-      const avg20Vals = avg20ByKey ? seriesDef.map((s) => {
-        var _a2;
-        return (_a2 = avg20ByKey[s.key]) != null ? _a2 : 0;
-      }) : null;
-      const avg20Total = avg20Vals ? Math.round(avg20Vals.reduce((a, v) => a + v, 0) * 10) / 10 : null;
-      const posMaxArr = saList.map((_, i) => seriesDef.reduce((a, s) => a + Math.max(0, s.vals[i]), 0));
-      const negMinArr = saList.map((_, i) => seriesDef.reduce((a, s) => a + Math.min(0, s.vals[i]), 0));
-      const avg20PosMax = avg20Vals ? avg20Vals.reduce((a, v) => a + Math.max(0, v), 0) : 0;
-      const avg20NegMin = avg20Vals ? avg20Vals.reduce((a, v) => a + Math.min(0, v), 0) : 0;
-      const absMax = Math.ceil(Math.max(Math.max(...posMaxArr, avg20PosMax, 1), Math.abs(Math.min(...negMinArr, avg20NegMin, -1))));
-      const chartH = H - padT - padB;
-      const y0 = padT + chartH * 0.55;
-      const scale = chartH * 0.5 / absMax;
-      const yOf = (v) => y0 - v * scale;
-      const sepX = W - padR - 52;
-      const xOf = (i) => padL + (n === 1 ? (sepX - padL) / 2 : i / (n - 1) * (sepX - padL));
-      const barW = Math.floor((sepX - padL) / Math.max(n, 1) * 0.65);
-      const avgBarX = W - padR - 10;
-      const avgBarW = Math.min(barW, 22);
-      const step = Math.ceil(absMax / 2 / 5) * 5 || 5;
-      const gridLines = [];
-      for (let v = step; v <= absMax; v += step) gridLines.push({ v: -v, label: "-" + v });
-      gridLines.push({ v: 0, label: "0" });
-      for (let v = step; v <= absMax; v += step) gridLines.push({ v, label: "+" + v });
-      return /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "12px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, useSG ? "5\u8981\u7D20\u63A8\u79FB\uFF08SG\u30FB\u76F4\u8FD15R\uFF09" : "\u8A55\u4FA1\u30B9\u30B3\u30A2\u63A8\u79FB\uFF08\u76F4\u8FD15R\uFF09"), /* @__PURE__ */ React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block" } }, gridLines.map((g, i) => /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement(
+      const series = seriesDef.map((s) => __spreadProps(__spreadValues({}, s), { vals: saList.map((x) => sgGetV(x.sa, s.key)) }));
+      const allV = series.flatMap((s) => s.vals).filter((v) => v != null);
+      const lo = Math.min(...allV, 0), hi = Math.max(...allV, 0);
+      const pad = Math.max(0.5, (hi - lo) * 0.18);
+      const yMin = lo - pad, yMax = hi + pad;
+      const plotTop = padT, plotBot = H - padB;
+      const yOf = (v) => plotBot - (v - yMin) / (yMax - yMin || 1) * (plotBot - plotTop);
+      const x0 = padL + 16, x1 = W - padR - 16;
+      const xOf = (i) => n <= 1 ? (x0 + x1) / 2 : x0 + i / (n - 1) * (x1 - x0);
+      const gridV = [];
+      for (let v = Math.ceil(yMin); v <= Math.floor(yMax); v++) gridV.push(v);
+      const linePath = (vals) => {
+        let d = "", started = false;
+        vals.forEach((v, i) => {
+          if (v == null) {
+            started = false;
+            return;
+          }
+          const x = xOf(i), y = yOf(v);
+          d += started ? ` L${x.toFixed(1)},${y.toFixed(1)}` : `M${x.toFixed(1)},${y.toFixed(1)}`;
+          started = true;
+        });
+        return d;
+      };
+      return /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "12px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, useSG ? "5\u8981\u7D20\u63A8\u79FB\uFF08\u76F4\u8FD15\u30E9\u30A6\u30F3\u30C9\uFF09" : "\u8A55\u4FA1\u30B9\u30B3\u30A2\u63A8\u79FB\uFF08\u76F4\u8FD15\u30E9\u30A6\u30F3\u30C9\uFF09"), /* @__PURE__ */ React.createElement("svg", { width: "100%", viewBox: "0 0 " + W + " " + H, style: { display: "block" } }, gridV.map((v, i) => /* @__PURE__ */ React.createElement("g", { key: "g" + i }, /* @__PURE__ */ React.createElement(
         "line",
         {
           x1: padL,
-          y1: yOf(g.v).toFixed(1),
+          y1: yOf(v).toFixed(1),
           x2: W - padR,
-          y2: yOf(g.v).toFixed(1),
-          stroke: g.v === 0 ? "rgba(100,116,139,0.5)" : "#f1f5f9",
-          strokeWidth: g.v === 0 ? 1.5 : 1,
-          strokeDasharray: g.v === 0 ? "none" : "none"
+          y2: yOf(v).toFixed(1),
+          stroke: v === 0 ? "rgba(100,116,139,0.5)" : "#f1f5f9",
+          strokeWidth: v === 0 ? 1.4 : 1
         }
-      ), /* @__PURE__ */ React.createElement(
-        "text",
+      ), /* @__PURE__ */ React.createElement("text", { x: "2", y: (yOf(v) + 4).toFixed(1), textAnchor: "start", fill: v === 0 ? "#94a3b8" : "#475569", fontSize: "9" }, v > 0 ? "+" + v : v))), series.map((s, si) => /* @__PURE__ */ React.createElement("g", { key: "s" + si }, /* @__PURE__ */ React.createElement(
+        "path",
         {
-          x: "2",
-          y: (yOf(g.v) + 4).toFixed(1),
-          textAnchor: "start",
-          fill: g.v === 0 ? "#94a3b8" : "#475569",
-          fontSize: "9"
-        },
-        g.label
-      ))), saList.map((_, i) => {
-        const x = xOf(i);
-        let posBot = y0, negTop = y0;
-        const bars = [];
-        seriesDef.forEach((s) => {
-          const v = s.vals[i];
-          if (v === 0) return;
-          const h = Math.abs(v) * scale;
-          const up = useSG ? v > 0 : v < 0;
-          if (up) {
-            bars.push({ y: negTop - h, h, color: s.color });
-            negTop -= h;
-          } else {
-            bars.push({ y: posBot, h, color: s.color });
-            posBot += h;
-          }
-        });
-        return /* @__PURE__ */ React.createElement("g", { key: i }, bars.map((b, bi) => /* @__PURE__ */ React.createElement(
-          "rect",
-          {
-            key: bi,
-            x: (x - barW / 2).toFixed(1),
-            y: b.y.toFixed(1),
-            width: barW,
-            height: Math.max(1, b.h).toFixed(1),
-            fill: b.color,
-            opacity: "0.8",
-            rx: "1"
-          }
-        )), /* @__PURE__ */ React.createElement("text", { x: x.toFixed(1), y: H - 6, textAnchor: "middle", fill: "#475569", fontSize: "8" }, saList[i].date.replace(/\d{4}\//, "").replace(/\/(\d)$/, "/0$1")));
-      }), (() => {
-        const pts = evalTotals.map((v, i) => [xOf(i), yOf(useSG ? v : -v)]);
-        const d = pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + "," + p[1].toFixed(1)).join(" ");
-        return /* @__PURE__ */ React.createElement("g", null, /* @__PURE__ */ React.createElement("path", { d, fill: "none", stroke: "#94a3b8", strokeWidth: "2", strokeLinejoin: "round", strokeLinecap: "round" }), pts.map(([x, y], i) => /* @__PURE__ */ React.createElement("g", { key: i }, /* @__PURE__ */ React.createElement("circle", { cx: x.toFixed(1), cy: y.toFixed(1), r: "3.5", fill: "#94a3b8" }), /* @__PURE__ */ React.createElement("text", { x: x.toFixed(1), y: (y - 6).toFixed(1), textAnchor: "middle", fill: "#1e293b", fontSize: "8", fontWeight: "700", stroke: "white", strokeWidth: "2.5", paintOrder: "stroke" }, useSG ? evalTotals[i] > 0 ? "+" + evalTotals[i] : evalTotals[i] < 0 ? "\u25B3" + Math.abs(evalTotals[i]) : "0" : (evalTotals[i] >= 0 ? "+" : "") + evalTotals[i]))));
-      })(), avg20Vals && /* @__PURE__ */ React.createElement(
-        "line",
-        {
-          x1: (sepX + 4).toFixed(1),
-          y1: padT,
-          x2: (sepX + 4).toFixed(1),
-          y2: H - padB,
-          stroke: "rgba(255,255,255,0.1)",
-          strokeWidth: "1",
-          strokeDasharray: "3 2"
+          d: linePath(s.vals),
+          fill: "none",
+          stroke: s.color,
+          strokeWidth: "2",
+          strokeDasharray: s.dash ? "4 2" : "none",
+          strokeLinejoin: "round",
+          strokeLinecap: "round"
         }
-      ), avg20Vals && (() => {
-        let posBot = y0, negTop = y0;
-        const bars = [];
-        seriesDef.forEach((s, si) => {
-          const v = avg20Vals[si];
-          if (v === 0) return;
-          const h = Math.abs(v) * scale;
-          const up = useSG ? v > 0 : v < 0;
-          if (up) {
-            bars.push({ y: negTop - h, h, color: s.color });
-            negTop -= h;
-          } else {
-            bars.push({ y: posBot, h, color: s.color });
-            posBot += h;
-          }
-        });
-        const totalY = yOf(useSG ? avg20Total != null ? avg20Total : 0 : -(avg20Total != null ? avg20Total : 0));
-        return /* @__PURE__ */ React.createElement("g", null, bars.map((b, bi) => /* @__PURE__ */ React.createElement(
-          "rect",
-          {
-            key: bi,
-            x: (avgBarX - avgBarW / 2).toFixed(1),
-            y: b.y.toFixed(1),
-            width: avgBarW,
-            height: Math.max(1, b.h).toFixed(1),
-            fill: b.color,
-            opacity: "0.4",
-            rx: "1",
-            stroke: b.color,
-            strokeWidth: "0.8"
-          }
-        )), /* @__PURE__ */ React.createElement("circle", { cx: avgBarX.toFixed(1), cy: totalY.toFixed(1), r: "4", fill: "#f59e0b" }), /* @__PURE__ */ React.createElement(
-          "text",
-          {
-            x: avgBarX.toFixed(1),
-            y: (totalY - 7).toFixed(1),
-            textAnchor: "middle",
-            fill: "#1e293b",
-            fontSize: "8",
-            fontWeight: "700",
-            stroke: "white",
-            strokeWidth: "2.5",
-            paintOrder: "stroke"
-          },
-          useSG ? avg20Total > 0 ? "+" + avg20Total : avg20Total < 0 ? "\u25B3" + Math.abs(avg20Total) : "0" : (avg20Total >= 0 ? "+" : "") + avg20Total
-        ), /* @__PURE__ */ React.createElement("text", { x: avgBarX.toFixed(1), y: H - 13, textAnchor: "middle", fill: "#f59e0b", fontSize: "7", fontWeight: "700" }, "20R"), /* @__PURE__ */ React.createElement("text", { x: avgBarX.toFixed(1), y: H - 4, textAnchor: "middle", fill: "#f59e0b", fontSize: "7", fontWeight: "700" }, "\u5E73\u5747"));
-      })()), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "6px" } }, seriesDef.map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "12px", height: "12px", background: s.color, borderRadius: "2px", opacity: 0.8 } }), /* @__PURE__ */ React.createElement("span", { style: { color: s.color } }, s.label))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: "2px", background: "#94a3b8", borderRadius: "1px" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, "\u5408\u8A08")), avg20Vals && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "8px", height: "8px", borderRadius: "50%", background: "#f59e0b" } }), /* @__PURE__ */ React.createElement("span", { style: { color: "#f59e0b" } }, "20R\u5E73\u5747\u5408\u8A08"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "3px" } }, "\u203B\u4E0A\u304C\u30DE\u30A4\u30CA\u30B9\u3001\u4E0B\u304C\u30D7\u30E9\u30B9"));
+      ), s.vals.map((v, i) => v == null ? null : /* @__PURE__ */ React.createElement("circle", { key: i, cx: xOf(i).toFixed(1), cy: yOf(v).toFixed(1), r: "2.6", fill: s.color })))), saList.map((x, i) => /* @__PURE__ */ React.createElement("text", { key: "d" + i, x: xOf(i).toFixed(1), y: H - 8, textAnchor: "middle", fill: "#475569", fontSize: "8" }, x.date.replace(/\d{4}\//, "").replace(/\/(\d)$/, "/0$1")))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", flexWrap: "wrap", marginTop: "6px" } }, series.map((s) => /* @__PURE__ */ React.createElement("div", { key: s.label, style: { display: "flex", alignItems: "center", gap: "4px", fontSize: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "16px", height: s.dash ? "0px" : "2px", background: s.dash ? "transparent" : s.color, borderTop: s.dash ? `2px dashed ${s.color}` : "none", borderRadius: "1px" } }), /* @__PURE__ */ React.createElement("span", { style: { color: s.color } }, s.label)))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "3px" } }, "\u203B0\u304C\u57FA\u6E96\u30FB\u4E0A\u304C\u30D7\u30E9\u30B9\uFF08\u826F\u3044\uFF09"));
     })());
   };
   const AnalyticsRadarChart = () => {
