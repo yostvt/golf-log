@@ -1,11 +1,11 @@
 // ※ CACHE_VERSION はデプロイ毎に更新（タイムスタンプ）。サブディレクトリ配信対応で相対パス化。
-const CACHE_VERSION = 'v20260612104552';
+const CACHE_VERSION = 'v20260612123537';
 const CACHE_NAME = 'scorexolution-' + CACHE_VERSION;
 // 相対パス（先頭スラッシュ無し）。sw.js の置き場所を基準に解決されるため、
 //   ルート配信(pages.dev)        → /app.js 等
 //   サブディレクトリ配信(本番)   → /app_scorexo/app.js 等
 // の両方で正しく動く。
-const ASSETS = ['./', './index.html', './app.js', './venues.js', './rexy.js', './manifest.json', './icon-192.png', './icon-512.png', './icon-512-maskable.png', './apple-touch-icon.png', './favicon-32.png'];
+const ASSETS = ['./', './index.html', './app.js', './splash.png', './venues.js', './rexy.js', './manifest.json', './icon-192.png', './icon-512.png', './icon-512-maskable.png', './apple-touch-icon.png', './favicon-32.png'];
 
 self.addEventListener('install', (event) => {
   self.skipWaiting();

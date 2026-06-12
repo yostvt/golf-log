@@ -7,24 +7,48 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="スコレボ" />
-  <meta name="theme-color" content="#0f172a" />
+  <meta name="theme-color" content="#f8fafc" />
   <title>ScoRExolution</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { min-height: 100%; background: #0f172a; }
+    html, body { min-height: 100%; background: #f8fafc; }
     #root { min-height: 100vh; }
   </style>
 </head>
 <body>
+  <!-- スコレボ 起動スプラッシュ（読み込み中・レキシー）。app.jsの__SCRX_MOUNTEDを検知して自動で消える -->
+  <div id="scrx-splash" style="position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#f8fafc;transition:opacity .35s ease;">
+    <img src="splash.png" alt="ScoRExolution" style="width:min(62vw,240px);height:auto;animation:scrxBob 1.15s ease-in-out infinite;" />
+    <div style="margin-top:16px;font:600 14px/1.4 -apple-system,BlinkMacSystemFont,'Hiragino Kaku Gothic ProN',sans-serif;color:#64748b;letter-spacing:.06em;">読み込み中…</div>
+    <div style="margin-top:14px;width:26px;height:26px;border:3px solid #e2e8f0;border-top-color:#16a34a;border-radius:50%;animation:scrxSpin .8s linear infinite;"></div>
+  </div>
+  <style>
+    @keyframes scrxSpin { to { transform: rotate(360deg); } }
+    @keyframes scrxBob  { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  </style>
+  <script>
+    (function () {
+      var el = document.getElementById('scrx-splash');
+      if (!el) return;
+      function hide() {
+        if (!el) return;
+        el.style.opacity = '0';
+        setTimeout(function () { if (el && el.parentNode) el.parentNode.removeChild(el); el = null; }, 350);
+      }
+      // React マウント完了を検知して消す
+      var t = setInterval(function () { if (window.__SCRX_MOUNTED) { clearInterval(t); hide(); } }, 50);
+      // 安全タイムアウト（万一マウントできなくても10秒で必ず消す）
+      setTimeout(function () { clearInterval(t); hide(); }, 10000);
+    })();
+  </script>
   <div id="root"></div>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="venues.js"></script>
   <script src="rexy.js"></script>
-  <script src="score-share.js"></script>
   <script src="app.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
