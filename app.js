@@ -1120,7 +1120,7 @@ function calcAnalytics(r, hcp, teeRates = null, avgDrive = null) {
   if (r.inputMode === "detail" && r.holeData && Object.keys(r.holeData).length > 0) {
     const sa2 = calcDetailAnalytics(r.holeData, r.holePars, hcp, teeRates);
     if (!sa2) return null;
-    if (avgDrive != null && hcp != null) {
+    if (hcp != null) {
       const venue = VENUES.find((v) => v.id === r.venueId);
       if (venue) {
         const allHoles = getRoundHoles(r);
@@ -1227,7 +1227,7 @@ function calcHistoricalTeeRates(rounds) {
     hasData: targets.length > 0
   };
 }
-function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreOverride = null, sgOverride = null) {
+function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreOverride = null, sgOverride = null, sg5 = null) {
   var _a, _b, _c;
   const holeEntries = Object.entries(shd || {});
   const rCount = Math.max(1, roundCount || 1);
@@ -1518,12 +1518,13 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreO
   const causeStrong = { tee: "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u304C\u5B89\u5B9A\u3057\u3066\u308B\u3088\uFF01\u3053\u306E\u8ABF\u5B50\u3067\u3044\u3053\u3046\uFF01", long: "\u30A2\u30D7\u30ED\u30FC\u30C1\u306E\u7CBE\u5EA6\u304C\u9AD8\u304F\u3066\u6253\u6570\u3092\u7A3C\u3052\u3066\u308B\u3088\uFF01\u3053\u306E\u8ABF\u5B50\u3067\u3044\u3053\u3046\uFF01", short: "\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u304C\u4E0A\u624B\u304F\u3044\u3063\u3066\u308B\u306D\uFF01\u30D1\u30C3\u30C8\u304C\u697D\u306B\u306A\u3063\u3066\u308B\u306F\u305A\uFF01", putt: "\u30D1\u30C3\u30C6\u30A3\u30F3\u30B0\u304C\u51B4\u3048\u3066\u308B\u3088\uFF01\u30B0\u30EA\u30FC\u30F3\u4E0A\u304C\u6B66\u5668\u306B\u306A\u3063\u3066\u308B\u306D\uFF01", bunker: "\u30D0\u30F3\u30AB\u30FC\u7BA1\u7406\u304C\u3046\u307E\u304F\u3044\u3063\u3066\u308B\u3088\uFF01\u3053\u306E\u8ABF\u5B50\u3067\u3044\u3053\u3046\uFF01" };
   let improveItem = null, strongItem = null;
   if (sa.sgReady && sa.sg) {
+    const sgSrc = sg5 || sa.sg;
     const sgCands = [
-      { key: "tee", abbr: "TS", label: "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8", sg: sa.sg.teeScore },
-      { key: "long", abbr: "LG", label: "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0", sg: sa.sg.longScore },
-      ...sa.sg.shortScore != null ? [{ key: "short", abbr: "SG", label: "\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0", sg: sa.sg.shortScore }] : [],
-      { key: "putt", abbr: "PT", label: "\u30D1\u30C3\u30C8", sg: sa.sg.puttScore },
-      ...sa.sg.bunkerScore != null ? [{ key: "bunker", abbr: "BK", label: "\u30D0\u30F3\u30AB\u30FC", sg: sa.sg.bunkerScore }] : []
+      { key: "tee", abbr: "TS", label: "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8", sg: sgSrc.teeScore },
+      { key: "long", abbr: "LG", label: "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0", sg: sgSrc.longScore },
+      ...sgSrc.shortScore != null ? [{ key: "short", abbr: "SG", label: "\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0", sg: sgSrc.shortScore }] : [],
+      { key: "putt", abbr: "PT", label: "\u30D1\u30C3\u30C8", sg: sgSrc.puttScore },
+      ...sgSrc.bunkerScore != null ? [{ key: "bunker", abbr: "BK", label: "\u30D0\u30F3\u30AB\u30FC", sg: sgSrc.bunkerScore }] : []
     ].filter((x) => x.sg != null);
     const negItems = sgCands.filter((x) => x.sg < 0).sort((a, b) => a.sg - b.sg);
     const posItems = sgCands.filter((x) => x.sg > 0).sort((a, b) => b.sg - a.sg);
@@ -1578,7 +1579,7 @@ function scoreDiffSymbol(diff) {
   return { sym: `+${diff}`, color: "#1e3a8a" };
 }
 function AiDiagnosisPanel({ sa, sa5 = null, shd, hcp, rounds, roundId, teeRates = null, showTrend = true, label = "AI \u30B9\u30B3\u30A2\u8A3A\u65AD", roundCount = null, dateRange = null, radarSlot = null, rexyTip = false }) {
-  var _a, _b;
+  var _a, _b, _c;
   const [showRexy5, setShowRexy5] = useState(false);
   let d;
   let sg5avg = null;
@@ -1586,7 +1587,7 @@ function AiDiagnosisPanel({ sa, sa5 = null, shd, hcp, rounds, roundId, teeRates 
     sg5avg = sa5.sg.totalSG;
   }
   try {
-    d = generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount, (_b = sa5 == null ? void 0 : sa5.totalScore) != null ? _b : null, sg5avg);
+    d = generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount, (_b = sa5 == null ? void 0 : sa5.totalScore) != null ? _b : null, sg5avg, (_c = sa5 == null ? void 0 : sa5.sg) != null ? _c : null);
   } catch (e) {
     return null;
   }
@@ -1603,31 +1604,7 @@ function AiDiagnosisPanel({ sa, sa5 = null, shd, hcp, rounds, roundId, teeRates 
         .dag5{animation:diagUp .4s ease .35s both}
         @keyframes barGrow { from{width:0} }
         .dbar{animation:barGrow .8s cubic-bezier(.4,0,.2,1) .3s both}
-      `), /* @__PURE__ */ React.createElement("div", { className: "dag0", style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#1e293b", letterSpacing: ".06em" } }, label), roundCount != null && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#64748b", background: "#f1f5f9", borderRadius: "4px", padding: "1px 6px" } }, roundCount, "\u30E9\u30A6\u30F3\u30C9\u5E73\u5747"), dateRange && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8" } }, dateRange), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "1px", background: "#e2e8f0" } })), rexyTip && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" } }, /* @__PURE__ */ React.createElement(
-    "button",
-    {
-      onClick: () => setShowRexy5((v) => !v),
-      style: {
-        width: "22px",
-        height: "22px",
-        borderRadius: "50%",
-        background: "#16a34a",
-        border: "2px solid #fff",
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "9px",
-        color: "#fff",
-        fontWeight: "900",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
-        padding: 0,
-        lineHeight: 1
-      },
-      "aria-label": showRexy5 ? "\u9589\u3058\u308B" : "\u8AAC\u660E\u3092\u8868\u793A"
-    },
-    showRexy5 ? "\u25B2" : "\u25BD"
-  ), REXY_IMAGES && (REXY_IMAGES.basic8 || REXY_IMAGES.basic) && /* @__PURE__ */ React.createElement("img", { src: REXY_IMAGES.basic8 || REXY_IMAGES.basic, alt: "\u30EC\u30AD\u30B7\u30FC", style: { width: "48px", height: "48px", objectFit: "contain", display: "block" } })), showRexy5 && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { width: 0, height: 0, borderTop: "8px solid transparent", borderBottom: "8px solid transparent", borderRight: "10px solid #f0fdf4", alignSelf: "center", marginLeft: "2px", flexShrink: 0 } }), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0, background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "10px", padding: "10px 12px" } }, /* @__PURE__ */ React.createElement("p", { style: { fontSize: "11px", color: "#15803d", fontWeight: "600", margin: 0, lineHeight: 1.65 } }, "5\u8981\u7D20\u5206\u6790\u3067\u306F\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u304B\u3089\u30A2\u30D7\u30ED\u30FC\u30C1\u3001\u30D1\u30C3\u30C6\u30A3\u30F3\u30B0\u307E\u3067\u306E\u5404\u30B7\u30E7\u30C3\u30C8\u306E\u51FA\u6765\u4E0D\u51FA\u6765\u304C\u308F\u304B\u308B\u3093\u3060\u3002\u305D\u3057\u3066\u30D0\u30F3\u30AB\u30FC\u306B\u5165\u308C\u305F\u3053\u3068\u306E\u30B9\u30B3\u30A2\u3078\u306E\u5F71\u97FF\u3082\u308F\u304B\u308B\u3088\u3046\u306B\u306A\u3063\u3066\u3044\u308B\u3088\u3002\uFF0B\u306F\u305D\u308C\u3060\u3051\u6253\u6570\u3092\u7372\u5F97\u3057\u305F\u3068\u3044\u3046\u3053\u3068\u3001\u25B3\u306F\u5931\u3063\u305F\u6253\u6570\u3092\u8868\u3057\u3066\u308B\u3088\uFF01\u30B9\u30B3\u30A2\u3092\u3088\u304F\u3059\u308B\u305F\u3081\u306B\u306F\u25B3\u304C\uFF0B\u306B\u306A\u308B\u3088\u3046\u306A\u6E96\u5099\u3084\u653B\u3081\u65B9\u304C\u91CD\u8981\u3060\u3088\uFF01")))))), /* @__PURE__ */ React.createElement("div", { className: "dag1", style: { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" } }, "\u7DCF\u5408\u8A55\u4FA1"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "17px", fontWeight: "900", color: d.lvl.color } }, d.lvl.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b", marginTop: "2px" } }, "HC ", hcp, " (", d.band.label, ")")), /* @__PURE__ */ React.createElement("div", { style: { marginLeft: "auto", textAlign: "right" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "22px", fontWeight: "800", color: d.usedSG ? d.sgTotalForRating >= 0 ? "#16a34a" : "#3b82f6" : d.gap >= 0 ? "#f97316" : "#16a34a", lineHeight: 1 } }, d.usedSG ? (d.sgTotalForRating >= 0 ? "+" : "") + (Math.round(d.sgTotalForRating * 10) / 10).toFixed(1) : (d.gap >= 0 ? "+" : "") + d.gap), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b" } }, d.usedSG ? (sa5 ? "\u76F4\u8FD15\u30E9\u30A6\u30F3\u30C9\u5E73\u5747\uFF0F" : "") + "TS+LG+SG+PT\u5408\u8A08" : (sa5 ? "\u76F4\u8FD15\u30E9\u30A6\u30F3\u30C9\u5E73\u5747\uFF0F" : "") + "\u671F\u5F85" + d.expectedScore + "\u6BD4"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.65 } }, d.lvl.comment)), radarSlot, /* @__PURE__ */ React.createElement("div", { className: "dag2", style: { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#94a3b8", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.1em" } }, "5\u8981\u7D20\u5206\u6790"), sa5 && !sa.sgReady && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: "8px", fontSize: "8px", color: "#64748b", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#fbbf24", fontWeight: "700", minWidth: "32px", textAlign: "center" } }, "\u76F4\u8FD15R"), /* @__PURE__ */ React.createElement("span", { style: { color: "#0ea5e9", fontWeight: "700", minWidth: "32px", textAlign: "center" } }, "\u76F4\u8FD120R")), sa.sgReady && sa.sg && (() => {
+      `), /* @__PURE__ */ React.createElement("div", { className: "dag0", style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#1e293b", letterSpacing: ".06em" } }, label), roundCount != null && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#64748b", background: "#f1f5f9", borderRadius: "4px", padding: "1px 6px" } }, roundCount, "\u30E9\u30A6\u30F3\u30C9\u5E73\u5747"), dateRange && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8" } }, dateRange), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "1px", background: "#e2e8f0" } })), rexyTip && /* @__PURE__ */ React.createElement("div", { style: { background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "10px", padding: "10px 12px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("p", { style: { fontSize: "11px", color: "#15803d", fontWeight: "600", margin: 0, lineHeight: 1.65 } }, "5\u8981\u7D20\u5206\u6790\u3067\u306F\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u304B\u3089\u30A2\u30D7\u30ED\u30FC\u30C1\u3001\u30D1\u30C3\u30C6\u30A3\u30F3\u30B0\u307E\u3067\u306E\u5404\u30B7\u30E7\u30C3\u30C8\u306E\u51FA\u6765\u4E0D\u51FA\u6765\u304C\u308F\u304B\u308B\u3093\u3060\u3002\u305D\u3057\u3066\u30D0\u30F3\u30AB\u30FC\u306B\u5165\u308C\u305F\u3053\u3068\u306E\u30B9\u30B3\u30A2\u3078\u306E\u5F71\u97FF\u3082\u308F\u304B\u308B\u3088\u3046\u306B\u306A\u3063\u3066\u3044\u308B\u3088\u3002\uFF0B\u306F\u305D\u308C\u3060\u3051\u6253\u6570\u3092\u7372\u5F97\u3057\u305F\u3068\u3044\u3046\u3053\u3068\u3001\u25B3\u306F\u5931\u3063\u305F\u6253\u6570\u3092\u8868\u3057\u3066\u308B\u3088\uFF01\u30B9\u30B3\u30A2\u3092\u3088\u304F\u3059\u308B\u305F\u3081\u306B\u306F\u25B3\u304C\uFF0B\u306B\u306A\u308B\u3088\u3046\u306A\u6E96\u5099\u3084\u653B\u3081\u65B9\u304C\u91CD\u8981\u3060\u3088\uFF01")), /* @__PURE__ */ React.createElement("div", { className: "dag1", style: { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" } }, "\u7DCF\u5408\u8A55\u4FA1"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "17px", fontWeight: "900", color: d.lvl.color } }, d.lvl.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b", marginTop: "2px" } }, "HC ", hcp, " (", d.band.label, ")")), /* @__PURE__ */ React.createElement("div", { style: { marginLeft: "auto", textAlign: "right" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "22px", fontWeight: "800", color: d.usedSG ? d.sgTotalForRating >= 0 ? "#16a34a" : "#3b82f6" : d.gap >= 0 ? "#f97316" : "#16a34a", lineHeight: 1 } }, d.usedSG ? (d.sgTotalForRating >= 0 ? "+" : "") + (Math.round(d.sgTotalForRating * 10) / 10).toFixed(1) : (d.gap >= 0 ? "+" : "") + d.gap), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b" } }, d.usedSG ? (sa5 ? "\u76F4\u8FD15\u30E9\u30A6\u30F3\u30C9\u5E73\u5747\uFF0F" : "") + "TS+LG+SG+PT\u5408\u8A08" : (sa5 ? "\u76F4\u8FD15\u30E9\u30A6\u30F3\u30C9\u5E73\u5747\uFF0F" : "") + "\u671F\u5F85" + d.expectedScore + "\u6BD4"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.65 } }, d.lvl.comment)), radarSlot, /* @__PURE__ */ React.createElement("div", { className: "dag2", style: { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#94a3b8", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.1em" } }, "5\u8981\u7D20\u5206\u6790"), sa5 && !sa.sgReady && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: "8px", fontSize: "8px", color: "#64748b", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#fbbf24", fontWeight: "700", minWidth: "32px", textAlign: "center" } }, "\u76F4\u8FD15R"), /* @__PURE__ */ React.createElement("span", { style: { color: "#0ea5e9", fontWeight: "700", minWidth: "32px", textAlign: "center" } }, "\u76F4\u8FD120R")), sa.sgReady && sa.sg && (() => {
     const ITEMS = [
       { key: "teeScore", label: "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8", abbr: "TS" },
       { key: "longScore", label: "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0", abbr: "LG" },
@@ -2349,7 +2326,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06120208";
+var APP_VERSION = "06121045";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -7787,6 +7764,7 @@ function GolfTracker() {
     return REXY_IMAGES[tc] ? /* @__PURE__ */ React.createElement(RexyIcon, { costume: tc, size: 46, alt: "" }) : null;
   })(), /* @__PURE__ */ React.createElement("span", { style: { color: "#15803d", fontWeight: "700", fontSize: "15px", lineHeight: 1.4, whiteSpace: "pre-line" } }, toast.message)), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver. ", APP_VERSION));
 }
+var golf_tracker_06081520_default = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const __scrxRoot = document.getElementById("root");
   if (__scrxRoot && !window.__SCRX_MOUNTED) {
