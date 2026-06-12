@@ -20026,7 +20026,7 @@ VENUES.push(
     getYardage: (hole, green, tee) => hole[tee] ?? null,
   },
   {
-    id: "kanedai_cc", reading: "キンノダイカントリークラブ",
+    id: "kinnodai_cc", reading: "キンノダイカントリークラブ",
     name: "金乃台カントリークラブ",
     greens: [{ id: "k", label: "Kグリーン" }, { id: "b", label: "Bグリーン" }],
     tees: [{ id: "back", label: "BACK" }, { id: "regular", label: "REGULAR" }, { id: "gold", label: "GOLD" }, { id: "red", label: "RED" }],
@@ -25366,4 +25366,1946 @@ VENUES.push({
     { name: "IN",  holes: PGM_25_N1 },
   ],
   getYardage: (hole, green, tee) => hole[tee + (green === 'ag' ? 'Ag' : 'Bg')] ?? null,
+});
+
+// ═══════════════════════════════════════════════════════════════
+// Prince Hotels コース (37コース, 追加日: 2026-06-12)
+// ═══════════════════════════════════════════════════════════════
+// Prince Hotels コース 自動生成 (VENUES.push x 27)
+// 大沼コース・北海道プリンスコース: URLレスポンス空のためSKIP
+// 生成日: 2026-06-12
+
+// SKIP: prince_onuma (URLレスポンス空)
+// SKIP: prince_hokkaido_prince (URLレスポンス空)
+
+// --- 上士幌ゴルフ場 チャンピオンズコース ---
+VENUES.push({
+  id: "prince_kamishihoro_c",
+  reading: "カミシホロゴルフジョウチャンピオンズコース",
+  name: "上士幌ゴルフ場 チャンピオンズコース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [{ id: "bk", label: "Back" }, { id: "bl", label: "Regular" }, { id: "wh", label: "Front" }, { id: "re", label: "Prince" }],
+  subCourses: [
+    { name: "OUT", holes: [
+      { hole:1,  par:5, hdcp:7,  bk:545, bl:523, wh:503, re:431 },
+      { hole:2,  par:4, hdcp:3,  bk:430, bl:413, wh:384, re:328 },
+      { hole:3,  par:3, hdcp:17, bk:185, bl:170, wh:154, re:127 },
+      { hole:4,  par:4, hdcp:1,  bk:388, bl:366, wh:337, re:297 },
+      { hole:5,  par:4, hdcp:9,  bk:378, bl:361, wh:344, re:279 },
+      { hole:6,  par:4, hdcp:13, bk:371, bl:351, wh:331, re:281 },
+      { hole:7,  par:3, hdcp:15, bk:162, bl:135, wh:123, re:102 },
+      { hole:8,  par:4, hdcp:5,  bk:377, bl:358, wh:339, re:276 },
+      { hole:9,  par:5, hdcp:11, bk:509, bl:481, wh:457, re:391 },
+    ]},
+    { name: "IN", holes: [
+      { hole:10, par:4, hdcp:6,  bk:432, bl:415, wh:395, re:336 },
+      { hole:11, par:3, hdcp:12, bk:199, bl:183, wh:161, re:137 },
+      { hole:12, par:4, hdcp:2,  bk:413, bl:395, wh:372, re:316 },
+      { hole:13, par:3, hdcp:14, bk:183, bl:167, wh:147, re:128 },
+      { hole:14, par:4, hdcp:18, bk:389, bl:370, wh:339, re:293 },
+      { hole:15, par:5, hdcp:8,  bk:542, bl:509, wh:473, re:409 },
+      { hole:16, par:4, hdcp:4,  bk:458, bl:426, wh:412, re:341 },
+      { hole:17, par:4, hdcp:10, bk:419, bl:399, wh:379, re:321 },
+      { hole:18, par:5, hdcp:16, bk:539, bl:516, wh:488, re:413 },
+    ]},
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 上士幌ゴルフ場 マスターズコース ---
+VENUES.push({
+  id: "prince_kamishihoro_m",
+  reading: "カミシホロゴルフジョウマスターズコース",
+  name: "上士幌ゴルフ場 マスターズコース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [{ id: "bk", label: "Back" }, { id: "bl", label: "Regular" }, { id: "wh", label: "Front" }, { id: "re", label: "Prince" }],
+  subCourses: [
+    { name: "OUT", holes: [
+      { hole:1,  par:5, hdcp:11, bk:471, bl:454, wh:445, re:407 },
+      { hole:2,  par:5, hdcp:5,  bk:540, bl:516, wh:487, re:417 },
+      { hole:3,  par:4, hdcp:7,  bk:437, bl:416, wh:382, re:321 },
+      { hole:4,  par:3, hdcp:15, bk:167, bl:155, wh:144, re:132 },
+      { hole:5,  par:4, hdcp:3,  bk:355, bl:331, wh:302, re:271 },
+      { hole:6,  par:4, hdcp:13, bk:387, bl:369, wh:345, re:306 },
+      { hole:7,  par:4, hdcp:1,  bk:392, bl:373, wh:354, re:283 },
+      { hole:8,  par:3, hdcp:17, bk:186, bl:150, wh:141, re:124 },
+      { hole:9,  par:4, hdcp:9,  bk:402, bl:367, wh:349, re:287 },
+    ]},
+    { name: "IN", holes: [
+      { hole:10, par:4, hdcp:6,  bk:416, bl:393, wh:368, re:301 },
+      { hole:11, par:4, hdcp:10, bk:386, bl:351, wh:340, re:305 },
+      { hole:12, par:3, hdcp:18, bk:149, bl:132, wh:115, re:94 },
+      { hole:13, par:5, hdcp:2,  bk:497, bl:455, wh:434, re:377 },
+      { hole:14, par:4, hdcp:14, bk:350, bl:328, wh:315, re:271 },
+      { hole:15, par:3, hdcp:16, bk:179, bl:167, wh:164, re:109 },
+      { hole:16, par:5, hdcp:4,  bk:481, bl:469, wh:456, re:394 },
+      { hole:17, par:4, hdcp:12, bk:376, bl:356, wh:336, re:282 },
+      { hole:18, par:5, hdcp:8,  bk:396, bl:370, wh:338, re:289 },
+    ]},
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 女満別ゴルフコース ---
+VENUES.push({
+  id: "prince_memanbetsu",
+  reading: "メマンベツゴルフコース",
+  name: "女満別ゴルフコース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [{ id: "bk", label: "Back" }, { id: "bl", label: "Regular" }, { id: "wh", label: "Front" }],
+  subCourses: [
+    { name: "OUT", holes: [
+      { hole:1,  par:4, hdcp:7,  bk:442, bl:421, wh:392 },
+      { hole:2,  par:3, hdcp:15, bk:221, bl:202, wh:182 },
+      { hole:3,  par:5, hdcp:3,  bk:512, bl:491, wh:473 },
+      { hole:4,  par:4, hdcp:13, bk:369, bl:362, wh:339 },
+      { hole:5,  par:4, hdcp:9,  bk:396, bl:361, wh:321 },
+      { hole:6,  par:4, hdcp:1,  bk:407, bl:385, wh:357 },
+      { hole:7,  par:3, hdcp:17, bk:168, bl:149, wh:116 },
+      { hole:8,  par:5, hdcp:11, bk:574, bl:555, wh:526 },
+      { hole:9,  par:4, hdcp:5,  bk:426, bl:395, wh:361 },
+    ]},
+    { name: "IN", holes: [
+      { hole:10, par:4, hdcp:10, bk:378, bl:359, wh:340 },
+      { hole:11, par:4, hdcp:4,  bk:390, bl:352, wh:314 },
+      { hole:12, par:4, hdcp:14, bk:340, bl:320, wh:298 },
+      { hole:13, par:5, hdcp:8,  bk:504, bl:485, wh:456 },
+      { hole:14, par:3, hdcp:18, bk:180, bl:161, wh:144 },
+      { hole:15, par:5, hdcp:2,  bk:515, bl:497, wh:480 },
+      { hole:16, par:3, hdcp:16, bk:176, bl:164, wh:131 },
+      { hole:17, par:4, hdcp:12, bk:372, bl:351, wh:303 },
+      { hole:18, par:4, hdcp:6,  bk:431, bl:402, wh:363 },
+    ]},
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 富良野ゴルフコース パーマーコース ---
+VENUES.push({
+  id: "prince_furano_palmer",
+  reading: "フラノゴルフコースパーマーコース",
+  name: "富良野ゴルフコース パーマーコース",
+  greens: [{ id: "main", label: "グリーン" }],
+  tees: [{ id: "bk", label: "Back" }, { id: "bl", label: "Regular" }, { id: "re", label: "Prince" }],
+  subCourses: [
+    { name: "OUT", holes: [
+      { hole:1,  par:5, hdcp:5,  bk:489, bl:470, re:345 },
+      { hole:2,  par:4, hdcp:11, bk:440, bl:410, re:305 },
+      { hole:3,  par:3, hdcp:15, bk:191, bl:171, re:103 },
+      { hole:4,  par:4, hdcp:7,  bk:469, bl:411, re:291 },
+      { hole:5,  par:5, hdcp:3,  bk:570, bl:545, re:432 },
+      { hole:6,  par:4, hdcp:1,  bk:449, bl:426, re:330 },
+      { hole:7,  par:4, hdcp:9,  bk:423, bl:400, re:296 },
+      { hole:8,  par:3, hdcp:17, bk:176, bl:174, re:109 },
+      { hole:9,  par:4, hdcp:13, bk:419, bl:379, re:272 },
+    ]},
+    { name: "IN", holes: [
+      { hole:10, par:4, hdcp:10, bk:420, bl:395, re:301 },
+      { hole:11, par:3, hdcp:4,  bk:149, bl:132, re:98 },
+      { hole:12, par:4, hdcp:14, bk:442, bl:420, re:332 },
+      { hole:13, par:4, hdcp:8,  bk:359, bl:342, re:290 },
+      { hole:14, par:4, hdcp:18, bk:434, bl:414, re:307 },
+      { hole:15, par:5, hdcp:2,  bk:549, bl:527, re:392 },
+      { hole:16, par:3, hdcp:16, bk:207, bl:182, re:111 },
+      { hole:17, par:4, hdcp:12, bk:410, bl:388, re:293 },
+      { hole:18, par:5, hdcp:6,  bk:575, bl:525, re:384 },
+    ]},
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 富良野ゴルフコース キングコース ---
+VENUES.push({
+  id: "prince_furano_king",
+  reading: "フラノゴルフコースキングコース",
+  name: "富良野ゴルフコース キングコース",
+  greens: [{ id: "main", label: "グリーン" }],
+  tees: [{ id: "bk", label: "Back" }, { id: "bl", label: "Regular" }, { id: "re", label: "Prince" }],
+  subCourses: [
+    { name: "OUT", holes: [
+      { hole:1,  par:4, hdcp:7,  bk:337, bl:313, re:233 },
+      { hole:2,  par:3, hdcp:15, bk:182, bl:168, re:137 },
+      { hole:3,  par:4, hdcp:3,  bk:430, bl:401, re:284 },
+      { hole:4,  par:5, hdcp:13, bk:556, bl:523, re:411 },
+      { hole:5,  par:4, hdcp:9,  bk:403, bl:386, re:291 },
+      { hole:6,  par:4, hdcp:1,  bk:350, bl:335, re:249 },
+      { hole:7,  par:3, hdcp:17, bk:200, bl:175, re:107 },
+      { hole:8,  par:4, hdcp:11, bk:377, bl:359, re:223 },
+      { hole:9,  par:5, hdcp:5,  bk:512, bl:489, re:337 },
+    ]},
+    { name: "IN", holes: [
+      { hole:10, par:4, hdcp:10, bk:364, bl:350, re:255 },
+      { hole:11, par:4, hdcp:4,  bk:330, bl:312, re:226 },
+      { hole:12, par:5, hdcp:14, bk:558, bl:535, re:393 },
+      { hole:13, par:4, hdcp:8,  bk:363, bl:346, re:259 },
+      { hole:14, par:3, hdcp:18, bk:166, bl:151, re:114 },
+      { hole:15, par:4, hdcp:2,  bk:380, bl:360, re:278 },
+      { hole:16, par:3, hdcp:16, bk:183, bl:170, re:113 },
+      { hole:17, par:4, hdcp:12, bk:439, bl:422, re:322 },
+      { hole:18, par:5, hdcp:6,  bk:529, bl:506, re:394 },
+    ]},
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 雫石ゴルフ場（から松・かえで） ---
+VENUES.push({
+  id: "prince_shizukuishi",
+  reading: "シズクイシゴルフジョウ",
+  name: "雫石ゴルフ場",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [{ id: "bk", label: "Back" }, { id: "bl", label: "Regular" }, { id: "re", label: "Prince" }],
+  subCourses: [
+    { name: "から松OUT", holes: [
+      { hole:1,  par:4, hdcp:9,  bk:406, bl:375, re:306 },
+      { hole:2,  par:3, hdcp:15, bk:172, bl:137, re:106 },
+      { hole:3,  par:5, hdcp:5,  bk:585, bl:537, re:440 },
+      { hole:4,  par:4, hdcp:1,  bk:420, bl:384, re:332 },
+      { hole:5,  par:3, hdcp:13, bk:207, bl:175, re:139 },
+      { hole:6,  par:4, hdcp:11, bk:392, bl:362, re:309 },
+      { hole:7,  par:4, hdcp:3,  bk:387, bl:365, re:331 },
+      { hole:8,  par:4, hdcp:7,  bk:402, bl:344, re:312 },
+      { hole:9,  par:4, hdcp:17, bk:372, bl:342, re:298 },
+    ]},
+    { name: "から松IN", holes: [
+      { hole:10, par:5, hdcp:6,  bk:593, bl:569, re:514 },
+      { hole:11, par:4, hdcp:12, bk:369, bl:369, re:315 },
+      { hole:12, par:3, hdcp:16, bk:199, bl:175, re:118 },
+      { hole:13, par:4, hdcp:8,  bk:341, bl:326, re:310 },
+      { hole:14, par:5, hdcp:2,  bk:536, bl:514, re:474 },
+      { hole:15, par:3, hdcp:18, bk:146, bl:131, re:103 },
+      { hole:16, par:5, hdcp:4,  bk:577, bl:553, re:448 },
+      { hole:17, par:4, hdcp:10, bk:387, bl:354, re:281 },
+      { hole:18, par:4, hdcp:14, bk:390, bl:364, re:307 },
+    ]},
+    { name: "かえでOUT", holes: [
+      { hole:1,  par:4, hdcp:9,  bk:388, bl:366, re:292 },
+      { hole:2,  par:4, hdcp:5,  bk:376, bl:336, re:240 },
+      { hole:3,  par:3, hdcp:17, bk:191, bl:164, re:90 },
+      { hole:4,  par:4, hdcp:1,  bk:400, bl:362, re:317 },
+      { hole:5,  par:4, hdcp:11, bk:366, bl:341, re:306 },
+      { hole:6,  par:4, hdcp:7,  bk:394, bl:387, re:327 },
+      { hole:7,  par:5, hdcp:3,  bk:576, bl:541, re:491 },
+      { hole:8,  par:3, hdcp:15, bk:188, bl:165, re:110 },
+      { hole:9,  par:4, hdcp:13, bk:404, bl:375, re:337 },
+    ]},
+    { name: "かえでIN", holes: [
+      { hole:10, par:4, hdcp:8,  bk:414, bl:372, re:333 },
+      { hole:11, par:5, hdcp:4,  bk:524, bl:492, re:447 },
+      { hole:12, par:3, hdcp:14, bk:172, bl:150, re:103 },
+      { hole:13, par:5, hdcp:2,  bk:496, bl:471, re:381 },
+      { hole:14, par:4, hdcp:12, bk:365, bl:326, re:258 },
+      { hole:15, par:3, hdcp:18, bk:199, bl:175, re:130 },
+      { hole:16, par:4, hdcp:6,  bk:429, bl:381, re:329 },
+      { hole:17, par:4, hdcp:16, bk:332, bl:305, re:259 },
+      { hole:18, par:5, hdcp:10, bk:493, bl:474, re:407 },
+    ]},
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 岩手沼宮内カントリークラブ 南コース ---
+VENUES.push({
+  id: "prince_numakunai_south",
+  reading: "イワテヌマクナイカントリークラブミナミコース",
+  name: "岩手沼宮内カントリークラブ 南コース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [{ id: "bk", label: "Back" }, { id: "bl", label: "Regular" }, { id: "wh", label: "Front" }, { id: "re", label: "Prince" }],
+  subCourses: [
+    { name: "OUT", holes: [
+      { hole:1,  par:4, hdcp:5,  bk:397, bl:371, wh:343, re:279 },
+      { hole:2,  par:5, hdcp:13, bk:512, bl:489, wh:455, re:378 },
+      { hole:3,  par:3, hdcp:17, bk:167, bl:148, wh:127, re:99 },
+      { hole:4,  par:4, hdcp:1,  bk:389, bl:367, wh:340, re:285 },
+      { hole:5,  par:4, hdcp:9,  bk:363, bl:343, wh:318, re:257 },
+      { hole:6,  par:4, hdcp:3,  bk:400, bl:381, wh:351, re:294 },
+      { hole:7,  par:3, hdcp:15, bk:172, bl:155, wh:136, re:102 },
+      { hole:8,  par:5, hdcp:7,  bk:521, bl:499, wh:464, re:393 },
+      { hole:9,  par:4, hdcp:11, bk:376, bl:357, wh:329, re:264 },
+    ]},
+    { name: "IN", holes: [
+      { hole:10, par:4, hdcp:6,  bk:383, bl:362, wh:336, re:277 },
+      { hole:11, par:3, hdcp:16, bk:161, bl:143, wh:126, re:96 },
+      { hole:12, par:5, hdcp:10, bk:504, bl:482, wh:448, re:374 },
+      { hole:13, par:4, hdcp:2,  bk:393, bl:371, wh:345, re:282 },
+      { hole:14, par:4, hdcp:12, bk:357, bl:337, wh:312, re:252 },
+      { hole:15, par:3, hdcp:18, bk:155, bl:137, wh:119, re:90 },
+      { hole:16, par:4, hdcp:8,  bk:376, bl:355, wh:328, re:263 },
+      { hole:17, par:5, hdcp:4,  bk:519, bl:496, wh:462, re:388 },
+      { hole:18, par:4, hdcp:14, bk:364, bl:343, wh:318, re:255 },
+    ]},
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 岩手沼宮内カントリークラブ 北コース ---
+VENUES.push({
+  id: "prince_numakunai_north",
+  reading: "イワテヌマクナイカントリークラブキタコース",
+  name: "岩手沼宮内カントリークラブ 北コース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [{ id: "bk", label: "Back" }, { id: "bl", label: "Regular" }, { id: "wh", label: "Front" }, { id: "re", label: "Prince" }],
+  subCourses: [
+    { name: "OUT", holes: [
+      { hole:1,  par:5, hdcp:7,  bk:510, bl:487, wh:452, re:379 },
+      { hole:2,  par:4, hdcp:11, bk:374, bl:353, wh:327, re:264 },
+      { hole:3,  par:4, hdcp:3,  bk:392, bl:371, wh:344, re:279 },
+      { hole:4,  par:3, hdcp:17, bk:163, bl:144, wh:127, re:95 },
+      { hole:5,  par:4, hdcp:1,  bk:395, bl:374, wh:347, re:284 },
+      { hole:6,  par:5, hdcp:9,  bk:516, bl:493, wh:458, re:383 },
+      { hole:7,  par:4, hdcp:13, bk:368, bl:347, wh:321, re:258 },
+      { hole:8,  par:3, hdcp:15, bk:170, bl:151, wh:133, re:100 },
+      { hole:9,  par:4, hdcp:5,  bk:387, bl:366, wh:339, re:276 },
+    ]},
+    { name: "IN", holes: [
+      { hole:10, par:4, hdcp:8,  bk:381, bl:360, wh:334, re:270 },
+      { hole:11, par:5, hdcp:12, bk:507, bl:485, wh:450, re:376 },
+      { hole:12, par:3, hdcp:16, bk:158, bl:140, wh:122, re:92 },
+      { hole:13, par:4, hdcp:2,  bk:396, bl:375, wh:348, re:284 },
+      { hole:14, par:4, hdcp:6,  bk:379, bl:358, wh:332, re:269 },
+      { hole:15, par:3, hdcp:18, bk:152, bl:134, wh:117, re:88 },
+      { hole:16, par:5, hdcp:10, bk:512, bl:489, wh:455, re:380 },
+      { hole:17, par:4, hdcp:4,  bk:388, bl:367, wh:340, re:277 },
+      { hole:18, par:4, hdcp:14, bk:361, bl:340, wh:315, re:253 },
+    ]},
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+
+
+// --- 嬬恋高原ゴルフコース ---
+const PRINCE_TSUMAGOI_OUT = [
+  { hole:1, par:4, hdcp:9, bk:397, bl:377, wh:364, re:338 },
+  { hole:2, par:3, hdcp:15, bk:183, bl:164, wh:155, re:144 },
+  { hole:3, par:5, hdcp:3, bk:576, bl:546, wh:531, re:437 },
+  { hole:4, par:4, hdcp:13, bk:372, bl:334, wh:328, re:321 },
+  { hole:5, par:5, hdcp:1, bk:480, bl:461, wh:450, re:406 },
+  { hole:6, par:4, hdcp:7, bk:355, bl:331, wh:319, re:304 },
+  { hole:7, par:3, hdcp:17, bk:149, bl:138, wh:132, re:127 },
+  { hole:8, par:4, hdcp:5, bk:385, bl:361, wh:350, re:308 },
+  { hole:9, par:4, hdcp:11, bk:429, bl:386, wh:373, re:345 },
+];
+
+const PRINCE_TSUMAGOI_IN = [
+  { hole:10, par:4, hdcp:10, bk:410, bl:394, wh:382, re:356 },
+  { hole:11, par:3, hdcp:16, bk:214, bl:195, wh:174, re:165 },
+  { hole:12, par:4, hdcp:4, bk:442, bl:415, wh:385, re:342 },
+  { hole:13, par:4, hdcp:8, bk:399, bl:386, wh:383, re:310 },
+  { hole:14, par:4, hdcp:14, bk:378, bl:332, wh:318, re:289 },
+  { hole:15, par:5, hdcp:2, bk:545, bl:526, wh:512, re:406 },
+  { hole:16, par:3, hdcp:18, bk:150, bl:134, wh:123, re:115 },
+  { hole:17, par:4, hdcp:12, bk:357, bl:340, wh:333, re:326 },
+  { hole:18, par:5, hdcp:6, bk:590, bl:559, wh:540, re:429 },
+];
+
+VENUES.push({
+  id: "prince_tsumagoi", reading: "ツマゴイコウゲンゴルフコース",
+  name: "嬬恋高原ゴルフコース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_TSUMAGOI_OUT },
+      { name: "IN",  holes: PRINCE_TSUMAGOI_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 軽井沢72ゴルフ 東コース（入山・押立） ---
+const PRINCE_KARU72_EAST_IRIYAMA_OUT = [
+  { hole:1, par:4, hdcp:3, bk:369, bl:369, wh:358, re:358 },
+  { hole:2, par:5, hdcp:9, bk:531, bl:500, wh:469, re:469 },
+  { hole:3, par:3, hdcp:15, bk:204, bl:163, wh:160, re:142 },
+  { hole:4, par:4, hdcp:7, bk:384, bl:325, wh:325, re:284 },
+  { hole:5, par:3, hdcp:13, bk:165, bl:149, wh:149, re:115 },
+  { hole:6, par:5, hdcp:1, bk:591, bl:591, wh:492, re:492 },
+  { hole:7, par:4, hdcp:17, bk:364, bl:364, wh:317, re:317 },
+  { hole:8, par:4, hdcp:11, bk:401, bl:389, wh:389, re:313 },
+  { hole:9, par:4, hdcp:5, bk:441, bl:405, wh:370, re:317 },
+];
+
+const PRINCE_KARU72_EAST_IRIYAMA_IN = [
+  { hole:10, par:5, hdcp:10, bk:545, bl:527, wh:504, re:462 },
+  { hole:11, par:3, hdcp:16, bk:185, bl:173, wh:173, re:111 },
+  { hole:12, par:4, hdcp:4, bk:388, bl:379, wh:379, re:340 },
+  { hole:13, par:4, hdcp:8, bk:421, bl:390, wh:390, re:342 },
+  { hole:14, par:5, hdcp:2, bk:549, bl:531, wh:531, re:484 },
+  { hole:15, par:4, hdcp:14, bk:413, bl:387, wh:387, re:345 },
+  { hole:16, par:3, hdcp:18, bk:172, bl:141, wh:141, re:90 },
+  { hole:17, par:4, hdcp:12, bk:415, bl:394, wh:394, re:348 },
+  { hole:18, par:4, hdcp:6, bk:403, bl:382, wh:346, re:346 },
+];
+
+const PRINCE_KARU72_EAST_OSHITATE_OUT = [
+  { hole:1, par:4, hdcp:15, bk:365, bl:346, wh:330, re:303 },
+  { hole:2, par:4, hdcp:9, bk:432, bl:401, wh:401, re:330 },
+  { hole:3, par:4, hdcp:1, bk:435, bl:416, wh:391, re:359 },
+  { hole:4, par:3, hdcp:13, bk:157, bl:137, wh:137, re:101 },
+  { hole:5, par:4, hdcp:7, bk:355, bl:324, wh:324, re:267 },
+  { hole:6, par:3, hdcp:3, bk:193, bl:160, wh:146, re:121 },
+  { hole:7, par:5, hdcp:17, bk:485, bl:462, wh:462, re:434 },
+  { hole:8, par:3, hdcp:11, bk:218, bl:193, wh:183, re:147 },
+  { hole:9, par:4, hdcp:5, bk:459, bl:459, wh:423, re:370 },
+];
+
+const PRINCE_KARU72_EAST_OSHITATE_IN = [
+  { hole:10, par:4, hdcp:4, bk:433, bl:411, wh:342, re:342 },
+  { hole:11, par:4, hdcp:10, bk:397, bl:362, wh:329, re:329 },
+  { hole:12, par:3, hdcp:16, bk:203, bl:175, wh:155, re:124 },
+  { hole:13, par:5, hdcp:14, bk:533, bl:499, wh:499, re:459 },
+  { hole:14, par:4, hdcp:8, bk:419, bl:383, wh:383, re:354 },
+  { hole:15, par:5, hdcp:2, bk:545, bl:545, wh:490, re:449 },
+  { hole:16, par:4, hdcp:12, bk:334, bl:334, wh:306, re:306 },
+  { hole:17, par:3, hdcp:18, bk:152, bl:136, wh:120, re:98 },
+  { hole:18, par:6, hdcp:6, bk:742, bl:715, wh:698, re:666 },
+];
+
+VENUES.push({
+  id: "prince_karu72_east", reading: "カルイザワ72ゴルフ ヒガシコース",
+  name: "軽井沢72ゴルフ 東コース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "入山OUT", holes: PRINCE_KARU72_EAST_IRIYAMA_OUT },
+    { name: "入山IN",  holes: PRINCE_KARU72_EAST_IRIYAMA_IN },
+    { name: "押立OUT", holes: PRINCE_KARU72_EAST_OSHITATE_OUT },
+    { name: "押立IN",  holes: PRINCE_KARU72_EAST_OSHITATE_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 軽井沢72ゴルフ 西コース（ゴールド・ブルー） ---
+const PRINCE_KARU72_WEST_GOLD_OUT = [
+  { hole:1, par:4, hdcp:9, bk:374, bl:358, wh:310, re:275 },
+  { hole:2, par:5, hdcp:3, bk:547, bl:509, wh:509, re:454 },
+  { hole:3, par:4, hdcp:15, bk:351, bl:351, wh:293, re:293 },
+  { hole:4, par:4, hdcp:7, bk:357, bl:334, wh:334, re:299 },
+  { hole:5, par:4, hdcp:13, bk:307, bl:307, wh:280, re:280 },
+  { hole:6, par:5, hdcp:1, bk:663, bl:588, wh:561, re:503 },
+  { hole:7, par:3, hdcp:17, bk:156, bl:133, wh:118, re:88 },
+  { hole:8, par:4, hdcp:11, bk:434, bl:371, wh:371, re:295 },
+  { hole:9, par:5, hdcp:5, bk:563, bl:532, wh:508, re:475 },
+];
+
+const PRINCE_KARU72_WEST_GOLD_IN = [
+  { hole:10, par:4, hdcp:10, bk:324, bl:305, wh:305, re:257 },
+  { hole:11, par:4, hdcp:4, bk:404, bl:380, wh:380, re:333 },
+  { hole:12, par:3, hdcp:16, bk:184, bl:162, wh:142, re:132 },
+  { hole:13, par:5, hdcp:2, bk:549, bl:526, wh:498, re:461 },
+  { hole:14, par:3, hdcp:14, bk:202, bl:156, wh:142, re:120 },
+  { hole:15, par:4, hdcp:8, bk:384, bl:332, wh:332, re:273 },
+  { hole:16, par:4, hdcp:6, bk:414, bl:376, wh:376, re:334 },
+  { hole:17, par:3, hdcp:18, bk:204, bl:171, wh:148, re:126 },
+  { hole:18, par:4, hdcp:12, bk:407, bl:362, wh:313, re:313 },
+];
+
+const PRINCE_KARU72_WEST_BLUE_OUT = [
+  { hole:1, par:4, hdcp:9, bk:367, bl:347, wh:318, re:278 },
+  { hole:2, par:3, hdcp:15, bk:138, bl:122, wh:120, re:120 },
+  { hole:3, par:5, hdcp:3, bk:678, bl:636, wh:610, re:572 },
+  { hole:4, par:4, hdcp:13, bk:362, bl:333, wh:312, re:312 },
+  { hole:5, par:4, hdcp:1, bk:410, bl:371, wh:323, re:304 },
+  { hole:6, par:4, hdcp:7, bk:370, bl:370, wh:357, re:357 },
+  { hole:7, par:5, hdcp:5, bk:492, bl:465, wh:465, re:376 },
+  { hole:8, par:3, hdcp:11, bk:199, bl:181, wh:143, re:102 },
+  { hole:9, par:4, hdcp:17, bk:356, bl:335, wh:335, re:276 },
+];
+
+const PRINCE_KARU72_WEST_BLUE_IN = [
+  { hole:10, par:4, hdcp:10, bk:384, bl:344, wh:344, re:315 },
+  { hole:11, par:3, hdcp:16, bk:134, bl:134, wh:134, re:115 },
+  { hole:12, par:5, hdcp:4, bk:544, bl:517, wh:481, re:464 },
+  { hole:13, par:4, hdcp:2, bk:396, bl:309, wh:309, re:284 },
+  { hole:14, par:3, hdcp:14, bk:158, bl:136, wh:136, re:81 },
+  { hole:15, par:4, hdcp:8, bk:382, bl:363, wh:321, re:307 },
+  { hole:16, par:4, hdcp:6, bk:427, bl:358, wh:358, re:326 },
+  { hole:17, par:4, hdcp:18, bk:403, bl:372, wh:372, re:347 },
+  { hole:18, par:5, hdcp:12, bk:525, bl:525, wh:478, re:478 },
+];
+
+VENUES.push({
+  id: "prince_karu72_west", reading: "カルイザワ72ゴルフ ニシコース",
+  name: "軽井沢72ゴルフ 西コース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "ゴールドOUT", holes: PRINCE_KARU72_WEST_GOLD_OUT },
+    { name: "ゴールドIN",  holes: PRINCE_KARU72_WEST_GOLD_IN },
+    { name: "ブルーOUT",   holes: PRINCE_KARU72_WEST_BLUE_OUT },
+    { name: "ブルーIN",    holes: PRINCE_KARU72_WEST_BLUE_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 軽井沢72ゴルフ 南コース ---
+const PRINCE_KARU72_SOUTH_OUT = [
+  { hole:1, par:4, hdcp:3, bk:415, bl:385, wh:385, re:336 },
+  { hole:2, par:4, hdcp:9, bk:399, bl:359, wh:359, re:310 },
+  { hole:3, par:4, hdcp:15, bk:396, bl:376, wh:352, re:309 },
+  { hole:4, par:5, hdcp:1, bk:543, bl:516, wh:516, re:446 },
+  { hole:5, par:4, hdcp:13, bk:424, bl:412, wh:360, re:335 },
+  { hole:6, par:3, hdcp:7, bk:188, bl:172, wh:132, re:132 },
+  { hole:7, par:4, hdcp:17, bk:355, bl:330, wh:330, re:280 },
+  { hole:8, par:4, hdcp:5, bk:366, bl:328, wh:328, re:294 },
+  { hole:9, par:5, hdcp:11, bk:479, bl:446, wh:446, re:397 },
+];
+
+const PRINCE_KARU72_SOUTH_IN = [
+  { hole:10, par:3, hdcp:16, bk:132, bl:124, wh:121, re:94 },
+  { hole:11, par:5, hdcp:4, bk:512, bl:486, wh:486, re:415 },
+  { hole:12, par:4, hdcp:10, bk:388, bl:358, wh:358, re:307 },
+  { hole:13, par:3, hdcp:14, bk:129, bl:104, wh:104, re:79 },
+  { hole:14, par:4, hdcp:2, bk:409, bl:375, wh:350, re:326 },
+  { hole:15, par:4, hdcp:8, bk:322, bl:297, wh:297, re:235 },
+  { hole:16, par:3, hdcp:18, bk:165, bl:142, wh:142, re:84 },
+  { hole:17, par:5, hdcp:12, bk:541, bl:514, wh:479, re:443 },
+  { hole:18, par:4, hdcp:6, bk:435, bl:388, wh:388, re:337 },
+];
+
+VENUES.push({
+  id: "prince_karu72_south", reading: "カルイザワ72ゴルフ ミナミコース",
+  name: "軽井沢72ゴルフ 南コース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_KARU72_SOUTH_OUT },
+      { name: "IN",  holes: PRINCE_KARU72_SOUTH_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 軽井沢72ゴルフ 北コース ---
+const PRINCE_KARU72_NORTH_OUT = [
+  { hole:1, par:4, hdcp:3, bk:383, bl:374, wh:342, re:342 },
+  { hole:2, par:5, hdcp:15, bk:553, bl:539, wh:495, re:468 },
+  { hole:3, par:3, hdcp:9, bk:213, bl:183, wh:173, re:152 },
+  { hole:4, par:4, hdcp:1, bk:441, bl:441, wh:412, re:389 },
+  { hole:5, par:4, hdcp:7, bk:379, bl:361, wh:333, re:333 },
+  { hole:6, par:4, hdcp:13, bk:432, bl:392, wh:381, re:317 },
+  { hole:7, par:4, hdcp:5, bk:412, bl:389, wh:360, re:360 },
+  { hole:8, par:3, hdcp:11, bk:190, bl:167, wh:146, re:108 },
+  { hole:9, par:5, hdcp:17, bk:509, bl:466, wh:451, re:410 },
+];
+
+const PRINCE_KARU72_NORTH_IN = [
+  { hole:10, par:4, hdcp:10, bk:421, bl:394, wh:378, re:357 },
+  { hole:11, par:4, hdcp:4, bk:392, bl:373, wh:339, re:324 },
+  { hole:12, par:3, hdcp:16, bk:224, bl:189, wh:173, re:136 },
+  { hole:13, par:5, hdcp:8, bk:569, bl:547, wh:509, re:509 },
+  { hole:14, par:4, hdcp:2, bk:475, bl:418, wh:391, re:366 },
+  { hole:15, par:4, hdcp:14, bk:364, bl:364, wh:324, re:324 },
+  { hole:16, par:5, hdcp:12, bk:480, bl:457, wh:457, re:416 },
+  { hole:17, par:3, hdcp:18, bk:160, bl:136, wh:121, re:109 },
+  { hole:18, par:4, hdcp:6, bk:392, bl:388, wh:362, re:331 },
+];
+
+VENUES.push({
+  id: "prince_karu72_north", reading: "カルイザワ72ゴルフ キタコース",
+  name: "軽井沢72ゴルフ 北コース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_KARU72_NORTH_OUT },
+      { name: "IN",  holes: PRINCE_KARU72_NORTH_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 武蔵丘ゴルフコース ---
+const PRINCE_MUSASHIGAOKA_OUT = [
+  { hole:1, par:5, hdcp:9, bkBg:508, blBg:471, reBg:378, bkKg:501, blKg:484, reKg:371 },
+  { hole:2, par:4, hdcp:15, bkBg:375, blBg:333, reBg:313, bkKg:357, blKg:339, reKg:295 },
+  { hole:3, par:4, hdcp:3, bkBg:388, blBg:328, reBg:305, bkKg:376, blKg:350, reKg:293 },
+  { hole:4, par:3, hdcp:13, bkBg:206, blBg:179, reBg:179, bkKg:192, blKg:178, reKg:170 },
+  { hole:5, par:4, hdcp:1, bkBg:432, blBg:384, reBg:364, bkKg:382, blKg:360, reKg:314 },
+  { hole:6, par:4, hdcp:7, bkBg:414, blBg:370, reBg:345, bkKg:387, blKg:369, reKg:318 },
+  { hole:7, par:4, hdcp:11, bkBg:385, blBg:347, reBg:324, bkKg:362, blKg:346, reKg:301 },
+  { hole:8, par:3, hdcp:17, bkBg:178, blBg:144, reBg:144, bkKg:159, blKg:140, reKg:122 },
+  { hole:9, par:5, hdcp:5, bkBg:523, blBg:471, reBg:441, bkKg:502, blKg:480, reKg:420 },
+];
+
+const PRINCE_MUSASHIGAOKA_IN = [
+  { hole:10, par:4, hdcp:10, bkBg:454, blBg:401, reBg:379, bkKg:447, blKg:423, reKg:372 },
+  { hole:11, par:4, hdcp:4, bkBg:425, blBg:370, reBg:282, bkKg:397, blKg:369, reKg:254 },
+  { hole:12, par:3, hdcp:16, bkBg:171, blBg:149, reBg:149, bkKg:138, blKg:115, reKg:115 },
+  { hole:13, par:4, hdcp:8, bkBg:348, blBg:304, reBg:211, bkKg:365, blKg:345, reKg:228 },
+  { hole:14, par:4, hdcp:2, bkBg:411, blBg:372, reBg:345, bkKg:391, blKg:374, reKg:325 },
+  { hole:15, par:3, hdcp:14, bkBg:213, blBg:175, reBg:151, bkKg:188, blKg:169, reKg:128 },
+  { hole:16, par:5, hdcp:6, bkBg:601, blBg:560, reBg:528, bkKg:539, blKg:521, reKg:466 },
+  { hole:17, par:4, hdcp:12, bkBg:450, blBg:403, reBg:378, bkKg:430, blKg:408, reKg:358 },
+  { hole:18, par:5, hdcp:18, bkBg:534, blBg:485, reBg:461, bkKg:495, blKg:472, reKg:422 },
+];
+
+VENUES.push({
+  id: "prince_musashigaoka", reading: "ムサシガオカゴルフコース",
+  name: "武蔵丘ゴルフコース",
+  greens: [
+    { id: "bg", label: "ベント" },
+    { id: "kg", label: "コーライ" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_MUSASHIGAOKA_OUT },
+      { name: "IN",  holes: PRINCE_MUSASHIGAOKA_IN },
+  ],
+  getYardage: (hole, green, tee) => { const g = green === 'kg' ? 'Kg' : 'Bg'; return hole[`${tee}${g}`] ?? null; },
+});
+
+// --- 西武園ゴルフコース ---
+const PRINCE_SEIBU_EN_OUT = [
+  { hole:1, par:5, hdcp:5, bkAg:490, blAg:473, whAg:414, reAg:414, bkBg:468, blBg:451, whBg:395, reBg:395 },
+  { hole:2, par:3, hdcp:17, bkAg:175, blAg:155, whAg:85, reAg:85, bkBg:145, blBg:125, whBg:85, reBg:85 },
+  { hole:3, par:4, hdcp:1, bkAg:375, blAg:375, whAg:296, reAg:296, bkBg:355, blBg:355, whBg:275, reBg:275 },
+  { hole:4, par:3, hdcp:15, bkAg:178, blAg:145, whAg:139, reAg:139, bkBg:131, blBg:131, whBg:115, reBg:115 },
+  { hole:5, par:5, hdcp:13, bkAg:405, blAg:405, whAg:378, reAg:378, bkBg:435, blBg:435, whBg:408, reBg:408 },
+  { hole:6, par:4, hdcp:11, bkAg:358, blAg:332, whAg:310, reAg:310, bkBg:307, blBg:282, whBg:259, reBg:259 },
+  { hole:7, par:4, hdcp:9, bkAg:294, blAg:294, whAg:260, reAg:260, bkBg:279, blBg:279, whBg:245, reBg:245 },
+  { hole:8, par:4, hdcp:3, bkAg:343, blAg:323, whAg:268, reAg:268, bkBg:332, blBg:312, whBg:257, reBg:257 },
+  { hole:9, par:4, hdcp:7, bkAg:378, blAg:378, whAg:278, reAg:278, bkBg:306, blBg:306, whBg:200, reBg:200 },
+];
+
+const PRINCE_SEIBU_EN_IN = [
+  { hole:10, par:3, hdcp:16, bkAg:170, blAg:126, whAg:92, reAg:92, bkBg:158, blBg:111, whBg:77, reBg:77 },
+  { hole:11, par:4, hdcp:4, bkAg:366, blAg:366, whAg:336, reAg:336, bkBg:367, blBg:367, whBg:337, reBg:337 },
+  { hole:12, par:4, hdcp:10, bkAg:276, blAg:265, whAg:241, reAg:241, bkBg:334, blBg:323, whBg:299, reBg:299 },
+  { hole:13, par:3, hdcp:14, bkAg:184, blAg:173, whAg:162, reAg:162, bkBg:167, blBg:156, whBg:145, reBg:145 },
+  { hole:14, par:5, hdcp:2, bkAg:520, blAg:504, whAg:460, reAg:460, bkBg:504, blBg:487, whBg:442, reBg:442 },
+  { hole:15, par:3, hdcp:18, bkAg:177, blAg:155, whAg:138, reAg:138, bkBg:139, blBg:115, whBg:99, reBg:99 },
+  { hole:16, par:4, hdcp:6, bkAg:347, blAg:330, whAg:271, reAg:271, bkBg:373, blBg:356, whBg:297, reBg:297 },
+  { hole:17, par:4, hdcp:12, bkAg:307, blAg:307, whAg:294, reAg:294, bkBg:291, blBg:291, whBg:278, reBg:278 },
+  { hole:18, par:5, hdcp:8, bkAg:500, blAg:478, whAg:423, reAg:423, bkBg:501, blBg:479, whBg:424, reBg:424 },
+];
+
+VENUES.push({
+  id: "prince_seibu_en", reading: "セイブエンゴルフコース",
+  name: "西武園ゴルフコース",
+  greens: [
+    { id: "ag", label: "Aグリーン" },
+    { id: "bg", label: "Bグリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_SEIBU_EN_OUT },
+      { name: "IN",  holes: PRINCE_SEIBU_EN_IN },
+  ],
+  getYardage: (hole, green, tee) => { const g = green === 'bg' ? 'Bg' : 'Ag'; return hole[`${tee}${g}`] ?? null; },
+});
+
+// --- 大原御宿ゴルフコース ---
+const PRINCE_OHARA_OUT = [
+  { hole:1, par:4, hdcp:11, bkBg:404, blBg:379, whBg:367, reBg:346, bkKg:429, blKg:404, whKg:392, reKg:371 },
+  { hole:2, par:5, hdcp:9, bkBg:499, blBg:474, whBg:446, reBg:405, bkKg:511, blKg:486, whKg:458, reKg:417 },
+  { hole:3, par:4, hdcp:3, bkBg:415, blBg:382, whBg:350, reBg:308, bkKg:394, blKg:361, whKg:329, reKg:287 },
+  { hole:4, par:3, hdcp:17, bkBg:173, blBg:146, whBg:124, reBg:79, bkKg:199, blKg:172, whKg:150, reKg:97 },
+  { hole:5, par:5, hdcp:1, bkBg:579, blBg:544, whBg:516, reBg:474, bkKg:556, blKg:521, whKg:493, reKg:451 },
+  { hole:6, par:4, hdcp:7, bkBg:379, blBg:356, whBg:341, reBg:317, bkKg:353, blKg:331, whKg:316, reKg:292 },
+  { hole:7, par:4, hdcp:13, bkBg:364, blBg:337, whBg:326, reBg:299, bkKg:391, blKg:363, whKg:353, reKg:325 },
+  { hole:8, par:4, hdcp:5, bkBg:383, blBg:362, whBg:353, reBg:324, bkKg:397, blKg:376, whKg:368, reKg:338 },
+  { hole:9, par:3, hdcp:15, bkBg:206, blBg:181, whBg:156, reBg:105, bkKg:182, blKg:156, whKg:132, reKg:83 },
+];
+
+const PRINCE_OHARA_IN = [
+  { hole:10, par:4, hdcp:8, bkBg:407, blBg:382, whBg:375, reBg:357, bkKg:379, blKg:353, whKg:346, reKg:328 },
+  { hole:11, par:4, hdcp:4, bkBg:431, blBg:397, whBg:366, reBg:308, bkKg:438, blKg:404, whKg:373, reKg:320 },
+  { hole:12, par:3, hdcp:18, bkBg:167, blBg:153, whBg:145, reBg:121, bkKg:178, blKg:160, whKg:152, reKg:136 },
+  { hole:13, par:5, hdcp:6, bkBg:513, blBg:481, whBg:468, reBg:434, bkKg:510, blKg:478, whKg:464, reKg:431 },
+  { hole:14, par:3, hdcp:16, bkBg:189, blBg:163, whBg:152, reBg:133, bkKg:170, blKg:150, whKg:142, reKg:120 },
+  { hole:15, par:5, hdcp:2, bkBg:537, blBg:501, whBg:464, reBg:436, bkKg:558, blKg:522, whKg:485, reKg:457 },
+  { hole:16, par:4, hdcp:12, bkBg:369, blBg:344, whBg:331, reBg:313, bkKg:399, blKg:375, whKg:362, reKg:344 },
+  { hole:17, par:4, hdcp:14, bkBg:400, blBg:373, whBg:364, reBg:334, bkKg:423, blKg:396, whKg:388, reKg:357 },
+  { hole:18, par:4, hdcp:10, bkBg:419, blBg:395, whBg:360, reBg:302, bkKg:395, blKg:371, whKg:336, reKg:275 },
+];
+
+VENUES.push({
+  id: "prince_ohara", reading: "オオハラオンジュクゴルフコース",
+  name: "大原御宿ゴルフコース",
+  greens: [
+    { id: "bg", label: "ベント" },
+    { id: "kg", label: "コーライ" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_OHARA_OUT },
+      { name: "IN",  holes: PRINCE_OHARA_IN },
+  ],
+  getYardage: (hole, green, tee) => { const g = green === 'kg' ? 'Kg' : 'Bg'; return hole[`${tee}${g}`] ?? null; },
+});
+
+// --- 西熱海ゴルフコース ---
+const PRINCE_NISHIATAMI_OUT = [
+  { hole:1, par:5, hdcp:1, blBg:400, reBg:280, blKg:420, reKg:300 },
+  { hole:2, par:4, hdcp:3, blBg:330, reBg:240, blKg:330, reKg:240 },
+  { hole:3, par:4, hdcp:9, blBg:350, reBg:275, blKg:390, reKg:315 },
+  { hole:4, par:3, hdcp:11, blBg:100, reBg:90, blKg:120, reKg:110 },
+  { hole:5, par:4, hdcp:13, blBg:310, reBg:220, blKg:300, reKg:210 },
+  { hole:6, par:4, hdcp:15, blBg:230, reBg:180, blKg:250, reKg:200 },
+  { hole:7, par:4, hdcp:5, blBg:280, reBg:260, blKg:300, reKg:280 },
+  { hole:8, par:3, hdcp:17, blBg:130, reBg:110, blKg:140, reKg:120 },
+  { hole:9, par:4, hdcp:7, blBg:340, reBg:300, blKg:350, reKg:310 },
+];
+
+const PRINCE_NISHIATAMI_IN = [
+  { hole:10, par:4, hdcp:14, blBg:240, reBg:160, blKg:240, reKg:160 },
+  { hole:11, par:4, hdcp:4, blBg:280, reBg:235, blKg:260, reKg:215 },
+  { hole:12, par:6, hdcp:2, blBg:560, reBg:400, blKg:560, reKg:400 },
+  { hole:13, par:5, hdcp:8, blBg:460, reBg:375, blKg:460, reKg:375 },
+  { hole:14, par:3, hdcp:16, blBg:140, reBg:140, blKg:160, reKg:160 },
+  { hole:15, par:4, hdcp:18, blBg:280, reBg:220, blKg:270, reKg:210 },
+  { hole:16, par:4, hdcp:12, blBg:300, reBg:220, blKg:300, reKg:220 },
+  { hole:17, par:4, hdcp:6, blBg:310, reBg:220, blKg:290, reKg:200 },
+  { hole:18, par:3, hdcp:10, blBg:165, reBg:130, blKg:165, reKg:130 },
+];
+
+VENUES.push({
+  id: "prince_nishiatami", reading: "ニシアタミゴルフコース",
+  name: "西熱海ゴルフコース",
+  greens: [
+    { id: "bg", label: "ベント" },
+    { id: "kg", label: "コーライ" },
+  ],
+  tees: [
+    { id: "bl", label: "Regular" },
+    { id: "re", label: "Front" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_NISHIATAMI_OUT },
+      { name: "IN",  holes: PRINCE_NISHIATAMI_IN },
+  ],
+  getYardage: (hole, green, tee) => { const g = green === 'kg' ? 'Kg' : 'Bg'; return hole[`${tee}${g}`] ?? null; },
+});
+
+// SKIP: prince_kawana_fuji (already registered as kawana_fuji_gc)
+
+// --- 川奈ホテルゴルフコース 大島コース ---
+const PRINCE_KAWANA_OSHIMA_OUT = [
+  { hole:1, par:4, hdcp:3, bl:354, wh:289, ka:289 },
+  { hole:2, par:3, hdcp:15, bl:199, wh:169, ka:169 },
+  { hole:3, par:4, hdcp:9, bl:373, wh:368, ka:292 },
+  { hole:4, par:4, hdcp:1, bl:351, wh:341, ka:274 },
+  { hole:5, par:4, hdcp:7, bl:262, wh:222, ka:217 },
+  { hole:6, par:3, hdcp:13, bl:147, wh:130, ka:130 },
+  { hole:7, par:4, hdcp:11, bl:282, wh:264, ka:259 },
+  { hole:8, par:5, hdcp:5, bl:464, wh:396, ka:396 },
+  { hole:9, par:4, hdcp:17, bl:408, wh:378, ka:252 },
+];
+
+const PRINCE_KAWANA_OSHIMA_IN = [
+  { hole:10, par:4, hdcp:4, bl:380, wh:346, ka:341 },
+  { hole:11, par:4, hdcp:16, bl:363, wh:353, ka:273 },
+  { hole:12, par:4, hdcp:10, bl:360, wh:308, ka:303 },
+  { hole:13, par:4, hdcp:2, bl:286, wh:253, ka:253 },
+  { hole:14, par:3, hdcp:8, bl:117, wh:114, ka:114 },
+  { hole:15, par:4, hdcp:14, bl:330, wh:316, ka:316 },
+  { hole:16, par:3, hdcp:12, bl:180, wh:146, ka:146 },
+  { hole:17, par:5, hdcp:6, bl:494, wh:341, ka:341 },
+  { hole:18, par:4, hdcp:18, bl:361, wh:316, ka:311 },
+];
+
+VENUES.push({
+  id: "prince_kawana_oshima", reading: "カワナホテルゴルフコース オオシマコース",
+  name: "川奈ホテルゴルフコース 大島コース",
+  greens: [{ id: "main", label: "コーライ" }],
+  tees: [
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "ka", label: "Kawana" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_KAWANA_OSHIMA_OUT },
+      { name: "IN",  holes: PRINCE_KAWANA_OSHIMA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 瀬田ゴルフコース 東コース ---
+const PRINCE_SETA_EAST_OUT = [
+  { hole:1, par:4, hdcp:7, bkBg:410, blBg:385, whBg:355, reBg:262, bkKg:415, blKg:390, whKg:360, reKg:285 },
+  { hole:2, par:4, hdcp:3, bkBg:430, blBg:390, whBg:375, reBg:349, bkKg:440, blKg:405, whKg:390, reKg:358 },
+  { hole:3, par:4, hdcp:13, bkBg:345, blBg:320, whBg:310, reBg:276, bkKg:355, blKg:330, whKg:320, reKg:286 },
+  { hole:4, par:3, hdcp:17, bkBg:150, blBg:140, whBg:140, reBg:73, bkKg:160, blKg:145, whKg:145, reKg:103 },
+  { hole:5, par:4, hdcp:1, bkBg:445, blBg:410, whBg:405, reBg:331, bkKg:455, blKg:425, whKg:420, reKg:340 },
+  { hole:6, par:5, hdcp:11, bkBg:500, blBg:475, whBg:462, reBg:420, bkKg:505, blKg:475, whKg:462, reKg:425 },
+  { hole:7, par:3, hdcp:15, bkBg:180, blBg:160, whBg:154, reBg:100, bkKg:190, blKg:175, whKg:169, reKg:115 },
+  { hole:8, par:5, hdcp:5, bkBg:510, blBg:490, whBg:480, reBg:421, bkKg:515, blKg:500, whKg:490, reKg:427 },
+  { hole:9, par:4, hdcp:9, bkBg:400, blBg:360, whBg:345, reBg:308, bkKg:405, blKg:370, whKg:355, reKg:312 },
+];
+
+const PRINCE_SETA_EAST_IN = [
+  { hole:10, par:4, hdcp:8, bkBg:405, blBg:370, whBg:340, reBg:266, bkKg:410, blKg:375, whKg:345, reKg:282 },
+  { hole:11, par:3, hdcp:18, bkBg:160, blBg:140, whBg:135, reBg:118, bkKg:170, blKg:150, whKg:145, reKg:123 },
+  { hole:12, par:4, hdcp:14, bkBg:350, blBg:335, whBg:330, reBg:266, bkKg:345, blKg:320, whKg:315, reKg:265 },
+  { hole:13, par:4, hdcp:2, bkBg:400, blBg:365, whBg:347, reBg:321, bkKg:415, blKg:385, whKg:367, reKg:335 },
+  { hole:14, par:5, hdcp:10, bkBg:535, blBg:490, whBg:483, reBg:435, bkKg:550, blKg:510, whKg:503, reKg:449 },
+  { hole:15, par:4, hdcp:4, bkBg:385, blBg:360, whBg:351, reBg:310, bkKg:395, blKg:370, whKg:361, reKg:327 },
+  { hole:16, par:3, hdcp:16, bkBg:190, blBg:165, whBg:161, reBg:100, bkKg:200, blKg:180, whKg:176, reKg:115 },
+  { hole:17, par:5, hdcp:12, bkBg:515, blBg:505, whBg:490, reBg:425, bkKg:525, blKg:520, whKg:505, reKg:435 },
+  { hole:18, par:4, hdcp:6, bkBg:440, blBg:405, whBg:384, reBg:333, bkKg:445, blKg:405, whKg:384, reKg:345 },
+];
+
+VENUES.push({
+  id: "prince_seta_east", reading: "セタゴルフコース ヒガシコース",
+  name: "瀬田ゴルフコース 東コース",
+  greens: [
+    { id: "bg", label: "ベント" },
+    { id: "kg", label: "コーライ" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_SETA_EAST_OUT },
+      { name: "IN",  holes: PRINCE_SETA_EAST_IN },
+  ],
+  getYardage: (hole, green, tee) => { const g = green === 'kg' ? 'Kg' : 'Bg'; return hole[`${tee}${g}`] ?? null; },
+});
+
+// --- 瀬田ゴルフコース 西コース ---
+const PRINCE_SETA_WEST_OUT = [
+  { hole:1, par:5, hdcp:11, bkBg:503, blBg:484, whBg:470, reBg:411, bkKg:493, blKg:474, whKg:460, reKg:401 },
+  { hole:2, par:3, hdcp:17, bkBg:203, blBg:164, whBg:155, reBg:143, bkKg:175, blKg:136, whKg:127, reKg:123 },
+  { hole:3, par:4, hdcp:5, bkBg:392, blBg:372, whBg:357, reBg:337, bkKg:374, blKg:354, whKg:339, reKg:319 },
+  { hole:4, par:5, hdcp:7, bkBg:541, blBg:511, whBg:498, reBg:444, bkKg:505, blKg:475, whKg:462, reKg:408 },
+  { hole:5, par:4, hdcp:3, bkBg:411, blBg:381, whBg:363, reBg:312, bkKg:376, blKg:346, whKg:328, reKg:277 },
+  { hole:6, par:4, hdcp:1, bkBg:416, blBg:398, whBg:381, reBg:328, bkKg:381, blKg:363, whKg:346, reKg:328 },
+  { hole:7, par:3, hdcp:15, bkBg:170, blBg:159, whBg:159, reBg:151, bkKg:143, blKg:132, whKg:132 },
+  { hole:8, par:4, hdcp:13, bkBg:340, blBg:311, whBg:298, reBg:285, bkKg:322, blKg:293, whKg:280, reKg:267 },
+  { hole:9, par:4, hdcp:9, bkBg:375, blBg:356, whBg:340, reBg:302, bkKg:366, blKg:347, whKg:331, reKg:293 },
+];
+
+const PRINCE_SETA_WEST_IN = [
+  { hole:10, par:5, hdcp:10, bkBg:508, blBg:498, whBg:494, reBg:451, bkKg:481, blKg:471, whKg:467, reKg:423 },
+  { hole:11, par:4, hdcp:6, bkBg:397, blBg:383, whBg:360, reBg:315, bkKg:364, blKg:350, whKg:327, reKg:282 },
+  { hole:12, par:3, hdcp:16, bkBg:184, blBg:173, whBg:163, reBg:152, bkKg:170, blKg:159, whKg:149, reKg:138 },
+  { hole:13, par:4, hdcp:4, bkBg:398, blBg:381, whBg:368, reBg:337, bkKg:362, blKg:345, whKg:332, reKg:301 },
+  { hole:14, par:5, hdcp:8, bkBg:523, blBg:499, whBg:492, reBg:428, bkKg:496, blKg:472, whKg:465, reKg:401 },
+  { hole:15, par:4, hdcp:2, bkBg:408, blBg:389, whBg:383, reBg:278, bkKg:379, blKg:360, whKg:354, reKg:249 },
+  { hole:16, par:3, hdcp:18, bkBg:161, blBg:151, whBg:151, reBg:141, bkKg:150, blKg:136, whKg:136, reKg:123 },
+  { hole:17, par:4, hdcp:14, bkBg:357, blBg:342, whBg:313, reBg:335, bkKg:335, blKg:320, whKg:320, reKg:291 },
+  { hole:18, par:4, hdcp:12, bkBg:334, blBg:314, whBg:305, reBg:286, bkKg:321, blKg:301, whKg:292, reKg:273 },
+];
+
+VENUES.push({
+  id: "prince_seta_west", reading: "セタゴルフコース ニシコース",
+  name: "瀬田ゴルフコース 西コース",
+  greens: [
+    { id: "bg", label: "ベント" },
+    { id: "kg", label: "コーライ" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_SETA_WEST_OUT },
+      { name: "IN",  holes: PRINCE_SETA_WEST_IN },
+  ],
+  getYardage: (hole, green, tee) => { const g = green === 'kg' ? 'Kg' : 'Bg'; return hole[`${tee}${g}`] ?? null; },
+});
+
+// --- 瀬田ゴルフコース 北コース ---
+const PRINCE_SETA_NORTH_OUT = [
+  { hole:1, par:5, hdcp:0, bk:520, bl:490, wh:473, re:384 },
+  { hole:2, par:3, hdcp:0, bk:189, bl:170, wh:135, re:122 },
+  { hole:3, par:4, hdcp:0, bk:410, bl:385, wh:356, re:303 },
+  { hole:4, par:4, hdcp:0, bk:360, bl:330, wh:319, re:279 },
+  { hole:5, par:4, hdcp:0, bk:400, bl:370, wh:343, re:275 },
+  { hole:6, par:3, hdcp:0, bk:215, bl:190, wh:173, re:109 },
+  { hole:7, par:5, hdcp:0, bk:530, bl:510, wh:475, re:394 },
+  { hole:8, par:4, hdcp:0, bk:430, bl:400, wh:380, re:297 },
+  { hole:9, par:4, hdcp:0, bk:415, bl:380, wh:354, re:318 },
+];
+
+const PRINCE_SETA_NORTH_IN = [
+  { hole:10, par:4, hdcp:0, bk:450, bl:430, wh:400, re:333 },
+  { hole:11, par:3, hdcp:0, bk:168, bl:145, wh:125, re:120 },
+  { hole:12, par:5, hdcp:0, bk:520, bl:490, wh:472, re:401 },
+  { hole:13, par:4, hdcp:0, bk:375, bl:350, wh:322, re:270 },
+  { hole:14, par:4, hdcp:0, bk:420, bl:390, wh:365, re:333 },
+  { hole:15, par:4, hdcp:0, bk:415, bl:380, wh:355, re:313 },
+  { hole:16, par:3, hdcp:0, bk:180, bl:150, wh:132, re:119 },
+  { hole:17, par:4, hdcp:0, bk:435, bl:410, wh:390, re:292 },
+  { hole:18, par:5, hdcp:0, bk:580, bl:540, wh:522, re:361 },
+];
+
+VENUES.push({
+  id: "prince_seta_north", reading: "セタゴルフコース キタコース",
+  name: "瀬田ゴルフコース 北コース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_SETA_NORTH_OUT },
+      { name: "IN",  holes: PRINCE_SETA_NORTH_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 串間ゴルフクラブ ---
+const PRINCE_KUSHIMA_OUT = [
+  { hole:1, par:4, hdcp:9, bl:416 },
+  { hole:2, par:5, hdcp:5, bl:531 },
+  { hole:3, par:3, hdcp:17, bl:168 },
+  { hole:4, par:4, hdcp:11, bl:345 },
+  { hole:5, par:4, hdcp:1, bl:363 },
+  { hole:6, par:4, hdcp:15, bl:309 },
+  { hole:7, par:3, hdcp:13, bl:175 },
+  { hole:8, par:4, hdcp:7, bl:375 },
+  { hole:9, par:5, hdcp:3, bl:548 },
+];
+
+const PRINCE_KUSHIMA_IN = [
+  { hole:10, par:4, hdcp:18, bl:325 },
+  { hole:11, par:3, hdcp:8, bl:185 },
+  { hole:12, par:4, hdcp:16, bl:352 },
+  { hole:13, par:5, hdcp:4, bl:493 },
+  { hole:14, par:4, hdcp:2, bl:426 },
+  { hole:15, par:4, hdcp:14, bl:358 },
+  { hole:16, par:4, hdcp:12, bl:404 },
+  { hole:17, par:3, hdcp:10, bl:179 },
+  { hole:18, par:5, hdcp:6, bl:527 },
+];
+
+VENUES.push({
+  id: "prince_kushima", reading: "クシマゴルフクラブ",
+  name: "串間ゴルフクラブ",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bl", label: "Regular" },
+  ],
+  subCourses: [
+      { name: "OUT", holes: PRINCE_KUSHIMA_OUT },
+      { name: "IN",  holes: PRINCE_KUSHIMA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 大磯プリンスホテルゴルフコース ---
+const PRINCE_OISO_MAIN = [
+  { hole:1, par:3, hdcp:7, bl:101 },
+  { hole:2, par:3, hdcp:6, bl:105 },
+  { hole:3, par:3, hdcp:8, bl:85 },
+  { hole:4, par:3, hdcp:9, bl:94 },
+  { hole:5, par:3, hdcp:1, bl:167 },
+  { hole:6, par:3, hdcp:4, bl:120 },
+  { hole:7, par:3, hdcp:3, bl:160 },
+  { hole:8, par:3, hdcp:5, bl:83 },
+  { hole:9, par:3, hdcp:2, bl:125 },
+];
+
+VENUES.push({
+  id: "prince_oiso", reading: "オオイソプリンスホテルゴルフコース",
+  name: "大磯プリンスホテルゴルフコース",
+  greens: [{ id: "main", label: "コーライ" }],
+  tees: [
+    { id: "bl", label: "Regular" },
+  ],
+  subCourses: [
+      { name: "コース", holes: PRINCE_OISO_MAIN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// ═══════════════════════════════════════════
+// ═══════════════════════════════════════════
+// 欠損11コース（実データ取得済み 2026-06-12）
+// ═══════════════════════════════════════════
+
+// --- 北海道カントリークラブ 大沼コース ---
+// PAR73 / BACK7330Y / REGULAR6930Y / FRONT=PRINCE5447Y
+const PRINCE_ONUMA_OUT = [
+  { hole:1,  par:4, hdcp:17, bk:320, bl:310, wh:290, re:290 },
+  { hole:2,  par:4, hdcp:3,  bk:400, bl:385, wh:310, re:310 },
+  { hole:3,  par:3, hdcp:11, bk:200, bl:185, wh:82,  re:82  },
+  { hole:4,  par:4, hdcp:15, bk:395, bl:385, wh:295, re:295 },
+  { hole:5,  par:5, hdcp:9,  bk:580, bl:560, wh:450, re:450 },
+  { hole:6,  par:4, hdcp:1,  bk:475, bl:440, wh:360, re:360 },
+  { hole:7,  par:5, hdcp:5,  bk:570, bl:545, wh:465, re:465 },
+  { hole:8,  par:3, hdcp:13, bk:240, bl:200, wh:155, re:155 },
+  { hole:9,  par:5, hdcp:7,  bk:630, bl:590, wh:460, re:460 },
+];
+const PRINCE_ONUMA_IN = [
+  { hole:10, par:5, hdcp:8,  bk:600, bl:590, wh:435, re:435 },
+  { hole:11, par:4, hdcp:10, bk:400, bl:390, wh:305, re:305 },
+  { hole:12, par:4, hdcp:2,  bk:445, bl:435, wh:240, re:240 },
+  { hole:13, par:3, hdcp:16, bk:180, bl:150, wh:115, re:115 },
+  { hole:14, par:4, hdcp:4,  bk:395, bl:370, wh:325, re:325 },
+  { hole:15, par:4, hdcp:12, bk:390, bl:365, wh:310, re:310 },
+  { hole:16, par:4, hdcp:14, bk:360, bl:335, wh:290, re:290 },
+  { hole:17, par:3, hdcp:18, bk:160, bl:125, wh:100, re:100 },
+  { hole:18, par:5, hdcp:6,  bk:590, bl:570, wh:460, re:460 },
+];
+VENUES.push({
+  id: "prince_onuma", reading: "ホッカイドウカントリークラブ オオヌマコース",
+  name: "北海道カントリークラブ 大沼コース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: PRINCE_ONUMA_OUT },
+    { name: "IN",  holes: PRINCE_ONUMA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 北海道カントリークラブ プリンスコース ---
+// PAR72 / BACK6724Y / REGULAR6129Y / FRONT5784Y / PRINCE5063Y
+const PRINCE_HOKKAIDO_PRINCE_OUT = [
+  { hole:1,  par:4, hdcp:7,  bk:405, bl:394, wh:360, re:287 },
+  { hole:2,  par:3, hdcp:17, bk:158, bl:129, wh:129, re:117 },
+  { hole:3,  par:4, hdcp:13, bk:370, bl:326, wh:307, re:307 },
+  { hole:4,  par:4, hdcp:1,  bk:435, bl:417, wh:330, re:268 },
+  { hole:5,  par:5, hdcp:5,  bk:547, bl:495, wh:456, re:439 },
+  { hole:6,  par:4, hdcp:15, bk:368, bl:344, wh:304, re:304 },
+  { hole:7,  par:4, hdcp:3,  bk:414, bl:361, wh:353, re:353 },
+  { hole:8,  par:5, hdcp:9,  bk:519, bl:466, wh:460, re:404 },
+  { hole:9,  par:3, hdcp:11, bk:173, bl:150, wh:135, re:125 },
+];
+const PRINCE_HOKKAIDO_PRINCE_IN = [
+  { hole:10, par:5, hdcp:16, bk:490, bl:465, wh:465, re:403 },
+  { hole:11, par:5, hdcp:6,  bk:492, bl:474, wh:421, re:365 },
+  { hole:12, par:4, hdcp:4,  bk:440, bl:408, wh:408, re:360 },
+  { hole:13, par:3, hdcp:18, bk:170, bl:124, wh:122, re:122 },
+  { hole:14, par:4, hdcp:10, bk:419, bl:366, wh:332, re:332 },
+  { hole:15, par:4, hdcp:2,  bk:407, bl:362, wh:362, re:232 },
+  { hole:16, par:3, hdcp:14, bk:197, bl:180, wh:172, re:120 },
+  { hole:17, par:4, hdcp:12, bk:367, bl:336, wh:336, re:244 },
+  { hole:18, par:4, hdcp:8,  bk:353, bl:332, wh:332, re:281 },
+];
+VENUES.push({
+  id: "prince_hokkaido_prince", reading: "ホッカイドウカントリークラブ プリンスコース",
+  name: "北海道カントリークラブ プリンスコース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: PRINCE_HOKKAIDO_PRINCE_OUT },
+    { name: "IN",  holes: PRINCE_HOKKAIDO_PRINCE_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 久邇カントリークラブ (東/北/西 27H) ---
+// 2グリーン (ベント/コーライ), 各コースPAR36
+const PRINCE_KUNI_EAST = [
+  { hole:1, par:5, hdcp:5, bkBg:539, blBg:527, whBg:515, reBg:494, bkKg:533, blKg:521, whKg:509, reKg:488 },
+  { hole:2, par:4, hdcp:2, bkBg:372, blBg:372, whBg:339, reBg:300, bkKg:383, blKg:383, whKg:352, reKg:306 },
+  { hole:3, par:3, hdcp:8, bkBg:183, blBg:183, whBg:169, reBg:159, bkKg:151, blKg:151, whKg:138, reKg:134 },
+  { hole:4, par:4, hdcp:7, bkBg:355, blBg:337, whBg:328, reBg:290, bkKg:334, blKg:316, whKg:306, reKg:268 },
+  { hole:5, par:4, hdcp:4, bkBg:399, blBg:386, whBg:366, reBg:349, bkKg:358, blKg:344, whKg:326, reKg:307 },
+  { hole:6, par:4, hdcp:1, bkBg:427, blBg:408, whBg:385, reBg:355, bkKg:410, blKg:389, whKg:367, reKg:337 },
+  { hole:7, par:5, hdcp:6, bkBg:487, blBg:487, whBg:472, reBg:415, bkKg:476, blKg:476, whKg:459, reKg:404 },
+  { hole:8, par:3, hdcp:9, bkBg:178, blBg:174, whBg:164, reBg:120, bkKg:175, blKg:171, whKg:160, reKg:130 },
+  { hole:9, par:4, hdcp:3, bkBg:437, blBg:431, whBg:416, reBg:338, bkKg:410, blKg:406, whKg:389, reKg:311 },
+];
+const PRINCE_KUNI_NORTH = [
+  { hole:1, par:4, hdcp:5, bkBg:370, blBg:358, whBg:340, reBg:290, bkKg:350, blKg:336, whKg:320, reKg:268 },
+  { hole:2, par:4, hdcp:2, bkBg:399, blBg:372, whBg:348, reBg:330, bkKg:353, blKg:326, whKg:302, reKg:281 },
+  { hole:3, par:3, hdcp:8, bkBg:182, blBg:182, whBg:169, reBg:111, bkKg:191, blKg:191, whKg:175, reKg:172 },
+  { hole:4, par:5, hdcp:1, bkBg:569, blBg:554, whBg:540, reBg:461, bkKg:596, blKg:581, whKg:568, reKg:484 },
+  { hole:5, par:4, hdcp:7, bkBg:361, blBg:340, whBg:325, reBg:289, bkKg:344, blKg:323, whKg:308, reKg:273 },
+  { hole:6, par:4, hdcp:4, bkBg:399, blBg:387, whBg:366, reBg:352, bkKg:383, blKg:371, whKg:350, reKg:336 },
+  { hole:7, par:5, hdcp:3, bkBg:591, blBg:578, whBg:563, reBg:488, bkKg:558, blKg:545, whKg:530, reKg:455 },
+  { hole:8, par:3, hdcp:9, bkBg:173, blBg:162, whBg:140, reBg:140, bkKg:175, blKg:159, whKg:137, reKg:133 },
+  { hole:9, par:4, hdcp:6, bkBg:448, blBg:429, whBg:410, reBg:310, bkKg:394, blKg:376, whKg:356, reKg:255 },
+];
+const PRINCE_KUNI_WEST = [
+  { hole:1, par:5, hdcp:5, bkBg:492, blBg:492, whBg:471, reBg:402, bkKg:476, blKg:476, whKg:454, reKg:385 },
+  { hole:2, par:4, hdcp:2, bkBg:377, blBg:370, whBg:353, reBg:326, bkKg:355, blKg:348, whKg:331, reKg:304 },
+  { hole:3, par:3, hdcp:8, bkBg:197, blBg:197, whBg:179, reBg:171, bkKg:175, blKg:175, whKg:169, reKg:162 },
+  { hole:4, par:4, hdcp:7, bkBg:405, blBg:392, whBg:375, reBg:325, bkKg:366, blKg:353, whKg:336, reKg:286 },
+  { hole:5, par:5, hdcp:1, bkBg:586, blBg:542, whBg:523, reBg:454, bkKg:552, blKg:509, whKg:494, reKg:420 },
+  { hole:6, par:4, hdcp:4, bkBg:366, blBg:366, whBg:343, reBg:311, bkKg:366, blKg:366, whKg:343, reKg:311 },
+  { hole:7, par:3, hdcp:9, bkBg:186, blBg:186, whBg:164, reBg:160, bkKg:164, blKg:164, whKg:142, reKg:138 },
+  { hole:8, par:4, hdcp:6, bkBg:355, blBg:341, whBg:328, reBg:303, bkKg:344, blKg:330, whKg:317, reKg:292 },
+  { hole:9, par:4, hdcp:3, bkBg:443, blBg:425, whBg:396, reBg:369, bkKg:427, blKg:409, whKg:380, reKg:353 },
+];
+VENUES.push({
+  id: "prince_kuni", reading: "クニカントリークラブ",
+  name: "久邇カントリークラブ",
+  greens: [
+    { id: "bg", label: "ベントグリーン" },
+    { id: "kg", label: "コーライグリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "東コース", holes: PRINCE_KUNI_EAST },
+    { name: "北コース", holes: PRINCE_KUNI_NORTH },
+    { name: "西コース", holes: PRINCE_KUNI_WEST },
+  ],
+  getYardage: (hole, green, tee) => { const g = green === 'kg' ? 'Kg' : 'Bg'; return hole[`${tee}${g}`] ?? null; },
+});
+
+// --- 新武蔵丘ゴルフコース ---
+// 2グリーン (ベント/コーライ), PAR71, tees: BACK/REGULAR/PRINCE
+const PRINCE_SHINMUSASHI_OUT = [
+  { hole:1,  par:4, hdcp:7,  bkBg:389, blBg:366, reBg:314, bkKg:378, blKg:355, reKg:303 },
+  { hole:2,  par:3, hdcp:17, bkBg:130, blBg:117, reBg:97,  bkKg:139, blKg:130, reKg:105 },
+  { hole:3,  par:4, hdcp:1,  bkBg:354, blBg:331, reBg:279, bkKg:305, blKg:282, reKg:230 },
+  { hole:4,  par:4, hdcp:9,  bkBg:377, blBg:360, reBg:310, bkKg:336, blKg:319, reKg:269 },
+  { hole:5,  par:3, hdcp:3,  bkBg:199, blBg:171, reBg:111, bkKg:177, blKg:148, reKg:98  },
+  { hole:6,  par:5, hdcp:11, bkBg:492, blBg:476, reBg:425, bkKg:512, blKg:496, reKg:445 },
+  { hole:7,  par:4, hdcp:13, bkBg:357, blBg:343, reBg:282, bkKg:332, blKg:318, reKg:257 },
+  { hole:8,  par:4, hdcp:5,  bkBg:353, blBg:332, reBg:259, bkKg:348, blKg:327, reKg:254 },
+  { hole:9,  par:4, hdcp:15, bkBg:349, blBg:333, reBg:278, bkKg:323, blKg:307, reKg:252 },
+];
+const PRINCE_SHINMUSASHI_IN = [
+  { hole:10, par:3, hdcp:6,  bkBg:170, blBg:152, reBg:108, bkKg:170, blKg:153, reKg:110 },
+  { hole:11, par:5, hdcp:14, bkBg:551, blBg:532, reBg:436, bkKg:542, blKg:523, reKg:427 },
+  { hole:12, par:4, hdcp:10, bkBg:389, blBg:371, reBg:293, bkKg:380, blKg:362, reKg:284 },
+  { hole:13, par:4, hdcp:2,  bkBg:420, blBg:402, reBg:346, bkKg:412, blKg:394, reKg:338 },
+  { hole:14, par:4, hdcp:18, bkBg:351, blBg:333, reBg:282, bkKg:317, blKg:299, reKg:248 },
+  { hole:15, par:3, hdcp:12, bkBg:181, blBg:164, reBg:128, bkKg:165, blKg:147, reKg:110 },
+  { hole:16, par:5, hdcp:8,  bkBg:494, blBg:467, reBg:397, bkKg:486, blKg:459, reKg:389 },
+  { hole:17, par:4, hdcp:4,  bkBg:369, blBg:349, reBg:295, bkKg:358, blKg:338, reKg:284 },
+  { hole:18, par:4, hdcp:16, bkBg:334, blBg:312, reBg:252, bkKg:329, blKg:307, reKg:247 },
+];
+VENUES.push({
+  id: "prince_shinmusashi", reading: "シンムサシガオカゴルフコース",
+  name: "新武蔵丘ゴルフコース",
+  greens: [
+    { id: "bg", label: "ベントグリーン" },
+    { id: "kg", label: "コーライグリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: PRINCE_SHINMUSASHI_OUT },
+    { name: "IN",  holes: PRINCE_SHINMUSASHI_IN },
+  ],
+  getYardage: (hole, green, tee) => { const g = green === 'kg' ? 'Kg' : 'Bg'; return hole[`${tee}${g}`] ?? null; },
+});
+
+// --- 大箱根カントリークラブ ---
+// PAR73, tees: BACK/REGULAR/FRONT/PRINCE
+// 1グリーンホール(1,4,7,8,9): AもBも同値 / 2グリーンホール(2,3,5,6,10-18): A/B異なる
+const PRINCE_DAIHAKONE_OUT = [
+  { hole:1,  par:5, hdcp:7,  bkAg:499, blAg:470, whAg:412, reAg:389, bkBg:499, blBg:470, whBg:412, reBg:389 },
+  { hole:2,  par:4, hdcp:3,  bkAg:426, blAg:397, whAg:381, reAg:336, bkBg:418, blBg:389, whBg:313, reBg:328 },
+  { hole:3,  par:3, hdcp:17, bkAg:170, blAg:166, whAg:158, reAg:123, bkBg:157, blBg:153, whBg:144, reBg:109 },
+  { hole:4,  par:4, hdcp:1,  bkAg:428, blAg:407, whAg:373, reAg:319, bkBg:428, blBg:407, whBg:373, reBg:319 },
+  { hole:5,  par:3, hdcp:15, bkAg:163, blAg:152, whAg:142, reAg:109, bkBg:202, blBg:193, whBg:163, reBg:144 },
+  { hole:6,  par:4, hdcp:11, bkAg:373, blAg:330, whAg:300, reAg:269, bkBg:343, blBg:300, whBg:270, reBg:239 },
+  { hole:7,  par:4, hdcp:13, bkAg:407, blAg:334, whAg:313, reAg:242, bkBg:407, blBg:334, whBg:313, reBg:242 },
+  { hole:8,  par:4, hdcp:5,  bkAg:412, blAg:377, whAg:344, reAg:311, bkBg:412, blBg:377, whBg:344, reBg:311 },
+  { hole:9,  par:5, hdcp:9,  bkAg:522, blAg:517, whAg:437, reAg:417, bkBg:522, blBg:517, whBg:437, reBg:417 },
+];
+const PRINCE_DAIHAKONE_IN = [
+  { hole:10, par:4, hdcp:10, bkAg:392, blAg:365, whAg:321, reAg:285, bkBg:380, blBg:353, whBg:309, reBg:273 },
+  { hole:11, par:4, hdcp:4,  bkAg:457, blAg:363, whAg:351, reAg:291, bkBg:448, blBg:354, whBg:342, reBg:282 },
+  { hole:12, par:3, hdcp:16, bkAg:222, blAg:182, whAg:164, reAg:125, bkBg:192, blBg:149, whBg:124, reBg:99  },
+  { hole:13, par:5, hdcp:8,  bkAg:512, blAg:479, whAg:415, reAg:393, bkBg:483, blBg:450, whBg:386, reBg:364 },
+  { hole:14, par:4, hdcp:14, bkAg:418, blAg:363, whAg:313, reAg:281, bkBg:385, blBg:330, whBg:280, reBg:248 },
+  { hole:15, par:5, hdcp:2,  bkAg:589, blAg:559, whAg:504, reAg:458, bkBg:586, blBg:556, whBg:501, reBg:455 },
+  { hole:16, par:4, hdcp:12, bkAg:447, blAg:395, whAg:355, reAg:332, bkBg:427, blBg:375, whBg:335, reBg:312 },
+  { hole:17, par:3, hdcp:18, bkAg:192, blAg:165, whAg:156, reAg:142, bkBg:165, blBg:138, whBg:129, reBg:115 },
+  { hole:18, par:5, hdcp:6,  bkAg:575, blAg:527, whAg:466, reAg:443, bkBg:536, blBg:488, whBg:427, reBg:404 },
+];
+VENUES.push({
+  id: "prince_daihakone", reading: "ダイハコネカントリークラブ",
+  name: "大箱根カントリークラブ",
+  greens: [
+    { id: "ag", label: "Aグリーン" },
+    { id: "bg", label: "Bグリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: PRINCE_DAIHAKONE_OUT },
+    { name: "IN",  holes: PRINCE_DAIHAKONE_IN },
+  ],
+  getYardage: (hole, green, tee) => { const g = green === 'bg' ? 'Bg' : 'Ag'; return hole[`${tee}${g}`] ?? null; },
+});
+
+// --- 箱根湯の花ゴルフ場 ---
+// PAR71, tees: REGULAR/PRINCE (BACKなし)
+// ※No.18 PRINCEは公式サイト表記480Y（REGULARの452Yより長い）
+const PRINCE_YUNOHANA_OUT = [
+  { hole:1,  par:3, hdcp:11, bl:152, re:141 },
+  { hole:2,  par:4, hdcp:13, bl:354, re:329 },
+  { hole:3,  par:4, hdcp:9,  bl:321, re:316 },
+  { hole:4,  par:4, hdcp:5,  bl:329, re:303 },
+  { hole:5,  par:4, hdcp:3,  bl:355, re:321 },
+  { hole:6,  par:3, hdcp:17, bl:120, re:108 },
+  { hole:7,  par:5, hdcp:15, bl:405, re:368 },
+  { hole:8,  par:4, hdcp:1,  bl:330, re:295 },
+  { hole:9,  par:4, hdcp:7,  bl:342, re:312 },
+];
+const PRINCE_YUNOHANA_IN = [
+  { hole:10, par:4, hdcp:12, bl:311, re:301 },
+  { hole:11, par:4, hdcp:2,  bl:373, re:310 },
+  { hole:12, par:4, hdcp:14, bl:351, re:314 },
+  { hole:13, par:5, hdcp:10, bl:441, re:329 },
+  { hole:14, par:3, hdcp:16, bl:125, re:104 },
+  { hole:15, par:4, hdcp:6,  bl:271, re:248 },
+  { hole:16, par:3, hdcp:18, bl:136, re:119 },
+  { hole:17, par:4, hdcp:8,  bl:325, re:320 },
+  { hole:18, par:5, hdcp:4,  bl:452, re:380 },
+];
+VENUES.push({
+  id: "prince_yunohana", reading: "ハコネユノハナゴルフジョウ",
+  name: "箱根湯の花ゴルフ場",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bl", label: "Regular" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: PRINCE_YUNOHANA_OUT },
+    { name: "IN",  holes: PRINCE_YUNOHANA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 箱根園ゴルフ場 ---
+// PAR71, tees: REGULAR/PRINCE (BACKなし)
+const PRINCE_HAKONEEN_OUT = [
+  { hole:1,  par:4, hdcp:9,  bl:260, re:260 },
+  { hole:2,  par:3, hdcp:15, bl:125, re:125 },
+  { hole:3,  par:4, hdcp:3,  bl:326, re:226 },
+  { hole:4,  par:4, hdcp:13, bl:350, re:200 },
+  { hole:5,  par:5, hdcp:7,  bl:500, re:345 },
+  { hole:6,  par:4, hdcp:1,  bl:380, re:250 },
+  { hole:7,  par:4, hdcp:11, bl:320, re:215 },
+  { hole:8,  par:3, hdcp:17, bl:131, re:131 },
+  { hole:9,  par:4, hdcp:5,  bl:365, re:255 },
+];
+const PRINCE_HAKONEEN_IN = [
+  { hole:10, par:5, hdcp:4,  bl:480, re:400 },
+  { hole:11, par:4, hdcp:10, bl:289, re:240 },
+  { hole:12, par:3, hdcp:16, bl:135, re:130 },
+  { hole:13, par:4, hdcp:8,  bl:361, re:320 },
+  { hole:14, par:4, hdcp:2,  bl:340, re:214 },
+  { hole:15, par:3, hdcp:14, bl:110, re:110 },
+  { hole:16, par:4, hdcp:12, bl:260, re:240 },
+  { hole:17, par:5, hdcp:6,  bl:436, re:380 },
+  { hole:18, par:4, hdcp:18, bl:350, re:270 },
+];
+VENUES.push({
+  id: "prince_hakoneen", reading: "ハコネエンゴルフジョウ",
+  name: "箱根園ゴルフ場",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bl", label: "Regular" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: PRINCE_HAKONEEN_OUT },
+    { name: "IN",  holes: PRINCE_HAKONEEN_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 晴山ゴルフ場 ---
+// PAR70, tees: REGULAR/PRINCE (BACKなし) / URL: /golf/seizan/
+const PRINCE_HAREYANA_OUT = [
+  { hole:1,  par:4, hdcp:5,  bl:336, re:266 },
+  { hole:2,  par:3, hdcp:11, bl:154, re:136 },
+  { hole:3,  par:5, hdcp:17, bl:412, re:371 },
+  { hole:4,  par:4, hdcp:7,  bl:345, re:318 },
+  { hole:5,  par:4, hdcp:3,  bl:352, re:332 },
+  { hole:6,  par:4, hdcp:1,  bl:353, re:334 },
+  { hole:7,  par:4, hdcp:9,  bl:304, re:287 },
+  { hole:8,  par:3, hdcp:15, bl:108, re:98  },
+  { hole:9,  par:4, hdcp:13, bl:275, re:254 },
+];
+const PRINCE_HAREYANA_IN = [
+  { hole:10, par:4, hdcp:16, bl:301, re:231 },
+  { hole:11, par:3, hdcp:18, bl:134, re:124 },
+  { hole:12, par:4, hdcp:6,  bl:345, re:333 },
+  { hole:13, par:4, hdcp:2,  bl:378, re:340 },
+  { hole:14, par:4, hdcp:14, bl:302, re:280 },
+  { hole:15, par:5, hdcp:4,  bl:436, re:419 },
+  { hole:16, par:3, hdcp:10, bl:187, re:160 },
+  { hole:17, par:4, hdcp:12, bl:317, re:285 },
+  { hole:18, par:4, hdcp:8,  bl:326, re:300 },
+];
+VENUES.push({
+  id: "prince_hareyana", reading: "ハレヤマゴルフジョウ",
+  name: "晴山ゴルフ場",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bl", label: "Regular" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: PRINCE_HAREYANA_OUT },
+    { name: "IN",  holes: PRINCE_HAREYANA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 軽井沢浅間ゴルフコース ---
+// PAR70, tees: REGULAR/PRINCE (BACKなし) / URL: /golf/asama/
+const PRINCE_ASAMA_OUT = [
+  { hole:1,  par:4, hdcp:9,  bl:361, re:306 },
+  { hole:2,  par:5, hdcp:7,  bl:453, re:357 },
+  { hole:3,  par:5, hdcp:1,  bl:493, re:468 },
+  { hole:4,  par:3, hdcp:15, bl:156, re:129 },
+  { hole:5,  par:4, hdcp:3,  bl:360, re:339 },
+  { hole:6,  par:3, hdcp:17, bl:145, re:119 },
+  { hole:7,  par:4, hdcp:11, bl:337, re:250 },
+  { hole:8,  par:4, hdcp:5,  bl:401, re:323 },
+  { hole:9,  par:4, hdcp:13, bl:311, re:311 },
+];
+const PRINCE_ASAMA_IN = [
+  { hole:10, par:4, hdcp:10, bl:334, re:279 },
+  { hole:11, par:4, hdcp:2,  bl:432, re:323 },
+  { hole:12, par:3, hdcp:16, bl:143, re:143 },
+  { hole:13, par:4, hdcp:8,  bl:325, re:227 },
+  { hole:14, par:3, hdcp:18, bl:141, re:120 },
+  { hole:15, par:4, hdcp:4,  bl:323, re:225 },
+  { hole:16, par:4, hdcp:12, bl:332, re:248 },
+  { hole:17, par:4, hdcp:6,  bl:372, re:337 },
+  { hole:18, par:4, hdcp:14, bl:287, re:231 },
+];
+VENUES.push({
+  id: "prince_asama", reading: "カルイザワアサマゴルフコース",
+  name: "軽井沢浅間ゴルフコース",
+  greens: [{ id: "main", label: "ベント" }],
+  tees: [
+    { id: "bl", label: "Regular" },
+    { id: "re", label: "Prince" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: PRINCE_ASAMA_OUT },
+    { name: "IN",  holes: PRINCE_ASAMA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+// ============================================================
+// オリンピックナショナルゴルフクラブ 提携コース
+// ============================================================
+
+// --- オリムピック・スタッフ足利ゴルフコース ---
+const OLYMPIC_ASHIKAGA_OUT = [
+  { hole:1, par:4, bk:353, bl:338, wh:324, re:260 },
+  { hole:2, par:5, bk:573, bl:546, wh:496, re:405 },
+  { hole:3, par:4, bk:408, bl:393, wh:378, re:318 },
+  { hole:4, par:3, bk:191, bl:177, wh:163, re:110 },
+  { hole:5, par:4, bk:460, bl:433, wh:416, re:326 },
+  { hole:6, par:4, bk:419, bl:404, wh:382, re:295 },
+  { hole:7, par:4, bk:446, bl:420, wh:401, re:317 },
+  { hole:8, par:3, bk:214, bl:193, wh:172, re:110 },
+  { hole:9, par:5, bk:519, bl:490, wh:476, re:410 },
+];
+const OLYMPIC_ASHIKAGA_IN = [
+  { hole:10, par:4, bk:355, bl:355, wh:338, re:278 },
+  { hole:11, par:4, bk:450, bl:419, wh:397, re:312 },
+  { hole:12, par:5, bk:537, bl:515, wh:503, re:445 },
+  { hole:13, par:3, bk:204, bl:186, wh:173, re:120 },
+  { hole:14, par:4, bk:353, bl:338, wh:323, re:272 },
+  { hole:15, par:4, bk:374, bl:350, wh:334, re:262 },
+  { hole:16, par:5, bk:523, bl:503, wh:489, re:435 },
+  { hole:17, par:3, bk:170, bl:156, wh:151, re:116 },
+  { hole:18, par:4, bk:469, bl:449, wh:359, re:295 },
+];
+VENUES.push({
+  id: "olympic_ashikaga", reading: "オリムピックスタッフアシカガゴルフコース",
+  name: "オリムピック・スタッフ足利ゴルフコース",
+  greens: [
+    { id: "bg", label: "ベントグリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Black" },
+    { id: "bl", label: "Blue" },
+    { id: "wh", label: "White" },
+    { id: "re", label: "Red" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: OLYMPIC_ASHIKAGA_OUT },
+    { name: "IN", holes: OLYMPIC_ASHIKAGA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- オリムピック・スタッフ都賀ゴルフコース ---
+const OLYMPIC_TSUGA_OUT = [
+  { hole:1, par:4, ch:361, bk:336, wh:305, re:260 },
+  { hole:2, par:4, ch:382, bk:373, wh:347, re:232 },
+  { hole:3, par:3, ch:165, bk:147, wh:136, re:111 },
+  { hole:4, par:4, ch:355, bk:319, wh:309, re:286 },
+  { hole:5, par:5, ch:517, bk:479, wh:469, re:420 },
+  { hole:6, par:4, ch:368, bk:353, wh:344, re:287 },
+  { hole:7, par:4, ch:408, bk:398, wh:372, re:335 },
+  { hole:8, par:3, ch:189, bk:172, wh:150, re:120 },
+  { hole:9, par:5, ch:566, bk:551, wh:511, re:455 },
+];
+const OLYMPIC_TSUGA_IN = [
+  { hole:10, par:4, ch:417, bk:387, wh:356, re:318 },
+  { hole:11, par:3, ch:164, bk:157, wh:140, re:113 },
+  { hole:12, par:4, ch:338, bk:329, wh:320, re:305 },
+  { hole:13, par:5, ch:558, bk:531, wh:510, re:473 },
+  { hole:14, par:3, ch:192, bk:170, wh:163, re:131 },
+  { hole:15, par:4, ch:387, bk:362, wh:324, re:287 },
+  { hole:16, par:4, ch:423, bk:409, wh:362, re:317 },
+  { hole:17, par:4, ch:392, bk:365, wh:309, re:270 },
+  { hole:18, par:5, ch:556, bk:541, wh:531, re:470 },
+];
+VENUES.push({
+  id: "olympic_tsuga", reading: "オリムピックスタッフツガゴルフコース",
+  name: "オリムピック・スタッフ都賀ゴルフコース",
+  greens: [
+    { id: "bg", label: "グリーン" },
+  ],
+  tees: [
+    { id: "ch", label: "Champ" },
+    { id: "bk", label: "Back" },
+    { id: "wh", label: "White" },
+    { id: "re", label: "Ladies" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: OLYMPIC_TSUGA_OUT },
+    { name: "IN", holes: OLYMPIC_TSUGA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- キャスコ花葉CLUB ---
+const HANAHA_CATTLEYA = [
+  { hole:1, par:4, bk:419, bl:386, wh:366, re:246 },
+  { hole:2, par:4, bk:472, bl:409, wh:377, re:313 },
+  { hole:3, par:4, bk:371, bl:348, wh:334, re:316 },
+  { hole:4, par:3, bk:187, bl:138, wh:128, re:99 },
+  { hole:5, par:5, bk:471, bl:442, wh:414, re:385 },
+  { hole:6, par:5, bk:528, bl:502, wh:473, re:383 },
+  { hole:7, par:3, bk:176, bl:154, wh:154, re:124 },
+  { hole:8, par:4, bk:342, bl:326, wh:307, re:294 },
+  { hole:9, par:4, bk:355, bl:328, wh:302, re:275 },
+];
+const HANAHA_LAVENDER = [
+  { hole:1, par:3, bk:190, bl:174, wh:154, re:139 },
+  { hole:2, par:5, bk:568, bl:534, wh:507, re:430 },
+  { hole:3, par:4, bk:451, bl:432, wh:398, re:299 },
+  { hole:4, par:4, bk:380, bl:354, wh:303, re:277 },
+  { hole:5, par:3, bk:188, bl:170, wh:147, re:131 },
+  { hole:6, par:5, bk:527, bl:504, wh:482, re:386 },
+  { hole:7, par:3, bk:195, bl:185, wh:141, re:126 },
+  { hole:8, par:4, bk:313, bl:295, wh:275, re:226 },
+  { hole:9, par:5, bk:523, bl:508, wh:496, re:419 },
+];
+const HANAHA_RINDO = [
+  { hole:1, par:5, bk:520, bl:511, wh:501, re:479 },
+  { hole:2, par:4, bk:438, bl:424, wh:413, re:354 },
+  { hole:3, par:4, bk:356, bl:347, wh:337, re:315 },
+  { hole:4, par:4, bk:329, bl:312, wh:298, re:288 },
+  { hole:5, par:3, bk:173, bl:157, wh:147, re:140 },
+  { hole:6, par:4, bk:384, bl:371, wh:350, re:309 },
+  { hole:7, par:3, bk:177, bl:165, wh:151, re:142 },
+  { hole:8, par:4, bk:357, bl:348, wh:330, re:313 },
+  { hole:9, par:5, bk:501, bl:484, wh:470, re:428 },
+];
+const HANAHA_SIBAZAKURA = [
+  { hole:1, par:4, bk:369, bl:361, wh:354, re:339 },
+  { hole:2, par:3, bk:185, bl:170, wh:156, re:141 },
+  { hole:3, par:4, bk:406, bl:397, wh:387, re:331 },
+  { hole:4, par:5, bk:448, bl:434, wh:420, re:369 },
+  { hole:5, par:4, bk:330, bl:322, wh:315, re:307 },
+  { hole:6, par:4, bk:360, bl:348, wh:335, re:323 },
+  { hole:7, par:4, bk:376, bl:367, wh:353, re:282 },
+  { hole:8, par:5, bk:448, bl:434, wh:419, re:395 },
+  { hole:9, par:3, bk:181, bl:156, wh:143, re:130 },
+];
+const HANAHA_SALVIA = [
+  { hole:1, par:5, bk:557, bl:542, wh:529, re:488 },
+  { hole:2, par:5, bk:482, bl:459, wh:445, re:399 },
+  { hole:3, par:3, bk:165, bl:144, wh:137, re:96 },
+  { hole:4, par:4, bk:338, bl:325, wh:312, re:269 },
+  { hole:5, par:4, bk:333, bl:311, wh:295, re:227 },
+  { hole:6, par:4, bk:347, bl:333, wh:319, re:255 },
+  { hole:7, par:4, bk:347, bl:325, wh:304, re:283 },
+  { hole:8, par:4, bk:342, bl:330, wh:314, re:303 },
+  { hole:9, par:3, bk:174, bl:140, wh:125, re:87 },
+];
+VENUES.push({
+  id: "kasco_hanaha", reading: "カスコハナハクラブ",
+  name: "キャスコ花葉CLUB",
+  greens: [
+    { id: "bg", label: "グリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Black" },
+    { id: "bl", label: "Blue" },
+    { id: "wh", label: "White" },
+    { id: "re", label: "Red" },
+  ],
+  subCourses: [
+    { name: "カトレア", holes: HANAHA_CATTLEYA },
+    { name: "ラベンダー", holes: HANAHA_LAVENDER },
+    { name: "リンドウ", holes: HANAHA_RINDO },
+    { name: "シバザクラ", holes: HANAHA_SIBAZAKURA },
+    { name: "サルビア", holes: HANAHA_SALVIA },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- オリムピックナショナルGC サカワコース ---
+const OLYMPIC_SAKAWA_OUT = [
+  { hole:1, par:4, bk:367, bl:367, wh:312, gd:287, re:250 },
+  { hole:2, par:4, bk:344, bl:344, wh:321, gd:292, re:242 },
+  { hole:3, par:3, bk:170, bl:143, wh:116, gd:116, re:94 },
+  { hole:4, par:5, bk:531, bl:531, wh:441, gd:413, re:373 },
+  { hole:5, par:3, bk:161, bl:144, wh:127, gd:114, re:114 },
+  { hole:6, par:5, bk:600, bl:558, wh:520, gd:483, re:434 },
+  { hole:7, par:4, bk:425, bl:414, wh:402, gd:305, re:305 },
+  { hole:8, par:5, bk:545, bl:529, wh:506, gd:454, re:454 },
+  { hole:9, par:3, bk:192, bl:174, wh:156, gd:143, re:143 },
+];
+const OLYMPIC_SAKAWA_IN = [
+  { hole:10, par:4, bk:440, bl:411, wh:411, gd:364, re:329 },
+  { hole:11, par:4, bk:338, bl:330, wh:328, gd:271, re:271 },
+  { hole:12, par:4, bk:420, bl:420, wh:402, gd:402, re:382 },
+  { hole:13, par:4, bk:333, bl:333, wh:313, gd:293, re:275 },
+  { hole:14, par:3, bk:182, bl:182, wh:165, gd:152, re:136 },
+  { hole:15, par:4, bk:420, bl:420, wh:400, gd:385, re:365 },
+  { hole:16, par:5, bk:501, bl:501, wh:474, gd:462, re:369 },
+  { hole:17, par:3, bk:171, bl:145, wh:133, gd:133, re:84 },
+  { hole:18, par:5, bk:569, bl:569, wh:531, gd:514, re:499 },
+];
+VENUES.push({
+  id: "olympic_sakawa", reading: "オリムピックナショナルゴルフクラブサカワコース",
+  name: "オリムピックナショナルGC サカワコース",
+  greens: [
+    { id: "bg", label: "ベントグリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Black" },
+    { id: "bl", label: "Blue" },
+    { id: "wh", label: "White" },
+    { id: "gd", label: "Gold" },
+    { id: "re", label: "Red" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: OLYMPIC_SAKAWA_OUT },
+    { name: "IN", holes: OLYMPIC_SAKAWA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- ゴールデンレイクスカントリークラブ ---
+const GOLDENLAKES_GREEN = [
+  { hole:1, par:5, hdcp:2, bk:610, bl:584, wh:533 },
+  { hole:2, par:4, hdcp:5, bk:405, bl:377, wh:334 },
+  { hole:3, par:3, hdcp:8, bk:189, bl:151, wh:131 },
+  { hole:4, par:4, hdcp:1, bk:452, bl:413, wh:375 },
+  { hole:5, par:3, hdcp:7, bk:205, bl:165, wh:133 },
+  { hole:6, par:4, hdcp:4, bk:442, bl:410, wh:377 },
+  { hole:7, par:4, hdcp:9, bk:390, bl:353, wh:318 },
+  { hole:8, par:4, hdcp:6, bk:427, bl:396, wh:365 },
+  { hole:9, par:5, hdcp:3, bk:526, bl:475, wh:453 },
+];
+const GOLDENLAKES_BLUE = [
+  { hole:1, par:4, hdcp:8, bk:383, bl:348, wh:320 },
+  { hole:2, par:4, hdcp:5, bk:380, bl:348, wh:322 },
+  { hole:3, par:5, hdcp:2, bk:580, bl:565, wh:536 },
+  { hole:4, par:3, hdcp:1, bk:162, bl:141, wh:122 },
+  { hole:5, par:4, hdcp:4, bk:327, bl:304, wh:283 },
+  { hole:6, par:4, hdcp:7, bk:345, bl:300, wh:279 },
+  { hole:7, par:4, hdcp:3, bk:465, bl:441, wh:413 },
+  { hole:8, par:3, hdcp:9, bk:192, bl:172, wh:157 },
+  { hole:9, par:5, hdcp:6, bk:518, bl:476, wh:462 },
+];
+const GOLDENLAKES_ORANGE = [
+  { hole:1, par:4, hdcp:8, bk:374, bl:341, wh:297 },
+  { hole:2, par:4, hdcp:2, bk:363, bl:335, wh:317 },
+  { hole:3, par:3, hdcp:5, bk:180, bl:152, wh:125 },
+  { hole:4, par:4, hdcp:7, bk:385, bl:344, wh:327 },
+  { hole:5, par:3, hdcp:1, bk:208, bl:191, wh:155 },
+  { hole:6, par:4, hdcp:4, bk:337, bl:304, wh:271 },
+  { hole:7, par:5, hdcp:3, bk:521, bl:483, wh:432 },
+  { hole:8, par:4, hdcp:9, bk:353, bl:335, wh:293 },
+  { hole:9, par:5, hdcp:6, bk:491, bl:467, wh:437 },
+];
+VENUES.push({
+  id: "golden_lakes", reading: "ゴールデンレイクスカントリークラブ",
+  name: "ゴールデンレイクスカントリークラブ",
+  greens: [
+    { id: "bg", label: "ベントグリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+  ],
+  subCourses: [
+    { name: "グリーンコース", holes: GOLDENLAKES_GREEN },
+    { name: "ブルーコース", holes: GOLDENLAKES_BLUE },
+    { name: "オレンジコース", holes: GOLDENLAKES_ORANGE },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- オリムピックCC レイクつぶらだコース ---
+const OLYMPIC_TSUBURADA_OUT = [
+  { hole:1, par:4, bk:427, bl:391, wh:366, re:333 },
+  { hole:2, par:5, bk:530, bl:515, wh:487, re:389 },
+  { hole:3, par:3, bk:225, bl:181, wh:153, re:126 },
+  { hole:4, par:4, bk:403, bl:387, wh:367, re:282 },
+  { hole:5, par:5, bk:576, bl:532, wh:493, re:466 },
+  { hole:6, par:4, bk:362, bl:339, wh:338, re:315 },
+  { hole:7, par:4, bk:414, bl:385, wh:338, re:311 },
+  { hole:8, par:3, bk:197, bl:186, wh:161, re:135 },
+  { hole:9, par:4, bk:411, bl:376, wh:355, re:326 },
+];
+const OLYMPIC_TSUBURADA_IN = [
+  { hole:10, par:4, bk:434, bl:403, wh:372, re:294 },
+  { hole:11, par:3, bk:165, bl:163, wh:137, re:115 },
+  { hole:12, par:4, bk:428, bl:425, wh:405, re:283 },
+  { hole:13, par:4, bk:400, bl:367, wh:338, re:305 },
+  { hole:14, par:5, bk:501, bl:484, wh:458, re:425 },
+  { hole:15, par:4, bk:328, bl:328, wh:301, re:218 },
+  { hole:16, par:3, bk:211, bl:187, wh:159, re:98 },
+  { hole:17, par:4, bk:407, bl:390, wh:370, re:306 },
+  { hole:18, par:5, bk:588, bl:574, wh:481, re:436 },
+];
+VENUES.push({
+  id: "olympic_tsuburada", reading: "オリムピックカントリークラブレイクツブラダコース",
+  name: "オリムピックCC レイクつぶらだコース",
+  greens: [
+    { id: "bg", label: "ベントグリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Black" },
+    { id: "bl", label: "Blue" },
+    { id: "wh", label: "White" },
+    { id: "re", label: "Red" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: OLYMPIC_TSUBURADA_OUT },
+    { name: "IN", holes: OLYMPIC_TSUBURADA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- オリムピックカントリークラブ（山梨・上野原） ---
+const OLYMPIC_CC_FUJIZAKURA = [
+  { hole:1, par:4, ch:438, bk:418, wh:393, re:293 },
+  { hole:2, par:5, ch:553, bk:534, wh:504, re:479 },
+  { hole:3, par:3, ch:179, bk:157, wh:123, re:85 },
+  { hole:4, par:4, ch:366, bk:347, wh:330, re:273 },
+  { hole:5, par:4, ch:363, bk:341, wh:313, re:293 },
+  { hole:6, par:3, ch:189, bk:173, wh:149, re:130 },
+  { hole:7, par:4, ch:403, bk:384, wh:362, re:319 },
+  { hole:8, par:4, ch:346, bk:332, wh:310, re:296 },
+  { hole:9, par:5, ch:556, bk:523, wh:497, re:433 },
+];
+const OLYMPIC_CC_HANAMIZUKI = [
+  { hole:1, par:4, ch:411, bk:392, wh:370, re:353 },
+  { hole:2, par:3, ch:187, bk:169, wh:137, re:112 },
+  { hole:3, par:5, ch:544, bk:527, wh:493, re:456 },
+  { hole:4, par:4, ch:427, bk:395, wh:361, re:331 },
+  { hole:5, par:4, ch:396, bk:377, wh:360, re:328 },
+  { hole:6, par:4, ch:404, bk:385, wh:359, re:321 },
+  { hole:7, par:3, ch:192, bk:163, wh:134, re:116 },
+  { hole:8, par:4, ch:426, bk:399, wh:379, re:283 },
+  { hole:9, par:5, ch:575, bk:545, wh:502, re:472 },
+];
+const OLYMPIC_CC_RINDO = [
+  { hole:1, par:4, ch:440, bk:420, wh:383, re:307 },
+  { hole:2, par:4, ch:386, bk:366, wh:348, re:328 },
+  { hole:3, par:5, ch:530, bk:503, wh:480, re:452 },
+  { hole:4, par:3, ch:149, bk:131, wh:116, re:116 },
+  { hole:5, par:5, ch:505, bk:445, wh:424, re:367 },
+  { hole:6, par:5, ch:504, bk:481, wh:438, re:410 },
+  { hole:7, par:4, ch:396, bk:355, wh:333, re:311 },
+  { hole:8, par:3, ch:184, bk:155, wh:133, re:106 },
+  { hole:9, par:4, ch:357, bk:336, wh:300, re:300 },
+];
+VENUES.push({
+  id: "olympic_cc", reading: "オリムピックカントリークラブ",
+  name: "オリムピックカントリークラブ",
+  greens: [
+    { id: "bg", label: "グリーン" },
+  ],
+  tees: [
+    { id: "ch", label: "Champ" },
+    { id: "bk", label: "Back" },
+    { id: "wh", label: "Regular" },
+    { id: "re", label: "Ladies" },
+  ],
+  subCourses: [
+    { name: "フジザクラコース", holes: OLYMPIC_CC_FUJIZAKURA },
+    { name: "ハナミズキコース", holes: OLYMPIC_CC_HANAMIZUKI },
+    { name: "リンドウコース", holes: OLYMPIC_CC_RINDO },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- かんなみスプリングスカントリークラブ ---
+const KANNAMI_SPRINGS_OUT = [
+  { hole:1, par:5, bk:492, bl:477, wh:470, re:400 },
+  { hole:2, par:3, bk:208, bl:180, wh:165, re:100 },
+  { hole:3, par:5, bk:475, bl:468, wh:443, re:378 },
+  { hole:4, par:3, bk:183, bl:156, wh:137, re:117 },
+  { hole:5, par:5, bk:530, bl:514, wh:492, re:451 },
+  { hole:6, par:4, bk:369, bl:346, wh:303, re:287 },
+  { hole:7, par:3, bk:195, bl:168, wh:136, re:124 },
+  { hole:8, par:4, bk:395, bl:385, wh:367, re:345 },
+  { hole:9, par:4, bk:395, bl:375, wh:375, re:355 },
+];
+const KANNAMI_SPRINGS_IN = [
+  { hole:10, par:4, bk:418, bl:401, wh:386, re:375 },
+  { hole:11, par:3, bk:203, bl:181, wh:155, re:132 },
+  { hole:12, par:5, bk:512, bl:488, wh:467, re:427 },
+  { hole:13, par:4, bk:448, bl:405, wh:384, re:347 },
+  { hole:14, par:3, bk:191, bl:170, wh:156, re:139 },
+  { hole:15, par:5, bk:498, bl:485, wh:455, re:430 },
+  { hole:16, par:4, bk:385, bl:347, wh:325, re:291 },
+  { hole:17, par:3, bk:198, bl:188, wh:177, re:90 },
+  { hole:18, par:5, bk:537, bl:510, wh:475, re:441 },
+];
+VENUES.push({
+  id: "kannami_springs", reading: "カンナミスプリングスカントリークラブ",
+  name: "かんなみスプリングスCC",
+  greens: [
+    { id: "bg", label: "グリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Black" },
+    { id: "bl", label: "Blue" },
+    { id: "wh", label: "White" },
+    { id: "re", label: "Red" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: KANNAMI_SPRINGS_OUT },
+    { name: "IN", holes: KANNAMI_SPRINGS_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 神戸カントリー倶楽部 ---
+const KOBE_CC_OUT = [
+  { hole:1, par:4, hdcp:17, bk:417, bl:396, wh:374, re:331 },
+  { hole:2, par:5, hdcp:5, bk:525, bl:491, wh:475, re:409 },
+  { hole:3, par:4, hdcp:9, bk:412, bl:390, wh:367, re:307 },
+  { hole:4, par:3, hdcp:7, bk:205, bl:180, wh:162, re:113 },
+  { hole:5, par:4, hdcp:1, bk:416, bl:402, wh:382, re:324 },
+  { hole:6, par:4, hdcp:13, bk:445, bl:409, wh:386, re:302 },
+  { hole:7, par:5, hdcp:3, bk:522, bl:491, wh:441, re:407 },
+  { hole:8, par:3, hdcp:15, bk:183, bl:160, wh:143, re:122 },
+  { hole:9, par:4, hdcp:11, bk:406, bl:388, wh:366, re:301 },
+];
+const KOBE_CC_IN = [
+  { hole:10, par:4, hdcp:14, bk:442, bl:420, wh:393, re:357 },
+  { hole:11, par:4, hdcp:8, bk:425, bl:399, wh:366, re:331 },
+  { hole:12, par:3, hdcp:4, bk:224, bl:205, wh:182, re:147 },
+  { hole:13, par:4, hdcp:12, bk:427, bl:405, wh:379, re:326 },
+  { hole:14, par:5, hdcp:6, bk:574, bl:552, wh:528, re:443 },
+  { hole:15, par:3, hdcp:16, bk:190, bl:171, wh:150, re:141 },
+  { hole:16, par:4, hdcp:10, bk:407, bl:390, wh:360, re:256 },
+  { hole:17, par:4, hdcp:2, bk:455, bl:434, wh:410, re:381 },
+  { hole:18, par:5, hdcp:18, bk:529, bl:504, wh:489, re:439 },
+];
+VENUES.push({
+  id: "kobe_country", reading: "コウベカントリークラブ",
+  name: "神戸カントリー倶楽部",
+  greens: [
+    { id: "bg", label: "グリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Black" },
+    { id: "bl", label: "Blue" },
+    { id: "wh", label: "White" },
+    { id: "re", label: "Red" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: KOBE_CC_OUT },
+    { name: "IN", holes: KOBE_CC_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- 神戸三田ゴルフクラブ ---
+const KOBE_SANDA_OUT = [
+  { hole:1, par:5, bk:497, bl:467, wh:442, re:391 },
+  { hole:2, par:4, bk:366, bl:351, wh:327, re:308 },
+  { hole:3, par:3, bk:165, bl:151, wh:151, re:104 },
+  { hole:4, par:5, bk:476, bl:458, wh:433, re:410 },
+  { hole:5, par:3, bk:158, bl:143, wh:123, re:95 },
+  { hole:6, par:4, bk:354, bl:344, wh:306, re:280 },
+  { hole:7, par:3, bk:181, bl:165, wh:155, re:138 },
+  { hole:8, par:4, bk:394, bl:390, wh:384, re:299 },
+  { hole:9, par:5, bk:560, bl:547, wh:494, re:468 },
+];
+const KOBE_SANDA_IN = [
+  { hole:10, par:4, bk:395, bl:380, wh:365, re:340 },
+  { hole:11, par:3, bk:185, bl:166, wh:151, re:133 },
+  { hole:12, par:4, bk:395, bl:379, wh:357, re:287 },
+  { hole:13, par:3, bk:158, bl:151, wh:142, re:130 },
+  { hole:14, par:4, bk:306, bl:298, wh:291, re:232 },
+  { hole:15, par:3, bk:155, bl:141, wh:130, re:115 },
+  { hole:16, par:5, bk:501, bl:489, wh:470, re:428 },
+  { hole:17, par:5, bk:533, bl:522, wh:512, re:448 },
+  { hole:18, par:5, bk:573, bl:535, wh:515, re:500 },
+];
+VENUES.push({
+  id: "kobe_sanda", reading: "コウベサンダゴルフクラブ",
+  name: "神戸三田ゴルフクラブ",
+  greens: [
+    { id: "bg", label: "ベントグリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Ladies" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: KOBE_SANDA_OUT },
+    { name: "IN", holes: KOBE_SANDA_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- ムロウ36ゴルフクラブ 宝池コース ---
+const MUROU_TAKARAIKE_OUT = [
+  { hole:1, par:4, hdcp:9, bk:388, bl:361, wh:315, re:271 },
+  { hole:2, par:3, hdcp:17, bk:147, bl:129, wh:119, re:100 },
+  { hole:3, par:5, hdcp:3, bk:500, bl:460, wh:438, re:375 },
+  { hole:4, par:3, hdcp:13, bk:161, bl:143, wh:133, re:90 },
+  { hole:5, par:5, hdcp:1, bk:530, bl:470, wh:434, re:363 },
+  { hole:6, par:4, hdcp:7, bk:320, bl:240, wh:208, re:176 },
+  { hole:7, par:4, hdcp:5, bk:410, bl:369, wh:338, re:253 },
+  { hole:8, par:5, hdcp:11, bk:513, bl:492, wh:454, re:358 },
+  { hole:9, par:3, hdcp:15, bk:191, bl:151, wh:122, re:93 },
+];
+const MUROU_TAKARAIKE_IN = [
+  { hole:10, par:4, hdcp:16, bk:417, bl:386, wh:344, re:294 },
+  { hole:11, par:4, hdcp:6, bk:369, bl:343, wh:284, re:222 },
+  { hole:12, par:4, hdcp:10, bk:383, bl:366, wh:346, re:304 },
+  { hole:13, par:5, hdcp:2, bk:521, bl:489, wh:459, re:417 },
+  { hole:14, par:4, hdcp:18, bk:322, bl:304, wh:259, re:213 },
+  { hole:15, par:4, hdcp:8, bk:381, bl:346, wh:329, re:267 },
+  { hole:16, par:4, hdcp:4, bk:454, bl:430, wh:386, re:274 },
+  { hole:17, par:3, hdcp:14, bk:176, bl:175, wh:147, re:132 },
+  { hole:18, par:4, hdcp:12, bk:422, bl:401, wh:272, re:213 },
+];
+VENUES.push({
+  id: "murou_takaraike", reading: "ムロウサンジュウロクゴルフクラブタカライケコース",
+  name: "ムロウ36GC 宝池コース",
+  greens: [
+    { id: "bg", label: "グリーン" },
+  ],
+  tees: [
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Ladies" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: MUROU_TAKARAIKE_OUT },
+    { name: "IN", holes: MUROU_TAKARAIKE_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
+});
+
+// --- ムロウ36ゴルフクラブ 室生コース ---
+const MUROU_MUROU_OUT = [
+  { hole:1, par:4, hdcp:3, ch:464, bk:446, bl:432, wh:366, re:319, pk:284 },
+  { hole:2, par:3, hdcp:17, ch:153, bk:153, bl:140, wh:140, re:110, pk:97 },
+  { hole:3, par:5, hdcp:1, ch:618, bk:582, bl:550, wh:535, re:504, pk:450 },
+  { hole:4, par:4, hdcp:5, ch:395, bk:371, bl:357, wh:315, re:292, pk:267 },
+  { hole:5, par:4, hdcp:15, ch:353, bk:353, bl:334, wh:328, re:328, pk:210 },
+  { hole:6, par:3, hdcp:13, ch:178, bk:178, bl:151, wh:151, re:130, pk:130 },
+  { hole:7, par:4, hdcp:11, ch:334, bk:311, bl:294, wh:282, re:252, pk:232 },
+  { hole:8, par:5, hdcp:9, ch:582, bk:582, bl:557, wh:538, re:450, pk:450 },
+  { hole:9, par:4, hdcp:7, ch:420, bk:392, bl:372, wh:326, re:295, pk:241 },
+];
+const MUROU_MUROU_IN = [
+  { hole:10, par:4, hdcp:8, ch:407, bk:407, bl:387, wh:369, re:369, pk:321 },
+  { hole:11, par:4, hdcp:4, ch:383, bk:383, bl:362, wh:362, re:285, pk:285 },
+  { hole:12, par:3, hdcp:18, ch:149, bk:149, bl:132, wh:117, re:117, pk:78 },
+  { hole:13, par:4, hdcp:16, ch:357, bk:357, bl:340, wh:323, re:306, pk:306 },
+  { hole:14, par:4, hdcp:14, ch:360, bk:360, bl:332, wh:306, re:283, pk:202 },
+  { hole:15, par:5, hdcp:2, ch:592, bk:545, bl:528, wh:505, re:464, pk:435 },
+  { hole:16, par:5, hdcp:6, ch:563, bk:534, bl:516, wh:495, re:450, pk:436 },
+  { hole:17, par:3, hdcp:10, ch:210, bk:188, bl:172, wh:153, re:147, pk:125 },
+  { hole:18, par:4, hdcp:12, ch:383, bk:383, bl:352, wh:332, re:302, pk:274 },
+];
+VENUES.push({
+  id: "murou_murou", reading: "ムロウサンジュウロクゴルフクラブムロウコース",
+  name: "ムロウ36GC 室生コース",
+  greens: [
+    { id: "bg", label: "グリーン" },
+  ],
+  tees: [
+    { id: "ch", label: "Champ" },
+    { id: "bk", label: "Back" },
+    { id: "bl", label: "Regular" },
+    { id: "wh", label: "Front" },
+    { id: "re", label: "Ladies" },
+    { id: "pk", label: "Pink" },
+  ],
+  subCourses: [
+    { name: "OUT", holes: MUROU_MUROU_OUT },
+    { name: "IN", holes: MUROU_MUROU_IN },
+  ],
+  getYardage: (hole, green, tee) => hole[tee] ?? null,
 });
