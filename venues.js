@@ -472,7 +472,7 @@ const TOKYO_INTL_AIRPORT_GC_COURSE = {
 // ティー: Back/Reg/Front/Gold(=Ladies) × A/B グリーン
 // ─────────────────────────────────────────────────────────────────────────────
 const IZUMI_CC_EAST_COURSE = {
-  name: "Ｅａｓｔ",
+  name: "East",
   holes: [
     { hole:1, par:5, hdcp:5, a:{back:453,reg:435,front:425,gold:409}, b:{back:447,reg:429,front:419,gold:403} },
     { hole:2, par:4, hdcp:2, a:{back:417,reg:394,front:385,gold:340}, b:{back:389,reg:366,front:357,gold:312} },
@@ -490,7 +490,7 @@ const IZUMI_CC_EAST_COURSE = {
 // 泉カントリー倶楽部 Westコース（27H中の1コース）
 // ─────────────────────────────────────────────────────────────────────────────
 const IZUMI_CC_WEST_COURSE = {
-  name: "Ｗｅｓｔ",
+  name: "West",
   holes: [
     { hole:1, par:5, hdcp:2, a:{back:567,reg:539,front:517,gold:488}, b:{back:544,reg:516,front:494,gold:465} },
     { hole:2, par:3, hdcp:9, a:{back:177,reg:153,front:151,gold:123}, b:{back:153,reg:130,front:125,gold:103} },
@@ -508,7 +508,7 @@ const IZUMI_CC_WEST_COURSE = {
 // 泉カントリー倶楽部 Southコース（27H中の1コース）
 // ─────────────────────────────────────────────────────────────────────────────
 const IZUMI_CC_SOUTH_COURSE = {
-  name: "Ｓｏｕｔｈ",
+  name: "South",
   holes: [
     { hole:1, par:4, hdcp:9, a:{back:340,reg:336,front:326,gold:318}, b:{back:312,reg:308,front:298,gold:290} },
     { hole:2, par:3, hdcp:6, a:{back:220,reg:202,front:179,gold:148}, b:{back:220,reg:200,front:173,gold:139} },
@@ -20241,7 +20241,7 @@ const PGM_11_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc11", reading: "チサンカントリークラブ銭凾",
+    id: "pgm_chisan_zenibako", reading: "チサンカントリークラブゼニバコ",
     name: "チサンカントリークラブ銭凾",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -20292,7 +20292,7 @@ const PGM_12_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc12", reading: "サンパーク札幌ゴルフコース",
+    id: "pgm_sanpaakusapporo", reading: "サンパークサッポロゴルフコース",
     name: "サンパーク札幌ゴルフコース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20332,7 +20332,7 @@ const PGM_13_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc13", reading: "グレート札幌カントリー倶楽部",
+    id: "pgm_great_sapporo", reading: "グレートサッポロカントリークラブ",
     name: "グレート札幌カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20389,7 +20389,7 @@ const PGM_14_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc14", reading: "新千歳カントリークラブ",
+    id: "pgm_shinchitose", reading: "シンチトセカントリークラブ",
     name: "新千歳カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20467,7 +20467,7 @@ const PGM_15_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc15", reading: "札幌北広島ゴルフ倶楽部",
+    id: "pgm_sapporokitahiroshima", reading: "サッポロキタヒロシマゴルフクラブ",
     name: "札幌北広島ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20525,7 +20525,7 @@ const PGM_16_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc16", reading: "松島チサンカントリークラブ 松島・仙台コース",
+    id: "pgm_matsushima_chisan_sendai", reading: "マツシマチサンカントリークラブ マツシマ・センダイコース",
     name: "松島チサンカントリークラブ 松島・仙台コース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20564,7 +20564,7 @@ const PGM_17_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc17", reading: "松島チサンカントリークラブ 大郷コース",
+    id: "pgm_matsushima_chisan_osato", reading: "マツシマチサンカントリークラブ オオサトコース",
     name: "松島チサンカントリークラブ 大郷コース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20615,7 +20615,7 @@ const PGM_18_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc18", reading: "パーシモンカントリークラブ",
+    id: "pgm_persimmon", reading: "パーシモンカントリークラブ",
     name: "パーシモンカントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -20655,7 +20655,7 @@ const PGM_19_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc19", reading: "グレート仙台カントリー倶楽部",
+    id: "pgm_great_sendai", reading: "グレートセンダイカントリークラブ",
     name: "グレート仙台カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20706,7 +20706,7 @@ const PGM_21_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc21", reading: "仙台ヒルズゴルフ倶楽部",
+    id: "pgm_sendai_hills", reading: "センダイヒルズゴルフクラブ",
     name: "仙台ヒルズゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20746,7 +20746,7 @@ const PGM_22_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc22", reading: "中峰ゴルフ倶楽部",
+    id: "pgm_chuuhou", reading: "チュウホウゴルフクラブ",
     name: "中峰ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20785,7 +20785,7 @@ const PGM_23_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc23", reading: "ローレルバレイカントリークラブ",
+    id: "pgm_laurel_valley", reading: "ローレルバレイカントリークラブ",
     name: "ローレルバレイカントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20824,7 +20824,7 @@ const PGM_24_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc24", reading: "グレースリッジカントリークラブ",
+    id: "pgm_grace_ridge", reading: "グレースリッジカントリークラブ",
     name: "グレースリッジカントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20865,7 +20865,7 @@ const PGM_26_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc26", reading: "エヴァンタイユゴルフクラブ",
+    id: "pgm_eventail", reading: "エヴァンタイユゴルフクラブ",
     name: "エヴァンタイユゴルフクラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20916,7 +20916,7 @@ const PGM_27_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc27", reading: "大日向カントリー倶楽部",
+    id: "pgm_oohinata", reading: "オオヒナタカントリークラブ",
     name: "大日向カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20956,7 +20956,7 @@ const PGM_30_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc30", reading: "千成ゴルフクラブ",
+    id: "pgm_sennari", reading: "センナリゴルフクラブ",
     name: "千成ゴルフクラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -20995,7 +20995,7 @@ const PGM_31_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc31", reading: "ピートダイゴルフクラブ VIPコース",
+    id: "pgm_pete_dye_vip", reading: "ピートダイゴルフクラブ VIPコース",
     name: "ピートダイゴルフクラブ VIPコース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21034,7 +21034,7 @@ const PGM_32_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc32", reading: "ピートダイゴルフクラブ ロイヤルコース",
+    id: "pgm_pete_dye_royal", reading: "ピートダイゴルフクラブ ロイヤルコース",
     name: "ピートダイゴルフクラブ ロイヤルコース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21073,7 +21073,7 @@ const PGM_37_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc37", reading: "ハーモニーヒルズゴルフクラブ",
+    id: "pgm_harmony_hills", reading: "ハーモニーヒルズゴルフクラブ",
     name: "ハーモニーヒルズゴルフクラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21124,7 +21124,7 @@ const PGM_39_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc39", reading: "扶桑カントリー倶楽部",
+    id: "pgm_fusou", reading: "フソウカントリークラブ",
     name: "扶桑カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21176,7 +21176,7 @@ const PGM_40_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc40", reading: "グランドスラムカントリークラブ",
+    id: "pgm_grand_slam", reading: "グランドスラムカントリークラブ",
     name: "グランドスラムカントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21216,7 +21216,7 @@ const PGM_42_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc42", reading: "玉造ゴルフ倶楽部 捻木コース",
+    id: "pgm_tamatsukuri_nejiki", reading: "タマツクリゴルフクラブ ネジキコース",
     name: "玉造ゴルフ倶楽部 捻木コース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21255,7 +21255,7 @@ const PGM_45_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc45", reading: "勝田ゴルフ倶楽部",
+    id: "pgm_katsuta", reading: "カツタゴルフクラブ",
     name: "勝田ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -21294,7 +21294,7 @@ const PGM_47_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc47", reading: "阿見ゴルフクラブ",
+    id: "pgm_ami", reading: "アミゴルフクラブ",
     name: "阿見ゴルフクラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }],
@@ -21333,7 +21333,7 @@ const PGM_50_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc50", reading: "クリアビューゴルフクラブ＆ホテル",
+    id: "pgm_clearview", reading: "クリアビューゴルフクラブ＆ホテル",
     name: "クリアビューゴルフクラブ＆ホテル",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }],
@@ -21372,7 +21372,7 @@ const PGM_54_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc54", reading: "KOSHIGAYA GOLF CLUB",
+    id: "pgm_koshigaya", reading: "KOSHIGAYA GOLF CLUB",
     name: "KOSHIGAYA GOLF CLUB",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21411,7 +21411,7 @@ const PGM_55_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc55", reading: "京カントリークラブ",
+    id: "pgm_kyou", reading: "キョウカントリークラブ",
     name: "京カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -21450,7 +21450,7 @@ const PGM_56_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc56", reading: "丸の内倶楽部",
+    id: "pgm_marunouchi", reading: "マルノウチクラブ",
     name: "丸の内倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21489,7 +21489,7 @@ const PGM_58_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc58", reading: "長太郎カントリークラブ",
+    id: "pgm_choutarou", reading: "チョウタロウカントリークラブ",
     name: "長太郎カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }],
@@ -21528,7 +21528,7 @@ const PGM_59_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc59", reading: "イーグルレイクゴルフクラブ",
+    id: "pgm_eagle_lake", reading: "イーグルレイクゴルフクラブ",
     name: "イーグルレイクゴルフクラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -21567,7 +21567,7 @@ const PGM_60_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc60", reading: "成田の森カントリークラブ",
+    id: "pgm_naritanomori", reading: "ナリタノモリカントリークラブ",
     name: "成田の森カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -21606,7 +21606,7 @@ const PGM_61_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc61", reading: "アバイディングクラブ ゴルフソサエティ",
+    id: "pgm_abiding", reading: "アバイディングクラブ ゴルフソサエティ",
     name: "アバイディングクラブ ゴルフソサエティ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21645,7 +21645,7 @@ const PGM_65_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc65", reading: "ムーンレイクゴルフクラブ 茂原コース",
+    id: "pgm_moonlake_mobara", reading: "ムーンレイクゴルフクラブ モバラコース",
     name: "ムーンレイクゴルフクラブ 茂原コース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21684,7 +21684,7 @@ const PGM_66_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc66", reading: "秦野カントリークラブ",
+    id: "pgm_hadano", reading: "ハダノカントリークラブ",
     name: "秦野カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -21735,7 +21735,7 @@ const PGM_67_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc67", reading: "富士チサンカントリークラブ",
+    id: "pgm_fuji_chisan", reading: "フジチサンカントリークラブ",
     name: "富士チサンカントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -21784,7 +21784,7 @@ const PGM_68_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc68", reading: "東名厚木カントリー倶楽部",
+    id: "pgm_toumeiatsugi", reading: "トウメイアツギカントリークラブ",
     name: "東名厚木カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }],
@@ -21823,7 +21823,7 @@ const PGM_69_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc69", reading: "中央都留カントリー倶楽部",
+    id: "pgm_chuuoutsuru", reading: "チュウオウツルカントリークラブ",
     name: "中央都留カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }],
@@ -21862,7 +21862,7 @@ const PGM_70_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc70", reading: "中央道晴ヶ峰カントリー倶楽部",
+    id: "pgm_chuo_harugamine", reading: "チュウオウドウハレガミネカントリークラブ",
     name: "中央道晴ヶ峰カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21901,7 +21901,7 @@ const PGM_71_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc71", reading: "富貴ゴルフ倶楽部",
+    id: "pgm_fuuki", reading: "フウキゴルフクラブ",
     name: "富貴ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -21940,8 +21940,8 @@ const PGM_74_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc74", reading: "ＰＧＭ富岡カントリークラブ サウスコース",
-    name: "ＰＧＭ富岡カントリークラブ サウスコース",
+    id: "pgm_tomioka_south", reading: "PGMトミオカカントリークラブ サウスコース",
+    name: "PGM富岡カントリークラブ サウスコース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
     subCourses: [
@@ -21979,7 +21979,7 @@ const PGM_75_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc75", reading: "飯能くすの樹カントリー倶楽部",
+    id: "pgm_hanno_kusunoki", reading: "ハンノウクスノキカントリークラブ",
     name: "飯能くすの樹カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22030,7 +22030,7 @@ const PGM_78_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc78", reading: "新城カントリー倶楽部",
+    id: "pgm_shinjou", reading: "シンジョウカントリークラブ",
     name: "新城カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22070,7 +22070,7 @@ const PGM_80_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc80", reading: "多治見北ゴルフ倶楽部",
+    id: "pgm_tajimikita", reading: "タジミキタゴルフクラブ",
     name: "多治見北ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -22109,7 +22109,7 @@ const PGM_83_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc83", reading: "名古屋ヒルズゴルフ倶楽部 ローズコース",
+    id: "pgm_nagoya_hills_rose", reading: "ナゴヤヒルズゴルフクラブ ローズコース",
     name: "名古屋ヒルズゴルフ倶楽部 ローズコース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }, { id: "pi", label: "Pink" }],
@@ -22148,7 +22148,7 @@ const PGM_84_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc84", reading: "相良カントリー倶楽部",
+    id: "pgm_sagara", reading: "サガラカントリークラブ",
     name: "相良カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -22187,7 +22187,7 @@ const PGM_85_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc85", reading: "三木の里カントリークラブ",
+    id: "pgm_mikinosato", reading: "ミキノサトカントリークラブ",
     name: "三木の里カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -22244,7 +22244,7 @@ const PGM_86_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc86", reading: "亀山ゴルフクラブ",
+    id: "pgm_kameyama", reading: "カメヤマゴルフクラブ",
     name: "亀山ゴルフクラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22283,7 +22283,7 @@ const PGM_87_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc87", reading: "かさぎゴルフ倶楽部",
+    id: "pgm_kasagi", reading: "カサギゴルフクラブ",
     name: "かさぎゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22322,7 +22322,7 @@ const PGM_88_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc88", reading: "枚方国際ゴルフ倶楽部",
+    id: "pgm_hirakatakokusai", reading: "ヒラカタコクサイゴルフクラブ",
     name: "枚方国際ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -22373,7 +22373,7 @@ const PGM_89_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc89", reading: "木津川カントリー倶楽部",
+    id: "pgm_kizugawa", reading: "キヅガワカントリークラブ",
     name: "木津川カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22446,7 +22446,7 @@ const PGM_90_N3 = [
 
 VENUES.push(
   {
-    id: "pgm_cc90", reading: "名阪チサンカントリークラブ",
+    id: "pgm_meihan_chisan", reading: "メイハンチサンカントリークラブ",
     name: "名阪チサンカントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }, { id: "pi", label: "Pink" }],
@@ -22499,7 +22499,7 @@ const PGM_91_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc91", reading: "岸和田カントリー倶楽部",
+    id: "pgm_kishiwada", reading: "キシワダカントリークラブ",
     name: "岸和田カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "bk", label: "Black" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22539,7 +22539,7 @@ const PGM_92_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc92", reading: "関西空港ゴルフ倶楽部",
+    id: "pgm_kansaikuukou", reading: "カンサイクウコウゴルフクラブ",
     name: "関西空港ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22578,7 +22578,7 @@ const PGM_93_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc93", reading: "法隆寺カントリー倶楽部",
+    id: "pgm_houryuuji", reading: "ホウリュウジカントリークラブ",
     name: "法隆寺カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -22617,7 +22617,7 @@ const PGM_94_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc94", reading: "貴志川ゴルフ倶楽部",
+    id: "pgm_kishikawa", reading: "キシカワゴルフクラブ",
     name: "貴志川ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "bk", label: "Black" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22668,7 +22668,7 @@ const PGM_95_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc95", reading: "近江ヒルズゴルフ倶楽部",
+    id: "pgm_omi_hills", reading: "オウミヒルズゴルフクラブ",
     name: "近江ヒルズゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -22708,7 +22708,7 @@ const PGM_99_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc99", reading: "アークよかわゴルフ倶楽部",
+    id: "pgm_arc_yokawa", reading: "アークヨカワゴルフクラブ",
     name: "アークよかわゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -22747,7 +22747,7 @@ const PGM_100_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc100", reading: "フォレスト三木ゴルフ倶楽部",
+    id: "pgm_forest_miki", reading: "フォレストミキゴルフクラブ",
     name: "フォレスト三木ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -22798,7 +22798,7 @@ const PGM_101_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc101", reading: "ライオンズカントリー倶楽部",
+    id: "pgm_lions", reading: "ライオンズカントリークラブ",
     name: "ライオンズカントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "bk", label: "Black" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22838,7 +22838,7 @@ const PGM_102_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc102", reading: "ヤシロカントリークラブ",
+    id: "pgm_yashiro", reading: "ヤシロカントリークラブ",
     name: "ヤシロカントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -22877,7 +22877,7 @@ const PGM_103_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc103", reading: "三日月カントリークラブ",
+    id: "pgm_mikazuki", reading: "ミカヅキカントリークラブ",
     name: "三日月カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "bk", label: "Black" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -22916,7 +22916,7 @@ const PGM_104_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc104", reading: "神有カントリー倶楽部",
+    id: "pgm_kamiari", reading: "カミアリカントリークラブ",
     name: "神有カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22955,7 +22955,7 @@ const PGM_106_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc106", reading: "たけべの森ゴルフ倶楽部",
+    id: "pgm_takebenomori", reading: "タケベノモリゴルフクラブ",
     name: "たけべの森ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -22994,7 +22994,7 @@ const PGM_107_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc107", reading: "赤坂レイクサイド・カントリークラブ",
+    id: "pgm_akasaka_lakeside", reading: "アカサカレイクサイド・カントリークラブ",
     name: "赤坂レイクサイド・カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23033,7 +23033,7 @@ const PGM_108_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc108", reading: "笠岡カントリー倶楽部",
+    id: "pgm_kasaoka", reading: "カサオカカントリークラブ",
     name: "笠岡カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23072,7 +23072,7 @@ const PGM_109_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc109", reading: "グレート岡山ゴルフ倶楽部",
+    id: "pgm_great_okayama", reading: "グレートオカヤマゴルフクラブ",
     name: "グレート岡山ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23111,7 +23111,7 @@ const PGM_110_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc110", reading: "岡山国際ゴルフ倶楽部",
+    id: "pgm_okayamakokusai", reading: "オカヤマコクサイゴルフクラブ",
     name: "岡山国際ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23159,7 +23159,7 @@ const PGM_111_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc111", reading: "琴平カントリー倶楽部",
+    id: "pgm_kotohira", reading: "コトヒラカントリークラブ",
     name: "琴平カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23198,7 +23198,7 @@ const PGM_113_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc113", reading: "大山アークカントリークラブ",
+    id: "pgm_oyama_arc", reading: "オオヤマアークカントリークラブ",
     name: "大山アークカントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -23237,7 +23237,7 @@ const PGM_115_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc115", reading: "土佐山田ゴルフ倶楽部",
+    id: "pgm_tosayamada", reading: "トサヤマダゴルフクラブ",
     name: "土佐山田ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23276,7 +23276,7 @@ const PGM_116_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc116", reading: "チサンカントリークラブ北条",
+    id: "pgm_chisan_hojo", reading: "チサンカントリークラブホウジョウ",
     name: "チサンカントリークラブ北条",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23324,7 +23324,7 @@ const PGM_117_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc117", reading: "柳井カントリー倶楽部",
+    id: "pgm_yanai", reading: "ヤナイカントリークラブ",
     name: "柳井カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -23363,7 +23363,7 @@ const PGM_118_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc118", reading: "尾道ゴルフ倶楽部",
+    id: "pgm_onomichi", reading: "オノミチゴルフクラブ",
     name: "尾道ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -23402,7 +23402,7 @@ const PGM_119_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc119", reading: "広島国際ゴルフ倶楽部",
+    id: "pgm_hiroshimakokusai", reading: "ヒロシマコクサイゴルフクラブ",
     name: "広島国際ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23441,7 +23441,7 @@ const PGM_120_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc120", reading: "松山国際ゴルフ倶楽部",
+    id: "pgm_matsuyamakokusai", reading: "マツヤマコクサイゴルフクラブ",
     name: "松山国際ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -23480,7 +23480,7 @@ const PGM_121_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc121", reading: "宇和島カントリー倶楽部",
+    id: "pgm_uwashima", reading: "ウワシマカントリークラブ",
     name: "宇和島カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -23519,7 +23519,7 @@ const PGM_123_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc123", reading: "松山ロイヤルゴルフ倶楽部",
+    id: "pgm_matsuyamaroiyaru", reading: "マツヤマロイヤルゴルフクラブ",
     name: "松山ロイヤルゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23576,7 +23576,7 @@ const PGM_124_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc124", reading: "東広島カントリークラブ",
+    id: "pgm_higashihiroshima", reading: "ヒガシヒロシマカントリークラブ",
     name: "東広島カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23615,7 +23615,7 @@ const PGM_125_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc125", reading: "若木ゴルフ倶楽部",
+    id: "pgm_wakagi", reading: "ワカギゴルフクラブ",
     name: "若木ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23666,7 +23666,7 @@ const PGM_126_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc126", reading: "チサンカントリークラブ遠賀",
+    id: "pgm_chisan_onga", reading: "チサンカントリークラブオンガ",
     name: "チサンカントリークラブ遠賀",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -23718,7 +23718,7 @@ const PGM_127_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc127", reading: "チサンカントリークラブ森山",
+    id: "pgm_chisan_moriyama", reading: "チサンカントリークラブモリヤマ",
     name: "チサンカントリークラブ森山",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23758,7 +23758,7 @@ const PGM_128_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc128", reading: "皐月ゴルフ倶楽部 竜王コース",
+    id: "pgm_satsuki_ryuo", reading: "ゴガツゴルフクラブ リュウオウコース",
     name: "皐月ゴルフ倶楽部 竜王コース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -23797,7 +23797,7 @@ const PGM_129_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc129", reading: "皐月ゴルフ倶楽部 天拝コース",
+    id: "pgm_satsuki_tenpai", reading: "ゴガツゴルフクラブ テンハイコース",
     name: "皐月ゴルフ倶楽部 天拝コース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -23848,7 +23848,7 @@ const PGM_130_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc130", reading: "大博多カントリー倶楽部",
+    id: "pgm_daihakata", reading: "ダイハカタカントリークラブ",
     name: "大博多カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -23900,7 +23900,7 @@ const PGM_131_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc131", reading: "北九州カントリー倶楽部",
+    id: "pgm_kitakyuushuu", reading: "キタキュウシュウカントリークラブ",
     name: "北九州カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -23940,7 +23940,7 @@ const PGM_132_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc132", reading: "大分富士見カントリー倶楽部",
+    id: "pgm_ooitafujimi", reading: "オオイタフジミカントリークラブ",
     name: "大分富士見カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -23997,7 +23997,7 @@ const PGM_133_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc133", reading: "別府ゴルフ倶楽部",
+    id: "pgm_beppu", reading: "ベップゴルフクラブ",
     name: "別府ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24036,7 +24036,7 @@ const PGM_135_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc135", reading: "チサンカントリークラブ御船",
+    id: "pgm_chisan_mifune", reading: "チサンカントリークラブミフネ",
     name: "チサンカントリークラブ御船",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24075,7 +24075,7 @@ const PGM_136_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc136", reading: "ワールドカントリー倶楽部",
+    id: "pgm_world", reading: "ワールドカントリークラブ",
     name: "ワールドカントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24126,7 +24126,7 @@ const PGM_137_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc137", reading: "宮崎国際ゴルフ倶楽部",
+    id: "pgm_miyazakikokusai", reading: "ミヤザキコクサイゴルフクラブ",
     name: "宮崎国際ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24166,7 +24166,7 @@ const PGM_140_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc140", reading: "入来城山ゴルフ倶楽部",
+    id: "pgm_iriki_shiroyama", reading: "イリキシロヤマゴルフクラブ",
     name: "入来城山ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24217,7 +24217,7 @@ const PGM_144_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc144", reading: "ムーンレイクゴルフクラブ 鞍手コース",
+    id: "pgm_moonlake_kurate", reading: "ムーンレイクゴルフクラブ クラテコース",
     name: "ムーンレイクゴルフクラブ 鞍手コース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -24257,7 +24257,7 @@ const PGM_145_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc145", reading: "三島ゴルフ倶楽部",
+    id: "pgm_mishima", reading: "ミシマゴルフクラブ",
     name: "三島ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -24296,7 +24296,7 @@ const PGM_148_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc148", reading: "山岡カントリークラブ",
+    id: "pgm_yamaoka", reading: "ヤマオカカントリークラブ",
     name: "山岡カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24335,7 +24335,7 @@ const PGM_149_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc149", reading: "笹平カントリー倶楽部",
+    id: "pgm_sasataira", reading: "ササタイラカントリークラブ",
     name: "笹平カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24374,7 +24374,7 @@ const PGM_150_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc150", reading: "総丘カントリー倶楽部",
+    id: "pgm_soukyu", reading: "ソウキュウカントリークラブ",
     name: "総丘カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -24413,7 +24413,7 @@ const PGM_151_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc151", reading: "内原カントリー倶楽部",
+    id: "pgm_uchihara", reading: "ウチハラカントリークラブ",
     name: "内原カントリー倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24488,7 +24488,7 @@ const PGM_152_T1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc152_sakura", reading: "千葉国際カントリークラブ 桜コース",
+    id: "pgm_cc152_sakura", reading: "チバコクサイカントリークラブ サクラコース",
     name: "千葉国際カントリークラブ 桜コース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }],
@@ -24500,7 +24500,7 @@ VENUES.push(
     getYardage: (hole, green, tee) => hole[tee] ?? null,
   },
   {
-    id: "pgm_cc152_take", reading: "千葉国際カントリークラブ 竹コース",
+    id: "pgm_cc152_take", reading: "チバコクサイカントリークラブ タケコース",
     name: "千葉国際カントリークラブ 竹コース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24539,7 +24539,7 @@ const PGM_153_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc153", reading: "大秦野カントリークラブ",
+    id: "pgm_ohatano", reading: "オオハタノカントリークラブ",
     name: "大秦野カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }],
@@ -24578,7 +24578,7 @@ const PGM_154_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc154", reading: "伊勢原カントリークラブ",
+    id: "pgm_isehara", reading: "イセハラカントリークラブ",
     name: "伊勢原カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }],
@@ -24635,7 +24635,7 @@ const PGM_155_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc155", reading: "福岡国際カントリークラブ",
+    id: "pgm_fukuokakokusai", reading: "フクオカコクサイカントリークラブ",
     name: "福岡国際カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24674,7 +24674,7 @@ const PGM_156_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc156", reading: "ニューキャピタルゴルフ倶楽部",
+    id: "pgm_new_capital", reading: "ニューキャピタルゴルフクラブ",
     name: "ニューキャピタルゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24713,7 +24713,7 @@ const PGM_158_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc158", reading: "滋賀ゴルフ倶楽部",
+    id: "pgm_shiga", reading: "シガゴルフクラブ",
     name: "滋賀ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24752,7 +24752,7 @@ const PGM_159_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc159", reading: "東京ベイサイドゴルフコース",
+    id: "pgm_tokyo_bayside", reading: "トウキョウベイサイドゴルフコース",
     name: "東京ベイサイドゴルフコース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24791,7 +24791,7 @@ const PGM_160_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc160", reading: "福岡レイクサイドカントリークラブ",
+    id: "pgm_fukuoka_lakeside", reading: "フクオカレイクサイドカントリークラブ",
     name: "福岡レイクサイドカントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -24842,7 +24842,7 @@ const PGM_161_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc161", reading: "南総ヒルズカントリークラブ",
+    id: "pgm_nanso_hills", reading: "ナンソウヒルズカントリークラブ",
     name: "南総ヒルズカントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -24882,7 +24882,7 @@ const PGM_162_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc162", reading: "神戸グランドヒルゴルフクラブ",
+    id: "pgm_kobe_grand_hill", reading: "コウベグランドヒルゴルフクラブ",
     name: "神戸グランドヒルゴルフクラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "bk", label: "Black" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -24933,7 +24933,7 @@ const PGM_164_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc164", reading: "大多喜カントリークラブ",
+    id: "pgm_ootaki", reading: "オオタキカントリークラブ",
     name: "大多喜カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -24985,8 +24985,8 @@ const PGM_165_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc165", reading: "ＰＧＭ富岡カントリークラブ ノースコース",
-    name: "ＰＧＭ富岡カントリークラブ ノースコース",
+    id: "pgm_tomioka_north", reading: "PGMトミオカカントリークラブ ノースコース",
+    name: "PGM富岡カントリークラブ ノースコース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
     subCourses: [
@@ -25025,7 +25025,7 @@ const PGM_166_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc166", reading: "御殿場東名ゴルフクラブ",
+    id: "pgm_gotenba_tomei", reading: "ゴテンバトウメイゴルフクラブ",
     name: "御殿場東名ゴルフクラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
@@ -25064,8 +25064,8 @@ const PGM_168_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc168", reading: "ＰＧＭ南市原ゴルフクラブ",
-    name: "ＰＧＭ南市原ゴルフクラブ",
+    id: "pgm_minami_ichihara", reading: "PGMミナミイチハラゴルフクラブ",
+    name: "PGM南市原ゴルフクラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
     subCourses: [
@@ -25115,8 +25115,8 @@ const PGM_171_N2 = [
 
 VENUES.push(
   {
-    id: "pgm_cc171", reading: "ＰＧＭ池田カントリークラブ",
-    name: "ＰＧＭ池田カントリークラブ",
+    id: "pgm_ikeda_cc", reading: "PGMイケダカントリークラブ",
+    name: "PGM池田カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "re", label: "Red" }],
     subCourses: [
@@ -25155,8 +25155,8 @@ const PGM_173_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc173", reading: "ＰＧＭ御殿場カントリークラブ",
-    name: "ＰＧＭ御殿場カントリークラブ",
+    id: "pgm_gotenba_cc", reading: "PGMゴテンバカントリークラブ",
+    name: "PGM御殿場カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
     subCourses: [
@@ -25194,7 +25194,7 @@ const PGM_174_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc174", reading: "武庫ノ台ゴルフコース",
+    id: "pgm_mukonodai", reading: "ムコノダイゴルフコース",
     name: "武庫ノ台ゴルフコース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -25233,7 +25233,7 @@ const PGM_175_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc175", reading: "一志ゴルフ倶楽部",
+    id: "pgm_ichishi", reading: "イチシゴルフクラブ",
     name: "一志ゴルフ倶楽部",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "bk", label: "Black" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -25272,7 +25272,7 @@ const PGM_176_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc176", reading: "竜王ゴルフコース",
+    id: "pgm_ryuuou", reading: "リュウオウゴルフコース",
     name: "竜王ゴルフコース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bk", label: "Black" }, { id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }],
@@ -25311,7 +25311,7 @@ const PGM_177_N1 = [
 
 VENUES.push(
   {
-    id: "pgm_cc177", reading: "瀬板の森北九州ゴルフコース",
+    id: "pgm_seitanomorikitakyuushuu", reading: "セイタノモリキタキュウシュウゴルフコース",
     name: "瀬板の森北九州ゴルフコース",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [{ id: "bl", label: "Blue" }, { id: "wh", label: "White" }, { id: "go", label: "Gold" }, { id: "re", label: "Red" }],
@@ -25347,7 +25347,7 @@ const PGM_25_N1 = [
   { hole:18, par:5, hdcp:8,  bkAg:538, bkBg:504, blAg:512, blBg:481, whAg:492, whBg:460, goAg:472, goBg:442, reAg:379, reBg:349, piAg:353, piBg:323 },
 ];
 VENUES.push({
-  id: "pgm_cc25", reading: "リフゴルフクラブ",
+  id: "pgm_rifu", reading: "リフゴルフクラブ",
   name: "利府ゴルフ倶楽部",
   greens: [
     { id: "ag", label: "Aグリーン" },
