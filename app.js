@@ -2368,7 +2368,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06151400";
+var APP_VERSION = "06151426";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -6417,7 +6417,7 @@ function GolfTracker() {
           } }, /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "700", fontSize: "11px", color: active ? "#16a34a" : done ? symColor : "#334155", lineHeight: 1 } }, dispNum), done && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: symColor, lineHeight: 1 } }, sym));
         })));
       });
-    })()), /* @__PURE__ */ React.createElement("div", { style: S.card({ border: "1px solid rgba(52,211,153,0.15)" }) }, (() => {
+    })()), (profile.focusNote || "").trim() && /* @__PURE__ */ React.createElement("div", { onClick: () => setFocusExpanded((v) => !v), style: { display: "flex", alignItems: focusExpanded ? "flex-start" : "center", gap: "8px", background: "#fffbeb", border: "1px solid rgba(245,158,11,0.30)", borderRadius: "8px", padding: "8px 11px", marginBottom: "10px", cursor: "pointer" } }, /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, fontSize: "10px", fontWeight: "800", color: "#b45309" } }, "\u91CD\u70B9"), /* @__PURE__ */ React.createElement("span", { style: __spreadValues({ flex: 1, minWidth: 0, fontSize: "12px", color: "#b45309" }, focusExpanded ? { whiteSpace: "normal", lineHeight: 1.6 } : { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }) }, profile.focusNote), /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, fontSize: "11px", color: "#d97706" } }, focusExpanded ? "\u25B2" : "\u25BC")), /* @__PURE__ */ React.createElement("div", { style: S.card({ border: "1px solid rgba(52,211,153,0.15)" }) }, (() => {
       var _a3, _b3;
       const venue = (currentRound == null ? void 0 : currentRound.venueId) ? VENUES.find((v) => v.id === currentRound.venueId) : null;
       const allHoles = venue ? getRoundHoles(currentRound) : [];
