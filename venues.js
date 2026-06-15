@@ -43833,7 +43833,7 @@ VENUES.push({
 });
 
 VENUES.push({
-  id: "joso_cc", reading: "じょうそうカントリーくらぶ",
+  id: "joso_cc", reading: "ジョウソウカントリークラブ",
   name: "常総カントリー倶楽部",
   greens: [{"id":"a","label":"ティフトン"},{"id":"b","label":"ベント"}],
   tees: [{"id":"back","label":"バック"},{"id":"front","label":"フロント"}],
@@ -43865,7 +43865,7 @@ VENUES.push({
 });
 
 VENUES.push({
-  id: "joyo_cc", reading: "じょうようカントリーくらぶ",
+  id: "joyo_cc", reading: "ジョウヨウカントリークラブ",
   name: "常陽カントリー倶楽部",
   greens: [{"id":"a","label":"高麗"},{"id":"b","label":"ベント"}],
   tees: [{"id":"fullback","label":"フルバック"},{"id":"back","label":"バック"},{"id":"reg","label":"レギュラー"},{"id":"lady","label":"レディース"}],
@@ -43929,7 +43929,7 @@ VENUES.push({
 });
 
 VENUES.push({
-  id: "diamond_green_cc", reading: "ダイヤグリーンくらぶ",
+  id: "diamond_green_cc", reading: "ダイヤグリーンクラブ",
   name: "ダイヤグリーン倶楽部",
   greens: [{"id":"a","label":"PC(ペンクロス)"},{"id":"b","label":"A4(エーフォー)"}],
   tees: [{"id":"back","label":"黒"},{"id":"reg","label":"白"},{"id":"blue","label":"青"},{"id":"lady","label":"赤"}],
@@ -43993,7 +43993,7 @@ VENUES.push({
 });
 
 VENUES.push({
-  id: "tsukubane_cc", reading: "つくばねカントリークラブ",
+  id: "tsukubane_cc", reading: "ツクバネカントリークラブ",
   name: "つくばねカントリークラブ",
   greens: [{"id":"a","label":"Aグリーン"},{"id":"b","label":"Bグリーン"}],
   tees: [{"id":"back","label":"バック"},{"id":"reg","label":"レギュラー"},{"id":"lady","label":"レディース"}],
