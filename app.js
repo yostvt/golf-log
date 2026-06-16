@@ -746,11 +746,16 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
       est = Math.max(d - ADV, 5);
       return { s: it.s, isTee: it.isTee, d };
     });
-    let lg = 0, sgS = 0;
+    let lg = 0, sgS = 0, hasL = false, hasS = false;
     if (items.length === 0) {
       const rr = isP3 ? len : Math.max(len - DRIVE, 5);
-      if (rr > 100) lg = lsHole;
-      else sgS = lsHole;
+      if (rr > 100) {
+        lg = lsHole;
+        hasL = true;
+      } else {
+        sgS = lsHole;
+        hasS = true;
+      }
     } else {
       let sumL = 0, sumS = 0, nL = 0, nS = 0;
       items.forEach((it, k) => {
@@ -769,6 +774,8 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
       const resid = lsHole - (sumL + sumS), dn = nL + nS;
       lg = num(sumL + resid * nL / dn);
       sgS = num(sumS + resid * nS / dn);
+      hasL = nL > 0;
+      hasS = nS > 0;
     }
     LG += lg;
     SGS += sgS;
@@ -795,9 +802,9 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
       hole: hi,
       par: pr,
       ts: isP3 ? null : rnd2(tSG),
-      lg: rnd2(lg),
-      sg: rnd2(sgS),
-      pt: rnd2(pt),
+      lg: hasL ? rnd2(lg) : null,
+      sg: hasS ? rnd2(sgS) : null,
+      pt: putts > 0 ? rnd2(pt) : null,
       bk: hadBunker ? rnd2(holeBK) : null,
       score: sc,
       putts
@@ -2389,7 +2396,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06170814";
+var APP_VERSION = "06170845";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
