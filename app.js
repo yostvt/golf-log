@@ -539,15 +539,22 @@ function normSGox(v) {
 }
 function calcSimpleSG(simpleHoleData, holePars, hcp, holeLengths, avgDrive) {
   const HC = hcp != null ? hcp : 0, DRIVE = avgDrive || 220, ADV = DRIVE * 0.85;
-  const fT = 1 + 0.28 * HC / 18, fL = 1 + 0.4 * HC / 18, fS = 1 + 0.17 * HC / 18;
+  const OFFSET = 3.1;
+  let __proExp = 0;
+  Object.entries(simpleHoleData).forEach(([__hk, __d]) => {
+    if (__d == null || __d.score == null) return;
+    const __len = holeLengths[parseInt(__hk) - 1];
+    if (__len == null) return;
+    __proExp += interpBaseline(PRO_BASELINE.tee, __len);
+  });
+  const R = __proExp > 0 ? (__proExp + OFFSET + HC) / __proExp : 1;
+  const fT = R, fL = R, fS = R;
   const ip = interpBaseline;
   const expPuttOf = (approachEval, putts) => {
     if ((putts || 0) === 0) return 0;
     const a = normSGox(approachEval);
-    if (a == null || a === "\u7121") return 2;
-    if (a === "\u25CB") return 1.38;
-    if (a === "\u25B3") return 1.72;
-    return 1.9;
+    const base = a == null || a === "\u7121" ? 2 : a === "\u25CB" ? 1.38 : a === "\u25B3" ? 1.72 : 1.9;
+    return base * R;
   };
   let TS = 0, LG = 0, SG = 0, PT = 0, BK = 0, total = 0, score = 0, par = 0, n = 0;
   const rows = [];
@@ -609,15 +616,8 @@ function calcSimpleSG(simpleHoleData, holePars, hcp, holeLengths, avgDrive) {
     }
     LG += lg;
     SG += sg;
-    let holeBK = 0;
-    const teeBunk = !isP3 && normTee6(d.teeEval) === "bunker";
-    if (teeBunk) {
-      let rb = Math.max(len - DRIVE, 5);
-      holeBK += hExp - 1 - ip(PRO_BASELINE.sand, rb) * (rb > 100 ? fL : fS);
-    }
-    if ((d.bunker || 0) - (teeBunk ? 1 : 0) > 0) holeBK += HC / 18 - (sc - pr);
-    BK += holeBK;
-    const hadBunker = teeBunk || (d.bunker || 0) > 0;
+    const holeBK = 0;
+    const hadBunker = false;
     rows.push({
       hole: hi,
       par: pr,
@@ -636,7 +636,7 @@ function calcSimpleSG(simpleHoleData, holePars, hcp, holeLengths, avgDrive) {
     longScore: rnd2(LG),
     shortScore: rnd2(SG),
     puttScore: rnd2(PT),
-    bunkerScore: rnd2(BK),
+    bunkerScore: null,
     totalSG: rnd2(total),
     totalScore: score,
     totalPar: par,
@@ -646,7 +646,17 @@ function calcSimpleSG(simpleHoleData, holePars, hcp, holeLengths, avgDrive) {
 }
 function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
   const HC = hcp != null ? hcp : 0, DRIVE = avgDrive || 220, ADV = DRIVE * 0.85;
-  const fT = 1 + 0.28 * HC / 18, fL = 1 + 0.4 * HC / 18, fS = 1 + 0.17 * HC / 18;
+  const OFFSET = 3.1;
+  let __proExp = 0;
+  Object.entries(holeData || {}).forEach(([__hk, __hd]) => {
+    if (!__hd || !__hd.done || !Array.isArray(__hd.shots) || __hd.shots.length === 0) return;
+    if (!__hd.shots.some((s) => s.quality !== void 0)) return;
+    const __len = holeLengths ? holeLengths[parseInt(__hk) - 1] : null;
+    if (__len == null || !(__len > 0)) return;
+    __proExp += interpBaseline(PRO_BASELINE.tee, __len);
+  });
+  const R = __proExp > 0 ? (__proExp + OFFSET + HC) / __proExp : 1;
+  const fT = R, fL = R, fS = R;
   const ip = interpBaseline;
   const num = (v) => Number.isFinite(v) ? v : 0;
   const distF = (d) => d > 100 ? fL : fS;
@@ -678,7 +688,7 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
       oldFmtHoles[hk] = hd;
       return;
     }
-    const extraPen = hd.extraPenalty || 0;
+    const extraPen = 0;
     const sc = shots.reduce((a, s) => a + (s.shotCount || 1), 0) + extraPen;
     if (!(sc > 0)) return;
     const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + (s.shotCount || 1), 0);
@@ -693,10 +703,10 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
     const apprShots = shots.filter((s) => s.categoryKey === "approach");
     if (putts === 0) eP = 0;
     else if (hd.pinDist != null && PUTT_LABEL_M[hd.pinDist] != null) {
-      eP = ip(PRO_BASELINE.green, PUTT_LABEL_M[hd.pinDist] * 3.281);
+      eP = ip(PRO_BASELINE.green, PUTT_LABEL_M[hd.pinDist] * 3.281) * R;
     } else {
       const lastQ = apprShots.length > 0 ? apprShots[apprShots.length - 1].quality : null;
-      eP = lastQ === "\u25CB" ? 1.38 : lastQ === "\u25B3" ? 1.72 : lastQ === "\xD7" ? 1.9 : 2;
+      eP = (lastQ === "\u25CB" ? 1.38 : lastQ === "\u25B3" ? 1.72 : lastQ === "\xD7" ? 1.9 : 2) * R;
     }
     const pt = num(eP - putts);
     PT += pt;
@@ -763,13 +773,24 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
     LG += lg;
     SGS += sgS;
     let holeBK = 0;
-    const teeBunk = !isP3 && !!teeShot && teeShot.subType === "bunker";
-    if (teeBunk) holeBK += tSG;
-    const bunkCount = shots.filter((s) => s.subType === "bunker").length;
-    if (bunkCount - (teeBunk ? 1 : 0) > 0) holeBK += HC / 18 - (sc - pr);
+    const __bunkers = [];
+    for (let bi = 0; bi < shots.length; bi++) {
+      if (shots[bi].subType !== "bunker") continue;
+      const __escD = shotDist(shots[bi + 1]);
+      if (__escD != null) __bunkers.push({ bi, d: __escD });
+    }
+    const kBunk = __bunkers.length;
+    if (kBunk > 0) {
+      __bunkers.forEach(({ bi, d }) => {
+        let __act = 0;
+        for (let bj = bi + 1; bj < shots.length; bj++) __act += shots[bj].shotCount || 1;
+        holeBK += ip(PRO_BASELINE.fairway, d) * R - __act;
+      });
+      holeBK += kBunk - 1;
+    }
     holeBK = num(holeBK);
     BK += holeBK;
-    const hadBunker = teeBunk || bunkCount > 0;
+    const hadBunker = kBunk > 0;
     rows.push({
       hole: hi,
       par: pr,
@@ -790,7 +811,7 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
       LG += fb.longScore;
       SGS += fb.shortScore;
       PT += fb.puttScore;
-      BK += fb.bunkerScore;
+      BK += fb.bunkerScore || 0;
       total += fb.totalSG;
       score += fb.totalScore;
       par += fb.totalPar;
@@ -2368,7 +2389,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06151426";
+var APP_VERSION = "06170814";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3097,18 +3118,37 @@ function interpBaseline(tbl, x) {
   }
   return tbl[ks[ks.length - 1]];
 }
-const HC_WEIGHTS = { tee: 0.3, long: 0.4, short: 0.15, putt: 0.15 };
-function hcFactor(cat, hcp) {
-  const w = HC_WEIGHTS[cat] != null ? HC_WEIGHTS[cat] : 0.25;
-  const h = hcp == null ? 0 : hcp;
-  return 1 + w * h / 18;
+const SG_OFFSET = 3.1;
+function computeRUser(rounds, hcp) {
+  const dets = (rounds || []).filter((r) => r.isComplete && r.inputMode === "detail" && r.holeData);
+  if (!dets.length || hcp == null) return null;
+  let sum = 0, cnt = 0;
+  for (const r of dets) {
+    const venue = VENUES.find((v) => v.id === r.venueId);
+    if (!venue) continue;
+    let pe = 0, ok = false;
+    getRoundHoles(r).forEach((h) => {
+      const y = h ? venue.getYardage(h, r.green, r.tee) : null;
+      if (y && y > 0) {
+        pe += interpBaseline(PRO_BASELINE.tee, y);
+        ok = true;
+      }
+    });
+    if (ok && pe > 0) {
+      sum += pe;
+      cnt++;
+    }
+  }
+  if (!cnt) return null;
+  const proExpAvg = sum / cnt;
+  return (proExpAvg + SG_OFFSET + hcp) / proExpAvg;
 }
-function targetExpected(cat, distVal, hcp) {
+function targetExpected(cat, distVal, rUser) {
   let base;
   if (cat === "putt") base = interpBaseline(PRO_BASELINE.green, distVal * 3.281);
   else if (cat === "tee") base = interpBaseline(PRO_BASELINE.tee, distVal);
   else base = interpBaseline(PRO_BASELINE.fairway, distVal);
-  return base * hcFactor(cat, hcp);
+  return base * (rUser != null ? rUser : 1);
 }
 const PUTT_LABEL_M = { "1m\u4EE5\u5185": 1, "2m\u4EE5\u5185": 2, "3m\u4EE5\u5185": 3, "4m\u4EE5\u5185": 4, "5m\u4EE5\u5185": 5, "10m\u4EE5\u5185": 8, "15m\u4EE5\u5185": 13, "20m\u4EE5\u5185": 18, "20m\u8D85": 25 };
 const ES_SEGMENTS = [
@@ -3172,6 +3212,7 @@ function AnalyticsExpectedStrokes({ rounds, hcp, S }) {
   const [seg, setSeg] = useState(1);
   const [mode, setMode] = useState("curve");
   const data = useMemo(() => computeExpectedData(rounds || []), [rounds]);
+  const rUser = useMemo(() => computeRUser(rounds || [], hcp), [rounds, hcp]);
   const hasAny = ES_SEGMENTS.some((sg) => Object.keys(data[sg.key] || {}).length > 0);
   if (!hasAny) return null;
   let segIdx = seg;
@@ -3185,7 +3226,7 @@ function AnalyticsExpectedStrokes({ rounds, hcp, S }) {
     const c = data[segDef.key][b];
     if (!c || c.n === 0) return null;
     const own = c.sum / c.n;
-    const tgt = hcp != null ? targetExpected(segDef.cat, b, hcp) : null;
+    const tgt = rUser != null ? targetExpected(segDef.cat, b, rUser) : null;
     return { band: b, own, tgt, n: c.n, b2: c.b2, b3: c.b3, b4: c.b4, b5: c.b5, diff: tgt != null ? own - tgt : null };
   }).filter(Boolean);
   const W = 320, H = 190, padL = 30, padR = 10, padT = 10, padB = 26;
@@ -7867,7 +7908,7 @@ function GolfTracker() {
     return REXY_IMAGES[tc] ? /* @__PURE__ */ React.createElement(RexyIcon, { costume: tc, size: 46, alt: "" }) : null;
   })(), /* @__PURE__ */ React.createElement("span", { style: { color: "#15803d", fontWeight: "700", fontSize: "15px", lineHeight: 1.4, whiteSpace: "pre-line" } }, toast.message)), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver. ", APP_VERSION));
 }
-var rebuilt_seihon_default = GolfTracker;
+var golf_tracker_06081520_default = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const __scrxRoot = document.getElementById("root");
   if (__scrxRoot && !window.__SCRX_MOUNTED) {
