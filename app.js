@@ -1295,6 +1295,163 @@ function calcHistoricalTeeRates(rounds) {
     hasData: targets.length > 0
   };
 }
+function avgDrivingDistance(rounds) {
+  let sum = 0, n = 0;
+  for (const r of rounds || []) {
+    if (r.inputMode !== "detail" || !r.holeData) continue;
+    const venue = VENUES.find((v) => v.id === r.venueId);
+    if (!venue) continue;
+    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    Object.entries(r.holeData).forEach(([hk, hd]) => {
+      const pr = (r.holePars || [])[parseInt(hk) - 1];
+      if (!pr || pr <= 3) return;
+      const len = lens[parseInt(hk) - 1];
+      if (!len || !(len > 0)) return;
+      const t = (hd.shots || []).find((s) => s.categoryKey === "tee");
+      if (!t || t.club !== "1W" || t.quality !== "\u25CB" || t.subType) return;
+      const aft = hd.shots[hd.shots.indexOf(t) + 1];
+      const d = aft && aft.remainDistRaw > 0 ? aft.remainDistRaw : null;
+      if (d == null) return;
+      sum += len - d;
+      n++;
+    });
+  }
+  return n > 0 ? sum / n : null;
+}
+function decomposeTeeSG(scopeRounds, hcp, avgDD) {
+  const HC = hcp != null ? hcp : 0, driveRef = avgDD || 220;
+  const lieOf = (s) => {
+    if (s.subType === "bunker") return "sand";
+    if (s.subType === "1pen" || s.subType === "ob") return "fairway";
+    if (s.quality === "\u25CB") return "fairway";
+    return "rough";
+  };
+  let penCount = 0, penLoss = 0, fwMissCount = 0, lieLoss = 0, distLoss = 0, holes = 0;
+  for (const r of scopeRounds || []) {
+    if (!r || r.inputMode !== "detail" || !r.holeData) continue;
+    const venue = VENUES.find((v) => v.id === r.venueId);
+    if (!venue) continue;
+    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    let pe = 0;
+    Object.entries(r.holeData).forEach(([hk, hd]) => {
+      if (!hd.done) return;
+      const len = lens[parseInt(hk) - 1];
+      if (len > 0) pe += interpBaseline(PRO_BASELINE.tee, len);
+    });
+    if (!(pe > 0)) continue;
+    const R = (pe + 3.1 + HC) / pe;
+    Object.entries(r.holeData).forEach(([hk, hd]) => {
+      const pr = (r.holePars || [])[parseInt(hk) - 1];
+      if (!pr || pr <= 3) return;
+      const len = lens[parseInt(hk) - 1];
+      if (!len || !(len > 0)) return;
+      const shots = hd.shots || [];
+      const t = shots.find((s) => s.categoryKey === "tee");
+      if (!t) return;
+      const aft = shots[shots.indexOf(t) + 1];
+      const d = aft && aft.remainDistRaw > 0 ? aft.remainDistRaw : aft && DIST_LABEL_MID[aft.remainDist] != null ? DIST_LABEL_MID[aft.remainDist] : null;
+      if (d == null) return;
+      holes++;
+      const ob = t.subType === "ob" ? 2 : 0, p1 = t.subType === "1pen" ? 1 : 0;
+      if (ob || p1) {
+        penCount++;
+        penLoss += ob + p1;
+        return;
+      }
+      const lie = lieOf(t);
+      if (lie !== "fairway") {
+        fwMissCount++;
+        lieLoss += (interpBaseline(PRO_BASELINE[lie], d) - interpBaseline(PRO_BASELINE.fairway, d)) * R;
+      }
+      const refRem = Math.max(len - driveRef, 5);
+      distLoss += (interpBaseline(PRO_BASELINE.fairway, d) - interpBaseline(PRO_BASELINE.fairway, refRem)) * R;
+    });
+  }
+  return { penCount, penLoss: rnd2(penLoss), fwMissCount, lieLoss: rnd2(lieLoss), distLoss: rnd2(distLoss), holes };
+}
+const LONG_BANDS = [
+  { label: "200\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "200\u30E4\u30FC\u30C9\u4EE5\u4E0A", lo: 200, hi: 1e9 },
+  { label: "170\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "170\u301C199\u30E4\u30FC\u30C9", lo: 170, hi: 200 },
+  { label: "150\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "150\u301C169\u30E4\u30FC\u30C9", lo: 150, hi: 170 },
+  { label: "140\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "140\u301C149\u30E4\u30FC\u30C9", lo: 140, hi: 150 },
+  { label: "130\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "130\u301C139\u30E4\u30FC\u30C9", lo: 130, hi: 140 },
+  { label: "120\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "120\u301C129\u30E4\u30FC\u30C9", lo: 120, hi: 130 },
+  { label: "110\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "110\u301C119\u30E4\u30FC\u30C9", lo: 110, hi: 120 },
+  { label: "100\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "100\u301C109\u30E4\u30FC\u30C9", lo: 100, hi: 110 }
+];
+function decomposeLongSG(scopeRounds, hcp) {
+  const HC = hcp != null ? hcp : 0, DRIVE = 220, ADV = DRIVE * 0.85;
+  const lieOf = (s) => {
+    if (!s) return "fairway";
+    if (s.subType === "bunker") return "sand";
+    if (s.subType === "1pen" || s.subType === "ob") return "fairway";
+    if (s.quality === "\u25CB") return "fairway";
+    if (s.quality === "\u25B3" || s.quality === "\xD7") return "rough";
+    return "fairway";
+  };
+  const sd = (s) => s && s.remainDistRaw > 0 ? s.remainDistRaw : s && DIST_LABEL_MID[s.remainDist] != null ? DIST_LABEL_MID[s.remainDist] : null;
+  const acc = LONG_BANDS.map((b) => ({ label: b.label, range: b.range, sg: 0, n: 0 }));
+  for (const r of scopeRounds || []) {
+    if (!r || r.inputMode !== "detail" || !r.holeData) continue;
+    const venue = VENUES.find((v) => v.id === r.venueId);
+    if (!venue) continue;
+    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    let pe = 0;
+    Object.entries(r.holeData).forEach(([hk, hd]) => {
+      if (!hd.done) return;
+      const len = lens[parseInt(hk) - 1];
+      if (len > 0) pe += interpBaseline(PRO_BASELINE.tee, len);
+    });
+    if (!(pe > 0)) continue;
+    const R = (pe + 3.1 + HC) / pe;
+    Object.entries(r.holeData).forEach(([hk, hd]) => {
+      const pr = (r.holePars || [])[parseInt(hk) - 1];
+      const len = lens[parseInt(hk) - 1];
+      if (!len || !(len > 0)) return;
+      const shots = hd.shots || [];
+      const isP3 = pr <= 3;
+      const tee = shots.find((s) => s.categoryKey === "tee");
+      const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + (s.shotCount || 1), 0);
+      const pinM = hd.pinDistM != null ? hd.pinDistM : hd.pinDist && PUTT_LABEL_M[hd.pinDist] != null ? PUTT_LABEL_M[hd.pinDist] : null;
+      let eP;
+      if (putts === 0) eP = 0;
+      else if (pinM != null) {
+        eP = interpBaseline(PRO_BASELINE.green, pinM * 3.281) * R;
+        if (putts === 2 && pinM <= 9 && eP > 2) eP = 2;
+      } else {
+        const appr = shots.filter((s) => s.categoryKey === "approach");
+        const lq = appr.length ? appr[appr.length - 1].quality : null;
+        eP = (lq === "\u25CB" ? 1.38 : lq === "\u25B3" ? 1.72 : lq === "\xD7" ? 1.9 : 2) * R;
+      }
+      const lsh = [];
+      shots.forEach((s) => {
+        if (s.categoryKey === "approach") lsh.push({ s, isTee: false });
+        else if (isP3 && s.categoryKey === "tee") lsh.push({ s, isTee: true });
+      });
+      let est = isP3 ? len : Math.max(len - DRIVE, 5);
+      const items = lsh.map((it) => {
+        const d = it.isTee ? len : sd(it.s) != null ? sd(it.s) : est;
+        est = Math.max(d - ADV, 5);
+        return { s: it.s, isTee: it.isTee, d };
+      });
+      items.forEach((it, k) => {
+        if (!(it.d > 100)) return;
+        const cost = Math.max(1, it.s.shotCount || 1);
+        const before = it.isTee ? interpBaseline(PRO_BASELINE.tee, len) * R : interpBaseline(PRO_BASELINE[k === 0 ? lieOf(isP3 ? null : tee) : lieOf(items[k - 1].s)], it.d) * R;
+        const after = k === items.length - 1 ? eP : interpBaseline(PRO_BASELINE[lieOf(it.s)], items[k + 1].d) * R;
+        const v = before - cost - after;
+        for (let bi = 0; bi < LONG_BANDS.length; bi++) {
+          if (it.d >= LONG_BANDS[bi].lo && it.d < LONG_BANDS[bi].hi) {
+            acc[bi].sg += v;
+            acc[bi].n++;
+            break;
+          }
+        }
+      });
+    });
+  }
+  return acc.map((b) => ({ label: b.label, range: b.range, sg: rnd2(b.sg), n: b.n }));
+}
 function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreOverride = null, sgOverride = null, sg5 = null) {
   var _a, _b, _c;
   const holeEntries = Object.entries(shd || {});
@@ -1601,6 +1758,37 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreO
       const { diag, adv } = causeDiagnose(it.key);
       improveItem = __spreadProps(__spreadValues({}, it), { diagnosis: diag, advice: adv });
     }
+    if (improveItem && improveItem.key === "tee") {
+      const teeScope = sg5 != null ? [...rounds || []].filter((r) => r.isComplete && r.inputMode === "detail" && r.holeData).sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, 5) : (rounds || []).filter((r) => r.id === roundId && r.inputMode === "detail" && r.holeData);
+      const bd = decomposeTeeSG(teeScope, hcp, avgDrivingDistance(rounds));
+      const cands = [
+        { loss: bd.penLoss, adv: "OB\u30FB\u30DA\u30CA\u30EB\u30C6\u30A3\u306B\u306A\u3089\u306A\u3044\u6226\u7565\u3092\u7ACB\u3066\u3088\u3046\uFF01\u30C9\u30E9\u30A4\u30D0\u30FC\u3092\u77ED\u304F\u6301\u3064\u30FB\u5B89\u5168\u306A\u30EB\u30FC\u30C8\u3092\u9078\u3076\u3060\u3051\u3067\u30B9\u30B3\u30A2\u304C\u307E\u3068\u307E\u308B\u3088\u3002" },
+        { loss: Math.abs(bd.lieLoss), adv: "\u30D5\u30A7\u30A2\u30A6\u30A7\u30A4\u30AD\u30FC\u30D7\u3092\u6700\u512A\u5148\u306B\uFF01\u5DE6\u53F3\u3069\u3061\u3089\u304B\u306E\u30DF\u30B9\u3092\u306A\u304F\u305B\u3070\u3001\u30D5\u30A7\u30A2\u30A6\u30A7\u30A4\u3092\u5E83\u304F\u4F7F\u3048\u308B\u3088\u3002" },
+        { loss: bd.distLoss > 0 ? bd.distLoss : 0, adv: "\u98DB\u8DDD\u96E2\u30A2\u30C3\u30D7\u306B\u53D6\u308A\u7D44\u3082\u3046\uFF01" }
+      ].sort((a, b) => b.loss - a.loss);
+      improveItem.teeBreakdown = bd;
+      if (cands[0].loss > 0) improveItem.advice = cands[0].adv;
+    }
+    if (improveItem && improveItem.key === "long") {
+      const mode = sg5 != null ? "analysis" : "round";
+      const longScope = sg5 != null ? [...rounds || []].filter((r) => r.isComplete && r.inputMode === "detail" && r.holeData).sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, 5) : (rounds || []).filter((r) => r.id === roundId && r.inputMode === "detail" && r.holeData);
+      const allBands = decomposeLongSG(longScope, hcp);
+      const withData = allBands.filter((b) => b.n > 0);
+      let worst = null, best = null;
+      if (mode === "round") {
+        worst = withData.slice().sort((a, b) => a.sg - b.sg)[0] || null;
+      } else {
+        const elig = withData.filter((b) => b.n >= 5);
+        worst = elig.slice().sort((a, b) => a.sg / a.n - b.sg / b.n)[0] || withData.slice().sort((a, b) => a.sg - b.sg)[0] || null;
+        const posElig = withData.filter((b) => b.sg > 0 && b.n >= 5);
+        best = posElig.slice().sort((a, b) => b.sg - a.sg)[0] || null;
+      }
+      improveItem.longBreakdown = { mode, bands: withData, worst, best };
+      let adv = "";
+      if (worst) adv = mode === "analysis" ? `${worst.range}\u3067\u30DF\u30B9\u304C\u591A\u3044\u307F\u305F\u3044\uFF081\u30B7\u30E7\u30C3\u30C8\u25B3${Math.abs(worst.sg / worst.n).toFixed(2)}\uFF09\u3002\u3053\u306E\u8DDD\u96E2\u3092\u7DF4\u7FD2\u3057\u3066\u5F97\u610F\u8DDD\u96E2\u306B\u5909\u3048\u3088\u3046\uFF01` : `${worst.range}\u3067\u30DF\u30B9\u304C\u591A\u3044\u307F\u305F\u3044\u3002\u3053\u306E\u8DDD\u96E2\u3092\u7DF4\u7FD2\u3057\u3066\u5F97\u610F\u8DDD\u96E2\u306B\u5909\u3048\u3088\u3046\uFF01`;
+      if (mode === "analysis" && best) adv += ` \u9006\u306B${best.range}\u306F\u5F97\u610F\u3060\u306D\u3002\u5F97\u610F\u8DDD\u96E2\u3092\u6D3B\u304B\u3059\u30DE\u30CD\u30B8\u30E1\u30F3\u30C8\u3092\u3059\u308B\u306E\u3082\u624B\u3060\u3088\u3002`;
+      if (adv) improveItem.advice = adv;
+    }
     if (posItems.length > 0) {
       const it = posItems[0];
       strongItem = __spreadProps(__spreadValues({}, it), { oneLiner: causeStrong[it.key] || "\u597D\u8ABF\u3092\u7DAD\u6301\u3057\u3088\u3046\uFF01" });
@@ -1746,7 +1934,16 @@ function AiDiagnosisPanel({ sa, sa5 = null, shd, hcp, rounds, roundId, teeRates 
       return useScore;
     })();
     return /* @__PURE__ */ React.createElement("div", { key: cat.key, style: { marginBottom: "9px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#1e293b", minWidth: "74px", flexShrink: 0, whiteSpace: "nowrap" } }, cat.label), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "6px", background: "#f1f5f9", borderRadius: "3px", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { className: "dbar", style: { height: "100%", width: d.barW(computeDs5), background: d.barC(computeDs5), borderRadius: "3px" } })), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#64748b", fontWeight: "700", minWidth: "42px", textAlign: "right" } }, (useScore >= 0 ? "+" : "") + (useScore != null ? useScore : 0).toFixed(1)), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "900", color: g5.color, width: "22px", textAlign: "center" } }, g5.label), sa5 && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: g20.color, width: "22px", textAlign: "center", opacity: 0.7 } }, g20.label)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#64748b", paddingLeft: "24px", lineHeight: 1.5 } }, cat.insight));
-  }), sa.sgReady && (d.improveItem || d.strongItem) && /* @__PURE__ */ React.createElement("div", { className: "dag4", style: { marginTop: "14px", paddingTop: "14px", borderTop: "1px solid #e2e8f0" } }, d.improveItem && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: d.strongItem ? "14px" : 0 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "8px", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u6539\u5584\u3059\u308C\u3070\u30B9\u30B3\u30A2\u30A2\u30C3\u30D7")), /* @__PURE__ */ React.createElement("div", { style: { background: "#fff8f0", border: "1px solid #fed7aa", borderRadius: "8px", padding: "10px 12px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "900", color: "#1e293b" } }, d.improveItem.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "800", color: "#2563eb" } }, "\u25B3", Math.abs(d.improveItem.sg).toFixed(1))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", color: "#475569", lineHeight: 1.5 } }, d.improveItem.diagnosis)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", alignItems: "flex-start" } }, REXY_IMAGES[rexyCostume] && /* @__PURE__ */ React.createElement(RexyIcon, { costume: rexyCostume, size: 48, alt: "", style: { marginTop: "2px", flexShrink: 0 } }), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0, background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "10px", padding: "10px 12px" } }, /* @__PURE__ */ React.createElement("p", { style: { fontSize: "12px", color: "#15803d", fontWeight: "600", margin: 0, lineHeight: 1.6 } }, d.improveItem.advice)))), d.strongItem && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "6px", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u3042\u306A\u305F\u306E\u5F37\u307F")), /* @__PURE__ */ React.createElement("div", { style: { padding: "10px 12px", background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "900", color: "#1e293b" } }, d.strongItem.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "800", color: "#16a34a" } }, "+", d.strongItem.sg.toFixed(1))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#15803d", lineHeight: 1.5 } }, d.strongItem.oneLiner))))), showTrend && d.trend && /* @__PURE__ */ React.createElement("div", { className: "dag5", style: { padding: "10px 12px", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b" } }, "\u30C8\u30EC\u30F3\u30C9"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "800", color: d.trend.color } }, d.trend.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8", marginLeft: "auto" } }, "\u524D\u56DE: ", d.trend.prevDate)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.6 } }, d.trend.text)));
+  }), sa.sgReady && (d.improveItem || d.strongItem) && /* @__PURE__ */ React.createElement("div", { className: "dag4", style: { marginTop: "14px", paddingTop: "14px", borderTop: "1px solid #e2e8f0" } }, d.improveItem && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: d.strongItem ? "14px" : 0 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "8px", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u6539\u5584\u3059\u308C\u3070\u30B9\u30B3\u30A2\u30A2\u30C3\u30D7")), /* @__PURE__ */ React.createElement("div", { style: { background: "#fff8f0", border: "1px solid #fed7aa", borderRadius: "8px", padding: "10px 12px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "900", color: "#1e293b" } }, d.improveItem.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "800", color: "#2563eb" } }, "\u25B3", Math.abs(d.improveItem.sg).toFixed(1))), d.improveItem.longBreakdown ? (() => {
+    const lb = d.improveItem.longBreakdown;
+    const ln = { fontSize: "12px", lineHeight: 1.7, display: "flex", justifyContent: "space-between", gap: "8px" };
+    const f = (v) => v >= 0 ? "+" + v.toFixed(2) : "\u25B3" + Math.abs(v).toFixed(2);
+    return /* @__PURE__ */ React.createElement("div", null, lb.bands.map((b) => /* @__PURE__ */ React.createElement("div", { key: b.label, style: ln }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, b.label), /* @__PURE__ */ React.createElement("span", { style: { color: b.sg < 0 ? "#2563eb" : "#16a34a", fontWeight: "500" } }, lb.mode === "analysis" ? `\u5408\u8A08${f(b.sg)} \uFF0F 1\u672C${f(b.sg / b.n)}` : f(b.sg)))));
+  })() : d.improveItem.teeBreakdown ? (() => {
+    const b = d.improveItem.teeBreakdown;
+    const ln = { fontSize: "12px", color: "#475569", lineHeight: 1.7 };
+    return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: ln }, "OB\u30FB\u30DA\u30CA\u30EB\u30C6\u30A3\uFF1A", b.penCount > 0 ? `${b.penCount}\u56DE \u2192 \u25B3${b.penLoss.toFixed(2)}\u640D` : "\u306A\u3057"), /* @__PURE__ */ React.createElement("div", { style: ln }, "\u305D\u306E\u4ED6\u306E\u30D5\u30A7\u30A2\u30A6\u30A7\u30A4\u5916\u3057\uFF1A", b.fwMissCount > 0 ? `${b.fwMissCount}\u56DE \u2192 \u30E9\u30D5\u30FB\u30D0\u30F3\u30AB\u30FC\u3067\u25B3${Math.abs(b.lieLoss).toFixed(2)}\u640D` : "\u306A\u3057"), /* @__PURE__ */ React.createElement("div", { style: ln }, "\u98DB\u8DDD\u96E2\u306B\u3088\u308B\u640D\u5931\uFF1A", b.distLoss > 0.05 ? `\u25B3${b.distLoss.toFixed(2)}` : "\u306A\u3057"));
+  })() : /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", color: "#475569", lineHeight: 1.5 } }, d.improveItem.diagnosis)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", alignItems: "flex-start" } }, REXY_IMAGES[rexyCostume] && /* @__PURE__ */ React.createElement(RexyIcon, { costume: rexyCostume, size: 48, alt: "", style: { marginTop: "2px", flexShrink: 0 } }), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0, background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "10px", padding: "10px 12px" } }, /* @__PURE__ */ React.createElement("p", { style: { fontSize: "12px", color: "#15803d", fontWeight: "600", margin: 0, lineHeight: 1.6 } }, d.improveItem.advice)))), d.strongItem && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "6px", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u3042\u306A\u305F\u306E\u5F37\u307F")), /* @__PURE__ */ React.createElement("div", { style: { padding: "10px 12px", background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "900", color: "#1e293b" } }, d.strongItem.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "800", color: "#16a34a" } }, "+", d.strongItem.sg.toFixed(1))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#15803d", lineHeight: 1.5 } }, d.strongItem.oneLiner))))), showTrend && d.trend && /* @__PURE__ */ React.createElement("div", { className: "dag5", style: { padding: "10px 12px", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b" } }, "\u30C8\u30EC\u30F3\u30C9"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "800", color: d.trend.color } }, d.trend.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8", marginLeft: "auto" } }, "\u524D\u56DE: ", d.trend.prevDate)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.6 } }, d.trend.text)));
 }
 function deriveSimpleHoleData(holeData, holePars) {
   const pars = holePars || Array(18).fill(4);
@@ -2398,7 +2595,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06171321";
+var APP_VERSION = "06170557";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
