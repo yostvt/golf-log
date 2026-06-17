@@ -2793,7 +2793,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06170819";
+var APP_VERSION = "06170834";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -5381,6 +5381,17 @@ function GolfTracker() {
         return null;
       }
     })() : null;
+    const venue_ = VENUES.find((v) => v.id === r.venueId);
+    const teeLabel_ = venue_ && venue_.tees ? (venue_.tees.find((t) => t.id === r.tee) || {}).label : null;
+    const greenLabel_ = venue_ && venue_.greens ? (venue_.greens.find((g) => g.id === r.green) || {}).label : null;
+    let totalYd_ = null;
+    if (venue_ && typeof venue_.getYardage === "function") {
+      try {
+        const yds_ = getRoundHoles(r).map((h) => h ? venue_.getYardage(h, r.green, r.tee) : null).filter((y) => y > 0);
+        if (yds_.length) totalYd_ = yds_.reduce((a, b) => a + b, 0);
+      } catch (e) {
+      }
+    }
     return /* @__PURE__ */ React.createElement("div", { key: r.id, style: S.card() }, (() => {
       const isSimple = r.inputMode === "simple";
       return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: isCollapsed ? "0px" : "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement(
@@ -5409,7 +5420,7 @@ function GolfTracker() {
         r.weather && /* @__PURE__ */ React.createElement("span", null, { "sunny": "\u2600\uFE0F", "cloudy": "\u2601\uFE0F", "rainy": "\u{1F327}\uFE0F", "snowy": "\u2744\uFE0F" }[r.weather]),
         r.wind !== void 0 && /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, ["0\u301C1m/s", "2\u301C3m/s", "4\u301C5m/s", "6\u301C8m/s", "9\u301C12m/s", "13m/s\u301C"][r.wind], "\uFF08", r.wind, "\uFF09"),
         /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8" } }, "\u270E")
-      ), r.memo ? /* @__PURE__ */ React.createElement(
+      ), (teeLabel_ || greenLabel_ || totalYd_) && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#64748b", marginTop: "4px", display: "flex", gap: "10px", flexWrap: "wrap" } }, teeLabel_ && /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, "\u30C6\u30A3"), " ", teeLabel_), greenLabel_ && /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, "\u30B0\u30EA\u30FC\u30F3"), " ", greenLabel_), totalYd_ && /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "700", color: "#475569" } }, totalYd_.toLocaleString(), "yd")), r.memo ? /* @__PURE__ */ React.createElement(
         "div",
         {
           onClick: () => {
