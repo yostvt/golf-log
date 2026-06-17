@@ -2595,7 +2595,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06170557";
+var APP_VERSION = "06170608";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -5643,7 +5643,7 @@ function GolfTracker() {
         sa5: avgSa5,
         shd: flatShd,
         hcp: diagHcp,
-        rounds: [],
+        rounds: targetRounds,
         roundId: null,
         showTrend: false,
         label: "\u76F4\u8FD120\u30E9\u30A6\u30F3\u30C9 \u5E73\u5747AI\u8A3A\u65AD",
