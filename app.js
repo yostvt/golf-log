@@ -2398,7 +2398,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06171305";
+var APP_VERSION = "06171321";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3506,6 +3506,7 @@ function GolfTracker() {
   const [editWeather, setEditWeather] = useState("sunny");
   const [editWind, setEditWind] = useState(0);
   const [editMemo, setEditMemo] = useState("");
+  const [resumeBackup, setResumeBackup] = useState(null);
   const [showHcDefs, setShowHcDefs] = useState(false);
   const [showFocusEdit, setShowFocusEdit] = useState(false);
   const [focusDraft, setFocusDraft] = useState("");
@@ -4078,6 +4079,7 @@ function GolfTracker() {
     } else {
       showToast("\u304A\u3064\u304B\u308C\u3055\u307E\uFF01\u4ECA\u65E5\u3082\u697D\u3057\u304B\u3063\u305F\uFF01", isWetWeather(roundWeather) ? "rain2" : "basic4");
     }
+    setResumeBackup(null);
     setView("home");
   };
   const ocrOpenPicker = () => {
@@ -4370,8 +4372,19 @@ function GolfTracker() {
       }
     );
     setCurrentHole(firstIncomplete || 1);
+    setResumeBackup(r);
     setRounds((prev) => prev.filter((x) => x.id !== r.id));
     setView("round");
+  };
+  const cancelResumeEdit = () => {
+    if (resumeBackup) {
+      setRounds((prev) => [resumeBackup, ...prev.filter((x) => x.id !== resumeBackup.id)]);
+    }
+    setResumeBackup(null);
+    setCurrentRound(null);
+    setHoleData({});
+    setSimpleHoleData({});
+    setView("home");
   };
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
   const [expandedRounds, setExpandedRounds] = useState(/* @__PURE__ */ new Set());
@@ -6402,7 +6415,7 @@ function GolfTracker() {
     ];
     const OXN = [...OX, { v: "none", label: "\u7121", color: "#64748b" }];
     const NumInput = ({ val, onChange, min = 0, max = 10 }) => /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: "3px" } }, /* @__PURE__ */ React.createElement("button", { onClick: () => onChange(Math.max(min, (val || 0) - 1)), style: { boxSizing: "border-box", width: "32px", height: "32px", borderRadius: "8px", border: "1.5px solid #cbd5e1", background: "#f1f5f9", color: "#0f172a", cursor: "pointer", fontSize: "20px", fontWeight: "800", lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 1px 2px rgba(15,23,42,0.10)" } }, "\u2212"), /* @__PURE__ */ React.createElement("span", { style: { minWidth: "26px", textAlign: "center", fontWeight: "800", fontSize: "20px", color: "#1e293b" } }, val || 0), /* @__PURE__ */ React.createElement("button", { onClick: () => onChange(Math.min(max, (val || 0) + 1)), style: { boxSizing: "border-box", width: "32px", height: "32px", borderRadius: "8px", border: "1.5px solid #cbd5e1", background: "#f1f5f9", color: "#0f172a", cursor: "pointer", fontSize: "20px", fontWeight: "800", lineHeight: 1, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 1px 2px rgba(15,23,42,0.10)" } }, "\uFF0B"));
-    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "16px", fontWeight: "800" } }, (currentRound.course || "").replace(/（[^）]*）\s*$/, "") || currentRound.course), /* @__PURE__ */ React.createElement("p", { style: { color: "#94a3b8", fontSize: "11px", marginTop: "1px" } }, simpleRecCount, "\u30DB\u30FC\u30EB\u8A18\u9332\u6E08\u307F\u3000\u5408\u8A08 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "700" } }, simpleTotalScore), "\u6253", simpleRecCount > 0 && /* @__PURE__ */ React.createElement("span", { style: { color: scoreDiffSymbol(simpleRecDiff).color } }, "\uFF08", simpleRecDiff >= 0 ? "+" : "", simpleRecDiff, "\uFF09"))), /* @__PURE__ */ React.createElement("button", { style: S.btn("danger"), onClick: () => {
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "16px", fontWeight: "800" } }, (currentRound.course || "").replace(/（[^）]*）\s*$/, "") || currentRound.course), /* @__PURE__ */ React.createElement("p", { style: { color: "#94a3b8", fontSize: "11px", marginTop: "1px" } }, simpleRecCount, "\u30DB\u30FC\u30EB\u8A18\u9332\u6E08\u307F\u3000\u5408\u8A08 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "700" } }, simpleTotalScore), "\u6253", simpleRecCount > 0 && /* @__PURE__ */ React.createElement("span", { style: { color: scoreDiffSymbol(simpleRecDiff).color } }, "\uFF08", simpleRecDiff >= 0 ? "+" : "", simpleRecDiff, "\uFF09"))), resumeBackup && /* @__PURE__ */ React.createElement("button", { style: S.btn("secondary"), onClick: cancelResumeEdit, title: "\u4FEE\u6B63\u3092\u53CD\u6620\u305B\u305A\u5143\u306B\u623B\u3059" }, "\u2715 \u4E2D\u6B62"), /* @__PURE__ */ React.createElement("button", { style: S.btn("danger"), onClick: () => {
       setSimpleHoleData((prev) => {
         const h = prev[currentHole] || {};
         const needsSave = h.score == null || h.putts === void 0;
@@ -6602,7 +6615,7 @@ function GolfTracker() {
       "\u26A0\uFE0F ",
       ep > 0 ? `+${ep}` : "+\u30DA\u30CA"
     );
-  })(), currentRound.venueId && /* @__PURE__ */ React.createElement("button", { style: S.btn("secondary"), onClick: () => setShowYardage((v) => !v) }, "\u8DDD\u96E2"), /* @__PURE__ */ React.createElement("button", { style: S.btn("danger"), onClick: handleDetailFinishClick }, "\u7D42\u4E86"))), (() => {
+  })(), currentRound.venueId && /* @__PURE__ */ React.createElement("button", { style: S.btn("secondary"), onClick: () => setShowYardage((v) => !v) }, "\u8DDD\u96E2"), resumeBackup && /* @__PURE__ */ React.createElement("button", { style: S.btn("secondary"), onClick: cancelResumeEdit, title: "\u4FEE\u6B63\u3092\u53CD\u6620\u305B\u305A\u5143\u306B\u623B\u3059" }, "\u2715 \u4E2D\u6B62"), /* @__PURE__ */ React.createElement("button", { style: S.btn("danger"), onClick: handleDetailFinishClick }, "\u7D42\u4E86"))), (() => {
     var _a2, _b2;
     const venue = VENUES.find((v) => v.id === currentRound.venueId);
     if (!venue) return null;
