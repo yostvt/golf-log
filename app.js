@@ -2398,7 +2398,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06171256";
+var APP_VERSION = "06171305";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3166,7 +3166,7 @@ const ES_SEGMENTS = [
   { key: "short", name: "\u30B7\u30E7\u30FC\u30C8\u2264100Y", cat: "short", unit: "Y", bands: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100], hasBreakdown: true },
   { key: "long", name: "\u30ED\u30F3\u30B0>100Y", cat: "long", unit: "Y", bands: [110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240, 250], hasBreakdown: true },
   { key: "over", name: "250Y\u8D85", cat: "tee", unit: "Y", bands: [300, 350, 400, 450, 500, 550, 600], hasBreakdown: false },
-  { key: "putt", name: "\u30D1\u30C3\u30C8(m)", cat: "putt", unit: "m", bands: [1, 2, 3, 4, 5, 8, 13, 18, 25], hasBreakdown: false }
+  { key: "putt", name: "\u30D1\u30C3\u30C8(m)", cat: "putt", unit: "m", bands: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30], hasBreakdown: false }
 ];
 function computeExpectedData(rounds) {
   const acc = { short: {}, long: {}, over: {}, putt: {} };
@@ -3188,7 +3188,7 @@ function computeExpectedData(rounds) {
         if (s.categoryKey === "putt") {
           let m = hd.pinDistM != null ? hd.pinDistM : PUTT_LABEL_M[hd.pinDist];
           if (m == null) return;
-          const __PB = [1, 2, 3, 4, 5, 8, 13, 18, 25];
+          const __PB = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30];
           m = __PB.reduce((p, c) => Math.abs(c - m) < Math.abs(p - m) ? c : p);
           const cell2 = ensure("putt", m);
           cell2.n += 1;
