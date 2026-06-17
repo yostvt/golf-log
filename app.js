@@ -2398,7 +2398,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06171240";
+var APP_VERSION = "06171256";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3157,7 +3157,9 @@ function targetExpected(cat, distVal, rUser) {
   if (cat === "putt") base = interpBaseline(PRO_BASELINE.green, distVal * 3.281);
   else if (cat === "tee") base = interpBaseline(PRO_BASELINE.tee, distVal);
   else base = interpBaseline(PRO_BASELINE.fairway, distVal);
-  return base * (rUser != null ? rUser : 1);
+  const v = base * (rUser != null ? rUser : 1);
+  if (cat === "putt" && distVal <= 9) return Math.min(v, 2);
+  return v;
 }
 const PUTT_LABEL_M = { "1m\u4EE5\u5185": 1, "2m\u4EE5\u5185": 2, "3m\u4EE5\u5185": 3, "4m\u4EE5\u5185": 4, "5m\u4EE5\u5185": 5, "10m\u4EE5\u5185": 8, "15m\u4EE5\u5185": 13, "20m\u4EE5\u5185": 18, "20m\u8D85": 25 };
 const ES_SEGMENTS = [
@@ -3184,8 +3186,10 @@ function computeExpectedData(rounds) {
       }
       shots.forEach((s, i) => {
         if (s.categoryKey === "putt") {
-          const m = hd.pinDistM != null ? hd.pinDistM : PUTT_LABEL_M[hd.pinDist];
+          let m = hd.pinDistM != null ? hd.pinDistM : PUTT_LABEL_M[hd.pinDist];
           if (m == null) return;
+          const __PB = [1, 2, 3, 4, 5, 8, 13, 18, 25];
+          m = __PB.reduce((p, c) => Math.abs(c - m) < Math.abs(p - m) ? c : p);
           const cell2 = ensure("putt", m);
           cell2.n += 1;
           cell2.sum += s.shotCount || 1;
