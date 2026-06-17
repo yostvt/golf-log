@@ -701,9 +701,11 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
     total += holeSG;
     let eP;
     const apprShots = shots.filter((s) => s.categoryKey === "approach");
+    const pinM = hd.pinDistM != null ? hd.pinDistM : hd.pinDist != null && PUTT_LABEL_M[hd.pinDist] != null ? PUTT_LABEL_M[hd.pinDist] : null;
     if (putts === 0) eP = 0;
-    else if (hd.pinDist != null && PUTT_LABEL_M[hd.pinDist] != null) {
-      eP = ip(PRO_BASELINE.green, PUTT_LABEL_M[hd.pinDist] * 3.281) * R;
+    else if (pinM != null) {
+      eP = ip(PRO_BASELINE.green, pinM * 3.281) * R;
+      if (putts === 2 && pinM <= 9 && eP > 2) eP = 2;
     } else {
       const lastQ = apprShots.length > 0 ? apprShots[apprShots.length - 1].quality : null;
       eP = (lastQ === "\u25CB" ? 1.38 : lastQ === "\u25B3" ? 1.72 : lastQ === "\xD7" ? 1.9 : 2) * R;
@@ -2396,7 +2398,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06170845";
+var APP_VERSION = "06171240";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3182,7 +3184,7 @@ function computeExpectedData(rounds) {
       }
       shots.forEach((s, i) => {
         if (s.categoryKey === "putt") {
-          const m = PUTT_LABEL_M[hd.pinDist];
+          const m = hd.pinDistM != null ? hd.pinDistM : PUTT_LABEL_M[hd.pinDist];
           if (m == null) return;
           const cell2 = ensure("putt", m);
           cell2.n += 1;
@@ -3341,7 +3343,7 @@ function DetailShotList({ r, S }) {
     const diffTxt = diff > 0 ? "+" + diff : diff < 0 ? "\u2212" + Math.abs(diff) : "\xB10";
     return /* @__PURE__ */ React.createElement("div", { key: h }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", margin: "12px 0 3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#475569", background: "#f1f5f9", borderRadius: "6px", padding: "2px 8px" } }, dispHoleNum(h), "\u756A"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#16a34a" } }, "Par", par), /* @__PURE__ */ React.createElement("span", { style: { marginLeft: "auto", fontSize: "13px", fontWeight: "800", color: ds.color } }, strokes, "\u6253 ", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700" } }, "(", diffTxt, ")"))), shots.map((s, i) => {
       const isPutt = s.categoryKey === "putt";
-      const dist = isPutt ? (hd.pinDist || "").replace("m\u4EE5\u5185", "m").replace("m\u8D85", "m+") || "\u2014" : shortDist(s);
+      const dist = isPutt ? hd.pinDistM != null ? hd.pinDistM + "m" : (hd.pinDist || "").replace("m\u4EE5\u5185", "m").replace("m\u8D85", "m+") || "\u2014" : shortDist(s);
       const club = isPutt ? "PT" : s.club ? clubLabel(s.club) : "\u2014";
       const sub = subLabel(s);
       const memo = isPutt ? (s.shotCount || 1) + "\u30D1\u30C3\u30C8" + (s.note ? "\u30FB" + s.note : "") : (sub ? sub + (s.note ? "\u30FB" : "") : "") + (s.note || "");
@@ -3733,7 +3735,7 @@ function GolfTracker() {
     setShotNote("");
     setShowShotForm(true);
   };
-  const recordShot = (optId, clubId = null, remainDist = null, pinDistLabel = null, remainDistRaw = null) => {
+  const recordShot = (optId, clubId = null, remainDist = null, pinDistLabel = null, remainDistRaw = null, pinDistMeters = null) => {
     let opt;
     const SUB_IDS = ["bad_bunker", "bad_1pen", "bad_ob"];
     if (SUB_IDS.includes(optId)) {
@@ -3772,14 +3774,15 @@ function GolfTracker() {
       nextState = categoryForState(opt.nextState);
     }
     setHoleData((prev) => {
-      var _a2, _b2, _c2;
+      var _a2, _b2, _c2, _d2;
       return __spreadProps(__spreadValues({}, prev), {
         [currentHole]: {
           shots: [...((_a2 = prev[currentHole]) == null ? void 0 : _a2.shots) || [], shot],
           state: nextState,
           done: nextState === "done",
           pinDist: pinDistLabel != null ? pinDistLabel : (_b2 = prev[currentHole]) == null ? void 0 : _b2.pinDist,
-          extraPenalty: (_c2 = prev[currentHole]) == null ? void 0 : _c2.extraPenalty
+          pinDistM: pinDistMeters != null ? pinDistMeters : (_c2 = prev[currentHole]) == null ? void 0 : _c2.pinDistM,
+          extraPenalty: (_d2 = prev[currentHole]) == null ? void 0 : _d2.extraPenalty
         }
       });
     });
@@ -3895,7 +3898,7 @@ function GolfTracker() {
       distLabel = distToLabel(distRaw);
     }
     const pinDistLabel = currentCategory === "putt" ? metersToPinDistLabel(puttDistVal) : null;
-    recordShot(finalOptId, selectedClub, distLabel, pinDistLabel, distRaw);
+    recordShot(finalOptId, selectedClub, distLabel, pinDistLabel, distRaw, currentCategory === "putt" ? puttDistVal : null);
   };
   const applyUnlockCode = () => {
     const code = unlockInput.trim().toUpperCase();
@@ -6744,7 +6747,7 @@ function GolfTracker() {
     },
     /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", color: "#fbbf24", fontWeight: "700" } }, "\u6B21: ", currentCatDef.label),
     /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "600" } }, totalStrokes + 1, "\u6253\u76EE \u203A")
-  ) : hd.done ? /* @__PURE__ */ React.createElement(React.Fragment, null, currentHole > 1 && /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h - 1) }, "\u2039 \u524D\u306E\u30DB\u30FC\u30EB"), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, textAlign: "center", padding: "12px", color: "#16a34a", fontSize: "13px", fontWeight: "700" } }, "\u30DB\u30FC\u30EB\u5B8C\u4E86", hd.pinDist && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#0ea5e9", fontWeight: "600", marginTop: "2px" } }, hd.pinDist)), currentHole < holePars.length ? /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h + 1) }, "\u6B21\u306E\u30DB\u30FC\u30EB \u203A") : /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("danger")), { padding: "10px 18px", fontSize: "13px", fontWeight: "800" }), onClick: handleDetailFinishClick }, "\u30E9\u30A6\u30F3\u30C9\u7D42\u4E86")) : null, !hd.done && hd.shots.length > 0 && /* @__PURE__ */ React.createElement("button", { style: S.btn("undo"), onClick: undoLastShot }, "\u21A9 \u53D6\u6D88"))), showExtraPenaltyModal && /* @__PURE__ */ React.createElement(
+  ) : hd.done ? /* @__PURE__ */ React.createElement(React.Fragment, null, currentHole > 1 && /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h - 1) }, "\u2039 \u524D\u306E\u30DB\u30FC\u30EB"), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, textAlign: "center", padding: "12px", color: "#16a34a", fontSize: "13px", fontWeight: "700" } }, "\u30DB\u30FC\u30EB\u5B8C\u4E86", (hd.pinDistM != null || hd.pinDist) && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#0ea5e9", fontWeight: "600", marginTop: "2px" } }, hd.pinDistM != null ? hd.pinDistM + "m" : hd.pinDist)), currentHole < holePars.length ? /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("primary")), { padding: "10px 14px", fontSize: "12px" }), onClick: () => setCurrentHole((h) => h + 1) }, "\u6B21\u306E\u30DB\u30FC\u30EB \u203A") : /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("danger")), { padding: "10px 18px", fontSize: "13px", fontWeight: "800" }), onClick: handleDetailFinishClick }, "\u30E9\u30A6\u30F3\u30C9\u7D42\u4E86")) : null, !hd.done && hd.shots.length > 0 && /* @__PURE__ */ React.createElement("button", { style: S.btn("undo"), onClick: undoLastShot }, "\u21A9 \u53D6\u6D88"))), showExtraPenaltyModal && /* @__PURE__ */ React.createElement(
     "div",
     {
       style: {
