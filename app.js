@@ -1370,14 +1370,14 @@ function decomposeTeeSG(scopeRounds, hcp, avgDD) {
   return { penCount, penLoss: rnd2(penLoss), fwMissCount, lieLoss: rnd2(lieLoss), distLoss: rnd2(distLoss), holes };
 }
 const LONG_BANDS = [
-  { label: "200\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "200\u30E4\u30FC\u30C9\u4EE5\u4E0A", lo: 200, hi: 1e9 },
-  { label: "170\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "170\u301C199\u30E4\u30FC\u30C9", lo: 170, hi: 200 },
-  { label: "150\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "150\u301C169\u30E4\u30FC\u30C9", lo: 150, hi: 170 },
-  { label: "140\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "140\u301C149\u30E4\u30FC\u30C9", lo: 140, hi: 150 },
-  { label: "130\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "130\u301C139\u30E4\u30FC\u30C9", lo: 130, hi: 140 },
-  { label: "120\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "120\u301C129\u30E4\u30FC\u30C9", lo: 120, hi: 130 },
-  { label: "110\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "110\u301C119\u30E4\u30FC\u30C9", lo: 110, hi: 120 },
-  { label: "100\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "100\u301C109\u30E4\u30FC\u30C9", lo: 100, hi: 110 }
+  { label: "201\u30E4\u30FC\u30C9\u4EE5\u4E0A", range: "201\u30E4\u30FC\u30C9\u4EE5\u4E0A", lo: 200, hi: 1e9 },
+  { label: "171\u301C200\u30E4\u30FC\u30C9", range: "171\u301C200\u30E4\u30FC\u30C9", lo: 170, hi: 200 },
+  { label: "151\u301C170\u30E4\u30FC\u30C9", range: "151\u301C170\u30E4\u30FC\u30C9", lo: 150, hi: 170 },
+  { label: "141\u301C150\u30E4\u30FC\u30C9", range: "141\u301C150\u30E4\u30FC\u30C9", lo: 140, hi: 150 },
+  { label: "131\u301C140\u30E4\u30FC\u30C9", range: "131\u301C140\u30E4\u30FC\u30C9", lo: 130, hi: 140 },
+  { label: "121\u301C130\u30E4\u30FC\u30C9", range: "121\u301C130\u30E4\u30FC\u30C9", lo: 120, hi: 130 },
+  { label: "111\u301C120\u30E4\u30FC\u30C9", range: "111\u301C120\u30E4\u30FC\u30C9", lo: 110, hi: 120 },
+  { label: "101\u301C110\u30E4\u30FC\u30C9", range: "101\u301C110\u30E4\u30FC\u30C9", lo: 100, hi: 110 }
 ];
 function decomposeLongSG(scopeRounds, hcp) {
   const HC = hcp != null ? hcp : 0, DRIVE = 220, ADV = DRIVE * 0.85;
@@ -1441,7 +1441,7 @@ function decomposeLongSG(scopeRounds, hcp) {
         const after = k === items.length - 1 ? eP : interpBaseline(PRO_BASELINE[lieOf(it.s)], items[k + 1].d) * R;
         const v = before - cost - after;
         for (let bi = 0; bi < LONG_BANDS.length; bi++) {
-          if (it.d >= LONG_BANDS[bi].lo && it.d < LONG_BANDS[bi].hi) {
+          if (it.d > LONG_BANDS[bi].lo && it.d <= LONG_BANDS[bi].hi) {
             acc[bi].sg += v;
             acc[bi].n++;
             break;
@@ -1451,6 +1451,57 @@ function decomposeLongSG(scopeRounds, hcp) {
     });
   }
   return acc.map((b) => ({ label: b.label, range: b.range, sg: rnd2(b.sg), n: b.n }));
+}
+const PUTT_BANDS = [
+  { label: "\u301C1m", lo: 0, hi: 1 },
+  { label: "1\u301C2m", lo: 1, hi: 2 },
+  { label: "2\u301C3m", lo: 2, hi: 3 },
+  { label: "3\u301C4m", lo: 3, hi: 4 },
+  { label: "4\u301C5m", lo: 4, hi: 5 },
+  { label: "5\u301C6m", lo: 5, hi: 6 },
+  { label: "6\u301C7m", lo: 6, hi: 7 },
+  { label: "7\u301C8m", lo: 7, hi: 8 },
+  { label: "8\u301C9m", lo: 8, hi: 9 },
+  { label: "9\u301C10m", lo: 9, hi: 10 },
+  { label: "10\u301C15m", lo: 10, hi: 15 },
+  { label: "15\u301C20m", lo: 15, hi: 20 },
+  { label: "20m\u8D85", lo: 20, hi: 1e9 }
+];
+function decomposePuttSG(scopeRounds, hcp) {
+  const HC = hcp != null ? hcp : 0;
+  const acc = PUTT_BANDS.map((b) => ({ label: b.label, sg: 0, n: 0 }));
+  for (const r of scopeRounds || []) {
+    if (!r || r.inputMode !== "detail" || !r.holeData) continue;
+    const venue = VENUES.find((v) => v.id === r.venueId);
+    if (!venue) continue;
+    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    let pe = 0;
+    Object.entries(r.holeData).forEach(([hk, hd]) => {
+      if (!hd.done) return;
+      const len = lens[parseInt(hk) - 1];
+      if (len > 0) pe += interpBaseline(PRO_BASELINE.tee, len);
+    });
+    if (!(pe > 0)) continue;
+    const R = (pe + 3.1 + HC) / pe;
+    Object.values(r.holeData).forEach((hd) => {
+      const shots = hd.shots || [];
+      const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + (s.shotCount || 1), 0);
+      if (putts === 0) return;
+      const pinM = hd.pinDistM != null ? hd.pinDistM : hd.pinDist != null && PUTT_LABEL_M[hd.pinDist] != null ? PUTT_LABEL_M[hd.pinDist] : null;
+      if (pinM == null) return;
+      let eP = interpBaseline(PRO_BASELINE.green, pinM * 3.281) * R;
+      if (putts === 2 && pinM <= 9 && eP > 2) eP = 2;
+      const pt = eP - putts;
+      for (let bi = 0; bi < PUTT_BANDS.length; bi++) {
+        if (pinM > PUTT_BANDS[bi].lo && pinM <= PUTT_BANDS[bi].hi) {
+          acc[bi].sg += pt;
+          acc[bi].n++;
+          break;
+        }
+      }
+    });
+  }
+  return acc.map((b) => ({ label: b.label, sg: rnd2(b.sg), n: b.n }));
 }
 function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreOverride = null, sgOverride = null, sg5 = null) {
   var _a, _b, _c;
@@ -1793,6 +1844,26 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreO
       if (mode === "analysis" && best) adv += ` \u9006\u306B${best.range}\u306F\u5F97\u610F\u3060\u306D\u3002\u5F97\u610F\u8DDD\u96E2\u3092\u6D3B\u304B\u3059\u30DE\u30CD\u30B8\u30E1\u30F3\u30C8\u3092\u3059\u308B\u306E\u3082\u624B\u3060\u3088\u3002`;
       if (adv) improveItem.advice = adv;
     }
+    if (improveItem && improveItem.key === "putt") {
+      const mode = sg5 != null ? "analysis" : "round";
+      const puttScope = sg5 != null ? [...rounds || []].filter((r) => r.isComplete && r.inputMode === "detail" && r.holeData).sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, 5) : (rounds || []).filter((r) => r.id === roundId && r.inputMode === "detail" && r.holeData);
+      const allBands = decomposePuttSG(puttScope, hcp);
+      const withData = allBands.filter((b) => b.n > 0);
+      let worst = null, best = null;
+      if (mode === "round") {
+        worst = withData.slice().sort((a, b) => a.sg - b.sg)[0] || null;
+      } else {
+        const elig = withData.filter((b) => b.n >= 3);
+        worst = elig.slice().sort((a, b) => a.sg / a.n - b.sg / b.n)[0] || withData.slice().sort((a, b) => a.sg - b.sg)[0] || null;
+        const posElig = withData.filter((b) => b.sg > 0 && b.n >= 3);
+        best = posElig.slice().sort((a, b) => b.sg - a.sg)[0] || null;
+      }
+      improveItem.puttBreakdown = { mode, bands: withData, worst, best };
+      let adv = "";
+      if (worst) adv = mode === "analysis" ? `${worst.label}\u306E\u30D1\u30C3\u30C8\u304C\u82E6\u3057\u3044\u307F\u305F\u3044\uFF081\u30DB\u30FC\u30EB\u25B3${Math.abs(worst.sg / worst.n).toFixed(2)}\uFF09\u3002\u3053\u306E\u8DDD\u96E2\u306E\u8DDD\u96E2\u611F\u3092\u91CD\u70B9\u7684\u306B\u7DF4\u7FD2\u3057\u3088\u3046\uFF01` : `${worst.label}\u306E\u30D1\u30C3\u30C8\u304C\u82E6\u3057\u3044\u307F\u305F\u3044\u3002\u3053\u306E\u8DDD\u96E2\u306E\u8DDD\u96E2\u611F\u3092\u7DF4\u7FD2\u3057\u3088\u3046\uFF01`;
+      if (mode === "analysis" && best) adv += ` \u9006\u306B${best.label}\u306F\u5F97\u610F\u3060\u306D\u3002`;
+      if (adv) improveItem.advice = adv;
+    }
     if (posItems.length > 0) {
       const it = posItems[0];
       strongItem = __spreadProps(__spreadValues({}, it), { oneLiner: causeStrong[it.key] || "\u597D\u8ABF\u3092\u7DAD\u6301\u3057\u3088\u3046\uFF01" });
@@ -1938,7 +2009,12 @@ function AiDiagnosisPanel({ sa, sa5 = null, shd, hcp, rounds, roundId, teeRates 
       return useScore;
     })();
     return /* @__PURE__ */ React.createElement("div", { key: cat.key, style: { marginBottom: "9px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#1e293b", minWidth: "74px", flexShrink: 0, whiteSpace: "nowrap" } }, cat.label), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "6px", background: "#f1f5f9", borderRadius: "3px", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { className: "dbar", style: { height: "100%", width: d.barW(computeDs5), background: d.barC(computeDs5), borderRadius: "3px" } })), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#64748b", fontWeight: "700", minWidth: "42px", textAlign: "right" } }, (useScore >= 0 ? "+" : "") + (useScore != null ? useScore : 0).toFixed(1)), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "900", color: g5.color, width: "22px", textAlign: "center" } }, g5.label), sa5 && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: g20.color, width: "22px", textAlign: "center", opacity: 0.7 } }, g20.label)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#64748b", paddingLeft: "24px", lineHeight: 1.5 } }, cat.insight));
-  }), sa.sgReady && (d.improveItem || d.strongItem) && /* @__PURE__ */ React.createElement("div", { className: "dag4", style: { marginTop: "14px", paddingTop: "14px", borderTop: "1px solid #e2e8f0" } }, d.improveItem && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: d.strongItem ? "14px" : 0 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "8px", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u6539\u5584\u3059\u308C\u3070\u30B9\u30B3\u30A2\u30A2\u30C3\u30D7")), /* @__PURE__ */ React.createElement("div", { style: { background: "#fff8f0", border: "1px solid #fed7aa", borderRadius: "8px", padding: "10px 12px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "900", color: "#1e293b" } }, d.improveItem.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "800", color: "#2563eb" } }, "\u25B3", Math.abs(d.improveItem.sg).toFixed(1))), d.improveItem.longBreakdown ? (() => {
+  }), sa.sgReady && (d.improveItem || d.strongItem) && /* @__PURE__ */ React.createElement("div", { className: "dag4", style: { marginTop: "14px", paddingTop: "14px", borderTop: "1px solid #e2e8f0" } }, d.improveItem && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: d.strongItem ? "14px" : 0 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b", marginBottom: "8px", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u6539\u5584\u3059\u308C\u3070\u30B9\u30B3\u30A2\u30A2\u30C3\u30D7")), /* @__PURE__ */ React.createElement("div", { style: { background: "#fff8f0", border: "1px solid #fed7aa", borderRadius: "8px", padding: "10px 12px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "900", color: "#1e293b" } }, d.improveItem.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "800", color: "#2563eb" } }, "\u25B3", Math.abs(d.improveItem.sg).toFixed(1))), d.improveItem.puttBreakdown ? (() => {
+    const lb = d.improveItem.puttBreakdown;
+    const ln = { fontSize: "12px", lineHeight: 1.7, display: "flex", justifyContent: "space-between", gap: "8px" };
+    const f = (v) => v >= 0 ? "+" + v.toFixed(2) : "\u25B3" + Math.abs(v).toFixed(2);
+    return /* @__PURE__ */ React.createElement("div", null, lb.bands.map((b) => /* @__PURE__ */ React.createElement("div", { key: b.label, style: ln }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569" } }, b.label), /* @__PURE__ */ React.createElement("span", { style: { color: b.sg < 0 ? "#2563eb" : "#16a34a", fontWeight: "500" } }, lb.mode === "analysis" ? `\u5408\u8A08${f(b.sg)} \uFF0F 1\u30DB\u30FC\u30EB${f(b.sg / b.n)}` : f(b.sg)))));
+  })() : d.improveItem.longBreakdown ? (() => {
     const lb = d.improveItem.longBreakdown;
     const ln = { fontSize: "12px", lineHeight: 1.7, display: "flex", justifyContent: "space-between", gap: "8px" };
     const f = (v) => v >= 0 ? "+" + v.toFixed(2) : "\u25B3" + Math.abs(v).toFixed(2);
@@ -2601,7 +2677,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06170725";
+var APP_VERSION = "06170754";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
