@@ -2793,7 +2793,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06170858";
+var APP_VERSION = "06170913";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3726,6 +3726,8 @@ function DetailShotList({ r, S, open, onToggle }) {
   const _fNums = r.frontHoleNums || [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const _bNums = r.backHoleNums || [10, 11, 12, 13, 14, 15, 16, 17, 18];
   const dispHoleNum = (h) => (h <= 9 ? _fNums[h - 1] : _bNums[h - 10]) || h;
+  const _venue = VENUES.find((v) => v.id === r.venueId);
+  const lens = _venue ? getRoundHoles(r).map((hh) => hh ? _venue.getYardage(hh, r.green, r.tee) : null) : [];
   const shortDist = (s) => {
     if (s.remainDistRaw != null) return s.remainDistRaw + "Y";
     if (s.remainDist) return s.remainDist.replace("Y\u4EE5\u5185", "Y").replace("Y\u8D85", "Y+");
@@ -3740,9 +3742,11 @@ function DetailShotList({ r, S, open, onToggle }) {
     const diff = strokes - par;
     const ds = scoreDiffSymbol(diff);
     const diffTxt = diff > 0 ? "+" + diff : diff < 0 ? "\u2212" + Math.abs(diff) : "\xB10";
-    return /* @__PURE__ */ React.createElement("div", { key: h }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", margin: "12px 0 3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#475569", background: "#f1f5f9", borderRadius: "6px", padding: "2px 8px" } }, dispHoleNum(h), "\u756A"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#16a34a" } }, "Par", par), /* @__PURE__ */ React.createElement("span", { style: { marginLeft: "auto", fontSize: "13px", fontWeight: "800", color: ds.color } }, strokes, "\u6253 ", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700" } }, "(", diffTxt, ")"))), shots.map((s, i) => {
+    return /* @__PURE__ */ React.createElement("div", { key: h }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", margin: "12px 0 3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#475569", background: "#f1f5f9", borderRadius: "6px", padding: "2px 8px" } }, dispHoleNum(h), "\u756A"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#16a34a" } }, "Par", par), lens[h - 1] != null && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#64748b" } }, lens[h - 1], "Y"), /* @__PURE__ */ React.createElement("span", { style: { marginLeft: "auto", fontSize: "13px", fontWeight: "800", color: ds.color } }, strokes, "\u6253 ", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700" } }, "(", diffTxt, ")"))), shots.map((s, i) => {
       const isPutt = s.categoryKey === "putt";
-      const dist = isPutt ? hd.pinDistM != null ? hd.pinDistM + "m" : (hd.pinDist || "").replace("m\u4EE5\u5185", "m").replace("m\u8D85", "m+") || "\u2014" : shortDist(s);
+      const isTee = s.categoryKey === "tee";
+      const teeYd = s.remainDistRaw != null ? s.remainDistRaw : lens[h - 1];
+      const dist = isPutt ? hd.pinDistM != null ? hd.pinDistM + "m" : (hd.pinDist || "").replace("m\u4EE5\u5185", "m").replace("m\u8D85", "m+") || "\u2014" : isTee && teeYd != null ? teeYd + "Y" : shortDist(s);
       const club = isPutt ? "PT" : s.club ? clubLabel(s.club) : "\u2014";
       const sub = subLabel(s);
       const memo = isPutt ? (s.shotCount || 1) + "\u30D1\u30C3\u30C8" + (s.note ? "\u30FB" + s.note : "") : (sub ? sub + (s.note ? "\u30FB" : "") : "") + (s.note || "");
