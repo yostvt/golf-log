@@ -2793,7 +2793,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06180829";
+var APP_VERSION = "06181321";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3728,6 +3728,72 @@ function DetailShotList({ r, S, open, onToggle }) {
   const dispHoleNum = (h) => (h <= 9 ? _fNums[h - 1] : _bNums[h - 10]) || h;
   const _venue = VENUES.find((v) => v.id === r.venueId);
   const lens = _venue ? getRoundHoles(r).map((hh) => hh ? _venue.getYardage(hh, r.green, r.tee) : null) : [];
+  const HC = r.hcp;
+  const sgOn = HC != null;
+  const fbSG = (v) => v >= 0 ? "+" + v.toFixed(2) : "\u25B3" + Math.abs(v).toFixed(2);
+  const lieOfSG = (s) => {
+    if (!s) return "fairway";
+    if (s.subType === "bunker") return "sand";
+    if (s.subType === "1pen" || s.subType === "ob") return "fairway";
+    if (s.quality === "\u25CB") return "fairway";
+    if (s.quality === "\u25B3" || s.quality === "\xD7") return "rough";
+    return "fairway";
+  };
+  let _R = 1;
+  if (sgOn) {
+    let _pe = 0;
+    Object.entries(r.holeData).forEach(([hk, hd2]) => {
+      if (!hd2.done) return;
+      const L = lens[parseInt(hk) - 1];
+      if (L > 0) _pe += interpBaseline(PRO_BASELINE.tee, L);
+    });
+    _R = _pe > 0 ? (_pe + 3.1 + (HC || 0)) / _pe : 1;
+  }
+  const shotSGForHole = (h, hd) => {
+    const len = lens[h - 1];
+    if (!sgOn || !(len > 0)) return null;
+    const shots = hd.shots || [];
+    const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + (s.shotCount || 1), 0);
+    const pinM = hd.pinDistM != null ? hd.pinDistM : hd.pinDist != null && PUTT_LABEL_M[hd.pinDist] != null ? PUTT_LABEL_M[hd.pinDist] : null;
+    let eP;
+    if (putts === 0) eP = 0;
+    else if (pinM != null) {
+      eP = interpBaseline(PRO_BASELINE.green, pinM * 3.281) * _R;
+      if (putts === 2 && pinM <= 9 && eP > 2) eP = 2;
+    } else eP = 2 * _R;
+    const np = [], idx = [];
+    shots.forEach((s, j) => {
+      if (s.categoryKey !== "putt") {
+        np.push(s);
+        idx.push(j);
+      }
+    });
+    const dd = [];
+    let e = Math.max(len - 220, 5);
+    np.forEach((s, k) => {
+      if (k === 0) dd.push(len);
+      else {
+        const v = s.remainDistRaw > 0 ? s.remainDistRaw : e;
+        dd.push(v);
+      }
+      e = Math.max(dd[k] - 187, 5);
+    });
+    const arr = new Array(shots.length).fill(null);
+    let total = 0;
+    np.forEach((s, k) => {
+      const before = k === 0 ? interpBaseline(PRO_BASELINE.tee, len) * _R : interpBaseline(PRO_BASELINE[lieOfSG(np[k - 1])], dd[k]) * _R;
+      const after = k === np.length - 1 ? eP : interpBaseline(PRO_BASELINE[lieOfSG(s)], dd[k + 1]) * _R;
+      const v = before - (s.shotCount || 1) - after;
+      arr[idx[k]] = v;
+      total += v;
+    });
+    if (putts > 0) {
+      const pj = shots.findIndex((s) => s.categoryKey === "putt");
+      if (pj >= 0) arr[pj] = eP - putts;
+      total += eP - putts;
+    }
+    return { total, arr };
+  };
   const shortDist = (s) => {
     if (s.remainDistRaw != null) return s.remainDistRaw + "Y";
     if (s.remainDist) return s.remainDist.replace("Y\u4EE5\u5185", "Y").replace("Y\u8D85", "Y+");
@@ -3735,14 +3801,15 @@ function DetailShotList({ r, S, open, onToggle }) {
   };
   const evColor = (q) => q === "\u25CB" ? "#16a34a" : q === "\u25B3" ? "#fbbf24" : q === "\xD7" ? "#94a3b8" : "#cbd5e1";
   const subLabel = (s) => s.subType === "ob" ? "OB" : s.subType === "1pen" ? "1\u30DA\u30CA" : s.subType === "bunker" ? "\u30D0\u30F3\u30AB\u30FC" : "";
-  return /* @__PURE__ */ React.createElement("div", { style: { marginTop: "10px", paddingTop: "10px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { onClick: onToggle, style: { display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", userSelect: "none" } }, /* @__PURE__ */ React.createElement("label", { style: __spreadProps(__spreadValues({}, S.lbl), { marginBottom: "0", cursor: "pointer" }) }, "\u30B7\u30E7\u30C3\u30C8\u4E00\u89A7"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#f59e0b", fontWeight: "700" } }, open ? "\u25BC" : "\u25B6")), open && holes.map(({ h, hd }) => {
+  return /* @__PURE__ */ React.createElement("div", { style: { marginTop: "10px", paddingTop: "10px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { onClick: onToggle, style: { display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", userSelect: "none" } }, /* @__PURE__ */ React.createElement("label", { style: __spreadProps(__spreadValues({}, S.lbl), { marginBottom: "0", cursor: "pointer" }) }, "\u30B7\u30E7\u30C3\u30C8\u4E00\u89A7"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#f59e0b", fontWeight: "700" } }, open ? "\u25BC" : "\u25B6")), open && sgOn && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", margin: "2px 0 0" } }, "\u6570\u5024\uFF1D\u7372\u5F97\uFF08\uFF0B\u7DD1\uFF09\uFF0F\u640D\u5931\uFF08\u25B3\u9752\uFF09\u6253\u6570\uFF085\u8981\u7D20\u30FBBK\u9664\u304F\uFF09"), open && holes.map(({ h, hd }) => {
     const shots = hd.shots || [];
     const par = shots[0] && shots[0].par || r.holePars && r.holePars[h - 1] || 4;
     const strokes = shots.reduce((a, s) => a + (s.shotCount || 1), 0) + (hd.extraPenalty || 0);
     const diff = strokes - par;
     const ds = scoreDiffSymbol(diff);
     const diffTxt = diff > 0 ? "+" + diff : diff < 0 ? "\u2212" + Math.abs(diff) : "\xB10";
-    return /* @__PURE__ */ React.createElement("div", { key: h }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", margin: "12px 0 3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#475569", background: "#f1f5f9", borderRadius: "6px", padding: "2px 8px" } }, dispHoleNum(h), "\u756A"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#16a34a" } }, "Par", par), lens[h - 1] != null && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#64748b" } }, lens[h - 1], "Y"), /* @__PURE__ */ React.createElement("span", { style: { marginLeft: "auto", fontSize: "13px", fontWeight: "800", color: ds.color } }, strokes, "\u6253 ", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700" } }, "(", diffTxt, ")"))), shots.map((s, i) => {
+    const sgInfo = shotSGForHole(h, hd);
+    return /* @__PURE__ */ React.createElement("div", { key: h }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", margin: "12px 0 3px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#475569", background: "#f1f5f9", borderRadius: "6px", padding: "2px 8px" } }, dispHoleNum(h), "\u756A"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#16a34a" } }, "Par", par), lens[h - 1] != null && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "700", color: "#64748b" } }, lens[h - 1], "Y"), /* @__PURE__ */ React.createElement("span", { style: { marginLeft: "auto", fontSize: "13px", fontWeight: "800", color: ds.color } }, strokes, "\u6253 ", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700" } }, "(", diffTxt, ")")), sgInfo && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: sgInfo.total >= 0 ? "#16a34a" : "#2563eb" } }, fbSG(sgInfo.total))), shots.map((s, i) => {
       const isPutt = s.categoryKey === "putt";
       const isTee = s.categoryKey === "tee";
       const teeYd = s.remainDistRaw != null ? s.remainDistRaw : lens[h - 1];
@@ -3750,7 +3817,7 @@ function DetailShotList({ r, S, open, onToggle }) {
       const club = isPutt ? "PT" : s.club ? clubLabel(s.club) : "\u2014";
       const stateLabel = s.optionId === "greenon" ? "\u30B0\u30EA\u30FC\u30F3\u30AA\u30F3" : s.optionId === "cupin" ? "\u30AB\u30C3\u30D7\u30A4\u30F3" : subLabel(s);
       const stateColor = s.optionId === "greenon" || s.optionId === "cupin" ? "#16a34a" : s.subType === "bunker" ? "#a16207" : "#b91c1c";
-      return /* @__PURE__ */ React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: "7px", padding: "6px 2px", borderBottom: "0.5px solid #f1f5f9" } }, /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, width: "48px", textAlign: "center", fontSize: "10px", fontWeight: "700", color: "#d97706", background: "rgba(251,191,36,0.15)", padding: "2px 0", borderRadius: "4px" } }, dist || "\u2014"), /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, width: "38px", textAlign: "center", fontSize: "10px", fontWeight: "700", color: "#0ea5e9", background: "rgba(14,165,233,0.12)", padding: "2px 0", borderRadius: "4px" } }, club), /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, width: "18px", textAlign: "center", fontSize: "14px", fontWeight: "800", color: evColor(s.quality) } }, s.quality || "\xB7"), /* @__PURE__ */ React.createElement("span", { style: { flex: 1, minWidth: 0, fontSize: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, isPutt ? /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, (s.shotCount || 1) + "\u30D1\u30C3\u30C8", s.note ? "\u30FB" + s.note : "") : /* @__PURE__ */ React.createElement(React.Fragment, null, stateLabel ? /* @__PURE__ */ React.createElement("span", { style: { color: stateColor, fontWeight: "700" } }, stateLabel) : null, stateLabel && s.note ? /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, "\u30FB") : null, s.note ? /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, s.note) : null)));
+      return /* @__PURE__ */ React.createElement("div", { key: i, style: { display: "flex", alignItems: "center", gap: "7px", padding: "6px 2px", borderBottom: "0.5px solid #f1f5f9" } }, /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, width: "48px", textAlign: "center", fontSize: "10px", fontWeight: "700", color: "#d97706", background: "rgba(251,191,36,0.15)", padding: "2px 0", borderRadius: "4px" } }, dist || "\u2014"), /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, width: "38px", textAlign: "center", fontSize: "10px", fontWeight: "700", color: "#0ea5e9", background: "rgba(14,165,233,0.12)", padding: "2px 0", borderRadius: "4px" } }, club), /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, width: "18px", textAlign: "center", fontSize: "14px", fontWeight: "800", color: evColor(s.quality) } }, s.quality || "\xB7"), /* @__PURE__ */ React.createElement("span", { style: { flex: 1, minWidth: 0, fontSize: "12px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, isPutt ? /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, (s.shotCount || 1) + "\u30D1\u30C3\u30C8", s.note ? "\u30FB" + s.note : "") : /* @__PURE__ */ React.createElement(React.Fragment, null, stateLabel ? /* @__PURE__ */ React.createElement("span", { style: { color: stateColor, fontWeight: "700" } }, stateLabel) : null, stateLabel && s.note ? /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, "\u30FB") : null, s.note ? /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, s.note) : null)), sgInfo && sgInfo.arr[i] != null && /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, width: "46px", textAlign: "right", fontSize: "11px", fontWeight: "700", color: sgInfo.arr[i] >= 0 ? "#16a34a" : "#2563eb" } }, fbSG(sgInfo.arr[i])));
     }));
   }));
 }
