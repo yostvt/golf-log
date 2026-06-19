@@ -2793,7 +2793,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06192142";
+var APP_VERSION = "06192320";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3263,6 +3263,89 @@ async function ocrExtractVertical(img, words, fmt2) {
   var totalYard = ocrCellNum(words, W * 0.08, H * 0.09, W * 0.2, H * 0.16, 3e3, 7800);
   return { front, back, totalYard, _rowYs: typeof holeYs !== "undefined" ? holeYs : rowYs };
 }
+function ocrCalibrateColsH(words, parY, W, rowH) {
+  if (parY == null) return null;
+  var xs = [];
+  (words || []).forEach(function(w) {
+    if (!w.bbox) return;
+    var t = ocrNormDigits(w.text || "").replace(/[^0-9]/g, "");
+    if (t.length !== 1) return;
+    var n = parseInt(t, 10);
+    if (n < 3 || n > 6) return;
+    var xc = (w.bbox.x0 + w.bbox.x1) / 2, yc = (w.bbox.y0 + w.bbox.y1) / 2;
+    if (Math.abs(yc - parY) > rowH / 2) return;
+    if (xc < W * 0.14 || xc > W * 0.9) return;
+    xs.push(xc);
+  });
+  xs.sort(function(a, b2) {
+    return a - b2;
+  });
+  var cols = [];
+  xs.forEach(function(x) {
+    var last = cols.length ? cols[cols.length - 1] : null;
+    if (last && Math.abs(last.x - x) < W * 0.012) {
+      last.x = (last.x * last.n + x) / (last.n + 1);
+      last.n++;
+    } else cols.push({ x, n: 1 });
+  });
+  var cx = cols.map(function(c) {
+    return c.x;
+  });
+  if (cx.length < 14) return null;
+  var gaps = [];
+  for (var i = 1; i < cx.length; i++) gaps.push({ i, d: cx[i] - cx[i - 1] });
+  gaps.sort(function(a, b2) {
+    return b2.d - a.d;
+  });
+  var splitIdx = gaps.length ? gaps[0].i : Math.round(cx.length / 2);
+  var frontXs = cx.slice(0, splitIdx), backXs = cx.slice(splitIdx);
+  var TMPL_PCT = [20.8, 24.1, 27.3, 30.5, 33.7, 37, 40.2, 43.4, 46.7, 57.6, 60.9, 64.1, 67.3, 70.6, 73.8, 77, 80.3, 83.4];
+  var tmplFront = TMPL_PCT.slice(0, 9).map(function(p) {
+    return W * p / 100;
+  });
+  var tmplBack = TMPL_PCT.slice(9).map(function(p) {
+    return W * p / 100;
+  });
+  function fitNine(arr, tmpl) {
+    if (!arr || arr.length < 2) return null;
+    if (arr.length === 9) return arr.slice();
+    var d = [];
+    for (var k = 1; k < arr.length; k++) d.push(arr[k] - arr[k - 1]);
+    d.sort(function(a, b2) {
+      return a - b2;
+    });
+    var pitch = d[Math.floor(d.length / 2)];
+    if (!(pitch > 0)) return null;
+    var rs = [0];
+    for (var k2 = 1; k2 < arr.length; k2++) rs.push(rs[k2 - 1] + Math.max(1, Math.round((arr[k2] - arr[k2 - 1]) / pitch)));
+    var rlast = rs[rs.length - 1];
+    if (rlast > 8) return null;
+    var bestO = 0, bestErr = Infinity;
+    for (var o = 0; o <= 8 - rlast; o++) {
+      var x0 = 0;
+      for (var a1 = 0; a1 < arr.length; a1++) x0 += arr[a1] - pitch * (rs[a1] + o);
+      x0 /= arr.length;
+      var err = 0;
+      for (var j1 = 0; j1 < 9; j1++) {
+        var px = x0 + pitch * j1;
+        err += (px - tmpl[j1]) * (px - tmpl[j1]);
+      }
+      if (err < bestErr) {
+        bestErr = err;
+        bestO = o;
+      }
+    }
+    var x0b = 0;
+    for (var a2 = 0; a2 < arr.length; a2++) x0b += arr[a2] - pitch * (rs[a2] + bestO);
+    x0b /= arr.length;
+    var out = [];
+    for (var j2 = 0; j2 < 9; j2++) out.push(x0b + pitch * j2);
+    return out;
+  }
+  var f = fitNine(frontXs, tmplFront), b = fitNine(backXs, tmplBack);
+  if (!f || !b) return null;
+  return f.concat(b);
+}
 async function ocrExtractHorizontal(img, words) {
   var W = img.width, H = img.height;
   var its = (words || []).filter(function(w) {
@@ -3329,10 +3412,10 @@ async function ocrExtractHorizontal(img, words) {
     80.3,
     83.4
   ];
-  var colX = colPct.map(function(p) {
+  var cellW = W * 0.026, rowH = H * 0.05;
+  var colX = ocrCalibrateColsH(words, parR ? parR.y : null, W, rowH) || colPct.map(function(p) {
     return W * p / 100;
   });
-  var cellW = W * 0.026, rowH = H * 0.05;
   function readAt(cx2, y, lo, hi) {
     if (y == null) return null;
     return ocrCellNum(words, cx2 - cellW / 2, y - rowH / 2, cx2 + cellW / 2, y + rowH / 2, lo, hi);
