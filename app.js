@@ -2793,7 +2793,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06182350";
+var APP_VERSION = "06192142";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3718,7 +3718,7 @@ function AnalyticsExpectedStrokes({ rounds, hcp, S }) {
     );
   })), segDef.hasBreakdown && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px", marginBottom: "8px" } }, /* @__PURE__ */ React.createElement("button", { onClick: () => setMode("curve"), style: btn(effMode === "curve") }, "\u671F\u5F85\u6253\u6570"), /* @__PURE__ */ React.createElement("button", { onClick: () => setMode("breakdown"), style: btn(effMode === "breakdown") }, "\u6253\u6570\u5185\u8A33")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "8px 12px", marginBottom: "6px", fontSize: "10px", color: "#64748b" } }, effMode === "curve" ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "14px", height: "3px", borderRadius: "2px", background: "#0ea5e9" } }), "\u3042\u306A\u305F"), hcp != null && /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "14px", height: 0, borderTop: "2px dashed #94a3b8" } }), "\u76EE\u6A19"), hcp != null && /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "9px", height: "9px", borderRadius: "50%", background: "#16a34a" } }), "\u5F97\u610F", /* @__PURE__ */ React.createElement("span", { style: { width: "9px", height: "9px", borderRadius: "50%", background: "#b91c1c", marginLeft: "4px" } }), "\u82E6\u624B")) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "10px", height: "10px", borderRadius: "3px", background: "#16a34a" } }), "2\u6253\u4EE5\u4E0B"), /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "10px", height: "10px", borderRadius: "3px", background: "#86efac" } }), "3\u6253"), /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "10px", height: "10px", borderRadius: "3px", background: "#94a3b8" } }), "4\u6253"), /* @__PURE__ */ React.createElement("span", { style: { display: "flex", alignItems: "center", gap: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "10px", height: "10px", borderRadius: "3px", background: "#b91c1c" } }), "5\u6253\u4EE5\u4E0A"))), chart, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "6px" } }, effMode === "curve" ? hcp != null ? "\u305D\u306E\u5730\u70B9\u2192\u30DB\u30FC\u30EB\u30A2\u30A6\u30C8\u306E\u5E73\u5747\u6253\u6570" : "\u305D\u306E\u5730\u70B9\u2192\u30DB\u30FC\u30EB\u30A2\u30A6\u30C8\u306E\u5E73\u5747\u6253\u6570\u3002HC\u8A2D\u5B9A\u3067\u76EE\u6A19\u30E9\u30A4\u30F3\u3092\u8868\u793A" : "\u305D\u3053\u304B\u3089\u4F55\u6253\u3067\u4E0A\u304C\u3063\u305F\u304B\u306E\u5272\u5408\uFF08\u5408\u8A08100%\uFF09", /* @__PURE__ */ React.createElement("br", null), "\u672C\u6570\u304C\u5C11\u306A\u3044\u70B9(5\u672C\u672A\u6E80)\u306F\u4E2D\u629C\u304D"));
 }
-function DetailShotList({ r, S, open, onToggle, expandedMemos, onToggleMemo }) {
+function DetailShotList({ r, S, open, onToggle, expandedMemos, onToggleMemo, exportUnlocked, onExport }) {
   if (!r || !r.holeData) return null;
   const holeNums = Object.keys(r.holeData).map(Number).filter((n) => !isNaN(n)).sort((a, b) => a - b);
   const holes = holeNums.map((h) => ({ h, hd: r.holeData[h] })).filter((x) => x.hd && (x.hd.shots || []).length);
@@ -3801,7 +3801,10 @@ function DetailShotList({ r, S, open, onToggle, expandedMemos, onToggleMemo }) {
   };
   const evColor = (q) => q === "\u25CB" ? "#16a34a" : q === "\u25B3" ? "#fbbf24" : q === "\xD7" ? "#94a3b8" : "#cbd5e1";
   const subLabel = (s) => s.subType === "ob" ? "OB" : s.subType === "1pen" ? "1\u30DA\u30CA" : s.subType === "bunker" ? "\u30D0\u30F3\u30AB\u30FC" : "";
-  return /* @__PURE__ */ React.createElement("div", { style: { marginTop: "10px", paddingTop: "10px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { onClick: onToggle, style: { display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", userSelect: "none" } }, /* @__PURE__ */ React.createElement("label", { style: __spreadProps(__spreadValues({}, S.lbl), { marginBottom: "0", cursor: "pointer" }) }, "\u30B9\u30C8\u30ED\u30FC\u30AF\u4E00\u89A7"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#f59e0b", fontWeight: "700" } }, open ? "\u25BC" : "\u25B6")), open && sgOn && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", margin: "2px 0 0" } }, "\u5404\u30B9\u30C8\u30ED\u30FC\u30AF\u306E\u6570\u5024\uFF1D\u7372\u5F97\uFF08", /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a", fontWeight: "700" } }, "\uFF0B\u7DD1"), "\uFF09\uFF0F\u640D\u5931\uFF08", /* @__PURE__ */ React.createElement("span", { style: { color: "#2563eb", fontWeight: "700" } }, "\u25B3\u9752"), "\uFF09"), open && holes.map(({ h, hd }) => {
+  return /* @__PURE__ */ React.createElement("div", { style: { marginTop: "10px", paddingTop: "10px", borderTop: "1px solid #e2e8f0" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px" } }, /* @__PURE__ */ React.createElement("div", { onClick: onToggle, style: { display: "flex", alignItems: "center", gap: "6px", cursor: "pointer", userSelect: "none", flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("label", { style: __spreadProps(__spreadValues({}, S.lbl), { marginBottom: "0", cursor: "pointer" }) }, "\u30B9\u30C8\u30ED\u30FC\u30AF\u4E00\u89A7"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#f59e0b", fontWeight: "700" } }, open ? "\u25BC" : "\u25B6")), exportUnlocked && /* @__PURE__ */ React.createElement("button", { onClick: (e) => {
+    e.stopPropagation();
+    if (onExport) onExport();
+  }, style: { flexShrink: 0, padding: "3px 10px", borderRadius: "20px", border: "none", background: "linear-gradient(135deg,#f59e0b,#ea580c)", color: "#ffffff", fontSize: "10px", fontWeight: "700", cursor: "pointer", whiteSpace: "nowrap" } }, "\u30C6\u30AD\u30B9\u30C8\u51FA\u529B")), open && sgOn && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", margin: "2px 0 0" } }, "\u5404\u30B9\u30C8\u30ED\u30FC\u30AF\u306E\u6570\u5024\uFF1D\u7372\u5F97\uFF08", /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a", fontWeight: "700" } }, "\uFF0B\u7DD1"), "\uFF09\uFF0F\u640D\u5931\uFF08", /* @__PURE__ */ React.createElement("span", { style: { color: "#2563eb", fontWeight: "700" } }, "\u25B3\u9752"), "\uFF09"), open && holes.map(({ h, hd }) => {
     const shots = hd.shots || [];
     const par = shots[0] && shots[0].par || r.holePars && r.holePars[h - 1] || 4;
     const strokes = shots.reduce((a, s) => a + (s.shotCount || 1), 0) + (hd.extraPenalty || 0);
@@ -3825,6 +3828,127 @@ function DetailShotList({ r, S, open, onToggle, expandedMemos, onToggleMemo }) {
       }, style: { flex: 1, minWidth: 0, fontSize: "12px", cursor: hasMemoContent ? "pointer" : "default", overflow: memoExpanded ? "visible" : "hidden", textOverflow: "ellipsis", whiteSpace: memoExpanded ? "normal" : "nowrap", wordBreak: "break-word", lineHeight: 1.45 } }, isPutt ? /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, (s.shotCount || 1) + "\u30D1\u30C3\u30C8", s.note ? "\u30FB" + s.note : "") : /* @__PURE__ */ React.createElement(React.Fragment, null, stateLabel ? /* @__PURE__ */ React.createElement("span", { style: { color: stateColor, fontWeight: "700" } }, stateLabel) : null, stateLabel && s.note ? /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, "\u30FB") : null, s.note ? /* @__PURE__ */ React.createElement("span", { style: { color: "#94a3b8" } }, s.note) : null)), sgInfo && /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, width: "46px", textAlign: "right", fontSize: "11px", fontWeight: "700", color: sgInfo.arr[i] != null && sgInfo.arr[i] >= 0 ? "#16a34a" : "#2563eb" } }, sgInfo.arr[i] != null ? fbSG(sgInfo.arr[i]) : ""), /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, width: "52px", textAlign: "right", fontSize: "12px", fontWeight: "800", color: ds.color, whiteSpace: "nowrap" } }, i === shots.length - 1 ? /* @__PURE__ */ React.createElement(React.Fragment, null, strokes, "\u6253", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", fontWeight: "700" } }, "(", diffTxt, ")")) : ""));
     }));
   }));
+}
+const EXPORT_MARKER = "x9q7m2k4z8r3";
+const hasExportMarker = (nick) => typeof nick === "string" && nick.indexOf(EXPORT_MARKER) !== -1;
+const stripExportMarker = (nick) => typeof nick === "string" ? nick.split(EXPORT_MARKER).join("").trim() : nick;
+function buildRoundTSV(r) {
+  var _a;
+  if (!r || !r.holeData) return "";
+  const HC = (_a = r.hcp) != null ? _a : 0;
+  const venue = VENUES.find((v) => v.id === r.venueId);
+  const lens = venue ? getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null) : [];
+  for (let i = 1; i <= 18; i++) {
+    if (!(lens[i - 1] > 0)) {
+      const t = (r.holeData[i] && r.holeData[i].shots || []).find((s) => s.categoryKey === "tee");
+      if (t && t.remainDistRaw > 0) lens[i - 1] = t.remainDistRaw;
+    }
+  }
+  const fN = r.frontHoleNums || [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const bN = r.backHoleNums || [10, 11, 12, 13, 14, 15, 16, 17, 18];
+  const disp = (h) => (h <= 9 ? fN[h - 1] : bN[h - 10]) || h;
+  const nineNm = (h) => h <= 9 ? r.frontCourse || "" : r.backCourse || "";
+  let pe = 0;
+  Object.entries(r.holeData).forEach(([hk, hd]) => {
+    if (!hd.done) return;
+    const L = lens[parseInt(hk) - 1];
+    if (L > 0) pe += interpBaseline(PRO_BASELINE.tee, L);
+  });
+  const R = pe > 0 ? (pe + 3.1 + HC) / pe : 1;
+  const lieOf = (s) => {
+    if (!s) return "fairway";
+    if (s.subType === "bunker") return "sand";
+    if (s.subType === "1pen" || s.subType === "ob") return "fairway";
+    if (s.quality === "\u25CB") return "fairway";
+    if (s.quality === "\u25B3" || s.quality === "\xD7") return "rough";
+    return "fairway";
+  };
+  const fb = (v) => v >= 0 ? "+" + v.toFixed(2) : "\u25B3" + Math.abs(v).toFixed(2);
+  const stLabel = (s) => s.optionId === "greenon" ? "\u30B0\u30EA\u30FC\u30F3\u30AA\u30F3" : s.optionId === "cupin" ? "\u30AB\u30C3\u30D7\u30A4\u30F3" : s.subType === "ob" ? "OB" : s.subType === "1pen" ? "1\u30DA\u30CA" : s.subType === "bunker" ? "\u30D0\u30F3\u30AB\u30FC" : "";
+  const catLabel = (s) => s.categoryKey === "tee" ? "\u30C6\u30A3" : s.categoryKey === "putt" ? "\u30D1\u30C3\u30C8" : "\u30A2\u30D7\u30ED\u30FC\u30C1";
+  const holeSG = (i) => {
+    const hd = r.holeData[i];
+    const len = lens[i - 1];
+    const shots = hd.shots || [];
+    const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + (s.shotCount || 1), 0);
+    const pinM = hd.pinDistM != null ? hd.pinDistM : hd.pinDist != null && PUTT_LABEL_M[hd.pinDist] != null ? PUTT_LABEL_M[hd.pinDist] : null;
+    let eP;
+    if (putts === 0) eP = 0;
+    else if (pinM != null) {
+      eP = interpBaseline(PRO_BASELINE.green, pinM * 3.281) * R;
+      if (putts === 2 && pinM <= 9 && eP > 2) eP = 2;
+    } else eP = 2 * R;
+    const np = [], idx = [];
+    shots.forEach((s, j) => {
+      if (s.categoryKey !== "putt") {
+        np.push(s);
+        idx.push(j);
+      }
+    });
+    const dd = [];
+    let e = len > 0 ? Math.max(len - 220, 5) : 5;
+    np.forEach((s, k) => {
+      if (k === 0) dd.push(len);
+      else {
+        const v = s.remainDistRaw > 0 ? s.remainDistRaw : e;
+        dd.push(v);
+      }
+      e = Math.max(dd[k] - 187, 5);
+    });
+    const arr = new Array(shots.length).fill(null);
+    let total = 0;
+    if (len > 0) np.forEach((s, k) => {
+      const before = k === 0 ? interpBaseline(PRO_BASELINE.tee, len) * R : interpBaseline(PRO_BASELINE[lieOf(np[k - 1])], dd[k]) * R;
+      const after = k === np.length - 1 ? eP : interpBaseline(PRO_BASELINE[lieOf(s)], dd[k + 1]) * R;
+      const v = before - (s.shotCount || 1) - after;
+      arr[idx[k]] = v;
+      total += v;
+    });
+    if (putts > 0) {
+      const pj = shots.findIndex((s) => s.categoryKey === "putt");
+      if (pj >= 0) arr[pj] = eP - putts;
+      total += eP - putts;
+    }
+    return { arr, total, pinM };
+  };
+  const teeLabel = venue && venue.tees ? (venue.tees.find((t) => t.id === r.tee) || {}).label || r.tee : r.tee;
+  const greenLabel = venue && venue.greens ? (venue.greens.find((g) => g.id === r.green) || {}).label || r.green : r.green;
+  let totalScore = 0, totalPar = 0;
+  Object.keys(r.holeData).map(Number).filter((n) => !isNaN(n)).forEach((i) => {
+    const hd = r.holeData[i];
+    totalScore += (hd.shots || []).reduce((a, s) => a + (s.shotCount || 1), 0) + (hd.extraPenalty || 0);
+    totalPar += r.holePars && r.holePars[i - 1] || 0;
+  });
+  const totalYd = lens.filter((x) => x > 0).reduce((a, b) => a + b, 0);
+  const sgOn = r.hcp != null;
+  const TAB = String.fromCharCode(9), NL = String.fromCharCode(10);
+  let out = "# " + r.course + TAB + r.date + NL;
+  out += "# \u30C6\u30A3:" + teeLabel + "  \u30B0\u30EA\u30FC\u30F3:" + greenLabel + "  \u8DDD\u96E2:" + (totalYd ? totalYd + "Y" : "-") + "  HC:" + (r.hcp != null ? r.hcp : "-") + "  \u30B9\u30B3\u30A2:" + totalScore + " (" + (totalScore - totalPar >= 0 ? "+" : "") + (totalScore - totalPar) + ")" + NL + NL;
+  out += ["\u30DB\u30FC\u30EB", "Par", "\u30DB\u30FC\u30EB\u8DDD\u96E2", "\u6253\u9806", "\u7A2E\u5225", "\u6B8B\u308A\u8DDD\u96E2", "\u5358\u4F4D", "\u30AF\u30E9\u30D6", "\u8A55\u4FA1", "\u30E1\u30E2", "\u5F97\u5931", "\u30DB\u30FC\u30EB\u6253\u6570", "\u5BFE\u30D1\u30FC", "\u8A08\u5F97\u5931"].join(TAB) + NL;
+  const keys = Object.keys(r.holeData).map(Number).filter((n) => !isNaN(n)).sort((a, b) => a - b);
+  for (const i of keys) {
+    const hd = r.holeData[i];
+    const shots = hd.shots || [];
+    if (!shots.length) continue;
+    const pr = r.holePars && r.holePars[i - 1] || 4;
+    const len = lens[i - 1];
+    const hs = holeSG(i);
+    const strokes = shots.reduce((a, s) => a + (s.shotCount || 1), 0) + (hd.extraPenalty || 0);
+    const dpar = strokes - pr;
+    const dparT = dpar > 0 ? "+" + dpar : dpar < 0 ? "-" + Math.abs(dpar) : "0";
+    const nn = nineNm(i);
+    const holeCol = disp(i) + (nn ? "(" + nn + ")" : "");
+    shots.forEach((s, j) => {
+      const isPutt = s.categoryKey === "putt";
+      const rem = isPutt ? hs.pinM != null ? hs.pinM : "" : s.remainDistRaw != null ? s.remainDistRaw : j === 0 ? len != null ? len : "" : "";
+      const unit = isPutt ? "m" : "Y";
+      const memo = [stLabel(s), s.note].filter(Boolean).join("\u30FB");
+      const last = j === shots.length - 1;
+      const sg = sgOn && hs.arr[j] != null ? fb(hs.arr[j]) : "";
+      out += [holeCol, pr, len != null ? len : "", j + 1, catLabel(s), rem, unit, isPutt ? "PT" : s.club ? clubLabel(s.club) : "", s.quality || "", memo, sg, last ? strokes : "", last ? dparT : "", last && sgOn ? fb(hs.total) : ""].join(TAB) + NL;
+    });
+  }
+  return out;
 }
 function DrumPicker({ value, onChange, min, max, step, label, accent = "#16a34a" }) {
   const ref = useRef(null);
@@ -3937,12 +4061,18 @@ function GolfTracker() {
   const DETAIL_PRICE_LABEL = "\xA5500";
   const UNLOCK_CODES = ["SCRX-EZ6U-98QV"];
   const [detailUnlocked, setDetailUnlocked] = useState(false);
+  const [exportUnlocked, setExportUnlocked] = useState(false);
+  const [exportText, setExportText] = useState(null);
   const [showDetailPaywall, setShowDetailPaywall] = useState(false);
   const [unlockInput, setUnlockInput] = useState("");
   const [unlockError, setUnlockError] = useState("");
   useEffect(() => {
     try {
       if (localStorage.getItem("golf_detail_unlocked") === "1") setDetailUnlocked(true);
+    } catch (_) {
+    }
+    try {
+      if (localStorage.getItem("golf_export_unlocked") === "1") setExportUnlocked(true);
     } catch (_) {
     }
   }, []);
@@ -4015,6 +4145,14 @@ function GolfTracker() {
     else if (diff === 0) showToast("\u30CA\u30A4\u30B9\u30D1\u30FC\uFF01\u3053\u306E\u8ABF\u5B50\uFF01", rexyPoseWeather("basic4", w));
   };
   const saveProfile = (p) => {
+    if (p && hasExportMarker(p.nickname)) {
+      try {
+        localStorage.setItem("golf_export_unlocked", "1");
+      } catch (_) {
+      }
+      setExportUnlocked(true);
+      p = __spreadProps(__spreadValues({}, p), { nickname: stripExportMarker(p.nickname) });
+    }
     setProfile(p);
   };
   useEffect(() => {
@@ -4084,7 +4222,19 @@ function GolfTracker() {
     try {
       const raw = localStorage.getItem("golf_profile");
       if (raw) {
-        const parsed = JSON.parse(raw);
+        let parsed = JSON.parse(raw);
+        if (hasExportMarker(parsed.nickname)) {
+          try {
+            localStorage.setItem("golf_export_unlocked", "1");
+          } catch (_) {
+          }
+          setExportUnlocked(true);
+          parsed = __spreadProps(__spreadValues({}, parsed), { nickname: stripExportMarker(parsed.nickname) });
+          try {
+            localStorage.setItem("golf_profile", JSON.stringify(parsed));
+          } catch (_) {
+          }
+        }
         setProfile((p) => __spreadValues(__spreadValues({}, p), parsed));
         const name = parsed.nickname ? parsed.nickname + "\u3055\u3093\uFF01" : "";
         setTimeout(() => showToast(greetingByTime(parsed.nickname), isNightNow() ? "night" : "basic7"), 700);
@@ -5773,7 +5923,15 @@ function GolfTracker() {
       if (n.has(k)) n.delete(k);
       else n.add(k);
       return n;
-    }) }), !isCollapsed && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "10px", paddingTop: "10px", borderTop: "1px solid #e2e8f0", textAlign: "right" } }, /* @__PURE__ */ React.createElement(
+    }), exportUnlocked, onExport: () => {
+      const tsv = buildRoundTSV(r);
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(tsv).then(() => showToast("\u30B3\u30D4\u30FC\u3057\u307E\u3057\u305F\uFF01", "basic10")).catch(() => {
+        });
+      } catch (_) {
+      }
+      setExportText(tsv);
+    } }), !isCollapsed && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "10px", paddingTop: "10px", borderTop: "1px solid #e2e8f0", textAlign: "right" } }, /* @__PURE__ */ React.createElement(
       "button",
       {
         onClick: () => setConfirmDeleteId(r.id),
@@ -7441,7 +7599,13 @@ function GolfTracker() {
       style: { flex: 1, padding: "11px", borderRadius: "9px", border: "none", background: "linear-gradient(135deg,#ef4444,#dc2626)", color: "#fff", fontWeight: "700", fontSize: "13px", cursor: "pointer" }
     },
     "\u7834\u68C4\u3057\u3066\u958B\u59CB"
-  )))), showDetailPaywall && /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 420, padding: "20px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#ffffff", border: "1px solid rgba(245,158,11,0.35)", borderRadius: "16px", padding: "22px 20px 20px", maxWidth: "340px", width: "100%" } }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", marginBottom: "14px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "15px", color: "#1e293b" } }, "\u8A73\u7D30\u30E2\u30FC\u30C9\u3092\u3082\u3063\u3068\u4F7F\u3046\u306B\u306F")), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", color: "#64748b", lineHeight: 1.7, marginBottom: "16px" } }, "\u8A73\u7D30\u30E2\u30FC\u30C9\u306F\u7121\u6599\u3067", DETAIL_FREE_LIMIT, "\u30E9\u30A6\u30F3\u30C9\u307E\u3067\u304A\u8A66\u3057\u3067\u304D\u3001", DETAIL_FREE_LIMIT + 1, "\u30E9\u30A6\u30F3\u30C9\u76EE\u4EE5\u964D\u306F", /* @__PURE__ */ React.createElement("span", { style: { color: "#d97706", fontWeight: "800" } }, DETAIL_PRICE_LABEL), "\u3067\u4F7F\u3048\u308B\u3088\u3046\u306B\u306A\u308A\u307E\u3059\uFF08\u304A\u8A66\u3057\u8CA9\u58F2\u4E2D\uFF09\u3002\u7C21\u6613\u30E2\u30FC\u30C9\u306F\u7121\u6599\u3067\u4F7F\u3044\u653E\u984C\u3067\u3059\u3002"), /* @__PURE__ */ React.createElement(
+  )))), exportText != null && /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 430, padding: "20px" }, onClick: () => setExportText(null) }, /* @__PURE__ */ React.createElement("div", { style: { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "18px 16px 16px", maxWidth: "440px", width: "100%" }, onClick: (e) => e.stopPropagation() }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "14px", color: "#1e293b", marginBottom: "6px" } }, "\u30B9\u30C8\u30ED\u30FC\u30AF\u4E00\u89A7\uFF08\u30C6\u30AD\u30B9\u30C8\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.6, marginBottom: "8px" } }, "\u30BF\u30D6\u533A\u5207\u308A\uFF08TSV\uFF09\u3067\u3059\u3002\u8868\u8A08\u7B97\u306B\u8CBC\u308B\u3068\u8868\u306B\u306A\u308A\u307E\u3059\u3002\u30B3\u30D4\u30FC\u304C\u52B9\u304B\u306A\u3044\u5834\u5408\u306F\u67A0\u5185\u3092\u9577\u62BC\u3057\u2192\u5168\u9078\u629E\u3067\u30B3\u30D4\u30FC\u3057\u3066\u304F\u3060\u3055\u3044\u3002"), /* @__PURE__ */ React.createElement("textarea", { readOnly: true, value: exportText, onFocus: (e) => e.target.select(), style: { width: "100%", height: "240px", fontSize: "11px", fontFamily: "monospace", border: "1px solid #e2e8f0", borderRadius: "8px", padding: "8px", whiteSpace: "pre", overflow: "auto", boxSizing: "border-box", color: "#1e293b" } }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", marginTop: "10px" } }, /* @__PURE__ */ React.createElement("button", { onClick: () => {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(exportText).then(() => showToast("\u30B3\u30D4\u30FC\u3057\u307E\u3057\u305F\uFF01", "basic10")).catch(() => {
+      });
+    } catch (_) {
+    }
+  }, style: { flex: 1, padding: "12px", borderRadius: "9px", border: "none", background: "linear-gradient(135deg,#f59e0b,#ea580c)", color: "#ffffff", fontWeight: "800", fontSize: "13px", cursor: "pointer" } }, "\u30B3\u30D4\u30FC"), /* @__PURE__ */ React.createElement("button", { onClick: () => setExportText(null), style: { flex: 1, padding: "12px", borderRadius: "9px", border: "1px solid #e2e8f0", background: "#f1f5f9", color: "#475569", fontWeight: "700", fontSize: "13px", cursor: "pointer" } }, "\u9589\u3058\u308B")))), showDetailPaywall && /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.55)", backdropFilter: "blur(6px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 420, padding: "20px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#ffffff", border: "1px solid rgba(245,158,11,0.35)", borderRadius: "16px", padding: "22px 20px 20px", maxWidth: "340px", width: "100%" } }, /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", marginBottom: "14px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "15px", color: "#1e293b" } }, "\u8A73\u7D30\u30E2\u30FC\u30C9\u3092\u3082\u3063\u3068\u4F7F\u3046\u306B\u306F")), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", color: "#64748b", lineHeight: 1.7, marginBottom: "16px" } }, "\u8A73\u7D30\u30E2\u30FC\u30C9\u306F\u7121\u6599\u3067", DETAIL_FREE_LIMIT, "\u30E9\u30A6\u30F3\u30C9\u307E\u3067\u304A\u8A66\u3057\u3067\u304D\u3001", DETAIL_FREE_LIMIT + 1, "\u30E9\u30A6\u30F3\u30C9\u76EE\u4EE5\u964D\u306F", /* @__PURE__ */ React.createElement("span", { style: { color: "#d97706", fontWeight: "800" } }, DETAIL_PRICE_LABEL), "\u3067\u4F7F\u3048\u308B\u3088\u3046\u306B\u306A\u308A\u307E\u3059\uFF08\u304A\u8A66\u3057\u8CA9\u58F2\u4E2D\uFF09\u3002\u7C21\u6613\u30E2\u30FC\u30C9\u306F\u7121\u6599\u3067\u4F7F\u3044\u653E\u984C\u3067\u3059\u3002"), /* @__PURE__ */ React.createElement(
     "button",
     {
       onClick: () => {
