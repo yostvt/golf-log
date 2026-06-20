@@ -1591,6 +1591,115 @@ function decomposeShortSG(scopeRounds, hcp) {
   }
   return { other: other.map((b) => ({ label: b.label, lie: "other", sg: rnd2(b.sg), n: b.n })), bunker: bunker.map((b) => ({ label: b.label, lie: "bunker", sg: rnd2(b.sg), n: b.n })) };
 }
+function decomposeBunkerSG(scopeRounds, hcp) {
+  const HC = hcp != null ? hcp : 0;
+  const sd = (s) => s && s.remainDistRaw > 0 ? s.remainDistRaw : s && DIST_LABEL_MID[s.remainDist] != null ? DIST_LABEL_MID[s.remainDist] : null;
+  let A = 0, teeA = 0, apprA = 0, B = 0, multiHoles = 0, bunkerHoles = 0;
+  for (const r of scopeRounds || []) {
+    if (!r || r.inputMode !== "detail" || !r.holeData) continue;
+    const venue = VENUES.find((v) => v.id === r.venueId);
+    if (!venue) continue;
+    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    let pe = 0;
+    Object.entries(r.holeData).forEach(([hk, hd]) => {
+      if (!hd.done) return;
+      const len = lens[parseInt(hk) - 1];
+      if (len > 0) pe += interpBaseline(PRO_BASELINE.tee, len);
+    });
+    if (!(pe > 0)) continue;
+    const R = (pe + 3.1 + HC) / pe;
+    Object.values(r.holeData).forEach((hd) => {
+      const shots = hd.shots || [];
+      const entries = [];
+      shots.forEach((s, i) => {
+        if (s.subType === "bunker") entries.push(i);
+      });
+      if (!entries.length) return;
+      bunkerHoles++;
+      if (entries.length >= 2) multiHoles++;
+      const bi = entries[0];
+      const nxt = shots[bi + 1];
+      const d0 = nxt ? sd(nxt) : null;
+      if (d0 == null) return;
+      const aH = R * (interpBaseline(PRO_BASELINE.sand, d0) - interpBaseline(PRO_BASELINE.fairway, d0));
+      A += aH;
+      if (shots[bi].categoryKey === "tee") teeA += aH;
+      else apprA += aH;
+      let act = 0;
+      for (let bj = bi + 1; bj < shots.length; bj++) act += shots[bj].shotCount || 1;
+      B += act - interpBaseline(PRO_BASELINE.sand, d0) * R;
+    });
+  }
+  return { A: rnd2(A), teeA: rnd2(teeA), apprA: rnd2(apprA), B: rnd2(B), multiHoles, bunkerHoles };
+}
+function rankElementAdvice(key, sg, scope, hcp, mode, avgDD) {
+  const weak = sg < 0;
+  const pickWB = (bands, minN) => {
+    const wd = (bands || []).filter((b) => b.n > 0);
+    let worst, best;
+    if (mode === "round") {
+      worst = wd.slice().sort((a, b) => a.sg - b.sg)[0];
+      best = wd.filter((b) => b.sg > 0).slice().sort((a, b) => b.sg - a.sg)[0];
+    } else {
+      const el = wd.filter((b) => b.n >= minN);
+      worst = el.slice().sort((a, b) => a.sg / a.n - b.sg / b.n)[0] || wd.slice().sort((a, b) => a.sg - b.sg)[0];
+      best = wd.filter((b) => b.sg > 0 && b.n >= minN).slice().sort((a, b) => b.sg - a.sg)[0];
+    }
+    return { worst, best };
+  };
+  if (key === "tee") {
+    const bd = decomposeTeeSG(scope, hcp, avgDD);
+    const div = mode === "analysis" ? Math.max(scope.length, 1) : 1;
+    const pen = bd.penLoss / div, lie = Math.abs(bd.lieLoss) / div, dist = sg + pen + lie;
+    if (weak) {
+      const c = [
+        { loss: pen, adv: "OB\u30FB\u30DA\u30CA\u30EB\u30C6\u30A3\u306B\u306A\u3089\u306A\u3044\u6226\u7565\u3092\u7ACB\u3066\u3088\u3046\uFF01\u30C9\u30E9\u30A4\u30D0\u30FC\u3092\u77ED\u304F\u6301\u3064\u30FB\u5B89\u5168\u306A\u30EB\u30FC\u30C8\u3092\u9078\u3076\u3060\u3051\u3067\u30B9\u30B3\u30A2\u304C\u307E\u3068\u307E\u308B\u3088\u3002" },
+        { loss: lie, adv: "\u30D5\u30A7\u30A2\u30A6\u30A7\u30A4\u30AD\u30FC\u30D7\u3092\u6700\u512A\u5148\u306B\uFF01\u5DE6\u53F3\u3069\u3061\u3089\u304B\u306E\u30DF\u30B9\u3092\u306A\u304F\u305B\u3070\u3001\u30D5\u30A7\u30A2\u30A6\u30A7\u30A4\u3092\u5E83\u304F\u4F7F\u3048\u308B\u3088\u3002" },
+        { loss: dist < 0 ? -dist : 0, adv: "\u98DB\u8DDD\u96E2\u30A2\u30C3\u30D7\u306B\u53D6\u308A\u7D44\u3082\u3046\uFF01\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u306E\u8DDD\u96E2\u304C\u51FA\u308C\u3070\u3001\u6B8B\u308A\u304C\u77ED\u304F\u306A\u3063\u3066\u4E00\u6C17\u306B\u697D\u306B\u306A\u308B\u3088\u3002" }
+      ].sort((a, b) => b.loss - a.loss);
+      return c[0].loss > 0 ? c[0].adv : "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u3067\u6253\u6570\u3092\u640D\u3057\u3066\u3044\u308B\u307F\u305F\u3044\u3002\u91CD\u70B9\u7684\u306B\u7DF4\u7FD2\u3057\u3088\u3046\uFF01";
+    }
+    return "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u304C\u5B89\u5B9A\u3002\u3053\u306E\u6B66\u5668\u3092\u6D3B\u304B\u3057\u3066\u3044\u3053\u3046\uFF01";
+  }
+  if (key === "long") {
+    const { worst, best } = pickWB(decomposeLongSG(scope, hcp), 5);
+    if (weak) return worst ? `${worst.range}\u3067\u30DF\u30B9\u304C\u591A\u3044\u307F\u305F\u3044\u3002\u3053\u306E\u8DDD\u96E2\u3092\u7DF4\u7FD2\u3057\u3066\u5F97\u610F\u8DDD\u96E2\u306B\u5909\u3048\u3088\u3046\uFF01` : "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\u3067\u6253\u6570\u3092\u640D\u3057\u3066\u3044\u308B\u307F\u305F\u3044\u3002\u91CD\u70B9\u7684\u306B\u7DF4\u7FD2\u3057\u3088\u3046\uFF01";
+    return best ? `${best.range}\u304C\u5F97\u610F\u3002\u5F97\u610F\u8DDD\u96E2\u3092\u6D3B\u304B\u3059\u30DE\u30CD\u30B8\u30E1\u30F3\u30C8\u3092\u3059\u308B\u306E\u3082\u624B\u3060\u3088\uFF01` : "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0\u306F\u597D\u8ABF\u3002\u3053\u306E\u8ABF\u5B50\uFF01";
+  }
+  if (key === "putt") {
+    const { worst, best } = pickWB(decomposePuttSG(scope, hcp), 3);
+    if (weak) return worst ? `${worst.label}\u306E\u30D1\u30C3\u30C8\u304C\u82E6\u3057\u3044\u307F\u305F\u3044\u3002\u3053\u306E\u8DDD\u96E2\u306E\u8DDD\u96E2\u611F\u3092\u7DF4\u7FD2\u3057\u3088\u3046\uFF01` : "\u30D1\u30C3\u30C8\u3067\u6253\u6570\u3092\u640D\u3057\u3066\u3044\u308B\u307F\u305F\u3044\u3002\u91CD\u70B9\u7684\u306B\u7DF4\u7FD2\u3057\u3088\u3046\uFF01";
+    return best ? `${best.label}\u306E\u30D1\u30C3\u30C8\u304C\u597D\u8ABF\u3002\u3053\u306E\u8DDD\u96E2\u306E\u81EA\u4FE1\u3092\u6D3B\u304B\u305D\u3046\uFF01` : "\u30D1\u30C3\u30C8\u306F\u597D\u8ABF\u3002\u3053\u306E\u8ABF\u5B50\uFF01";
+  }
+  if (key === "short") {
+    const sgbd = decomposeShortSG(scope, hcp);
+    const minN = mode === "analysis" ? 3 : 1;
+    const cells = [...sgbd.other.filter((c) => c.n >= minN), ...sgbd.bunker.filter((c) => c.n >= minN)];
+    const lbl = (c) => c.lie === "bunker" ? `${c.label}\u306E\u30D0\u30F3\u30AB\u30FC` : `${c.label}\u306E\u30A2\u30D7\u30ED\u30FC\u30C1`;
+    let worst, best;
+    if (mode === "round") {
+      worst = cells.slice().sort((a, b) => a.sg - b.sg)[0];
+      best = cells.filter((c) => c.sg > 0).slice().sort((a, b) => b.sg - a.sg)[0];
+    } else {
+      worst = cells.slice().sort((a, b) => a.sg / a.n - b.sg / b.n)[0];
+      best = cells.filter((c) => c.sg > 0).slice().sort((a, b) => b.sg - a.sg)[0];
+    }
+    if (weak) return worst ? `${lbl(worst)}\u304C\u82E6\u3057\u3044\u307F\u305F\u3044\u3002\u7DF4\u7FD2\u3057\u3088\u3046\uFF01` : "\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\u3067\u6253\u6570\u3092\u640D\u3057\u3066\u3044\u308B\u307F\u305F\u3044\u3002\u91CD\u70B9\u7684\u306B\u7DF4\u7FD2\u3057\u3088\u3046\uFF01";
+    return best ? `${lbl(best)}\u304C\u5F97\u610F\u3002\u6D3B\u304B\u305D\u3046\uFF01` : "\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0\u306F\u597D\u8ABF\u3002\u3053\u306E\u8ABF\u5B50\uFF01";
+  }
+  if (key === "bunker") {
+    if (!weak) return "\u30D0\u30F3\u30AB\u30FC\u3092\u82E6\u306B\u3057\u3066\u306A\u3044\u306D\uFF01\u30D0\u30F3\u30AB\u30FC\u3092\u907F\u3051\u308B\u3053\u3068\u3082\u691C\u8A0E\u3057\u3066\u307F\u3066\u306D\uFF01";
+    const bk = decomposeBunkerSG(scope, hcp);
+    if (bk.bunkerHoles === 0) return "\u30D0\u30F3\u30AB\u30FC\u3067\u6253\u6570\u3092\u640D\u3057\u3066\u3044\u308B\u307F\u305F\u3044\u30021\u56DE\u3067\u78BA\u5B9F\u306B\u8131\u51FA\u3057\u3088\u3046\uFF01";
+    if (bk.B >= bk.A) {
+      if (bk.multiHoles >= 2) return "\u30D0\u30F3\u30AB\u30FC\u304B\u3089\u306F1\u56DE\u3067\u78BA\u5B9F\u306B\u8131\u51FA\u3059\u308B\u3053\u3068\u3092\u6700\u512A\u5148\u306B\u5FC3\u304C\u3051\u3088\u3046\uFF01";
+      return "\u8131\u51FA\u5F8C\u306B\u5BC4\u305B\u304D\u308C\u3066\u3044\u306A\u3044\u307F\u305F\u3044\u3002\u8131\u51FA\u5F8C\u306E\u8DDD\u96E2\u611F\u3092\u78E8\u3053\u3046\uFF01";
+    }
+    if (bk.apprA >= bk.teeA) return "2\u6253\u76EE3\u6253\u76EE\u306E\u7CBE\u5EA6\u3092\u4E0A\u3052\u3088\u3046\uFF01\u30D0\u30F3\u30AB\u30FC\u3092\u907F\u3051\u308B\u30DE\u30CD\u30B8\u30E1\u30F3\u30C8\u3082\u691C\u8A0E\u3057\u3066\u307F\u3066\uFF01";
+    return "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u3067\u306F\u30D5\u30A7\u30A2\u30A6\u30A7\u30A4\u30AD\u30FC\u30D7\u3092\u6700\u512A\u5148\u306B\uFF01\u30D0\u30F3\u30AB\u30FC\u3092\u907F\u3051\u308B\u30EB\u30FC\u30C8\u3092\u691C\u8A0E\u3057\u3066\u307F\u3066\uFF01";
+  }
+  return "";
+}
 function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreOverride = null, sgOverride = null, sg5 = null) {
   var _a, _b, _c;
   const holeEntries = Object.entries(shd || {});
@@ -1880,7 +1989,7 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreO
     return { diag: "", adv: "" };
   };
   const causeStrong = { tee: "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u304C\u5B89\u5B9A\u3057\u3066\u308B\u3088\uFF01\u3053\u306E\u8ABF\u5B50\u3067\u3044\u3053\u3046\uFF01", long: "\u30A2\u30D7\u30ED\u30FC\u30C1\u306E\u7CBE\u5EA6\u304C\u9AD8\u304F\u3066\u6253\u6570\u3092\u7A3C\u3052\u3066\u308B\u3088\uFF01\u3053\u306E\u8ABF\u5B50\u3067\u3044\u3053\u3046\uFF01", short: "\u30B0\u30EA\u30FC\u30F3\u5468\u308A\u304C\u4E0A\u624B\u304F\u3044\u3063\u3066\u308B\u306D\uFF01\u30D1\u30C3\u30C8\u304C\u697D\u306B\u306A\u3063\u3066\u308B\u306F\u305A\uFF01", putt: "\u30D1\u30C3\u30C6\u30A3\u30F3\u30B0\u304C\u51B4\u3048\u3066\u308B\u3088\uFF01\u30B0\u30EA\u30FC\u30F3\u4E0A\u304C\u6B66\u5668\u306B\u306A\u3063\u3066\u308B\u306D\uFF01", bunker: "\u30D0\u30F3\u30AB\u30FC\u7BA1\u7406\u304C\u3046\u307E\u304F\u3044\u3063\u3066\u308B\u3088\uFF01\u3053\u306E\u8ABF\u5B50\u3067\u3044\u3053\u3046\uFF01" };
-  let improveItem = null, strongItem = null;
+  let improveItem = null, strongItem = null, elemRanking = null;
   if (sa.sgReady && sa.sg) {
     const sgSrc = sg5 || sa.sg;
     const sgCands = [
@@ -1978,6 +2087,10 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreO
       const it = posItems[0];
       strongItem = __spreadProps(__spreadValues({}, it), { oneLiner: causeStrong[it.key] || "\u597D\u8ABF\u3092\u7DAD\u6301\u3057\u3088\u3046\uFF01" });
     }
+    const rankScope = sg5 != null ? [...rounds || []].filter((r) => r.isComplete && r.inputMode === "detail" && r.holeData).sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, 5) : (rounds || []).filter((r) => r.id === roundId && r.inputMode === "detail" && r.holeData);
+    const rankMode = sg5 != null ? "analysis" : "round";
+    const rankAvgDD = avgDrivingDistance(rounds);
+    elemRanking = sgCands.slice().sort((a, b) => a.sg - b.sg).map((it) => __spreadProps(__spreadValues({}, it), { advice: rankElementAdvice(it.key, it.sg, rankScope, hcp, rankMode, rankAvgDD) }));
   }
   const currentRoundData = (rounds || []).find((r) => r.id === roundId);
   const currentDateNum = currentRoundData ? dateToNum(currentRoundData.date) : Infinity;
@@ -2002,7 +2115,7 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreO
       };
     }
   }
-  return { lvl, band, gap, expectedScore, hcAdj, is9H, categories, weaknesses, advice, trend, gradeOf, barW, barC, improveItem, strongItem, usedSG, sgTotalForRating };
+  return { lvl, band, gap, expectedScore, hcAdj, is9H, categories, weaknesses, advice, trend, gradeOf, barW, barC, improveItem, strongItem, elemRanking, usedSG, sgTotalForRating };
 }
 function dateToNum(d) {
   if (!d) return 0;
@@ -2049,7 +2162,11 @@ function AiDiagnosisPanel({ sa, sa5 = null, shd, hcp, rounds, roundId, teeRates 
         .dag5{animation:diagUp .4s ease .35s both}
         @keyframes barGrow { from{width:0} }
         .dbar{animation:barGrow .8s cubic-bezier(.4,0,.2,1) .3s both}
-      `), rexyTip && /* @__PURE__ */ React.createElement("div", { style: { background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "10px", padding: "10px 12px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("p", { style: { fontSize: "11px", color: "#15803d", fontWeight: "600", margin: 0, lineHeight: 1.65 } }, "5\u8981\u7D20\u5206\u6790\u3067\u306F\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u304B\u3089\u30A2\u30D7\u30ED\u30FC\u30C1\u3001\u30D1\u30C3\u30C6\u30A3\u30F3\u30B0\u307E\u3067\u306E\u5404\u30B7\u30E7\u30C3\u30C8\u306E\u51FA\u6765\u4E0D\u51FA\u6765\u304C\u308F\u304B\u308B\u3093\u3060\u3002\u305D\u3057\u3066\u30D0\u30F3\u30AB\u30FC\u306B\u5165\u308C\u305F\u3053\u3068\u306E\u30B9\u30B3\u30A2\u3078\u306E\u5F71\u97FF\u3082\u308F\u304B\u308B\u3088\u3046\u306B\u306A\u3063\u3066\u3044\u308B\u3088\u3002\uFF0B\u306F\u305D\u308C\u3060\u3051\u6253\u6570\u3092\u7372\u5F97\u3057\u305F\u3068\u3044\u3046\u3053\u3068\u3001\u25B3\u306F\u5931\u3063\u305F\u6253\u6570\u3092\u8868\u3057\u3066\u308B\u3088\uFF01\u30B9\u30B3\u30A2\u3092\u3088\u304F\u3059\u308B\u305F\u3081\u306B\u306F\u25B3\u304C\uFF0B\u306B\u306A\u308B\u3088\u3046\u306A\u6E96\u5099\u3084\u653B\u3081\u65B9\u304C\u91CD\u8981\u3060\u3088\uFF01")), /* @__PURE__ */ React.createElement("div", { className: "dag0", style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#1e293b", letterSpacing: ".06em" } }, label), roundCount != null && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#64748b", background: "#f1f5f9", borderRadius: "4px", padding: "1px 6px" } }, roundCount, "\u30E9\u30A6\u30F3\u30C9\u5E73\u5747"), dateRange && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8" } }, dateRange), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "1px", background: "#e2e8f0" } })), /* @__PURE__ */ React.createElement("div", { className: "dag1", style: { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" } }, "\u7DCF\u5408\u8A55\u4FA1"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "17px", fontWeight: "900", color: d.lvl.color } }, d.lvl.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b", marginTop: "2px" } }, "HC ", hcp, " (", d.band.label, ")")), /* @__PURE__ */ React.createElement("div", { style: { marginLeft: "auto", textAlign: "right" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "22px", fontWeight: "800", color: d.usedSG ? d.sgTotalForRating >= 0 ? "#16a34a" : "#3b82f6" : d.gap >= 0 ? "#f97316" : "#16a34a", lineHeight: 1 } }, d.usedSG ? (d.sgTotalForRating >= 0 ? "+" : "") + (Math.round(d.sgTotalForRating * 10) / 10).toFixed(1) : (d.gap >= 0 ? "+" : "") + d.gap), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b" } }, d.usedSG ? (sa5 ? "\u76F4\u8FD15\u30E9\u30A6\u30F3\u30C9\u5E73\u5747\uFF0F" : "") + "TS+LG+SG+PT\u5408\u8A08" : (sa5 ? "\u76F4\u8FD15\u30E9\u30A6\u30F3\u30C9\u5E73\u5747\uFF0F" : "") + "\u671F\u5F85" + d.expectedScore + "\u6BD4"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.65 } }, d.lvl.comment)), radarSlot, /* @__PURE__ */ React.createElement("div", { className: "dag2", style: { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#94a3b8", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.1em" } }, "5\u8981\u7D20\u5206\u6790"), sa5 && !sa.sgReady && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: "8px", fontSize: "8px", color: "#64748b", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#fbbf24", fontWeight: "700", minWidth: "32px", textAlign: "center" } }, "\u76F4\u8FD15R"), /* @__PURE__ */ React.createElement("span", { style: { color: "#0ea5e9", fontWeight: "700", minWidth: "32px", textAlign: "center" } }, "\u76F4\u8FD120R")), sa.sgReady && sa.sg && (() => {
+      `), rexyTip && /* @__PURE__ */ React.createElement("div", { style: { background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "10px", padding: "10px 12px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("p", { style: { fontSize: "11px", color: "#15803d", fontWeight: "600", margin: 0, lineHeight: 1.65 } }, "5\u8981\u7D20\u5206\u6790\u3067\u306F\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u304B\u3089\u30A2\u30D7\u30ED\u30FC\u30C1\u3001\u30D1\u30C3\u30C6\u30A3\u30F3\u30B0\u307E\u3067\u306E\u5404\u30B7\u30E7\u30C3\u30C8\u306E\u51FA\u6765\u4E0D\u51FA\u6765\u304C\u308F\u304B\u308B\u3093\u3060\u3002\u305D\u3057\u3066\u30D0\u30F3\u30AB\u30FC\u306B\u5165\u308C\u305F\u3053\u3068\u306E\u30B9\u30B3\u30A2\u3078\u306E\u5F71\u97FF\u3082\u308F\u304B\u308B\u3088\u3046\u306B\u306A\u3063\u3066\u3044\u308B\u3088\u3002\uFF0B\u306F\u305D\u308C\u3060\u3051\u6253\u6570\u3092\u7372\u5F97\u3057\u305F\u3068\u3044\u3046\u3053\u3068\u3001\u25B3\u306F\u5931\u3063\u305F\u6253\u6570\u3092\u8868\u3057\u3066\u308B\u3088\uFF01\u30B9\u30B3\u30A2\u3092\u3088\u304F\u3059\u308B\u305F\u3081\u306B\u306F\u25B3\u304C\uFF0B\u306B\u306A\u308B\u3088\u3046\u306A\u6E96\u5099\u3084\u653B\u3081\u65B9\u304C\u91CD\u8981\u3060\u3088\uFF01")), /* @__PURE__ */ React.createElement("div", { className: "dag0", style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: "#1e293b", letterSpacing: ".06em" } }, label), roundCount != null && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#64748b", background: "#f1f5f9", borderRadius: "4px", padding: "1px 6px" } }, roundCount, "\u30E9\u30A6\u30F3\u30C9\u5E73\u5747"), dateRange && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8" } }, dateRange), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, height: "1px", background: "#e2e8f0" } })), /* @__PURE__ */ React.createElement("div", { className: "dag1", style: { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px" } }, "\u7DCF\u5408\u8A55\u4FA1"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "17px", fontWeight: "900", color: d.lvl.color } }, d.lvl.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b", marginTop: "2px" } }, "HC ", hcp, " (", d.band.label, ")")), /* @__PURE__ */ React.createElement("div", { style: { marginLeft: "auto", textAlign: "right" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "22px", fontWeight: "800", color: d.usedSG ? d.sgTotalForRating >= 0 ? "#16a34a" : "#3b82f6" : d.gap >= 0 ? "#f97316" : "#16a34a", lineHeight: 1 } }, d.usedSG ? (d.sgTotalForRating >= 0 ? "+" : "") + (Math.round(d.sgTotalForRating * 10) / 10).toFixed(1) : (d.gap >= 0 ? "+" : "") + d.gap), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#64748b" } }, d.usedSG ? (sa5 ? "\u76F4\u8FD15\u30E9\u30A6\u30F3\u30C9\u5E73\u5747\uFF0F" : "") + "TS+LG+SG+PT\u5408\u8A08" : (sa5 ? "\u76F4\u8FD15\u30E9\u30A6\u30F3\u30C9\u5E73\u5747\uFF0F" : "") + "\u671F\u5F85" + d.expectedScore + "\u6BD4"))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.65 } }, d.lvl.comment)), d.elemRanking && d.elemRanking.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "dag1", style: { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#94a3b8", marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.1em" } }, "5\u8981\u7D20\u30E9\u30F3\u30AD\u30F3\u30B0\uFF08\u5F31\u3044\u9806\uFF09"), d.elemRanking.map((it, i) => {
+    const pos = it.sg >= 0;
+    const badge = pos ? "#86efac" : i === 0 ? "#2563eb" : i === 1 ? "#60a5fa" : "#93c5fd";
+    return /* @__PURE__ */ React.createElement("div", { key: it.key, style: { padding: "8px 0", borderTop: i === 0 ? "none" : "1px solid #f1f5f9" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, width: "18px", height: "18px", borderRadius: "50%", background: badge, color: "#fff", fontSize: "10px", fontWeight: "800", display: "flex", alignItems: "center", justifyContent: "center" } }, i + 1), /* @__PURE__ */ React.createElement("span", { style: { flex: 1, minWidth: 0, fontSize: "13px", fontWeight: "800", color: "#1e293b" } }, it.label, it.key === "bunker" && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "8px", color: "#94a3b8" } }, " \u72EC\u7ACB")), /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, fontSize: "13px", fontWeight: "800", color: pos ? "#16a34a" : "#2563eb" } }, it.sg >= 0 ? "+" + it.sg.toFixed(1) : "\u25B3" + Math.abs(it.sg).toFixed(1))), it.advice && /* @__PURE__ */ React.createElement("div", { style: { marginLeft: "26px", marginTop: "3px", fontSize: "11px", color: pos ? "#15803d" : "#64748b", lineHeight: 1.55 } }, it.advice));
+  })), radarSlot, /* @__PURE__ */ React.createElement("div", { className: "dag2", style: { background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "12px 14px", marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", fontWeight: "700", color: "#94a3b8", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.1em" } }, "5\u8981\u7D20\u5206\u6790"), sa5 && !sa.sgReady && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: "8px", fontSize: "8px", color: "#64748b", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#fbbf24", fontWeight: "700", minWidth: "32px", textAlign: "center" } }, "\u76F4\u8FD15R"), /* @__PURE__ */ React.createElement("span", { style: { color: "#0ea5e9", fontWeight: "700", minWidth: "32px", textAlign: "center" } }, "\u76F4\u8FD120R")), sa.sgReady && sa.sg && (() => {
     const ITEMS = [
       { key: "teeScore", label: "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8", abbr: "TS" },
       { key: "longScore", label: "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0", abbr: "LG" },
@@ -2793,8 +2910,9 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06200048";
+var APP_VERSION = "06200334";
 var OCR_ENGINE = "vision";
+var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
   return dataUrl.replace(/^data:image\/(png|jpeg);base64,/, "");
@@ -4862,10 +4980,12 @@ function GolfTracker() {
         teeUncertain: !!(built.teeInfer && built.teeInfer.uncertain),
         green: built.green,
         greenSrc: venue ? venue.greens && venue.greens.length === 1 ? "1\u30B0\u30EA\u30FC\u30F3\u81EA\u52D5" : ex.greenText ? "\u753B\u50CF\u306B\u8A18\u8F09" : "\u65E2\u5B9A" : "\u2014",
-        weather: wx.value,
-        weatherSrc: wx.found ? "\u753B\u50CF\u304B\u3089" : "\u65E2\u5B9A\uFF08\u8981\u5165\u529B\uFF09",
-        wind: wd.value,
-        windSrc: wd.found ? wd.uncertain ? "\u753B\u50CF\u304B\u3089\u63A8\u5B9A\uFF08\u8981\u78BA\u8A8D\uFF09" : "\u753B\u50CF\u304B\u3089" : "\u65E2\u5B9A\uFF08\u8981\u5165\u529B\uFF09",
+        weather: ex.fmt === "F2" ? "sunny" : wx.value,
+        // F2は天気記載なし→既定。F1/F3は画像から
+        weatherSrc: ex.fmt === "F2" ? "\u65E2\u5B9A\uFF08\u8981\u5165\u529B\uFF09" : wx.found ? "\u753B\u50CF\u304B\u3089" : "\u65E2\u5B9A\uFF08\u8981\u5165\u529B\uFF09",
+        wind: ex.fmt === "F2" ? 0 : wd.value,
+        // F2は風記載なし→既定。F1/F3は画像から
+        windSrc: ex.fmt === "F2" ? "\u65E2\u5B9A\uFF08\u8981\u5165\u529B\uFF09" : wd.found ? wd.uncertain ? "\u753B\u50CF\u304B\u3089\u63A8\u5B9A\uFF08\u8981\u78BA\u8A8D\uFF09" : "\u753B\u50CF\u304B\u3089" : "\u65E2\u5B9A\uFF08\u8981\u5165\u529B\uFF09",
         edited: {}
       };
       setOcr({ built, setup, venueId, meta: { fmt: ex.fmt, courseName: ex.courseName, totalYard: ex.totalYard, teeText: ex.teeText, greenText: ex.greenText, frontCourseName: ex.frontCourseName, backCourseName: ex.backCourseName, ocrDebug: ex.ocrDebug } });
@@ -7007,7 +7127,7 @@ function GolfTracker() {
           window.scrollTo(0, 0);
         } catch (e) {
         }
-      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrBackToData }, "\u6700\u521D\u306B\u623B\u308B"), ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("button", { onClick: (e) => {
+      } }, "\u6B21\u3078\uFF1A\u30B9\u30B3\u30A2\u767B\u9332"), /* @__PURE__ */ React.createElement("div", { style: { height: "10px" } }), /* @__PURE__ */ React.createElement("button", { style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%" }), onClick: ocrBackToData }, "\u6700\u521D\u306B\u623B\u308B"), SHOW_OCR_DEBUG && ocr.meta && ocr.meta.ocrDebug && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "12px", background: "#0f172a", color: "#e2e8f0", borderRadius: "10px", padding: "12px", fontSize: "10px", lineHeight: 1.5, fontFamily: "monospace", overflowX: "auto", wordBreak: "break-all" } }, /* @__PURE__ */ React.createElement("button", { onClick: (e) => {
         var d = ocr.meta.ocrDebug;
         var text = [
           "\u{1F527} OCR\u8A3A\u65AD v5 [" + d.engine + "] ver." + APP_VERSION,
