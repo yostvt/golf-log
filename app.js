@@ -2793,7 +2793,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06200034";
+var APP_VERSION = "06200048";
 var OCR_ENGINE = "vision";
 function ocrCanvasToBase64(canvas) {
   var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
@@ -3292,12 +3292,23 @@ function ocrCalibrateColsH(words, parY, W, rowH) {
     return c.x;
   });
   if (cx.length < 14) return null;
-  var gaps = [];
-  for (var i = 1; i < cx.length; i++) gaps.push({ i, d: cx[i] - cx[i - 1] });
-  gaps.sort(function(a, b2) {
-    return b2.d - a.d;
+  var allGaps = [];
+  for (var gi = 1; gi < cx.length; gi++) allGaps.push(cx[gi] - cx[gi - 1]);
+  var gsort = allGaps.slice().sort(function(a, b2) {
+    return a - b2;
   });
-  var splitIdx = gaps.length ? gaps[0].i : Math.round(cx.length / 2);
+  var gPitch = gsort.length ? gsort[Math.floor(gsort.length / 2)] : 0;
+  var center = (cx[0] + cx[cx.length - 1]) / 2;
+  var splitIdx = -1, splitD = Infinity;
+  for (var i = 1; i < cx.length; i++) {
+    if (!(gPitch > 0) || cx[i] - cx[i - 1] < gPitch * 1.4) continue;
+    var mid = (cx[i] + cx[i - 1]) / 2, dd = Math.abs(mid - center);
+    if (dd < splitD) {
+      splitD = dd;
+      splitIdx = i;
+    }
+  }
+  if (splitIdx < 0) splitIdx = Math.round(cx.length / 2);
   var frontXs = cx.slice(0, splitIdx), backXs = cx.slice(splitIdx);
   var TMPL_PCT = [20.8, 24.1, 27.3, 30.5, 33.7, 37, 40.2, 43.4, 46.7, 57.6, 60.9, 64.1, 67.3, 70.6, 73.8, 77, 80.3, 83.4];
   var tmplFront = TMPL_PCT.slice(0, 9).map(function(p) {
@@ -3306,43 +3317,60 @@ function ocrCalibrateColsH(words, parY, W, rowH) {
   var tmplBack = TMPL_PCT.slice(9).map(function(p) {
     return W * p / 100;
   });
-  function fitNine(arr, tmpl) {
-    if (!arr || arr.length < 2) return null;
-    if (arr.length === 9) return arr.slice();
-    var d = [];
-    for (var k = 1; k < arr.length; k++) d.push(arr[k] - arr[k - 1]);
-    d.sort(function(a, b2) {
-      return a - b2;
-    });
-    var pitch = d[Math.floor(d.length / 2)];
-    if (!(pitch > 0)) return null;
+  function selectNine(arr, pitch) {
+    if (!arr || arr.length < 2 || !(pitch > 0)) return null;
     var rs = [0];
     for (var k2 = 1; k2 < arr.length; k2++) rs.push(rs[k2 - 1] + Math.max(1, Math.round((arr[k2] - arr[k2 - 1]) / pitch)));
-    var rlast = rs[rs.length - 1];
-    if (rlast > 8) return null;
-    var bestO = 0, bestErr = Infinity;
-    for (var o = 0; o <= 8 - rlast; o++) {
-      var x0 = 0;
-      for (var a1 = 0; a1 < arr.length; a1++) x0 += arr[a1] - pitch * (rs[a1] + o);
-      x0 /= arr.length;
-      var err = 0;
-      for (var j1 = 0; j1 < 9; j1++) {
-        var px = x0 + pitch * j1;
-        err += (px - tmpl[j1]) * (px - tmpl[j1]);
-      }
-      if (err < bestErr) {
-        bestErr = err;
-        bestO = o;
+    var bestW = 0, bestCnt = -1, rmax = rs[rs.length - 1];
+    for (var w = 0; w <= rmax; w++) {
+      var cnt = 0;
+      for (var t = 0; t < rs.length; t++) if (rs[t] >= w && rs[t] <= w + 8) cnt++;
+      if (cnt > bestCnt) {
+        bestCnt = cnt;
+        bestW = w;
       }
     }
-    var x0b = 0;
-    for (var a2 = 0; a2 < arr.length; a2++) x0b += arr[a2] - pitch * (rs[a2] + bestO);
-    x0b /= arr.length;
+    var selX = [], selS = [];
+    for (var t2 = 0; t2 < rs.length; t2++) if (rs[t2] >= bestW && rs[t2] <= bestW + 8) {
+      selX.push(arr[t2]);
+      selS.push(rs[t2] - bestW);
+    }
+    if (selX.length < 5) return null;
+    return { selX, selS, maxS: selS[selS.length - 1] };
+  }
+  function x0at(sel, o, pitch) {
+    var s = 0;
+    for (var i2 = 0; i2 < sel.selX.length; i2++) s += sel.selX[i2] - pitch * (sel.selS[i2] + o);
+    return s / sel.selX.length;
+  }
+  var sf = selectNine(frontXs, gPitch), sb = selectNine(backXs, gPitch);
+  if (!sf || !sb) return null;
+  var drift = null;
+  if (sf.maxS === 8) drift = x0at(sf, 0, gPitch) - tmplFront[0];
+  else if (sb.maxS === 8) drift = x0at(sb, 0, gPitch) - tmplBack[0];
+  function resolveNine(sel, tmpl) {
+    var bestO = 0;
+    if (sel.maxS < 8) {
+      var bestErr = Infinity;
+      for (var o = 0; o <= 8 - sel.maxS; o++) {
+        var x0 = x0at(sel, o, gPitch), err = 0;
+        for (var j = 0; j < 9; j++) {
+          var tt = tmpl[j] + (drift != null ? drift : 0);
+          var px = x0 + gPitch * j;
+          err += (px - tt) * (px - tt);
+        }
+        if (err < bestErr) {
+          bestErr = err;
+          bestO = o;
+        }
+      }
+    }
+    var x0b = x0at(sel, bestO, gPitch);
     var out = [];
-    for (var j2 = 0; j2 < 9; j2++) out.push(x0b + pitch * j2);
+    for (var j2 = 0; j2 < 9; j2++) out.push(x0b + gPitch * j2);
     return out;
   }
-  var f = fitNine(frontXs, tmplFront), b = fitNine(backXs, tmplBack);
+  var f = resolveNine(sf, tmplFront), b = resolveNine(sb, tmplBack);
   if (!f || !b) return null;
   return f.concat(b);
 }
