@@ -3008,7 +3008,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06222254";
+var APP_VERSION = "06240601";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {

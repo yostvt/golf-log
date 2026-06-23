@@ -65569,3 +65569,2789 @@ VENUES.push({
   ],
   getYardage: (hole, green, tee) => hole[tee] ?? null,
 });
+
+// === HGA北海道 10件追加 2026-06-22 ===
+// 阿寒 27H(まりも/丹頂/ピリカ)1G(ベント)3T HGA北海道 所在:釧路市阿寒町舌辛 出典GORA010002 2026-06-22
+VENUES.push({
+  id: "akan_cc",
+  reading: "アカンカントリークラブ",
+  name: "阿寒カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "まりも", holes: [
+      {"hole": 1, "par": 5, "hdcp": 6, "back": 527, "reg": 497, "front": 467},
+      {"hole": 2, "par": 4, "hdcp": 2, "back": 443, "reg": 403, "front": 371},
+      {"hole": 3, "par": 3, "hdcp": 7, "back": 187, "reg": 164, "front": 164},
+      {"hole": 4, "par": 4, "hdcp": 3, "back": 441, "reg": 406, "front": 372},
+      {"hole": 5, "par": 4, "hdcp": 4, "back": 407, "reg": 389, "front": 325},
+      {"hole": 6, "par": 4, "hdcp": 5, "back": 427, "reg": 408, "front": 335},
+      {"hole": 7, "par": 5, "hdcp": 1, "back": 614, "reg": 523, "front": 489},
+      {"hole": 8, "par": 3, "hdcp": 8, "back": 164, "reg": 145, "front": 145},
+      {"hole": 9, "par": 4, "hdcp": 9, "back": 364, "reg": 345, "front": 345},
+    ]},
+    { name: "丹頂", holes: [
+      {"hole": 1, "par": 5, "hdcp": 4, "back": 531, "reg": 501, "front": 501},
+      {"hole": 2, "par": 4, "hdcp": 3, "back": 411, "reg": 380, "front": 356},
+      {"hole": 3, "par": 4, "hdcp": 5, "back": 359, "reg": 329, "front": 329},
+      {"hole": 4, "par": 3, "hdcp": 9, "back": 177, "reg": 158, "front": 158},
+      {"hole": 5, "par": 4, "hdcp": 2, "back": 470, "reg": 444, "front": 260},
+      {"hole": 6, "par": 5, "hdcp": 1, "back": 624, "reg": 576, "front": 506},
+      {"hole": 7, "par": 4, "hdcp": 8, "back": 385, "reg": 364, "front": 364},
+      {"hole": 8, "par": 3, "hdcp": 7, "back": 211, "reg": 186, "front": 168},
+      {"hole": 9, "par": 4, "hdcp": 6, "back": 360, "reg": 342, "front": 342},
+    ]},
+    { name: "ピリカ", holes: [
+      {"hole": 1, "par": 5, "hdcp": 1, "back": 612, "reg": 515, "front": 449},
+      {"hole": 2, "par": 4, "hdcp": 5, "back": 372, "reg": 321, "front": 303},
+      {"hole": 3, "par": 4, "hdcp": 6, "back": 403, "reg": 381, "front": 364},
+      {"hole": 4, "par": 3, "hdcp": 9, "back": 135, "reg": 117, "front": 94},
+      {"hole": 5, "par": 4, "hdcp": 8, "back": 387, "reg": 356, "front": 356},
+      {"hole": 6, "par": 4, "hdcp": 2, "back": 426, "reg": 351, "front": 351},
+      {"hole": 7, "par": 5, "hdcp": 3, "back": 598, "reg": 501, "front": 460},
+      {"hole": 8, "par": 3, "hdcp": 7, "back": 180, "reg": 160, "front": 111},
+      {"hole": 9, "par": 4, "hdcp": 4, "back": 404, "reg": 354, "front": 354},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 旭川国際愛別 18H 1G(ベント)6T HGA北海道 所在:上川郡愛別町字伏古 出典GORA010004 2026-06-22
+VENUES.push({
+  id: "asahikawa_kokusai_aibetsu",
+  reading: "アサヒカワコクサイカントリークラブアイベツコース",
+  name: "旭川国際カントリークラブ 愛別コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "gold", "label": "ゴールド"}, {"id": "ladies", "label": "レディース"}, {"id": "pink", "label": "ピンク"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 13, "back": 560, "reg": 547, "front": 547, "gold": 471, "ladies": 436, "pink": 389},
+      {"hole": 2, "par": 4, "hdcp": 5, "back": 360, "reg": 352, "front": 352, "gold": 280, "ladies": 280, "pink": 217},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 219, "reg": 188, "front": 162, "gold": 162, "ladies": 124, "pink": 78},
+      {"hole": 4, "par": 4, "hdcp": 17, "back": 328, "reg": 322, "front": 322, "gold": 322, "ladies": 221, "pink": 197},
+      {"hole": 5, "par": 5, "hdcp": 7, "back": 574, "reg": 554, "front": 520, "gold": 451, "ladies": 451, "pink": 398},
+      {"hole": 6, "par": 4, "hdcp": 11, "back": 393, "reg": 361, "front": 361, "gold": 286, "ladies": 286, "pink": 250},
+      {"hole": 7, "par": 4, "hdcp": 1, "back": 430, "reg": 399, "front": 377, "gold": 316, "ladies": 316, "pink": 255},
+      {"hole": 8, "par": 3, "hdcp": 15, "back": 227, "reg": 198, "front": 198, "gold": 164, "ladies": 164, "pink": 134},
+      {"hole": 9, "par": 4, "hdcp": 3, "back": 454, "reg": 443, "front": 379, "gold": 311, "ladies": 311, "pink": 272},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 16, "back": 417, "reg": 408, "front": 377, "gold": 377, "ladies": 251, "pink": 213},
+      {"hole": 11, "par": 4, "hdcp": 8, "back": 377, "reg": 373, "front": 373, "gold": 301, "ladies": 277, "pink": 212},
+      {"hole": 12, "par": 4, "hdcp": 2, "back": 443, "reg": 422, "front": 396, "gold": 317, "ladies": 317, "pink": 254},
+      {"hole": 13, "par": 3, "hdcp": 14, "back": 170, "reg": 157, "front": 157, "gold": 108, "ladies": 108, "pink": 90},
+      {"hole": 14, "par": 5, "hdcp": 6, "back": 544, "reg": 539, "front": 539, "gold": 471, "ladies": 406, "pink": 380},
+      {"hole": 15, "par": 4, "hdcp": 10, "back": 360, "reg": 350, "front": 350, "gold": 262, "ladies": 262, "pink": 223},
+      {"hole": 16, "par": 3, "hdcp": 18, "back": 175, "reg": 160, "front": 160, "gold": 108, "ladies": 108, "pink": 90},
+      {"hole": 17, "par": 4, "hdcp": 4, "back": 413, "reg": 385, "front": 385, "gold": 306, "ladies": 306, "pink": 250},
+      {"hole": 18, "par": 5, "hdcp": 12, "back": 519, "reg": 500, "front": 500, "gold": 420, "ladies": 402, "pink": 371},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 旭川GC 18H 1G(ベント)2T(Par70)HGA北海道 所在:旭川市神居町 出典GORA010005 2026-06-22
+VENUES.push({
+  id: "asahikawa_gc",
+  reading: "アサヒカワゴルフクラブ",
+  name: "旭川ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 17, "back": 320, "reg": 309},
+      {"hole": 2, "par": 4, "hdcp": 7, "back": 423, "reg": 413},
+      {"hole": 3, "par": 5, "hdcp": 3, "back": 517, "reg": 501},
+      {"hole": 4, "par": 3, "hdcp": 13, "back": 161, "reg": 150},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 416, "reg": 394},
+      {"hole": 6, "par": 3, "hdcp": 9, "back": 184, "reg": 171},
+      {"hole": 7, "par": 4, "hdcp": 5, "back": 366, "reg": 345},
+      {"hole": 8, "par": 4, "hdcp": 11, "back": 325, "reg": 313},
+      {"hole": 9, "par": 4, "hdcp": 15, "back": 314, "reg": 307},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 10, "back": 350, "reg": 340},
+      {"hole": 11, "par": 4, "hdcp": 16, "back": 419, "reg": 410},
+      {"hole": 12, "par": 3, "hdcp": 18, "back": 155, "reg": 155},
+      {"hole": 13, "par": 4, "hdcp": 6, "back": 335, "reg": 326},
+      {"hole": 14, "par": 4, "hdcp": 12, "back": 336, "reg": 296},
+      {"hole": 15, "par": 4, "hdcp": 2, "back": 373, "reg": 363},
+      {"hole": 16, "par": 4, "hdcp": 8, "back": 331, "reg": 319},
+      {"hole": 17, "par": 3, "hdcp": 14, "back": 198, "reg": 168},
+      {"hole": 18, "par": 5, "hdcp": 4, "back": 493, "reg": 443},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 旭川大雪山 36H(西OUT/西IN/東OUT/東IN)1G(ベント)4T HDCP不明 HGA北海道 所在:上川郡東神楽町 出典公式taisetsuzan 2026-06-22
+VENUES.push({
+  id: "asahikawa_taisetsu_cc",
+  reading: "アサヒカワタイセツザンカントリークラブ",
+  name: "旭川大雪山カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "lady", "label": "LADIES"}],
+  subCourses: [
+    { name: "西OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 408, "reg": 375, "front": 350, "lady": 270},
+      {"hole": 2, "par": 3, "hdcp": null, "back": 207, "reg": 173, "front": 149, "lady": 118},
+      {"hole": 3, "par": 5, "hdcp": null, "back": 569, "reg": 545, "front": 498, "lady": 402},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 359, "reg": 337, "front": 308, "lady": 275},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 362, "reg": 348, "front": 302, "lady": 267},
+      {"hole": 6, "par": 5, "hdcp": null, "back": 567, "reg": 534, "front": 481, "lady": 408},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 369, "reg": 329, "front": 306, "lady": 253},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 162, "reg": 152, "front": 142, "lady": 119},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 385, "reg": 367, "front": 293, "lady": 266},
+    ]},
+    { name: "西IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": null, "back": 604, "reg": 553, "front": 503, "lady": 437},
+      {"hole": 11, "par": 4, "hdcp": null, "back": 445, "reg": 419, "front": 400, "lady": 239},
+      {"hole": 12, "par": 3, "hdcp": null, "back": 194, "reg": 176, "front": 156, "lady": 139},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 402, "reg": 388, "front": 330, "lady": 308},
+      {"hole": 14, "par": 5, "hdcp": null, "back": 523, "reg": 491, "front": 470, "lady": 393},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 412, "reg": 392, "front": 335, "lady": 251},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 452, "reg": 428, "front": 378, "lady": 350},
+      {"hole": 17, "par": 3, "hdcp": null, "back": 215, "reg": 182, "front": 171, "lady": 120},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 339, "reg": 321, "front": 299, "lady": 262},
+    ]},
+    { name: "東OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 403, "reg": 380, "front": 352, "lady": 293},
+      {"hole": 2, "par": 3, "hdcp": null, "back": 146, "reg": 146, "front": 126, "lady": 116},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 410, "reg": 363, "front": 343, "lady": 297},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 408, "reg": 386, "front": 353, "lady": 308},
+      {"hole": 5, "par": 5, "hdcp": null, "back": 513, "reg": 483, "front": 448, "lady": 408},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 433, "reg": 405, "front": 370, "lady": 338},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 326, "reg": 326, "front": 305, "lady": 281},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 178, "reg": 143, "front": 123, "lady": 123},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 583, "reg": 547, "front": 502, "lady": 436},
+    ]},
+    { name: "東IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 422, "reg": 395, "front": 366, "lady": 295},
+      {"hole": 11, "par": 3, "hdcp": null, "back": 188, "reg": 158, "front": 138, "lady": 121},
+      {"hole": 12, "par": 5, "hdcp": null, "back": 515, "reg": 496, "front": 477, "lady": 435},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 362, "reg": 342, "front": 305, "lady": 278},
+      {"hole": 14, "par": 4, "hdcp": null, "back": 417, "reg": 345, "front": 323, "lady": 285},
+      {"hole": 15, "par": 5, "hdcp": null, "back": 555, "reg": 539, "front": 493, "lady": 450},
+      {"hole": 16, "par": 3, "hdcp": null, "back": 158, "reg": 158, "front": 128, "lady": 107},
+      {"hole": 17, "par": 4, "hdcp": null, "back": 316, "reg": 316, "front": 299, "lady": 279},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 428, "reg": 397, "front": 342, "lady": 312},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 旭川たかす 18H 1G(ベント)4T HDCP不明 HGA北海道 所在:上川郡鷹栖町 出典公式takasu-golf+GORA010081 2026-06-22
+VENUES.push({
+  id: "asahikawa_takasu_gc",
+  reading: "アサヒカワタカスゴルフクラブ",
+  name: "旭川たかすゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "bt", "label": "BT"}, {"id": "rt", "label": "RT"}, {"id": "gt", "label": "GT"}, {"id": "lt", "label": "LT"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "bt": 572, "rt": 547, "gt": 449, "lt": 408},
+      {"hole": 2, "par": 4, "hdcp": null, "bt": 408, "rt": 385, "gt": 357, "lt": 253},
+      {"hole": 3, "par": 4, "hdcp": null, "bt": 331, "rt": 312, "gt": 288, "lt": 247},
+      {"hole": 4, "par": 3, "hdcp": null, "bt": 165, "rt": 122, "gt": 107, "lt": 107},
+      {"hole": 5, "par": 4, "hdcp": null, "bt": 331, "rt": 320, "gt": 301, "lt": 301},
+      {"hole": 6, "par": 4, "hdcp": null, "bt": 300, "rt": 286, "gt": 267, "lt": 267},
+      {"hole": 7, "par": 3, "hdcp": null, "bt": 145, "rt": 137, "gt": 127, "lt": 127},
+      {"hole": 8, "par": 5, "hdcp": null, "bt": 472, "rt": 457, "gt": 447, "lt": 370},
+      {"hole": 9, "par": 4, "hdcp": null, "bt": 361, "rt": 339, "gt": 300, "lt": 260},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "bt": 437, "rt": 406, "gt": 378, "lt": 312},
+      {"hole": 11, "par": 3, "hdcp": null, "bt": 206, "rt": 187, "gt": 148, "lt": 127},
+      {"hole": 12, "par": 4, "hdcp": null, "bt": 349, "rt": 327, "gt": 294, "lt": 294},
+      {"hole": 13, "par": 4, "hdcp": null, "bt": 341, "rt": 319, "gt": 296, "lt": 246},
+      {"hole": 14, "par": 5, "hdcp": null, "bt": 545, "rt": 520, "gt": 461, "lt": 461},
+      {"hole": 15, "par": 4, "hdcp": null, "bt": 384, "rt": 365, "gt": 297, "lt": 297},
+      {"hole": 16, "par": 4, "hdcp": null, "bt": 416, "rt": 397, "gt": 326, "lt": 326},
+      {"hole": 17, "par": 3, "hdcp": null, "bt": 179, "rt": 165, "gt": 127, "lt": 114},
+      {"hole": 18, "par": 5, "hdcp": null, "bt": 525, "rt": 504, "gt": 490, "lt": 439},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 旭川メモリアル 18H 1G(ベント)3T HGA北海道 所在:旭川市神居町富岡 出典公式anchor-golf+GORA010006 2026-06-22
+VENUES.push({
+  id: "asahikawa_memorial_cc",
+  reading: "アサヒカワメモリアルカントリークラブ",
+  name: "旭川メモリアルカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "B.T."}, {"id": "reg", "label": "R.T."}, {"id": "front", "label": "F.T."}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "back": 384, "reg": 352, "front": 336},
+      {"hole": 2, "par": 4, "hdcp": 5, "back": 370, "reg": 351, "front": 340},
+      {"hole": 3, "par": 5, "hdcp": 13, "back": 528, "reg": 499, "front": 484},
+      {"hole": 4, "par": 4, "hdcp": 11, "back": 364, "reg": 342, "front": 329},
+      {"hole": 5, "par": 3, "hdcp": 17, "back": 183, "reg": 156, "front": 137},
+      {"hole": 6, "par": 4, "hdcp": 15, "back": 366, "reg": 340, "front": 324},
+      {"hole": 7, "par": 4, "hdcp": 1, "back": 387, "reg": 364, "front": 347},
+      {"hole": 8, "par": 3, "hdcp": 11, "back": 202, "reg": 167, "front": 152},
+      {"hole": 9, "par": 5, "hdcp": 9, "back": 547, "reg": 519, "front": 503},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 404, "reg": 379, "front": 363},
+      {"hole": 11, "par": 4, "hdcp": 12, "back": 363, "reg": 338, "front": 324},
+      {"hole": 12, "par": 5, "hdcp": 16, "back": 518, "reg": 492, "front": 482},
+      {"hole": 13, "par": 3, "hdcp": 18, "back": 178, "reg": 153, "front": 132},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 385, "reg": 341, "front": 318},
+      {"hole": 15, "par": 4, "hdcp": 2, "back": 413, "reg": 383, "front": 364},
+      {"hole": 16, "par": 5, "hdcp": 14, "back": 545, "reg": 515, "front": 503},
+      {"hole": 17, "par": 3, "hdcp": 10, "back": 194, "reg": 168, "front": 148},
+      {"hole": 18, "par": 4, "hdcp": 6, "back": 384, "reg": 352, "front": 336},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 安平 18H 1G(ベント)5T HGA北海道 所在:勇払郡安平町早来富岡 出典公式abira-gc 2026-06-22(YOS提示の正式値・早来CCとは別施設)
+VENUES.push({
+  id: "abira_gc",
+  reading: "アビラゴルフクラブ",
+  name: "安平ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champion", "label": "チャンピオン"}, {"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "forward", "label": "フォワード"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 7, "champion": 516, "back": 488, "reg": 488, "front": 456, "forward": 402},
+      {"hole": 2, "par": 3, "hdcp": 15, "champion": 199, "back": 180, "reg": 180, "front": 153, "forward": 58},
+      {"hole": 3, "par": 4, "hdcp": 3, "champion": 425, "back": 398, "reg": 361, "front": 319, "forward": 278},
+      {"hole": 4, "par": 4, "hdcp": 9, "champion": 413, "back": 381, "reg": 347, "front": 324, "forward": 259},
+      {"hole": 5, "par": 4, "hdcp": 11, "champion": 390, "back": 365, "reg": 365, "front": 325, "forward": 260},
+      {"hole": 6, "par": 3, "hdcp": 13, "champion": 205, "back": 188, "reg": 166, "front": 139, "forward": 120},
+      {"hole": 7, "par": 4, "hdcp": 1, "champion": 430, "back": 401, "reg": 369, "front": 330, "forward": 294},
+      {"hole": 8, "par": 4, "hdcp": 17, "champion": 412, "back": 363, "reg": 327, "front": 301, "forward": 262},
+      {"hole": 9, "par": 5, "hdcp": 5, "champion": 554, "back": 517, "reg": 514, "front": 472, "forward": 364},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 10, "champion": 420, "back": 398, "reg": 370, "front": 332, "forward": 285},
+      {"hole": 11, "par": 5, "hdcp": 6, "champion": 548, "back": 522, "reg": 489, "front": 452, "forward": 397},
+      {"hole": 12, "par": 4, "hdcp": 16, "champion": 401, "back": 376, "reg": 339, "front": 324, "forward": 296},
+      {"hole": 13, "par": 5, "hdcp": 4, "champion": 550, "back": 491, "reg": 491, "front": 441, "forward": 413},
+      {"hole": 14, "par": 3, "hdcp": 14, "champion": 190, "back": 152, "reg": 152, "front": 124, "forward": 124},
+      {"hole": 15, "par": 4, "hdcp": 12, "champion": 401, "back": 362, "reg": 362, "front": 326, "forward": 283},
+      {"hole": 16, "par": 3, "hdcp": 18, "champion": 175, "back": 145, "reg": 145, "front": 118, "forward": 118},
+      {"hole": 17, "par": 4, "hdcp": 2, "champion": 449, "back": 423, "reg": 400, "front": 371, "forward": 317},
+      {"hole": 18, "par": 4, "hdcp": 8, "champion": 402, "back": 381, "reg": 381, "front": 334, "forward": 259},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 石狩平原 27H(南/中/西)1G(ベント)4T HGA北海道 所在:石狩郡当別町弁華別 出典GORA010013 2026-06-22
+VENUES.push({
+  id: "ishikari_heigen_cc",
+  reading: "イシカリヘイゲンカントリークラブ",
+  name: "石狩平原カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "senior", "label": "シニア"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "南", holes: [
+      {"hole": 1, "par": 4, "hdcp": 9, "back": 345, "reg": 330, "senior": 316, "ladies": 170},
+      {"hole": 2, "par": 3, "hdcp": 5, "back": 188, "reg": 173, "senior": 153, "ladies": 153},
+      {"hole": 3, "par": 4, "hdcp": 2, "back": 428, "reg": 394, "senior": 329, "ladies": 279},
+      {"hole": 4, "par": 5, "hdcp": 6, "back": 509, "reg": 488, "senior": 456, "ladies": 391},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 389, "reg": 355, "senior": 330, "ladies": 279},
+      {"hole": 6, "par": 3, "hdcp": 3, "back": 201, "reg": 164, "senior": 148, "ladies": 127},
+      {"hole": 7, "par": 4, "hdcp": 8, "back": 329, "reg": 309, "senior": 289, "ladies": 289},
+      {"hole": 8, "par": 4, "hdcp": 4, "back": 421, "reg": 401, "senior": 371, "ladies": 263},
+      {"hole": 9, "par": 5, "hdcp": 1, "back": 535, "reg": 519, "senior": 461, "ladies": 358},
+    ]},
+    { name: "中", holes: [
+      {"hole": 1, "par": 4, "hdcp": 2, "back": 358, "reg": 344, "senior": 329, "ladies": 237},
+      {"hole": 2, "par": 4, "hdcp": 1, "back": 388, "reg": 300, "senior": 274, "ladies": 274},
+      {"hole": 3, "par": 4, "hdcp": 4, "back": 392, "reg": 373, "senior": 349, "ladies": 309},
+      {"hole": 4, "par": 3, "hdcp": 3, "back": 155, "reg": 142, "senior": 141, "ladies": 134},
+      {"hole": 5, "par": 5, "hdcp": 6, "back": 436, "reg": 418, "senior": 418, "ladies": 355},
+      {"hole": 6, "par": 4, "hdcp": 5, "back": 296, "reg": 280, "senior": 267, "ladies": 244},
+      {"hole": 7, "par": 4, "hdcp": 7, "back": 344, "reg": 338, "senior": 333, "ladies": 333},
+      {"hole": 8, "par": 5, "hdcp": 8, "back": 548, "reg": 539, "senior": 460, "ladies": 325},
+      {"hole": 9, "par": 3, "hdcp": 9, "back": 158, "reg": 139, "senior": 129, "ladies": 129},
+    ]},
+    { name: "西", holes: [
+      {"hole": 1, "par": 5, "hdcp": 7, "back": 498, "reg": 470, "senior": 425, "ladies": 369},
+      {"hole": 2, "par": 5, "hdcp": 4, "back": 569, "reg": 529, "senior": 460, "ladies": 407},
+      {"hole": 3, "par": 4, "hdcp": 6, "back": 321, "reg": 302, "senior": 290, "ladies": 276},
+      {"hole": 4, "par": 3, "hdcp": 5, "back": 153, "reg": 144, "senior": 138, "ladies": 100},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 405, "reg": 395, "senior": 316, "ladies": 316},
+      {"hole": 6, "par": 4, "hdcp": 3, "back": 389, "reg": 359, "senior": 292, "ladies": 292},
+      {"hole": 7, "par": 4, "hdcp": 9, "back": 324, "reg": 310, "senior": 299, "ladies": 299},
+      {"hole": 8, "par": 3, "hdcp": 8, "back": 173, "reg": 157, "senior": 147, "ladies": 124},
+      {"hole": 9, "par": 4, "hdcp": 2, "back": 384, "reg": 347, "senior": 343, "ladies": 277},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// エーヴランド 18H 1G(ベント)2T HGA北海道 所在:余市郡余市町登町 出典GORA010035 2026-06-22
+VENUES.push({
+  id: "aveland_gc",
+  reading: "エーヴランドゴルフクラブ",
+  name: "エーヴランドゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 5, "back": 461, "reg": 435},
+      {"hole": 2, "par": 4, "hdcp": 1, "back": 432, "reg": 412},
+      {"hole": 3, "par": 3, "hdcp": 7, "back": 179, "reg": 157},
+      {"hole": 4, "par": 4, "hdcp": 17, "back": 393, "reg": 363},
+      {"hole": 5, "par": 5, "hdcp": 15, "back": 514, "reg": 486},
+      {"hole": 6, "par": 4, "hdcp": 11, "back": 407, "reg": 389},
+      {"hole": 7, "par": 4, "hdcp": 3, "back": 459, "reg": 440},
+      {"hole": 8, "par": 3, "hdcp": 9, "back": 205, "reg": 191},
+      {"hole": 9, "par": 5, "hdcp": 13, "back": 549, "reg": 527},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 18, "back": 516, "reg": 496},
+      {"hole": 11, "par": 4, "hdcp": 16, "back": 338, "reg": 312},
+      {"hole": 12, "par": 3, "hdcp": 12, "back": 161, "reg": 138},
+      {"hole": 13, "par": 5, "hdcp": 8, "back": 516, "reg": 492},
+      {"hole": 14, "par": 4, "hdcp": 2, "back": 398, "reg": 385},
+      {"hole": 15, "par": 4, "hdcp": 14, "back": 410, "reg": 389},
+      {"hole": 16, "par": 4, "hdcp": 4, "back": 434, "reg": 394},
+      {"hole": 17, "par": 3, "hdcp": 10, "back": 192, "reg": 175},
+      {"hole": 18, "par": 4, "hdcp": 6, "back": 438, "reg": 375},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// エバーグリーン 18H 1G(ベント)6T HDCP不明 HGA北海道 所在:夕張郡栗山町円山 出典公式evergreen-gc 2026-06-22
+VENUES.push({
+  id: "evergreen_gc",
+  reading: "エバーグリーンゴルフクラブ",
+  name: "エバーグリーンゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}, {"id": "front", "label": "FRONT"}, {"id": "gold", "label": "GOLD"}, {"id": "orange", "label": "ORANGE"}, {"id": "ever", "label": "EVER"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 388, "reg": 363, "front": 343, "gold": 322, "orange": 305, "ever": 268},
+      {"hole": 2, "par": 3, "hdcp": null, "back": 177, "reg": 158, "front": 139, "gold": 120, "orange": 120, "ever": 120},
+      {"hole": 3, "par": 5, "hdcp": null, "back": 572, "reg": 545, "front": 522, "gold": 504, "orange": 487, "ever": 418},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 433, "reg": 407, "front": 373, "gold": 346, "orange": 317, "ever": 274},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 351, "reg": 303, "front": 277, "gold": 251, "orange": 251, "ever": 251},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 390, "reg": 358, "front": 337, "gold": 313, "orange": 313, "ever": 256},
+      {"hole": 7, "par": 5, "hdcp": null, "back": 547, "reg": 528, "front": 508, "gold": 473, "orange": 473, "ever": 366},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 149, "reg": 130, "front": 111, "gold": 92, "orange": 92, "ever": 92},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 367, "reg": 357, "front": 343, "gold": 329, "orange": 329, "ever": 264},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 332, "reg": 314, "front": 295, "gold": 278, "orange": 278, "ever": 233},
+      {"hole": 11, "par": 3, "hdcp": null, "back": 165, "reg": 149, "front": 129, "gold": 90, "orange": 90, "ever": 90},
+      {"hole": 12, "par": 4, "hdcp": null, "back": 392, "reg": 388, "front": 364, "gold": 347, "orange": 327, "ever": 226},
+      {"hole": 13, "par": 5, "hdcp": null, "back": 533, "reg": 517, "front": 495, "gold": 472, "orange": 448, "ever": 385},
+      {"hole": 14, "par": 4, "hdcp": null, "back": 407, "reg": 388, "front": 351, "gold": 330, "orange": 310, "ever": 242},
+      {"hole": 15, "par": 5, "hdcp": null, "back": 532, "reg": 516, "front": 497, "gold": 477, "orange": 452, "ever": 407},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 370, "reg": 351, "front": 329, "gold": 312, "orange": 312, "ever": 264},
+      {"hole": 17, "par": 3, "hdcp": null, "back": 200, "reg": 175, "front": 155, "gold": 134, "orange": 116, "ever": 116},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 435, "reg": 417, "front": 401, "gold": 384, "orange": 365, "ever": 287},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// === HGA北海道 第2バッチ 15件追加 2026-06-22 ===
+// エミナ(苫小牧ゴルフリゾート72)54H(東/南/西×OUT/IN)1G(ベント)4T HGA北海道 所在:苫小牧市植苗 出典GORA010145 2026-06-22(南コースLadies非掲載)
+VENUES.push({
+  id: "emina_gc",
+  reading: "エミナゴルフクラブ",
+  name: "苫小牧ゴルフリゾート72 エミナゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "東OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 5, "back": 450, "regular": 391, "front": 374, "ladies": 321},
+      {"hole": 2, "par": 4, "hdcp": 1, "back": 470, "regular": 408, "front": 360, "ladies": 318},
+      {"hole": 3, "par": 5, "hdcp": 9, "back": 544, "regular": 520, "front": 498, "ladies": 401},
+      {"hole": 4, "par": 3, "hdcp": 11, "back": 182, "regular": 162, "front": 147, "ladies": 121},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 396, "regular": 377, "front": 357, "ladies": 272},
+      {"hole": 6, "par": 5, "hdcp": 15, "back": 524, "regular": 490, "front": 455, "ladies": 391},
+      {"hole": 7, "par": 4, "hdcp": 13, "back": 424, "regular": 380, "front": 350, "ladies": 286},
+      {"hole": 8, "par": 3, "hdcp": 17, "back": 147, "regular": 120, "front": 107, "ladies": 107},
+      {"hole": 9, "par": 4, "hdcp": 3, "back": 400, "regular": 374, "front": 320, "ladies": 265},
+    ]},
+    { name: "東IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 2, "back": 470, "regular": 410, "front": 380, "ladies": 341},
+      {"hole": 11, "par": 4, "hdcp": 10, "back": 407, "regular": 389, "front": 366, "ladies": 287},
+      {"hole": 12, "par": 3, "hdcp": 14, "back": 205, "regular": 181, "front": 163, "ladies": 145},
+      {"hole": 13, "par": 4, "hdcp": 8, "back": 430, "regular": 350, "front": 295, "ladies": 263},
+      {"hole": 14, "par": 5, "hdcp": 6, "back": 533, "regular": 507, "front": 481, "ladies": 415},
+      {"hole": 15, "par": 3, "hdcp": 18, "back": 174, "regular": 154, "front": 130, "ladies": 125},
+      {"hole": 16, "par": 4, "hdcp": 16, "back": 359, "regular": 335, "front": 321, "ladies": 316},
+      {"hole": 17, "par": 4, "hdcp": 4, "back": 433, "regular": 392, "front": 370, "ladies": 325},
+      {"hole": 18, "par": 5, "hdcp": 12, "back": 503, "regular": 486, "front": 434, "ladies": 413},
+    ]},
+    { name: "南OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 13, "back": 525, "regular": 502, "front": 449, "ladies": 423},
+      {"hole": 2, "par": 4, "hdcp": 5, "back": 430, "regular": 387, "front": 354, "ladies": 304},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 220, "regular": 187, "front": 164, "ladies": 164},
+      {"hole": 4, "par": 5, "hdcp": 3, "back": 570, "regular": 510, "front": 463, "ladies": 408},
+      {"hole": 5, "par": 4, "hdcp": 11, "back": 402, "regular": 348, "front": 317, "ladies": 317},
+      {"hole": 6, "par": 4, "hdcp": 7, "back": 383, "regular": 362, "front": 335, "ladies": 280},
+      {"hole": 7, "par": 3, "hdcp": 17, "back": 165, "regular": 138, "front": 116, "ladies": 116},
+      {"hole": 8, "par": 4, "hdcp": 1, "back": 425, "regular": 399, "front": 358, "ladies": 290},
+      {"hole": 9, "par": 4, "hdcp": 15, "back": 380, "regular": 331, "front": 301, "ladies": 260},
+    ]},
+    { name: "南IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 14, "back": 545, "regular": 520, "front": 470, "ladies": 420},
+      {"hole": 11, "par": 4, "hdcp": 4, "back": 390, "regular": 360, "front": 325, "ladies": 278},
+      {"hole": 12, "par": 3, "hdcp": 18, "back": 180, "regular": 165, "front": 150, "ladies": 150},
+      {"hole": 13, "par": 4, "hdcp": 2, "back": 430, "regular": 370, "front": 340, "ladies": 260},
+      {"hole": 14, "par": 4, "hdcp": 10, "back": 430, "regular": 345, "front": 315, "ladies": 283},
+      {"hole": 15, "par": 4, "hdcp": 6, "back": 400, "regular": 365, "front": 335, "ladies": 281},
+      {"hole": 16, "par": 3, "hdcp": 16, "back": 200, "regular": 170, "front": 160, "ladies": 160},
+      {"hole": 17, "par": 5, "hdcp": 8, "back": 565, "regular": 535, "front": 485, "ladies": 430},
+      {"hole": 18, "par": 4, "hdcp": 12, "back": 380, "regular": 350, "front": 320, "ladies": 275},
+    ]},
+    { name: "西OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 15, "back": 386, "regular": 362, "front": 339, "ladies": 339},
+      {"hole": 2, "par": 4, "hdcp": 5, "back": 399, "regular": 378, "front": 358, "ladies": 310},
+      {"hole": 3, "par": 4, "hdcp": 1, "back": 407, "regular": 377, "front": 340, "ladies": 340},
+      {"hole": 4, "par": 3, "hdcp": 13, "back": 215, "regular": 192, "front": 175, "ladies": 140},
+      {"hole": 5, "par": 5, "hdcp": 9, "back": 506, "regular": 486, "front": 472, "ladies": 400},
+      {"hole": 6, "par": 4, "hdcp": 11, "back": 392, "regular": 371, "front": 351, "ladies": 280},
+      {"hole": 7, "par": 4, "hdcp": 3, "back": 434, "regular": 412, "front": 393, "ladies": 320},
+      {"hole": 8, "par": 3, "hdcp": 17, "back": 161, "regular": 143, "front": 130, "ladies": 130},
+      {"hole": 9, "par": 5, "hdcp": 7, "back": 542, "regular": 520, "front": 502, "ladies": 430},
+    ]},
+    { name: "西IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 441, "regular": 417, "front": 401, "ladies": 320},
+      {"hole": 11, "par": 3, "hdcp": 18, "back": 168, "regular": 153, "front": 140, "ladies": 140},
+      {"hole": 12, "par": 5, "hdcp": 6, "back": 519, "regular": 501, "front": 478, "ladies": 400},
+      {"hole": 13, "par": 4, "hdcp": 16, "back": 403, "regular": 381, "front": 363, "ladies": 280},
+      {"hole": 14, "par": 5, "hdcp": 14, "back": 515, "regular": 498, "front": 476, "ladies": 380},
+      {"hole": 15, "par": 4, "hdcp": 8, "back": 421, "regular": 396, "front": 373, "ladies": 300},
+      {"hole": 16, "par": 4, "hdcp": 2, "back": 402, "regular": 379, "front": 361, "ladies": 290},
+      {"hole": 17, "par": 3, "hdcp": 10, "back": 194, "regular": 179, "front": 164, "ladies": 125},
+      {"hole": 18, "par": 4, "hdcp": 12, "back": 372, "regular": 358, "front": 345, "ladies": 263},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// エムアール茨戸 18H 1G(ベント)4T HDCP不明 HGA北海道 所在:石狩市生振 出典GORA010124 2026-06-22
+VENUES.push({
+  id: "mr_barato_cc",
+  reading: "エムアールバラトカントリークラブ",
+  name: "エムアール茨戸カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 410, "regular": 394, "front": 362, "ladies": 310},
+      {"hole": 2, "par": 5, "hdcp": null, "back": 492, "regular": 481, "front": 440, "ladies": 380},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 174, "regular": 152, "front": 120, "ladies": 120},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 420, "regular": 395, "front": 335, "ladies": 335},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 379, "regular": 357, "front": 311, "ladies": 311},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 385, "regular": 372, "front": 362, "ladies": 302},
+      {"hole": 7, "par": 5, "hdcp": null, "back": 547, "regular": 492, "front": 463, "ladies": 401},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 208, "regular": 180, "front": 151, "ladies": 151},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 410, "regular": 379, "front": 361, "ladies": 285},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 427, "regular": 410, "front": 348, "ladies": 318},
+      {"hole": 11, "par": 3, "hdcp": null, "back": 170, "regular": 148, "front": 142, "ladies": 110},
+      {"hole": 12, "par": 4, "hdcp": null, "back": 372, "regular": 352, "front": 338, "ladies": 285},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 399, "regular": 350, "front": 334, "ladies": 334},
+      {"hole": 14, "par": 5, "hdcp": null, "back": 527, "regular": 492, "front": 452, "ladies": 452},
+      {"hole": 15, "par": 3, "hdcp": null, "back": 180, "regular": 148, "front": 133, "ladies": 110},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 394, "regular": 370, "front": 312, "ladies": 312},
+      {"hole": 17, "par": 5, "hdcp": null, "back": 498, "regular": 479, "front": 404, "ladies": 404},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 425, "regular": 405, "front": 334, "ladies": 304},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// エムズ 18H 1G(ベント)4T HDCP不明 HGA北海道 所在:岩見沢市栗沢町 出典GORA010016 2026-06-22
+VENUES.push({
+  id: "ms_gc",
+  reading: "エムズゴルフクラブ",
+  name: "エムズゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "Back"}, {"id": "regular", "label": "Regular"}, {"id": "front", "label": "Front"}, {"id": "ladies", "label": "Ladies"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 399, "regular": 374, "front": 354, "ladies": 307},
+      {"hole": 2, "par": 5, "hdcp": null, "back": 558, "regular": 530, "front": 498, "ladies": 447},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 441, "regular": 345, "front": 331, "ladies": 297},
+      {"hole": 4, "par": 3, "hdcp": null, "back": 172, "regular": 146, "front": 132, "ladies": 111},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 373, "regular": 363, "front": 353, "ladies": 297},
+      {"hole": 6, "par": 5, "hdcp": null, "back": 539, "regular": 520, "front": 457, "ladies": 415},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 320, "regular": 300, "front": 283, "ladies": 232},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 215, "regular": 199, "front": 172, "ladies": 108},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 419, "regular": 409, "front": 386, "ladies": 338},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 356, "regular": 338, "front": 307, "ladies": 270},
+      {"hole": 11, "par": 5, "hdcp": null, "back": 558, "regular": 534, "front": 509, "ladies": 463},
+      {"hole": 12, "par": 4, "hdcp": null, "back": 407, "regular": 385, "front": 335, "ladies": 292},
+      {"hole": 13, "par": 3, "hdcp": null, "back": 167, "regular": 141, "front": 124, "ladies": 88},
+      {"hole": 14, "par": 4, "hdcp": null, "back": 426, "regular": 411, "front": 386, "ladies": 324},
+      {"hole": 15, "par": 5, "hdcp": null, "back": 597, "regular": 568, "front": 543, "ladies": 473},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 414, "regular": 381, "front": 354, "ladies": 303},
+      {"hole": 17, "par": 3, "hdcp": null, "back": 170, "regular": 159, "front": 149, "ladies": 135},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 398, "regular": 378, "front": 357, "ladies": 283},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 大沼国際 18H 1G(ベント)5T HGA北海道 所在:茅部郡鹿部町駒見 出典GORA010017 2026-06-22
+VENUES.push({
+  id: "onuma_kokusai_cc",
+  reading: "オオヌマコクサイカントリークラブ",
+  name: "大沼国際カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "silver", "label": "シルバー"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "back": 598, "regular": 570, "front": 532, "silver": 528, "ladies": 489},
+      {"hole": 2, "par": 3, "hdcp": 7, "back": 228, "regular": 200, "front": 175, "silver": 175, "ladies": 114},
+      {"hole": 3, "par": 5, "hdcp": 11, "back": 515, "regular": 500, "front": 500, "silver": 470, "ladies": 405},
+      {"hole": 4, "par": 4, "hdcp": 17, "back": 356, "regular": 335, "front": 335, "silver": 335, "ladies": 335},
+      {"hole": 5, "par": 3, "hdcp": 13, "back": 170, "regular": 150, "front": 160, "silver": 150, "ladies": 137},
+      {"hole": 6, "par": 4, "hdcp": 9, "back": 412, "regular": 395, "front": 395, "silver": 344, "ladies": 305},
+      {"hole": 7, "par": 4, "hdcp": 1, "back": 470, "regular": 454, "front": 454, "silver": 423, "ladies": 359},
+      {"hole": 8, "par": 4, "hdcp": 3, "back": 440, "regular": 420, "front": 380, "silver": 380, "ladies": 338},
+      {"hole": 9, "par": 4, "hdcp": 15, "back": 382, "regular": 366, "front": 344, "silver": 332, "ladies": 332},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 432, "regular": 405, "front": 379, "silver": 344, "ladies": 315},
+      {"hole": 11, "par": 3, "hdcp": 16, "back": 174, "regular": 168, "front": 168, "silver": 154, "ladies": 154},
+      {"hole": 12, "par": 4, "hdcp": 12, "back": 380, "regular": 353, "front": 355, "silver": 342, "ladies": 342},
+      {"hole": 13, "par": 5, "hdcp": 2, "back": 628, "regular": 598, "front": 598, "silver": 550, "ladies": 480},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 406, "regular": 368, "front": 368, "silver": 330, "ladies": 279},
+      {"hole": 15, "par": 4, "hdcp": 14, "back": 410, "regular": 374, "front": 394, "silver": 374, "ladies": 333},
+      {"hole": 16, "par": 5, "hdcp": 10, "back": 550, "regular": 528, "front": 515, "silver": 515, "ladies": 508},
+      {"hole": 17, "par": 4, "hdcp": 18, "back": 362, "regular": 323, "front": 305, "silver": 293, "ladies": 293},
+      {"hole": 18, "par": 3, "hdcp": 6, "back": 217, "regular": 203, "front": 167, "silver": 167, "ladies": 135},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 帯広CC新嵐山 18H 1G(ベント)3T HGA北海道 所在:河西郡芽室町中美生 出典GORA010022 2026-06-22
+VENUES.push({
+  id: "obihiro_cc",
+  reading: "オビヒロカントリークラブシンアラシヤマコース",
+  name: "帯広カントリークラブ 新嵐山コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 13, "back": 440, "regular": 410, "front": 387},
+      {"hole": 2, "par": 5, "hdcp": 11, "back": 530, "regular": 500, "front": 471},
+      {"hole": 3, "par": 4, "hdcp": 3, "back": 385, "regular": 360, "front": 328},
+      {"hole": 4, "par": 3, "hdcp": 17, "back": 175, "regular": 158, "front": 137},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 395, "regular": 330, "front": 303},
+      {"hole": 6, "par": 3, "hdcp": 9, "back": 215, "regular": 200, "front": 167},
+      {"hole": 7, "par": 5, "hdcp": 1, "back": 590, "regular": 560, "front": 529},
+      {"hole": 8, "par": 4, "hdcp": 15, "back": 415, "regular": 380, "front": 349},
+      {"hole": 9, "par": 4, "hdcp": 5, "back": 385, "regular": 342, "front": 318},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 10, "back": 450, "regular": 435, "front": 398},
+      {"hole": 11, "par": 5, "hdcp": 12, "back": 530, "regular": 490, "front": 463},
+      {"hole": 12, "par": 4, "hdcp": 4, "back": 440, "regular": 405, "front": 360},
+      {"hole": 13, "par": 4, "hdcp": 18, "back": 290, "regular": 290, "front": 241},
+      {"hole": 14, "par": 4, "hdcp": 2, "back": 400, "regular": 360, "front": 327},
+      {"hole": 15, "par": 3, "hdcp": 6, "back": 188, "regular": 180, "front": 148},
+      {"hole": 16, "par": 5, "hdcp": 14, "back": 567, "regular": 550, "front": 518},
+      {"hole": 17, "par": 3, "hdcp": 16, "back": 150, "regular": 120, "front": 94},
+      {"hole": 18, "par": 4, "hdcp": 8, "back": 365, "regular": 350, "front": 325},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 帯広国際 27H(東/中/西)1G(ベント)4T HGA北海道 所在:中川郡幕別町千住 出典GORA010023 2026-06-22
+VENUES.push({
+  id: "obihiro_kokusai_cc",
+  reading: "オビヒロコクサイカントリークラブ",
+  name: "帯広国際カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "東", holes: [
+      {"hole": 1, "par": 5, "hdcp": 8, "back": 588, "regular": 550, "front": 450, "ladies": 450},
+      {"hole": 2, "par": 4, "hdcp": 7, "back": 326, "regular": 309, "front": 300, "ladies": 300},
+      {"hole": 3, "par": 4, "hdcp": 2, "back": 386, "regular": 360, "front": 320, "ladies": 320},
+      {"hole": 4, "par": 3, "hdcp": 3, "back": 217, "regular": 181, "front": 140, "ladies": 140},
+      {"hole": 5, "par": 4, "hdcp": 6, "back": 370, "regular": 362, "front": 305, "ladies": 305},
+      {"hole": 6, "par": 4, "hdcp": 1, "back": 470, "regular": 440, "front": 365, "ladies": 365},
+      {"hole": 7, "par": 3, "hdcp": 5, "back": 188, "regular": 160, "front": 150, "ladies": 150},
+      {"hole": 8, "par": 5, "hdcp": 9, "back": 562, "regular": 541, "front": 471, "ladies": 471},
+      {"hole": 9, "par": 4, "hdcp": 4, "back": 445, "regular": 381, "front": 359, "ladies": 359},
+    ]},
+    { name: "中", holes: [
+      {"hole": 1, "par": 4, "hdcp": 1, "back": 414, "regular": 395, "front": 350, "ladies": 350},
+      {"hole": 2, "par": 5, "hdcp": 9, "back": 517, "regular": 507, "front": 457, "ladies": 457},
+      {"hole": 3, "par": 4, "hdcp": 3, "back": 410, "regular": 400, "front": 385, "ladies": 385},
+      {"hole": 4, "par": 4, "hdcp": 4, "back": 342, "regular": 309, "front": 300, "ladies": 300},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 340, "regular": 315, "front": 310, "ladies": 310},
+      {"hole": 6, "par": 3, "hdcp": 6, "back": 168, "regular": 153, "front": 148, "ladies": 148},
+      {"hole": 7, "par": 5, "hdcp": 8, "back": 550, "regular": 530, "front": 455, "ladies": 455},
+      {"hole": 8, "par": 3, "hdcp": 5, "back": 165, "regular": 155, "front": 150, "ladies": 150},
+      {"hole": 9, "par": 4, "hdcp": 2, "back": 430, "regular": 382, "front": 361, "ladies": 361},
+    ]},
+    { name: "西", holes: [
+      {"hole": 1, "par": 5, "hdcp": 1, "back": 517, "regular": 497, "front": 442, "ladies": 442},
+      {"hole": 2, "par": 4, "hdcp": 4, "back": 372, "regular": 362, "front": 322, "ladies": 322},
+      {"hole": 3, "par": 4, "hdcp": 3, "back": 380, "regular": 370, "front": 320, "ladies": 320},
+      {"hole": 4, "par": 4, "hdcp": 9, "back": 351, "regular": 331, "front": 295, "ladies": 295},
+      {"hole": 5, "par": 5, "hdcp": 6, "back": 490, "regular": 480, "front": 420, "ladies": 420},
+      {"hole": 6, "par": 3, "hdcp": 7, "back": 166, "regular": 135, "front": 135, "ladies": 135},
+      {"hole": 7, "par": 4, "hdcp": 8, "back": 302, "regular": 282, "front": 254, "ladies": 254},
+      {"hole": 8, "par": 3, "hdcp": 5, "back": 168, "regular": 155, "front": 150, "ladies": 150},
+      {"hole": 9, "par": 4, "hdcp": 2, "back": 376, "regular": 366, "front": 306, "ladies": 306},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// オホーツク 18H 1G(ベント)4T HGA北海道 所在:網走郡大空町女満別本郷 出典GORA010026 2026-06-22
+VENUES.push({
+  id: "ohotsuku_cc",
+  reading: "オホーツクカントリークラブ",
+  name: "オホーツクカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 15, "back": 326, "reg": 318, "front": 309, "ladies": 240},
+      {"hole": 2, "par": 5, "hdcp": 1, "back": 548, "reg": 503, "front": 452, "ladies": 375},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 201, "reg": 185, "front": 177, "ladies": 136},
+      {"hole": 4, "par": 4, "hdcp": 5, "back": 396, "reg": 373, "front": 365, "ladies": 313},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 416, "reg": 376, "front": 357, "ladies": 286},
+      {"hole": 6, "par": 3, "hdcp": 17, "back": 152, "reg": 132, "front": 124, "ladies": 110},
+      {"hole": 7, "par": 4, "hdcp": 13, "back": 364, "reg": 336, "front": 315, "ladies": 315},
+      {"hole": 8, "par": 5, "hdcp": 3, "back": 521, "reg": 497, "front": 463, "ladies": 370},
+      {"hole": 9, "par": 4, "hdcp": 11, "back": 360, "reg": 348, "front": 337, "ladies": 303},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 3, "hdcp": 6, "back": 207, "reg": 185, "front": 173, "ladies": 100},
+      {"hole": 11, "par": 4, "hdcp": 10, "back": 413, "reg": 399, "front": 385, "ladies": 245},
+      {"hole": 12, "par": 5, "hdcp": 4, "back": 556, "reg": 516, "front": 498, "ladies": 405},
+      {"hole": 13, "par": 4, "hdcp": 16, "back": 389, "reg": 341, "front": 330, "ladies": 300},
+      {"hole": 14, "par": 3, "hdcp": 18, "back": 171, "reg": 155, "front": 150, "ladies": 123},
+      {"hole": 15, "par": 4, "hdcp": 12, "back": 405, "reg": 382, "front": 350, "ladies": 282},
+      {"hole": 16, "par": 4, "hdcp": 14, "back": 360, "reg": 341, "front": 327, "ladies": 288},
+      {"hole": 17, "par": 5, "hdcp": 8, "back": 397, "reg": 383, "front": 397, "ladies": 383},
+      {"hole": 18, "par": 4, "hdcp": 2, "back": 416, "reg": 345, "front": 336, "ladies": 251},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 温根湯国際 18H 1G(ベント)4T HDCP不明 HGA北海道 所在:北見市留辺蘂町花丘 出典GORA010028 2026-06-22
+VENUES.push({
+  id: "onneyu_kokusai_cc",
+  reading: "オンネユコクサイカントリークラブ",
+  name: "温根湯国際カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "blue", "label": "ブルー"}, {"id": "white", "label": "ホワイト"}, {"id": "gold", "label": "ゴールド"}, {"id": "red", "label": "レッド"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "blue": 583, "white": 543, "gold": 543, "red": 438},
+      {"hole": 2, "par": 4, "hdcp": null, "blue": 438, "white": 349, "gold": 349, "red": 267},
+      {"hole": 3, "par": 3, "hdcp": null, "blue": 206, "white": 168, "gold": 168, "red": 113},
+      {"hole": 4, "par": 5, "hdcp": null, "blue": 591, "white": 559, "gold": 514, "red": 462},
+      {"hole": 5, "par": 4, "hdcp": null, "blue": 407, "white": 367, "gold": 367, "red": 366},
+      {"hole": 6, "par": 4, "hdcp": null, "blue": 365, "white": 352, "gold": 352, "red": 332},
+      {"hole": 7, "par": 4, "hdcp": null, "blue": 444, "white": 405, "gold": 370, "red": 326},
+      {"hole": 8, "par": 3, "hdcp": null, "blue": 181, "white": 149, "gold": 149, "red": 129},
+      {"hole": 9, "par": 4, "hdcp": null, "blue": 385, "white": 354, "gold": 354, "red": 234},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": null, "blue": 567, "white": 546, "gold": 546, "red": 402},
+      {"hole": 11, "par": 4, "hdcp": null, "blue": 370, "white": 352, "gold": 352, "red": 227},
+      {"hole": 12, "par": 3, "hdcp": null, "blue": 176, "white": 156, "gold": 156, "red": 142},
+      {"hole": 13, "par": 4, "hdcp": null, "blue": 401, "white": 381, "gold": 341, "red": 341},
+      {"hole": 14, "par": 4, "hdcp": null, "blue": 431, "white": 413, "gold": 413, "red": 341},
+      {"hole": 15, "par": 4, "hdcp": null, "blue": 321, "white": 303, "gold": 303, "red": 250},
+      {"hole": 16, "par": 5, "hdcp": null, "blue": 590, "white": 570, "gold": 530, "red": 530},
+      {"hole": 17, "par": 3, "hdcp": null, "blue": 155, "white": 133, "gold": 133, "red": 110},
+      {"hole": 18, "par": 4, "hdcp": null, "blue": 310, "white": 291, "gold": 268, "red": 225},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 上湧別リバーサイド 18H 1G(ベント)3T HGA北海道 所在:紋別郡湧別町緑町 出典GORA010032 2026-06-22
+VENUES.push({
+  id: "kamiyubetsu_riverside_gc",
+  reading: "カミユウベツリバーサイドゴルフジョウ",
+  name: "上湧別リバーサイドゴルフ場",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 11, "back": 372, "reg": 356, "front": 356},
+      {"hole": 2, "par": 4, "hdcp": 5, "back": 405, "reg": 387, "front": 387},
+      {"hole": 3, "par": 5, "hdcp": 9, "back": 546, "reg": 533, "front": 533},
+      {"hole": 4, "par": 3, "hdcp": 7, "back": 206, "reg": 193, "front": 116},
+      {"hole": 5, "par": 4, "hdcp": 15, "back": 349, "reg": 338, "front": 338},
+      {"hole": 6, "par": 5, "hdcp": 3, "back": 562, "reg": 528, "front": 528},
+      {"hole": 7, "par": 4, "hdcp": 1, "back": 418, "reg": 400, "front": 400},
+      {"hole": 8, "par": 3, "hdcp": 17, "back": 180, "reg": 156, "front": 156},
+      {"hole": 9, "par": 4, "hdcp": 13, "back": 356, "reg": 335, "front": 335},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 12, "back": 540, "reg": 524, "front": 524},
+      {"hole": 11, "par": 4, "hdcp": 6, "back": 392, "reg": 373, "front": 323},
+      {"hole": 12, "par": 3, "hdcp": 16, "back": 141, "reg": 129, "front": 129},
+      {"hole": 13, "par": 4, "hdcp": 2, "back": 442, "reg": 430, "front": 351},
+      {"hole": 14, "par": 5, "hdcp": 8, "back": 558, "reg": 516, "front": 516},
+      {"hole": 15, "par": 4, "hdcp": 16, "back": 377, "reg": 361, "front": 361},
+      {"hole": 16, "par": 4, "hdcp": 10, "back": 413, "reg": 401, "front": 324},
+      {"hole": 17, "par": 3, "hdcp": 4, "back": 231, "reg": 219, "front": 161},
+      {"hole": 18, "par": 4, "hdcp": 14, "back": 418, "reg": 397, "front": 397},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 北見 18H 1G(ベント)3T HGA北海道 所在:北見市大正 出典公式kitamicc+GORA010033 2026-06-22
+VENUES.push({
+  id: "kitami_cc",
+  reading: "キタミカントリークラブ",
+  name: "北見カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "back": 427, "regular": 405, "front": 318},
+      {"hole": 2, "par": 3, "hdcp": 11, "back": 186, "regular": 176, "front": 148},
+      {"hole": 3, "par": 5, "hdcp": 15, "back": 474, "regular": 439, "front": 428},
+      {"hole": 4, "par": 4, "hdcp": 13, "back": 373, "regular": 343, "front": 320},
+      {"hole": 5, "par": 5, "hdcp": 5, "back": 546, "regular": 531, "front": 431},
+      {"hole": 6, "par": 4, "hdcp": 17, "back": 331, "regular": 304, "front": 297},
+      {"hole": 7, "par": 3, "hdcp": 7, "back": 177, "regular": 149, "front": 113},
+      {"hole": 8, "par": 4, "hdcp": 1, "back": 372, "regular": 360, "front": 286},
+      {"hole": 9, "par": 4, "hdcp": 9, "back": 359, "regular": 344, "front": 241},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 16, "back": 520, "regular": 495, "front": 440},
+      {"hole": 11, "par": 4, "hdcp": 6, "back": 385, "regular": 365, "front": 349},
+      {"hole": 12, "par": 3, "hdcp": 12, "back": 196, "regular": 178, "front": 114},
+      {"hole": 13, "par": 5, "hdcp": 10, "back": 515, "regular": 501, "front": 410},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 364, "regular": 348, "front": 280},
+      {"hole": 15, "par": 3, "hdcp": 18, "back": 184, "regular": 176, "front": 164},
+      {"hole": 16, "par": 4, "hdcp": 14, "back": 355, "regular": 340, "front": 303},
+      {"hole": 17, "par": 4, "hdcp": 2, "back": 379, "regular": 348, "front": 250},
+      {"hole": 18, "par": 4, "hdcp": 4, "back": 393, "regular": 377, "front": 248},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 北見ハーブヒル 18H 1G(ベント)3T HGA北海道 所在:北見市川東 出典GORA010099 2026-06-22
+VENUES.push({
+  id: "kitami_herbhill_gc",
+  reading: "キタミハーブヒルゴルフクラブ",
+  name: "北見ハーブヒルゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "chmp", "label": "チャンピオン"}, {"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 11, "chmp": 405, "back": 380, "regular": 361},
+      {"hole": 2, "par": 5, "hdcp": 17, "chmp": 524, "back": 500, "regular": 471},
+      {"hole": 3, "par": 3, "hdcp": 15, "chmp": 178, "back": 160, "regular": 136},
+      {"hole": 4, "par": 4, "hdcp": 1, "chmp": 455, "back": 433, "regular": 397},
+      {"hole": 5, "par": 4, "hdcp": 5, "chmp": 416, "back": 394, "regular": 361},
+      {"hole": 6, "par": 4, "hdcp": 7, "chmp": 384, "back": 363, "regular": 336},
+      {"hole": 7, "par": 4, "hdcp": 13, "chmp": 383, "back": 364, "regular": 337},
+      {"hole": 8, "par": 3, "hdcp": 3, "chmp": 207, "back": 201, "regular": 183},
+      {"hole": 9, "par": 5, "hdcp": 9, "chmp": 566, "back": 538, "regular": 502},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 8, "chmp": 424, "back": 405, "regular": 386},
+      {"hole": 11, "par": 5, "hdcp": 16, "chmp": 530, "back": 508, "regular": 475},
+      {"hole": 12, "par": 3, "hdcp": 18, "chmp": 177, "back": 163, "regular": 136},
+      {"hole": 13, "par": 4, "hdcp": 2, "chmp": 464, "back": 433, "regular": 406},
+      {"hole": 14, "par": 4, "hdcp": 14, "chmp": 419, "back": 390, "regular": 360},
+      {"hole": 15, "par": 3, "hdcp": 6, "chmp": 220, "back": 201, "regular": 182},
+      {"hole": 16, "par": 5, "hdcp": 10, "chmp": 556, "back": 529, "regular": 506},
+      {"hole": 17, "par": 4, "hdcp": 4, "chmp": 410, "back": 392, "regular": 361},
+      {"hole": 18, "par": 4, "hdcp": 12, "chmp": 381, "back": 365, "regular": 334},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 釧路 36H(東OUT/東IN/西OUT/西IN)1G(ベント)3T HGA北海道 所在:阿寒郡鶴居村下幌呂 出典GORA010036 2026-06-22
+VENUES.push({
+  id: "kushiro_cc",
+  reading: "クシロカントリークラブ",
+  name: "釧路カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "東OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 15, "back": 413, "regular": 384, "front": 333},
+      {"hole": 2, "par": 4, "hdcp": 3, "back": 411, "regular": 387, "front": 330},
+      {"hole": 3, "par": 5, "hdcp": 7, "back": 524, "regular": 510, "front": 444},
+      {"hole": 4, "par": 4, "hdcp": 13, "back": 389, "regular": 363, "front": 292},
+      {"hole": 5, "par": 3, "hdcp": 5, "back": 229, "regular": 215, "front": 121},
+      {"hole": 6, "par": 4, "hdcp": 9, "back": 417, "regular": 396, "front": 349},
+      {"hole": 7, "par": 4, "hdcp": 1, "back": 445, "regular": 411, "front": 332},
+      {"hole": 8, "par": 3, "hdcp": 17, "back": 152, "regular": 133, "front": 120},
+      {"hole": 9, "par": 5, "hdcp": 11, "back": 539, "regular": 510, "front": 470},
+    ]},
+    { name: "東IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 8, "back": 398, "regular": 382, "front": 315},
+      {"hole": 11, "par": 4, "hdcp": 16, "back": 410, "regular": 369, "front": 356},
+      {"hole": 12, "par": 3, "hdcp": 10, "back": 157, "regular": 144, "front": 124},
+      {"hole": 13, "par": 5, "hdcp": 2, "back": 583, "regular": 550, "front": 487},
+      {"hole": 14, "par": 4, "hdcp": 4, "back": 421, "regular": 401, "front": 352},
+      {"hole": 15, "par": 4, "hdcp": 18, "back": 379, "regular": 349, "front": 309},
+      {"hole": 16, "par": 3, "hdcp": 14, "back": 191, "regular": 157, "front": 140},
+      {"hole": 17, "par": 4, "hdcp": 6, "back": 398, "regular": 377, "front": 335},
+      {"hole": 18, "par": 5, "hdcp": 12, "back": 521, "regular": 489, "front": 422},
+    ]},
+    { name: "西OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 13, "back": 382, "regular": 356, "front": 336},
+      {"hole": 2, "par": 5, "hdcp": 5, "back": 538, "regular": 500, "front": 406},
+      {"hole": 3, "par": 3, "hdcp": 11, "back": 206, "regular": 173, "front": 160},
+      {"hole": 4, "par": 4, "hdcp": 15, "back": 361, "regular": 345, "front": 316},
+      {"hole": 5, "par": 5, "hdcp": 1, "back": 615, "regular": 567, "front": 503},
+      {"hole": 6, "par": 4, "hdcp": 7, "back": 420, "regular": 408, "front": 369},
+      {"hole": 7, "par": 4, "hdcp": 3, "back": 395, "regular": 370, "front": 310},
+      {"hole": 8, "par": 3, "hdcp": 17, "back": 176, "regular": 157, "front": 139},
+      {"hole": 9, "par": 4, "hdcp": 9, "back": 420, "regular": 392, "front": 374},
+    ]},
+    { name: "西IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 2, "back": 570, "regular": 543, "front": 486},
+      {"hole": 11, "par": 4, "hdcp": 10, "back": 395, "regular": 372, "front": 345},
+      {"hole": 12, "par": 4, "hdcp": 12, "back": 385, "regular": 365, "front": 335},
+      {"hole": 13, "par": 3, "hdcp": 16, "back": 190, "regular": 164, "front": 146},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 418, "regular": 402, "front": 365},
+      {"hole": 15, "par": 5, "hdcp": 6, "back": 552, "regular": 519, "front": 452},
+      {"hole": 16, "par": 4, "hdcp": 4, "back": 459, "regular": 440, "front": 391},
+      {"hole": 17, "par": 3, "hdcp": 18, "back": 163, "regular": 151, "front": 117},
+      {"hole": 18, "par": 4, "hdcp": 14, "back": 398, "regular": 349, "front": 307},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 釧路風林 27H(A信玄/B川中島/C謙信)1G(ベント)3T HDCP不明 HGA北海道 所在:阿寒郡鶴居村幌呂 出典公式fuurin-cc+GORA010038 2026-06-22
+VENUES.push({
+  id: "kushiro_furin_cc",
+  reading: "クシロフウリンカントリークラブ",
+  name: "釧路風林カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "A信玄", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 448, "regular": 434, "front": 393},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 445, "regular": 392, "front": 366},
+      {"hole": 3, "par": 5, "hdcp": null, "back": 504, "regular": 496, "front": 419},
+      {"hole": 4, "par": 3, "hdcp": null, "back": 182, "regular": 169, "front": 131},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 359, "regular": 344, "front": 296},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 385, "regular": 365, "front": 332},
+      {"hole": 7, "par": 3, "hdcp": null, "back": 149, "regular": 127, "front": 90},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 376, "regular": 364, "front": 340},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 503, "regular": 489, "front": 452},
+    ]},
+    { name: "B川中島", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 369, "regular": 355, "front": 327},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 381, "regular": 358, "front": 281},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 164, "regular": 139, "front": 127},
+      {"hole": 4, "par": 5, "hdcp": null, "back": 540, "regular": 532, "front": 460},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 349, "regular": 338, "front": 309},
+      {"hole": 6, "par": 3, "hdcp": null, "back": 166, "regular": 161, "front": 156},
+      {"hole": 7, "par": 5, "hdcp": null, "back": 475, "regular": 462, "front": 405},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 454, "regular": 434, "front": 384},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 370, "regular": 354, "front": 328},
+    ]},
+    { name: "C謙信", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 509, "regular": 474, "front": 425},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 437, "regular": 410, "front": 385},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 347, "regular": 330, "front": 305},
+      {"hole": 4, "par": 3, "hdcp": null, "back": 182, "regular": 173, "front": 143},
+      {"hole": 5, "par": 5, "hdcp": null, "back": 538, "regular": 513, "front": 467},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 424, "regular": 389, "front": 353},
+      {"hole": 7, "par": 3, "hdcp": null, "back": 194, "regular": 177, "front": 131},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 387, "regular": 364, "front": 309},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 435, "regular": 423, "front": 372},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// クラーク 27H(東/中/西)1G(ベント)3T HGA北海道 所在:北広島市三島 出典GORA010039 2026-06-22
+VENUES.push({
+  id: "clark_cc",
+  reading: "クラークカントリークラブ",
+  name: "クラークカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "東", holes: [
+      {"hole": 1, "par": 5, "hdcp": 7, "back": 555, "regular": 532, "front": 507},
+      {"hole": 2, "par": 4, "hdcp": 3, "back": 415, "regular": 398, "front": 342},
+      {"hole": 3, "par": 3, "hdcp": 6, "back": 210, "regular": 194, "front": 163},
+      {"hole": 4, "par": 4, "hdcp": 1, "back": 430, "regular": 400, "front": 334},
+      {"hole": 5, "par": 5, "hdcp": 5, "back": 562, "regular": 530, "front": 499},
+      {"hole": 6, "par": 3, "hdcp": 9, "back": 156, "regular": 139, "front": 135},
+      {"hole": 7, "par": 4, "hdcp": 8, "back": 347, "regular": 338, "front": 327},
+      {"hole": 8, "par": 4, "hdcp": 4, "back": 393, "regular": 380, "front": 361},
+      {"hole": 9, "par": 4, "hdcp": 2, "back": 421, "regular": 395, "front": 357},
+    ]},
+    { name: "中", holes: [
+      {"hole": 1, "par": 5, "hdcp": 8, "back": 485, "regular": 480, "front": 475},
+      {"hole": 2, "par": 4, "hdcp": 3, "back": 409, "regular": 391, "front": 367},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 163, "regular": 150, "front": 145},
+      {"hole": 4, "par": 4, "hdcp": 7, "back": 332, "regular": 317, "front": 289},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 404, "regular": 384, "front": 336},
+      {"hole": 6, "par": 5, "hdcp": 4, "back": 533, "regular": 515, "front": 472},
+      {"hole": 7, "par": 3, "hdcp": 6, "back": 185, "regular": 173, "front": 140},
+      {"hole": 8, "par": 4, "hdcp": 2, "back": 409, "regular": 388, "front": 358},
+      {"hole": 9, "par": 4, "hdcp": 5, "back": 369, "regular": 338, "front": 308},
+    ]},
+    { name: "西", holes: [
+      {"hole": 1, "par": 5, "hdcp": 8, "back": 525, "regular": 509, "front": 504},
+      {"hole": 2, "par": 4, "hdcp": 1, "back": 444, "regular": 419, "front": 326},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 158, "regular": 142, "front": 135},
+      {"hole": 4, "par": 4, "hdcp": 4, "back": 409, "regular": 388, "front": 375},
+      {"hole": 5, "par": 5, "hdcp": 5, "back": 551, "regular": 526, "front": 472},
+      {"hole": 6, "par": 4, "hdcp": 3, "back": 400, "regular": 363, "front": 334},
+      {"hole": 7, "par": 3, "hdcp": 7, "back": 212, "regular": 193, "front": 149},
+      {"hole": 8, "par": 4, "hdcp": 6, "back": 364, "regular": 359, "front": 336},
+      {"hole": 9, "par": 4, "hdcp": 2, "back": 397, "regular": 379, "front": 335},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// グリーンスコーレ 18H 1G(ベント)3T HGA北海道 所在:雨竜郡沼田町北竜 出典GORA010042 2026-06-22
+VENUES.push({
+  id: "green_schole_cc",
+  reading: "グリーンスコーレカントリークラブ",
+  name: "グリーンスコーレカントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champion", "label": "チャンピオン"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディス"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "champion": 546, "regular": 484, "ladies": 445},
+      {"hole": 2, "par": 4, "hdcp": 13, "champion": 351, "regular": 307, "ladies": 252},
+      {"hole": 3, "par": 3, "hdcp": 14, "champion": 176, "regular": 146, "ladies": 123},
+      {"hole": 4, "par": 4, "hdcp": 3, "champion": 403, "regular": 376, "ladies": 325},
+      {"hole": 5, "par": 5, "hdcp": 11, "champion": 507, "regular": 474, "ladies": 407},
+      {"hole": 6, "par": 3, "hdcp": 17, "champion": 173, "regular": 153, "ladies": 108},
+      {"hole": 7, "par": 4, "hdcp": 7, "champion": 424, "regular": 376, "ladies": 335},
+      {"hole": 8, "par": 4, "hdcp": 9, "champion": 398, "regular": 346, "ladies": 270},
+      {"hole": 9, "par": 4, "hdcp": 1, "champion": 428, "regular": 353, "ladies": 207},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 14, "champion": 409, "regular": 352, "ladies": 316},
+      {"hole": 11, "par": 5, "hdcp": 4, "champion": 581, "regular": 558, "ladies": 436},
+      {"hole": 12, "par": 4, "hdcp": 10, "champion": 413, "regular": 376, "ladies": 346},
+      {"hole": 13, "par": 3, "hdcp": 16, "champion": 231, "regular": 194, "ladies": 147},
+      {"hole": 14, "par": 4, "hdcp": 6, "champion": 435, "regular": 358, "ladies": 321},
+      {"hole": 15, "par": 4, "hdcp": 2, "champion": 447, "regular": 414, "ladies": 350},
+      {"hole": 16, "par": 3, "hdcp": 18, "champion": 149, "regular": 129, "ladies": 97},
+      {"hole": 17, "par": 4, "hdcp": 12, "champion": 397, "regular": 328, "ladies": 250},
+      {"hole": 18, "par": 5, "hdcp": 8, "champion": 546, "regular": 484, "ladies": 445},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// === HGA北海道 第3バッチ 8件追加 2026-06-22 ===
+// 札幌エルム西 18H 2G(ベント右/左)3T HDCP不明 HGA北海道 所在:恵庭市島松沢 出典GORA010053 2026-06-22
+VENUES.push({
+  id: "sapporo_elm_west_cc",
+  reading: "サッポロエルムカントリークラブニシコース",
+  name: "札幌エルムカントリークラブ 西コース",
+  greens: [{"id": "r", "label": "ベント(右)"}, {"id": "l", "label": "ベント(左)"}],
+  tees: [{"id": "ct", "label": "C.T.(チャンピオン)"}, {"id": "rt", "label": "R.T.(レギュラー)"}, {"id": "ft", "label": "F.T.(レディース)"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "ct_r": 387, "ct_l": 380, "rt_r": 372, "rt_l": 365, "ft_r": 328, "ft_l": 321},
+      {"hole": 2, "par": 5, "hdcp": null, "ct_r": 561, "ct_l": 553, "rt_r": 528, "rt_l": 520, "ft_r": 466, "ft_l": 458},
+      {"hole": 3, "par": 3, "hdcp": null, "ct_r": 198, "ct_l": 202, "rt_r": 179, "rt_l": 183, "ft_r": 148, "ft_l": 147},
+      {"hole": 4, "par": 4, "hdcp": null, "ct_r": 367, "ct_l": 364, "rt_r": 353, "rt_l": 350, "ft_r": 297, "ft_l": 294},
+      {"hole": 5, "par": 5, "hdcp": null, "ct_r": 523, "ct_l": 519, "rt_r": 499, "rt_l": 495, "ft_r": 452, "ft_l": 448},
+      {"hole": 6, "par": 4, "hdcp": null, "ct_r": 392, "ct_l": 400, "rt_r": 374, "rt_l": 382, "ft_r": 312, "ft_l": 320},
+      {"hole": 7, "par": 3, "hdcp": null, "ct_r": 166, "ct_l": 160, "rt_r": 151, "rt_l": 147, "ft_r": 140, "ft_l": 136},
+      {"hole": 8, "par": 4, "hdcp": null, "ct_r": 413, "ct_l": 424, "rt_r": 383, "rt_l": 394, "ft_r": 326, "ft_l": 337},
+      {"hole": 9, "par": 4, "hdcp": null, "ct_r": 398, "ct_l": 398, "rt_r": 370, "rt_l": 370, "ft_r": 311, "ft_l": 311},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": null, "ct_r": 490, "ct_l": 485, "rt_r": 486, "rt_l": 481, "ft_r": 456, "ft_l": 451},
+      {"hole": 11, "par": 4, "hdcp": null, "ct_r": 406, "ct_l": 395, "rt_r": 385, "rt_l": 374, "ft_r": 317, "ft_l": 306},
+      {"hole": 12, "par": 3, "hdcp": null, "ct_r": 202, "ct_l": 189, "rt_r": 170, "rt_l": 156, "ft_r": 141, "ft_l": 126},
+      {"hole": 13, "par": 4, "hdcp": null, "ct_r": 428, "ct_l": 431, "rt_r": 397, "rt_l": 400, "ft_r": 338, "ft_l": 341},
+      {"hole": 14, "par": 4, "hdcp": null, "ct_r": 397, "ct_l": 407, "rt_r": 365, "rt_l": 375, "ft_r": 315, "ft_l": 325},
+      {"hole": 15, "par": 3, "hdcp": null, "ct_r": 191, "ct_l": 191, "rt_r": 174, "rt_l": 175, "ft_r": 155, "ft_l": 157},
+      {"hole": 16, "par": 5, "hdcp": null, "ct_r": 513, "ct_l": 522, "rt_r": 481, "rt_l": 490, "ft_r": 416, "ft_l": 425},
+      {"hole": 17, "par": 4, "hdcp": null, "ct_r": 409, "ct_l": 404, "rt_r": 362, "rt_l": 357, "ft_r": 321, "ft_l": 316},
+      {"hole": 18, "par": 4, "hdcp": null, "ct_r": 365, "ct_l": 366, "rt_r": 348, "rt_l": 349, "ft_r": 302, "ft_l": 303},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t+"_"+g]??null
+});
+
+// 札幌エルム東 18H 1G(ベント)3T HDCP不明 HGA北海道 所在:恵庭市島松沢 出典GORA010053 2026-06-22
+VENUES.push({
+  id: "sapporo_elm_east_cc",
+  reading: "サッポロエルムカントリークラブヒガシコース",
+  name: "札幌エルムカントリークラブ 東コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "ct", "label": "C.T.(チャンピオン)"}, {"id": "rt", "label": "R.T.(レギュラー)"}, {"id": "ft", "label": "F.T.(レディース)"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "ct": 512, "rt": 496, "ft": 437},
+      {"hole": 2, "par": 4, "hdcp": null, "ct": 429, "rt": 394, "ft": 357},
+      {"hole": 3, "par": 3, "hdcp": null, "ct": 195, "rt": 183, "ft": 126},
+      {"hole": 4, "par": 4, "hdcp": null, "ct": 359, "rt": 338, "ft": 298},
+      {"hole": 5, "par": 4, "hdcp": null, "ct": 412, "rt": 394, "ft": 319},
+      {"hole": 6, "par": 5, "hdcp": null, "ct": 530, "rt": 513, "ft": 465},
+      {"hole": 7, "par": 4, "hdcp": null, "ct": 397, "rt": 373, "ft": 326},
+      {"hole": 8, "par": 3, "hdcp": null, "ct": 200, "rt": 170, "ft": 132},
+      {"hole": 9, "par": 4, "hdcp": null, "ct": 380, "rt": 350, "ft": 314},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "ct": 370, "rt": 355, "ft": 335},
+      {"hole": 11, "par": 4, "hdcp": null, "ct": 405, "rt": 358, "ft": 316},
+      {"hole": 12, "par": 4, "hdcp": null, "ct": 365, "rt": 335, "ft": 308},
+      {"hole": 13, "par": 3, "hdcp": null, "ct": 184, "rt": 154, "ft": 109},
+      {"hole": 14, "par": 4, "hdcp": null, "ct": 377, "rt": 349, "ft": 310},
+      {"hole": 15, "par": 5, "hdcp": null, "ct": 570, "rt": 550, "ft": 449},
+      {"hole": 16, "par": 4, "hdcp": null, "ct": 381, "rt": 330, "ft": 266},
+      {"hole": 17, "par": 3, "hdcp": null, "ct": 205, "rt": 165, "ft": 121},
+      {"hole": 18, "par": 5, "hdcp": null, "ct": 484, "rt": 472, "ft": 422},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 札幌国際島松 27H(A/B/C)1G(ベント)3T HGA北海道 所在:北広島市島松 出典GORA010056 2026-06-22
+VENUES.push({
+  id: "sapporo_kokusai_shimamatsu_cc",
+  reading: "サッポロコクサイカントリークラブシママツコース",
+  name: "札幌国際カントリークラブ 島松コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "lady", "label": "レディース"}],
+  subCourses: [
+    { name: "A", holes: [
+      {"hole": 1, "par": 4, "hdcp": 5, "back": 410, "reg": 392, "lady": 362},
+      {"hole": 2, "par": 4, "hdcp": 8, "back": 376, "reg": 348, "lady": 310},
+      {"hole": 3, "par": 5, "hdcp": 2, "back": 564, "reg": 531, "lady": 482},
+      {"hole": 4, "par": 4, "hdcp": 1, "back": 392, "reg": 354, "lady": 343},
+      {"hole": 5, "par": 3, "hdcp": 9, "back": 220, "reg": 192, "lady": 132},
+      {"hole": 6, "par": 4, "hdcp": 4, "back": 400, "reg": 367, "lady": 308},
+      {"hole": 7, "par": 4, "hdcp": 7, "back": 391, "reg": 364, "lady": 356},
+      {"hole": 8, "par": 3, "hdcp": 6, "back": 210, "reg": 190, "lady": 145},
+      {"hole": 9, "par": 5, "hdcp": 3, "back": 569, "reg": 544, "lady": 484},
+    ]},
+    { name: "B", holes: [
+      {"hole": 1, "par": 4, "hdcp": 2, "back": 416, "reg": 393, "lady": 351},
+      {"hole": 2, "par": 3, "hdcp": 5, "back": 220, "reg": 194, "lady": 168},
+      {"hole": 3, "par": 4, "hdcp": 4, "back": 388, "reg": 368, "lady": 368},
+      {"hole": 4, "par": 4, "hdcp": 7, "back": 374, "reg": 351, "lady": 345},
+      {"hole": 5, "par": 4, "hdcp": 6, "back": 387, "reg": 340, "lady": 321},
+      {"hole": 6, "par": 5, "hdcp": 1, "back": 600, "reg": 555, "lady": 467},
+      {"hole": 7, "par": 3, "hdcp": 8, "back": 154, "reg": 136, "lady": 129},
+      {"hole": 8, "par": 4, "hdcp": 9, "back": 327, "reg": 305, "lady": 300},
+      {"hole": 9, "par": 5, "hdcp": 3, "back": 507, "reg": 471, "lady": 451},
+    ]},
+    { name: "C", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "back": 440, "reg": 399, "lady": 347},
+      {"hole": 2, "par": 5, "hdcp": 4, "back": 496, "reg": 472, "lady": 454},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 170, "reg": 150, "lady": 150},
+      {"hole": 4, "par": 4, "hdcp": 7, "back": 362, "reg": 343, "lady": 337},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 422, "reg": 390, "lady": 322},
+      {"hole": 6, "par": 3, "hdcp": 6, "back": 220, "reg": 161, "lady": 153},
+      {"hole": 7, "par": 4, "hdcp": 8, "back": 320, "reg": 298, "lady": 289},
+      {"hole": 8, "par": 5, "hdcp": 2, "back": 554, "reg": 504, "lady": 495},
+      {"hole": 9, "par": 4, "hdcp": 5, "back": 428, "reg": 387, "lady": 363},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 札樽 18H 1G(ベント)3T(Par71・OUT35/IN36)HDCP不明 HGA北海道 所在:小樽市朝里川温泉 出典GORA010050 2026-06-22
+VENUES.push({
+  id: "sasson_gc",
+  reading: "サッソンゴルフクラブ",
+  name: "札樽ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "bt", "label": "BT(バック)"}, {"id": "rt", "label": "RT(レギュラー)"}, {"id": "lt", "label": "LT(レディース)"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "bt": 371, "rt": 351, "lt": 311},
+      {"hole": 2, "par": 3, "hdcp": null, "bt": 175, "rt": 164, "lt": 108},
+      {"hole": 3, "par": 4, "hdcp": null, "bt": 412, "rt": 390, "lt": 210},
+      {"hole": 4, "par": 5, "hdcp": null, "bt": 514, "rt": 492, "lt": 362},
+      {"hole": 5, "par": 4, "hdcp": null, "bt": 361, "rt": 331, "lt": 245},
+      {"hole": 6, "par": 3, "hdcp": null, "bt": 148, "rt": 137, "lt": 112},
+      {"hole": 7, "par": 5, "hdcp": null, "bt": 510, "rt": 474, "lt": 391},
+      {"hole": 8, "par": 3, "hdcp": null, "bt": 186, "rt": 164, "lt": 94},
+      {"hole": 9, "par": 4, "hdcp": null, "bt": 356, "rt": 332, "lt": 210},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "bt": 354, "rt": 332, "lt": 280},
+      {"hole": 11, "par": 3, "hdcp": null, "bt": 170, "rt": 142, "lt": 104},
+      {"hole": 12, "par": 4, "hdcp": null, "bt": 367, "rt": 357, "lt": 233},
+      {"hole": 13, "par": 4, "hdcp": null, "bt": 353, "rt": 341, "lt": 270},
+      {"hole": 14, "par": 5, "hdcp": null, "bt": 519, "rt": 487, "lt": 359},
+      {"hole": 15, "par": 4, "hdcp": null, "bt": 469, "rt": 428, "lt": 301},
+      {"hole": 16, "par": 4, "hdcp": null, "bt": 444, "rt": 425, "lt": 271},
+      {"hole": 17, "par": 3, "hdcp": null, "bt": 200, "rt": 170, "lt": 130},
+      {"hole": 18, "par": 5, "hdcp": null, "bt": 523, "rt": 512, "lt": 383},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 札幌スコットヒル 18H(ローズ/アゼリア)1G(ベント)4T HGA北海道 所在:石狩市八幡町 出典GORA010077 2026-06-22
+VENUES.push({
+  id: "sapporo_scotthill_gc",
+  reading: "サッポロスコットヒルゴルフクラブ",
+  name: "札幌スコットヒルゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "lady", "label": "レディース"}],
+  subCourses: [
+    { name: "ローズ", holes: [
+      {"hole": 1, "par": 5, "hdcp": 2, "back": 571, "reg": 549, "front": 504, "lady": 460},
+      {"hole": 2, "par": 4, "hdcp": 5, "back": 362, "reg": 334, "front": 334, "lady": 304},
+      {"hole": 3, "par": 4, "hdcp": 1, "back": 425, "reg": 396, "front": 363, "lady": 314},
+      {"hole": 4, "par": 3, "hdcp": 6, "back": 190, "reg": 178, "front": 149, "lady": 149},
+      {"hole": 5, "par": 5, "hdcp": 3, "back": 612, "reg": 581, "front": 581, "lady": 533},
+      {"hole": 6, "par": 4, "hdcp": 7, "back": 378, "reg": 364, "front": 364, "lady": 314},
+      {"hole": 7, "par": 3, "hdcp": 8, "back": 173, "reg": 162, "front": 132, "lady": 115},
+      {"hole": 8, "par": 4, "hdcp": 9, "back": 364, "reg": 334, "front": 334, "lady": 280},
+      {"hole": 9, "par": 4, "hdcp": 4, "back": 427, "reg": 410, "front": 388, "lady": 319},
+    ]},
+    { name: "アゼリア", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "back": 560, "reg": 540, "front": 508, "lady": 478},
+      {"hole": 2, "par": 4, "hdcp": 1, "back": 432, "reg": 417, "front": 359, "lady": 278},
+      {"hole": 3, "par": 4, "hdcp": 6, "back": 373, "reg": 349, "front": 349, "lady": 272},
+      {"hole": 4, "par": 3, "hdcp": 8, "back": 171, "reg": 151, "front": 151, "lady": 129},
+      {"hole": 5, "par": 4, "hdcp": 4, "back": 405, "reg": 373, "front": 373, "lady": 345},
+      {"hole": 6, "par": 4, "hdcp": 3, "back": 375, "reg": 343, "front": 343, "lady": 272},
+      {"hole": 7, "par": 3, "hdcp": 7, "back": 220, "reg": 197, "front": 175, "lady": 140},
+      {"hole": 8, "par": 4, "hdcp": 2, "back": 403, "reg": 370, "front": 370, "lady": 290},
+      {"hole": 9, "par": 5, "hdcp": 9, "back": 578, "reg": 545, "front": 512, "lady": 421},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 新奈井江 18H 1G(ベント)4T HGA北海道 所在:奈井江町 出典GORA010134 2026-06-22
+VENUES.push({
+  id: "shin_naie_cc",
+  reading: "シンナイエカントリークラブ",
+  name: "新奈井江カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champion", "label": "チャンピオン"}, {"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 9, "champion": 507, "back": 474, "reg": 449, "front": 416},
+      {"hole": 2, "par": 4, "hdcp": 17, "champion": 399, "back": 359, "reg": 337, "front": 257},
+      {"hole": 3, "par": 4, "hdcp": 11, "champion": 412, "back": 377, "reg": 351, "front": 316},
+      {"hole": 4, "par": 3, "hdcp": 7, "champion": 152, "back": 136, "reg": 121, "front": 95},
+      {"hole": 5, "par": 4, "hdcp": 13, "champion": 404, "back": 387, "reg": 370, "front": 344},
+      {"hole": 6, "par": 4, "hdcp": 5, "champion": 423, "back": 404, "reg": 385, "front": 326},
+      {"hole": 7, "par": 5, "hdcp": 15, "champion": 491, "back": 478, "reg": 464, "front": 418},
+      {"hole": 8, "par": 3, "hdcp": 3, "champion": 176, "back": 152, "reg": 134, "front": 118},
+      {"hole": 9, "par": 4, "hdcp": 1, "champion": 450, "back": 414, "reg": 391, "front": 351},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 2, "champion": 419, "back": 401, "reg": 384, "front": 360},
+      {"hole": 11, "par": 5, "hdcp": 10, "champion": 547, "back": 514, "reg": 493, "front": 422},
+      {"hole": 12, "par": 3, "hdcp": 12, "champion": 188, "back": 174, "reg": 158, "front": 123},
+      {"hole": 13, "par": 4, "hdcp": 6, "champion": 421, "back": 399, "reg": 380, "front": 288},
+      {"hole": 14, "par": 5, "hdcp": 18, "champion": 490, "back": 474, "reg": 458, "front": 407},
+      {"hole": 15, "par": 4, "hdcp": 14, "champion": 399, "back": 356, "reg": 339, "front": 280},
+      {"hole": 16, "par": 3, "hdcp": 4, "champion": 205, "back": 185, "reg": 165, "front": 107},
+      {"hole": 17, "par": 4, "hdcp": 8, "champion": 418, "back": 380, "reg": 356, "front": 317},
+      {"hole": 18, "par": 4, "hdcp": 16, "champion": 391, "back": 372, "reg": 353, "front": 266},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// スウェーデンヒルズ 27H(西/中/東)1G(ベント)4T HGA北海道 所在:石狩郡当別町 出典GORA010043 2026-06-22
+VENUES.push({
+  id: "swedenhills_gc",
+  reading: "スウェーデンヒルズゴルフクラブ",
+  name: "スウェーデンヒルズゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "Back(Blue)"}, {"id": "reg", "label": "Regular(White)"}, {"id": "yellow", "label": "Yellow"}, {"id": "front", "label": "Front(Red)"}],
+  subCourses: [
+    { name: "西", holes: [
+      {"hole": 1, "par": 5, "hdcp": 1, "back": 513, "reg": 479, "yellow": 479, "front": 433},
+      {"hole": 2, "par": 4, "hdcp": 2, "back": 410, "reg": 386, "yellow": 344, "front": 304},
+      {"hole": 3, "par": 4, "hdcp": 3, "back": 406, "reg": 385, "yellow": 335, "front": 335},
+      {"hole": 4, "par": 3, "hdcp": 4, "back": 168, "reg": 150, "yellow": 134, "front": 123},
+      {"hole": 5, "par": 4, "hdcp": 5, "back": 441, "reg": 390, "yellow": 364, "front": 242},
+      {"hole": 6, "par": 4, "hdcp": 6, "back": 370, "reg": 325, "yellow": 265, "front": 265},
+      {"hole": 7, "par": 4, "hdcp": 7, "back": 418, "reg": 329, "yellow": 329, "front": 273},
+      {"hole": 8, "par": 3, "hdcp": 8, "back": 188, "reg": 163, "yellow": 106, "front": 106},
+      {"hole": 9, "par": 5, "hdcp": 9, "back": 539, "reg": 496, "yellow": 446, "front": 446},
+    ]},
+    { name: "中", holes: [
+      {"hole": 1, "par": 4, "hdcp": 1, "back": 422, "reg": 384, "yellow": 350, "front": 350},
+      {"hole": 2, "par": 5, "hdcp": 2, "back": 535, "reg": 518, "yellow": 483, "front": 428},
+      {"hole": 3, "par": 3, "hdcp": 3, "back": 172, "reg": 146, "yellow": 130, "front": 130},
+      {"hole": 4, "par": 4, "hdcp": 4, "back": 380, "reg": 340, "yellow": 295, "front": 295},
+      {"hole": 5, "par": 4, "hdcp": 5, "back": 440, "reg": 362, "yellow": 323, "front": 323},
+      {"hole": 6, "par": 4, "hdcp": 6, "back": 413, "reg": 367, "yellow": 337, "front": 337},
+      {"hole": 7, "par": 3, "hdcp": 7, "back": 184, "reg": 146, "yellow": 132, "front": 129},
+      {"hole": 8, "par": 4, "hdcp": 8, "back": 394, "reg": 351, "yellow": 311, "front": 311},
+      {"hole": 9, "par": 5, "hdcp": 9, "back": 491, "reg": 475, "yellow": 448, "front": 418},
+    ]},
+    { name: "東", holes: [
+      {"hole": 1, "par": 4, "hdcp": 1, "back": 381, "reg": 351, "yellow": 328, "front": 328},
+      {"hole": 2, "par": 5, "hdcp": 2, "back": 553, "reg": 503, "yellow": 503, "front": 377},
+      {"hole": 3, "par": 3, "hdcp": 3, "back": 202, "reg": 175, "yellow": 153, "front": 153},
+      {"hole": 4, "par": 5, "hdcp": 4, "back": 517, "reg": 471, "yellow": 471, "front": 357},
+      {"hole": 5, "par": 4, "hdcp": 5, "back": 306, "reg": 306, "yellow": 306, "front": 268},
+      {"hole": 6, "par": 4, "hdcp": 6, "back": 432, "reg": 369, "yellow": 349, "front": 319},
+      {"hole": 7, "par": 4, "hdcp": 7, "back": 389, "reg": 359, "yellow": 312, "front": 312},
+      {"hole": 8, "par": 3, "hdcp": 8, "back": 185, "reg": 151, "yellow": 151, "front": 97},
+      {"hole": 9, "par": 4, "hdcp": 9, "back": 400, "reg": 368, "yellow": 328, "front": 328},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// セント旭川 18H 1G(ベント)4T HGA北海道 所在:旭川市 出典GORA010082 2026-06-22
+VENUES.push({
+  id: "saint_asahikawa_gc",
+  reading: "セントアサヒカワゴルフクラブ",
+  name: "セント旭川ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック(ブルー)"}, {"id": "reg", "label": "レギュラー(ホワイト)"}, {"id": "silver", "label": "シルバー"}, {"id": "front", "label": "レディース(レッド)"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 7, "back": 487, "reg": 438, "silver": 415, "front": 415},
+      {"hole": 2, "par": 4, "hdcp": 6, "back": 384, "reg": 357, "silver": 331, "front": 331},
+      {"hole": 3, "par": 4, "hdcp": 1, "back": 455, "reg": 430, "silver": 352, "front": 352},
+      {"hole": 4, "par": 3, "hdcp": 8, "back": 205, "reg": 174, "silver": 174, "front": 141},
+      {"hole": 5, "par": 4, "hdcp": 5, "back": 373, "reg": 348, "silver": 348, "front": 292},
+      {"hole": 6, "par": 5, "hdcp": 2, "back": 571, "reg": 542, "silver": 542, "front": 472},
+      {"hole": 7, "par": 4, "hdcp": 4, "back": 364, "reg": 340, "silver": 340, "front": 278},
+      {"hole": 8, "par": 3, "hdcp": 9, "back": 186, "reg": 161, "silver": 134, "front": 121},
+      {"hole": 9, "par": 4, "hdcp": 3, "back": 427, "reg": 399, "silver": 350, "front": 314},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 7, "back": 485, "reg": 473, "silver": 473, "front": 448},
+      {"hole": 11, "par": 4, "hdcp": 6, "back": 372, "reg": 328, "silver": 328, "front": 328},
+      {"hole": 12, "par": 3, "hdcp": 9, "back": 186, "reg": 165, "silver": 147, "front": 117},
+      {"hole": 13, "par": 4, "hdcp": 5, "back": 396, "reg": 335, "silver": 299, "front": 247},
+      {"hole": 14, "par": 4, "hdcp": 4, "back": 374, "reg": 345, "silver": 345, "front": 273},
+      {"hole": 15, "par": 5, "hdcp": 1, "back": 594, "reg": 571, "silver": 518, "front": 466},
+      {"hole": 16, "par": 3, "hdcp": 8, "back": 176, "reg": 158, "silver": 143, "front": 143},
+      {"hole": 17, "par": 4, "hdcp": 2, "back": 419, "reg": 387, "silver": 349, "front": 294},
+      {"hole": 18, "par": 4, "hdcp": 3, "back": 421, "reg": 394, "silver": 394, "front": 342},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 伊達 18H 1G(ベント)4T HGA北海道 所在:伊達市 出典GORA010090 2026-06-22
+VENUES.push({
+  id: "date_cc",
+  reading: "ダテカントリークラブ",
+  name: "伊達カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "B.T(バック)"}, {"id": "reg", "label": "R.T(レギュラー)"}, {"id": "front", "label": "F.T(フロント)"}, {"id": "ladies", "label": "L.T(レディース)"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 13, "back": 416, "reg": 390, "front": 366, "ladies": 313},
+      {"hole": 2, "par": 5, "hdcp": 7, "back": 540, "reg": 530, "front": 399, "ladies": 399},
+      {"hole": 3, "par": 4, "hdcp": 11, "back": 400, "reg": 367, "front": 345, "ladies": 320},
+      {"hole": 4, "par": 3, "hdcp": 15, "back": 177, "reg": 156, "front": 134, "ladies": 128},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 420, "reg": 410, "front": 376, "ladies": 339},
+      {"hole": 6, "par": 5, "hdcp": 5, "back": 527, "reg": 462, "front": 410, "ladies": 405},
+      {"hole": 7, "par": 4, "hdcp": 3, "back": 450, "reg": 425, "front": 363, "ladies": 333},
+      {"hole": 8, "par": 3, "hdcp": 9, "back": 203, "reg": 173, "front": 165, "ladies": 131},
+      {"hole": 9, "par": 4, "hdcp": 17, "back": 328, "reg": 310, "front": 300, "ladies": 291},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 10, "back": 533, "reg": 505, "front": 478, "ladies": 415},
+      {"hole": 11, "par": 4, "hdcp": 4, "back": 436, "reg": 396, "front": 378, "ladies": 373},
+      {"hole": 12, "par": 4, "hdcp": 2, "back": 418, "reg": 401, "front": 363, "ladies": 344},
+      {"hole": 13, "par": 3, "hdcp": 14, "back": 187, "reg": 176, "front": 161, "ladies": 118},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 385, "reg": 360, "front": 350, "ladies": 305},
+      {"hole": 15, "par": 4, "hdcp": 6, "back": 405, "reg": 360, "front": 342, "ladies": 313},
+      {"hole": 16, "par": 4, "hdcp": 12, "back": 372, "reg": 341, "front": 322, "ladies": 304},
+      {"hole": 17, "par": 3, "hdcp": 18, "back": 143, "reg": 115, "front": 110, "ladies": 110},
+      {"hole": 18, "par": 5, "hdcp": 16, "back": 532, "reg": 504, "front": 484, "ladies": 438},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// === HGA北海道 第4バッチ 20件追加 2026-06-22 ===
+// グレート旭川 18H 1G(ベント)5T HGA北海道 所在:上川郡鷹栖町 出典GORA010044 2026-06-22
+VENUES.push({
+  id: "great_asahikawa_cc",
+  reading: "グレートアサヒカワカントリークラブ",
+  name: "グレート旭川カントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champ", "label": "チャンピオン"}, {"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "silver", "label": "シルバー"}, {"id": "ladies", "label": "レディス"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 1, "champ": 434, "back": 412, "reg": 354, "silver": 309, "ladies": 259},
+      {"hole": 2, "par": 5, "hdcp": 11, "champ": 509, "back": 485, "reg": 465, "silver": 408, "ladies": 337},
+      {"hole": 3, "par": 4, "hdcp": 17, "champ": 361, "back": 341, "reg": 329, "silver": 305, "ladies": 305},
+      {"hole": 4, "par": 3, "hdcp": 15, "champ": 167, "back": 154, "reg": 137, "silver": 126, "ladies": 126},
+      {"hole": 5, "par": 4, "hdcp": 3, "champ": 431, "back": 407, "reg": 407, "silver": 361, "ladies": 361},
+      {"hole": 6, "par": 5, "hdcp": 8, "champ": 562, "back": 547, "reg": 533, "silver": 470, "ladies": 381},
+      {"hole": 7, "par": 4, "hdcp": 5, "champ": 422, "back": 341, "reg": 336, "silver": 268, "ladies": 268},
+      {"hole": 8, "par": 3, "hdcp": 13, "champ": 201, "back": 185, "reg": 168, "silver": 168, "ladies": 168},
+      {"hole": 9, "par": 4, "hdcp": 9, "champ": 406, "back": 386, "reg": 370, "silver": 316, "ladies": 286},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 6, "champ": 424, "back": 396, "reg": 377, "silver": 351, "ladies": 351},
+      {"hole": 11, "par": 5, "hdcp": 10, "champ": 480, "back": 466, "reg": 443, "silver": 417, "ladies": 331},
+      {"hole": 12, "par": 4, "hdcp": 16, "champ": 397, "back": 375, "reg": 329, "silver": 281, "ladies": 281},
+      {"hole": 13, "par": 3, "hdcp": 18, "champ": 176, "back": 148, "reg": 145, "silver": 122, "ladies": 121},
+      {"hole": 14, "par": 4, "hdcp": 4, "champ": 462, "back": 438, "reg": 414, "silver": 329, "ladies": 329},
+      {"hole": 15, "par": 4, "hdcp": 7, "champ": 439, "back": 381, "reg": 370, "silver": 295, "ladies": 295},
+      {"hole": 16, "par": 4, "hdcp": 12, "champ": 357, "back": 357, "reg": 338, "silver": 291, "ladies": 291},
+      {"hole": 17, "par": 3, "hdcp": 14, "champ": 201, "back": 170, "reg": 145, "silver": 132, "ladies": 132},
+      {"hole": 18, "par": 5, "hdcp": 2, "champ": 546, "back": 537, "reg": 500, "silver": 413, "ladies": 413},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// コート旭川 18H 1G(ベント)2T HGA北海道 所在:上川郡東川町 出典GORA010003 2026-06-22
+VENUES.push({
+  id: "court_asahikawa_cc",
+  reading: "コートアサヒカワカントリークラブ",
+  name: "コート旭川カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 17, "back": 379, "reg": 365},
+      {"hole": 2, "par": 5, "hdcp": 13, "back": 495, "reg": 468},
+      {"hole": 3, "par": 3, "hdcp": 11, "back": 202, "reg": 166},
+      {"hole": 4, "par": 4, "hdcp": 5, "back": 358, "reg": 338},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 470, "reg": 439},
+      {"hole": 6, "par": 5, "hdcp": 7, "back": 530, "reg": 506},
+      {"hole": 7, "par": 3, "hdcp": 15, "back": 209, "reg": 174},
+      {"hole": 8, "par": 4, "hdcp": 3, "back": 391, "reg": 365},
+      {"hole": 9, "par": 4, "hdcp": 9, "back": 395, "reg": 359},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 8, "back": 408, "reg": 388},
+      {"hole": 11, "par": 5, "hdcp": 6, "back": 519, "reg": 482},
+      {"hole": 12, "par": 3, "hdcp": 18, "back": 207, "reg": 189},
+      {"hole": 13, "par": 4, "hdcp": 2, "back": 436, "reg": 410},
+      {"hole": 14, "par": 4, "hdcp": 14, "back": 352, "reg": 317},
+      {"hole": 15, "par": 5, "hdcp": 4, "back": 505, "reg": 488},
+      {"hole": 16, "par": 3, "hdcp": 16, "back": 217, "reg": 199},
+      {"hole": 17, "par": 4, "hdcp": 10, "back": 414, "reg": 389},
+      {"hole": 18, "par": 4, "hdcp": 12, "back": 367, "reg": 333},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 御前水 18H 2G(ベントA/B)6T HGA北海道 所在:苫小牧市美沢 出典GORA010048 2026-06-22
+VENUES.push({
+  id: "gozensui_gc",
+  reading: "ゴゼンスイゴルフクラブ",
+  name: "御前水ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベントA"}, {"id": "b", "label": "ベントB"}],
+  tees: [{"id": "champ", "label": "Championship(黒)"}, {"id": "back", "label": "Back(青)"}, {"id": "reg", "label": "Regular(白)"}, {"id": "front", "label": "Front(緑)"}, {"id": "ladies", "label": "Ladies(赤)"}, {"id": "ladies2", "label": "Ladies2(桃)"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 9, "champ_a": 408, "champ_b": 408, "back_a": 399, "back_b": 375, "reg_a": 385, "reg_b": 364, "front_a": 370, "front_b": 340, "ladies_a": 340, "ladies_b": 340, "ladies2_a": 340, "ladies2_b": 340},
+      {"hole": 2, "par": 3, "hdcp": 15, "champ_a": 201, "champ_b": 201, "back_a": 193, "back_b": 193, "reg_a": 176, "reg_b": 176, "front_a": 157, "front_b": 157, "ladies_a": 157, "ladies_b": 157, "ladies2_a": 157, "ladies2_b": 157},
+      {"hole": 3, "par": 4, "hdcp": 3, "champ_a": 394, "champ_b": 394, "back_a": 389, "back_b": 389, "reg_a": 361, "reg_b": 361, "front_a": 344, "front_b": 344, "ladies_a": 344, "ladies_b": 344, "ladies2_a": 344, "ladies2_b": 344},
+      {"hole": 4, "par": 4, "hdcp": 7, "champ_a": 397, "champ_b": 397, "back_a": 375, "back_b": 375, "reg_a": 365, "reg_b": 365, "front_a": 335, "front_b": 335, "ladies_a": 286, "ladies_b": 286, "ladies2_a": 286, "ladies2_b": 286},
+      {"hole": 5, "par": 5, "hdcp": 1, "champ_a": 580, "champ_b": 580, "back_a": 570, "back_b": 570, "reg_a": 553, "reg_b": 553, "front_a": 534, "front_b": 534, "ladies_a": 441, "ladies_b": 441, "ladies2_a": 441, "ladies2_b": 441},
+      {"hole": 6, "par": 4, "hdcp": 13, "champ_a": 377, "champ_b": 377, "back_a": 351, "back_b": 351, "reg_a": 327, "reg_b": 327, "front_a": 307, "front_b": 307, "ladies_a": 307, "ladies_b": 307, "ladies2_a": 307, "ladies2_b": 307},
+      {"hole": 7, "par": 3, "hdcp": 17, "champ_a": 217, "champ_b": 217, "back_a": 210, "back_b": 199, "reg_a": 196, "reg_b": 182, "front_a": 185, "front_b": 173, "ladies_a": 173, "ladies_b": 173, "ladies2_a": 142, "ladies2_b": 142},
+      {"hole": 8, "par": 5, "hdcp": 11, "champ_a": 553, "champ_b": 553, "back_a": 533, "back_b": 505, "reg_a": 520, "reg_b": 489, "front_a": 488, "front_b": 480, "ladies_a": 440, "ladies_b": 440, "ladies2_a": 371, "ladies2_b": 371},
+      {"hole": 9, "par": 4, "hdcp": 5, "champ_a": 439, "champ_b": 439, "back_a": 420, "back_b": 420, "reg_a": 395, "reg_b": 395, "front_a": 360, "front_b": 360, "ladies_a": 360, "ladies_b": 360, "ladies2_a": 302, "ladies2_b": 302},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 10, "champ_a": 568, "champ_b": 568, "back_a": 560, "back_b": 499, "reg_a": 543, "reg_b": 480, "front_a": 531, "front_b": 469, "ladies_a": 401, "ladies_b": 401, "ladies2_a": 401, "ladies2_b": 401},
+      {"hole": 11, "par": 4, "hdcp": 4, "champ_a": 441, "champ_b": 441, "back_a": 424, "back_b": 385, "reg_a": 404, "reg_b": 365, "front_a": 392, "front_b": 359, "ladies_a": 359, "ladies_b": 359, "ladies2_a": 309, "ladies2_b": 309},
+      {"hole": 12, "par": 3, "hdcp": 16, "champ_a": 194, "champ_b": 194, "back_a": 177, "back_b": 177, "reg_a": 150, "reg_b": 150, "front_a": 145, "front_b": 145, "ladies_a": 145, "ladies_b": 145, "ladies2_a": 145, "ladies2_b": 145},
+      {"hole": 13, "par": 4, "hdcp": 2, "champ_a": 385, "champ_b": 385, "back_a": 361, "back_b": 361, "reg_a": 350, "reg_b": 350, "front_a": 327, "front_b": 327, "ladies_a": 272, "ladies_b": 272, "ladies2_a": 272, "ladies2_b": 272},
+      {"hole": 14, "par": 4, "hdcp": 8, "champ_a": 365, "champ_b": 365, "back_a": 360, "back_b": 335, "reg_a": 344, "reg_b": 326, "front_a": 334, "front_b": 300, "ladies_a": 300, "ladies_b": 300, "ladies2_a": 300, "ladies2_b": 300},
+      {"hole": 15, "par": 3, "hdcp": 14, "champ_a": 168, "champ_b": 168, "back_a": 154, "back_b": 154, "reg_a": 144, "reg_b": 144, "front_a": 139, "front_b": 139, "ladies_a": 139, "ladies_b": 139, "ladies2_a": 85, "ladies2_b": 85},
+      {"hole": 16, "par": 4, "hdcp": 18, "champ_a": 372, "champ_b": 372, "back_a": 345, "back_b": 345, "reg_a": 338, "reg_b": 338, "front_a": 323, "front_b": 323, "ladies_a": 323, "ladies_b": 323, "ladies2_a": 283, "ladies2_b": 283},
+      {"hole": 17, "par": 4, "hdcp": 6, "champ_a": 441, "champ_b": 441, "back_a": 432, "back_b": 372, "reg_a": 402, "reg_b": 348, "front_a": 378, "front_b": 334, "ladies_a": 334, "ladies_b": 334, "ladies2_a": 334, "ladies2_b": 334},
+      {"hole": 18, "par": 5, "hdcp": 12, "champ_a": 513, "champ_b": 513, "back_a": 500, "back_b": 500, "reg_a": 479, "reg_b": 479, "front_a": 452, "front_b": 452, "ladies_a": 452, "ladies_b": 452, "ladies2_a": 411, "ladies2_b": 411},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t+"_"+g]??null
+});
+
+// ザ・ノース 18H 1G(ベント)4T HGA北海道 所在:千歳市蘭越 出典GORA010067 2026-06-22
+VENUES.push({
+  id: "the_north_cc",
+  reading: "ザノースカントリーゴルフクラブ",
+  name: "ザ・ノースカントリーゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champ", "label": "Champion"}, {"id": "back", "label": "Back"}, {"id": "reg", "label": "Regular"}, {"id": "front", "label": "Front"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 15, "champ": 431, "back": 398, "reg": 365, "front": 336},
+      {"hole": 2, "par": 3, "hdcp": 9, "champ": 193, "back": 172, "reg": 151, "front": 122},
+      {"hole": 3, "par": 5, "hdcp": 3, "champ": 574, "back": 542, "reg": 508, "front": 423},
+      {"hole": 4, "par": 4, "hdcp": 1, "champ": 419, "back": 381, "reg": 352, "front": 310},
+      {"hole": 5, "par": 4, "hdcp": 13, "champ": 346, "back": 315, "reg": 280, "front": 240},
+      {"hole": 6, "par": 4, "hdcp": 7, "champ": 422, "back": 372, "reg": 341, "front": 296},
+      {"hole": 7, "par": 3, "hdcp": 17, "champ": 158, "back": 132, "reg": 110, "front": 84},
+      {"hole": 8, "par": 4, "hdcp": 5, "champ": 437, "back": 407, "reg": 373, "front": 316},
+      {"hole": 9, "par": 5, "hdcp": 11, "champ": 567, "back": 533, "reg": 493, "front": 464},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "champ": 452, "back": 429, "reg": 398, "front": 374},
+      {"hole": 11, "par": 4, "hdcp": 10, "champ": 426, "back": 403, "reg": 367, "front": 321},
+      {"hole": 12, "par": 3, "hdcp": 16, "champ": 216, "back": 196, "reg": 169, "front": 152},
+      {"hole": 13, "par": 5, "hdcp": 2, "champ": 540, "back": 528, "reg": 501, "front": 463},
+      {"hole": 14, "par": 4, "hdcp": 14, "champ": 378, "back": 351, "reg": 338, "front": 306},
+      {"hole": 15, "par": 4, "hdcp": 8, "champ": 422, "back": 385, "reg": 372, "front": 319},
+      {"hole": 16, "par": 3, "hdcp": 12, "champ": 184, "back": 145, "reg": 121, "front": 110},
+      {"hole": 17, "par": 4, "hdcp": 6, "champ": 392, "back": 358, "reg": 328, "front": 293},
+      {"hole": 18, "par": 5, "hdcp": 18, "champ": 536, "back": 506, "reg": 473, "front": 419},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 札幌芙蓉 18H 1G(ベント)4T HGA北海道 所在:札幌市清田区有明 出典GORA010064 2026-06-22
+VENUES.push({
+  id: "sapporo_fuyo_cc",
+  reading: "サッポロフヨウカントリークラブ",
+  name: "札幌芙蓉カントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK(黒)"}, {"id": "reg", "label": "REG(青)"}, {"id": "front", "label": "FRONT(白)"}, {"id": "lady", "label": "LADY"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 6, "back": 400, "reg": 385, "front": 375, "lady": 330},
+      {"hole": 2, "par": 5, "hdcp": 3, "back": 550, "reg": 520, "front": 470, "lady": 470},
+      {"hole": 3, "par": 3, "hdcp": 7, "back": 150, "reg": 140, "front": 130, "lady": 115},
+      {"hole": 4, "par": 4, "hdcp": 2, "back": 410, "reg": 390, "front": 340, "lady": 340},
+      {"hole": 5, "par": 4, "hdcp": 9, "back": 345, "reg": 335, "front": 320, "lady": 250},
+      {"hole": 6, "par": 5, "hdcp": 1, "back": 535, "reg": 525, "front": 480, "lady": 440},
+      {"hole": 7, "par": 4, "hdcp": 5, "back": 405, "reg": 395, "front": 350, "lady": 350},
+      {"hole": 8, "par": 3, "hdcp": 4, "back": 200, "reg": 185, "front": 165, "lady": 95},
+      {"hole": 9, "par": 4, "hdcp": 8, "back": 405, "reg": 390, "front": 365, "lady": 340},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 8, "back": 520, "reg": 500, "front": 480, "lady": 410},
+      {"hole": 11, "par": 4, "hdcp": 3, "back": 400, "reg": 340, "front": 330, "lady": 310},
+      {"hole": 12, "par": 4, "hdcp": 4, "back": 385, "reg": 365, "front": 345, "lady": 295},
+      {"hole": 13, "par": 3, "hdcp": 5, "back": 175, "reg": 160, "front": 150, "lady": 150},
+      {"hole": 14, "par": 5, "hdcp": 1, "back": 580, "reg": 480, "front": 460, "lady": 460},
+      {"hole": 15, "par": 4, "hdcp": 6, "back": 440, "reg": 410, "front": 400, "lady": 275},
+      {"hole": 16, "par": 4, "hdcp": 9, "back": 345, "reg": 320, "front": 310, "lady": 310},
+      {"hole": 17, "par": 3, "hdcp": 7, "back": 175, "reg": 150, "front": 145, "lady": 130},
+      {"hole": 18, "par": 4, "hdcp": 2, "back": 435, "reg": 400, "front": 340, "lady": 340},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 札幌ベイ 18H 1G(ベント)4T HGA北海道 所在:石狩市船場町 出典GORA010065 2026-06-22
+VENUES.push({
+  id: "sapporo_bay_gc",
+  reading: "サッポロベイゴルフクラブ",
+  name: "札幌ベイゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "gold", "label": "Gold"}, {"id": "blue", "label": "Blue"}, {"id": "white", "label": "White"}, {"id": "red", "label": "Red"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 9, "gold": 547, "blue": 515, "white": 490, "red": 434},
+      {"hole": 2, "par": 4, "hdcp": 5, "gold": 422, "blue": 395, "white": 364, "red": 328},
+      {"hole": 3, "par": 4, "hdcp": 15, "gold": 384, "blue": 356, "white": 328, "red": 261},
+      {"hole": 4, "par": 3, "hdcp": 1, "gold": 210, "blue": 178, "white": 154, "red": 124},
+      {"hole": 5, "par": 4, "hdcp": 3, "gold": 412, "blue": 384, "white": 353, "red": 312},
+      {"hole": 6, "par": 3, "hdcp": 13, "gold": 164, "blue": 143, "white": 116, "red": 93},
+      {"hole": 7, "par": 4, "hdcp": 11, "gold": 411, "blue": 379, "white": 345, "red": 271},
+      {"hole": 8, "par": 5, "hdcp": 17, "gold": 540, "blue": 501, "white": 467, "red": 426},
+      {"hole": 9, "par": 4, "hdcp": 7, "gold": 416, "blue": 388, "white": 358, "red": 317},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 14, "gold": 562, "blue": 533, "white": 498, "red": 420},
+      {"hole": 11, "par": 4, "hdcp": 8, "gold": 391, "blue": 357, "white": 328, "red": 303},
+      {"hole": 12, "par": 3, "hdcp": 12, "gold": 163, "blue": 139, "white": 117, "red": 94},
+      {"hole": 13, "par": 4, "hdcp": 2, "gold": 470, "blue": 425, "white": 394, "red": 335},
+      {"hole": 14, "par": 4, "hdcp": 10, "gold": 405, "blue": 378, "white": 345, "red": 294},
+      {"hole": 15, "par": 4, "hdcp": 16, "gold": 366, "blue": 342, "white": 317, "red": 290},
+      {"hole": 16, "par": 3, "hdcp": 6, "gold": 217, "blue": 189, "white": 165, "red": 142},
+      {"hole": 17, "par": 4, "hdcp": 4, "gold": 431, "blue": 395, "white": 364, "red": 313},
+      {"hole": 18, "par": 5, "hdcp": 18, "gold": 507, "blue": 479, "white": 445, "red": 394},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 札幌リージェント 36H(旧OUT/旧IN/新OUT/新IN)1G(ベント)4T HGA北海道 所在:北広島市島松 出典GORA010046 2026-06-22
+VENUES.push({
+  id: "sapporo_regent_gc",
+  reading: "サッポロリージェントゴルフクラブ",
+  name: "札幌リージェントゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "lady", "label": "LADIES"}],
+  subCourses: [
+    { name: "旧OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "back": 516, "reg": 452, "front": 448, "lady": 448},
+      {"hole": 2, "par": 4, "hdcp": 9, "back": 376, "reg": 355, "front": 346, "lady": 346},
+      {"hole": 3, "par": 3, "hdcp": 17, "back": 185, "reg": 175, "front": 138, "lady": 138},
+      {"hole": 4, "par": 4, "hdcp": 11, "back": 478, "reg": 409, "front": 395, "lady": 395},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 373, "reg": 361, "front": 305, "lady": 305},
+      {"hole": 6, "par": 4, "hdcp": 7, "back": 342, "reg": 328, "front": 312, "lady": 312},
+      {"hole": 7, "par": 3, "hdcp": 15, "back": 168, "reg": 156, "front": 133, "lady": 133},
+      {"hole": 8, "par": 4, "hdcp": 13, "back": 353, "reg": 332, "front": 326, "lady": 326},
+      {"hole": 9, "par": 5, "hdcp": 5, "back": 517, "reg": 497, "front": 495, "lady": 360},
+    ]},
+    { name: "旧IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 12, "back": 381, "reg": 353, "front": 290, "lady": 290},
+      {"hole": 11, "par": 4, "hdcp": 2, "back": 430, "reg": 408, "front": 354, "lady": 354},
+      {"hole": 12, "par": 5, "hdcp": 6, "back": 584, "reg": 483, "front": 433, "lady": 433},
+      {"hole": 13, "par": 3, "hdcp": 18, "back": 200, "reg": 176, "front": 159, "lady": 115},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 418, "reg": 397, "front": 381, "lady": 336},
+      {"hole": 15, "par": 4, "hdcp": 14, "back": 369, "reg": 350, "front": 341, "lady": 275},
+      {"hole": 16, "par": 5, "hdcp": 10, "back": 554, "reg": 496, "front": 440, "lady": 440},
+      {"hole": 17, "par": 3, "hdcp": 16, "back": 175, "reg": 161, "front": 155, "lady": 120},
+      {"hole": 18, "par": 4, "hdcp": 4, "back": 432, "reg": 392, "front": 373, "lady": 373},
+    ]},
+    { name: "新OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 11, "back": 472, "reg": 472, "front": 420, "lady": 420},
+      {"hole": 2, "par": 4, "hdcp": 17, "back": 393, "reg": 348, "front": 340, "lady": 273},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 166, "reg": 128, "front": 115, "lady": 108},
+      {"hole": 4, "par": 4, "hdcp": 3, "back": 375, "reg": 339, "front": 315, "lady": 315},
+      {"hole": 5, "par": 5, "hdcp": 7, "back": 555, "reg": 517, "front": 489, "lady": 437},
+      {"hole": 6, "par": 4, "hdcp": 15, "back": 385, "reg": 348, "front": 311, "lady": 311},
+      {"hole": 7, "par": 4, "hdcp": 1, "back": 417, "reg": 383, "front": 366, "lady": 366},
+      {"hole": 8, "par": 3, "hdcp": 5, "back": 211, "reg": 152, "front": 152, "lady": 121},
+      {"hole": 9, "par": 4, "hdcp": 13, "back": 414, "reg": 383, "front": 360, "lady": 335},
+    ]},
+    { name: "新IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 16, "back": 490, "reg": 472, "front": 430, "lady": 430},
+      {"hole": 11, "par": 4, "hdcp": 12, "back": 349, "reg": 293, "front": 276, "lady": 276},
+      {"hole": 12, "par": 4, "hdcp": 18, "back": 377, "reg": 331, "front": 312, "lady": 300},
+      {"hole": 13, "par": 3, "hdcp": 6, "back": 219, "reg": 164, "front": 154, "lady": 142},
+      {"hole": 14, "par": 4, "hdcp": 14, "back": 369, "reg": 325, "front": 301, "lady": 301},
+      {"hole": 15, "par": 5, "hdcp": 10, "back": 505, "reg": 482, "front": 472, "lady": 466},
+      {"hole": 16, "par": 4, "hdcp": 2, "back": 408, "reg": 359, "front": 331, "lady": 331},
+      {"hole": 17, "par": 3, "hdcp": 8, "back": 152, "reg": 131, "front": 109, "lady": 109},
+      {"hole": 18, "par": 4, "hdcp": 4, "back": 415, "reg": 361, "front": 347, "lady": 310},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// サロベツ 18H 1G(ベント)2T HDCP不明 HGA北海道 所在:天塩郡豊富町東豊富 出典GORA010069 2026-06-22
+VENUES.push({
+  id: "sarobetsu_cc",
+  reading: "サロベツカントリークラブ",
+  name: "サロベツカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 541, "reg": 519},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 400, "reg": 382},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 370, "reg": 341},
+      {"hole": 4, "par": 3, "hdcp": null, "back": 153, "reg": 124},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 385, "reg": 367},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 403, "reg": 379},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 345, "reg": 313},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 172, "reg": 147},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 486, "reg": 455},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 364, "reg": 340},
+      {"hole": 11, "par": 3, "hdcp": null, "back": 183, "reg": 153},
+      {"hole": 12, "par": 4, "hdcp": null, "back": 340, "reg": 307},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 453, "reg": 432},
+      {"hole": 14, "par": 5, "hdcp": null, "back": 516, "reg": 495},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 401, "reg": 373},
+      {"hole": 16, "par": 3, "hdcp": null, "back": 138, "reg": 119},
+      {"hole": 17, "par": 5, "hdcp": null, "back": 520, "reg": 490},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 404, "reg": 386},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// シェイクスピア 18H 1G(ベントL=メイン・Rは公式・GORA共にホール別非公開)5T HGA北海道 所在:石狩市八幡町 出典公式skp-cc+GORA010040 2026-06-22
+VENUES.push({
+  id: "shakespeare_cc",
+  reading: "シェイクスピアカントリークラブ",
+  name: "シェイクスピアカントリークラブ",
+  greens: [{"id": "a", "label": "ベント(L)"}],
+  tees: [{"id": "blue", "label": "青(チャンピオン)"}, {"id": "black", "label": "黒(バック)"}, {"id": "white", "label": "白(レギュラー)"}, {"id": "gold", "label": "金(ゴールド)"}, {"id": "red", "label": "赤(レディース)"}],
+  subCourses: [
+    { name: "OUT(ロミオ)", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "blue": 456, "black": 422, "white": 422, "gold": 360, "red": 360},
+      {"hole": 2, "par": 4, "hdcp": 4, "blue": 355, "black": 329, "white": 313, "gold": 279, "red": 241},
+      {"hole": 3, "par": 3, "hdcp": 9, "blue": 144, "black": 127, "white": 110, "gold": 101, "red": 101},
+      {"hole": 4, "par": 4, "hdcp": 5, "blue": 352, "black": 335, "white": 312, "gold": 299, "red": 299},
+      {"hole": 5, "par": 5, "hdcp": 1, "blue": 577, "black": 541, "white": 520, "gold": 411, "red": 411},
+      {"hole": 6, "par": 4, "hdcp": 3, "blue": 398, "black": 383, "white": 364, "gold": 338, "red": 294},
+      {"hole": 7, "par": 3, "hdcp": 6, "blue": 198, "black": 180, "white": 152, "gold": 124, "red": 124},
+      {"hole": 8, "par": 4, "hdcp": 8, "blue": 394, "black": 373, "white": 349, "gold": 338, "red": 338},
+      {"hole": 9, "par": 5, "hdcp": 2, "blue": 526, "black": 510, "white": 486, "gold": 461, "red": 461},
+    ]},
+    { name: "IN(ジュリエット)", holes: [
+      {"hole": 10, "par": 4, "hdcp": 8, "blue": 402, "black": 368, "white": 345, "gold": 345, "red": 311},
+      {"hole": 11, "par": 5, "hdcp": 3, "blue": 547, "black": 463, "white": 447, "gold": 428, "red": 394},
+      {"hole": 12, "par": 3, "hdcp": 7, "blue": 164, "black": 148, "white": 125, "gold": 81, "red": 81},
+      {"hole": 13, "par": 4, "hdcp": 1, "blue": 425, "black": 394, "white": 378, "gold": 320, "red": 320},
+      {"hole": 14, "par": 4, "hdcp": 5, "blue": 366, "black": 358, "white": 346, "gold": 338, "red": 296},
+      {"hole": 15, "par": 5, "hdcp": 2, "blue": 531, "black": 516, "white": 487, "gold": 423, "red": 423},
+      {"hole": 16, "par": 3, "hdcp": 9, "blue": 182, "black": 165, "white": 142, "gold": 122, "red": 108},
+      {"hole": 17, "par": 4, "hdcp": 4, "blue": 454, "black": 395, "white": 376, "gold": 361, "red": 310},
+      {"hole": 18, "par": 4, "hdcp": 6, "blue": 408, "black": 390, "white": 372, "gold": 357, "red": 326},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 士別同友会 18H 1G(ベント)4T HGA北海道 所在:士別市東8条 出典GORA010073 2026-06-22
+VENUES.push({
+  id: "shibetsu_doyukai_cc",
+  reading: "シベツドウユウカイカントリークラブ",
+  name: "士別同友会カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "black", "label": "BACK(黒)"}, {"id": "blue", "label": "REG(青)"}, {"id": "white", "label": "FRONT(白)"}, {"id": "red", "label": "LADY"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 6, "black": 400, "blue": 385, "white": 375, "red": 330},
+      {"hole": 2, "par": 5, "hdcp": 3, "black": 550, "blue": 520, "white": 470, "red": 470},
+      {"hole": 3, "par": 3, "hdcp": 7, "black": 150, "blue": 140, "white": 130, "red": 115},
+      {"hole": 4, "par": 4, "hdcp": 2, "black": 410, "blue": 390, "white": 340, "red": 340},
+      {"hole": 5, "par": 4, "hdcp": 9, "black": 345, "blue": 335, "white": 320, "red": 250},
+      {"hole": 6, "par": 5, "hdcp": 1, "black": 535, "blue": 525, "white": 480, "red": 440},
+      {"hole": 7, "par": 4, "hdcp": 5, "black": 405, "blue": 395, "white": 350, "red": 350},
+      {"hole": 8, "par": 3, "hdcp": 4, "black": 200, "blue": 185, "white": 165, "red": 95},
+      {"hole": 9, "par": 4, "hdcp": 8, "black": 405, "blue": 390, "white": 365, "red": 340},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 8, "black": 520, "blue": 500, "white": 480, "red": 410},
+      {"hole": 11, "par": 4, "hdcp": 3, "black": 400, "blue": 340, "white": 330, "red": 310},
+      {"hole": 12, "par": 4, "hdcp": 4, "black": 385, "blue": 365, "white": 345, "red": 295},
+      {"hole": 13, "par": 3, "hdcp": 5, "black": 175, "blue": 160, "white": 150, "red": 150},
+      {"hole": 14, "par": 5, "hdcp": 1, "black": 580, "blue": 480, "white": 460, "red": 460},
+      {"hole": 15, "par": 4, "hdcp": 6, "black": 440, "blue": 410, "white": 400, "red": 275},
+      {"hole": 16, "par": 4, "hdcp": 9, "black": 345, "blue": 320, "white": 310, "red": 310},
+      {"hole": 17, "par": 3, "hdcp": 7, "black": 175, "blue": 150, "white": 145, "red": 130},
+      {"hole": 18, "par": 4, "hdcp": 2, "black": 435, "blue": 400, "white": 340, "red": 340},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// シャムロック 18H 1G(ベント)4T HGA北海道 所在:千歳市柏台 出典GORA010074 2026-06-22
+VENUES.push({
+  id: "shamrock_cc",
+  reading: "シャムロックカントリークラブ",
+  name: "シャムロックカントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "gold", "label": "Gold"}, {"id": "blue", "label": "Blue"}, {"id": "white", "label": "White"}, {"id": "red", "label": "Red"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 9, "gold": 547, "blue": 515, "white": 490, "red": 434},
+      {"hole": 2, "par": 4, "hdcp": 5, "gold": 422, "blue": 395, "white": 364, "red": 328},
+      {"hole": 3, "par": 4, "hdcp": 15, "gold": 384, "blue": 356, "white": 328, "red": 261},
+      {"hole": 4, "par": 3, "hdcp": 1, "gold": 210, "blue": 178, "white": 154, "red": 124},
+      {"hole": 5, "par": 4, "hdcp": 3, "gold": 412, "blue": 384, "white": 353, "red": 312},
+      {"hole": 6, "par": 3, "hdcp": 13, "gold": 164, "blue": 143, "white": 116, "red": 93},
+      {"hole": 7, "par": 4, "hdcp": 11, "gold": 411, "blue": 379, "white": 345, "red": 271},
+      {"hole": 8, "par": 5, "hdcp": 17, "gold": 540, "blue": 501, "white": 467, "red": 426},
+      {"hole": 9, "par": 4, "hdcp": 7, "gold": 416, "blue": 388, "white": 358, "red": 317},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 14, "gold": 562, "blue": 533, "white": 498, "red": 420},
+      {"hole": 11, "par": 4, "hdcp": 8, "gold": 391, "blue": 357, "white": 328, "red": 303},
+      {"hole": 12, "par": 3, "hdcp": 12, "gold": 163, "blue": 139, "white": 117, "red": 94},
+      {"hole": 13, "par": 4, "hdcp": 2, "gold": 470, "blue": 425, "white": 394, "red": 335},
+      {"hole": 14, "par": 4, "hdcp": 10, "gold": 405, "blue": 378, "white": 345, "red": 294},
+      {"hole": 15, "par": 4, "hdcp": 16, "gold": 366, "blue": 342, "white": 317, "red": 290},
+      {"hole": 16, "par": 3, "hdcp": 6, "gold": 217, "blue": 189, "white": 165, "red": 142},
+      {"hole": 17, "par": 4, "hdcp": 4, "gold": 431, "blue": 395, "white": 364, "red": 313},
+      {"hole": 18, "par": 5, "hdcp": 18, "gold": 507, "blue": 479, "white": 445, "red": 394},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 定山渓駒丘 18H 1G(ベント)4T HGA北海道 所在:札幌市南区 出典GORA010075+公式 2026-06-22
+VENUES.push({
+  id: "jozankei_komaoka_cc",
+  reading: "ジョウザンケイカントリークラブコマオカコース",
+  name: "定山渓カントリー倶楽部 駒丘コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "regular", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "back": 516, "regular": 452, "front": 448, "ladies": 448},
+      {"hole": 2, "par": 4, "hdcp": 9, "back": 376, "regular": 355, "front": 346, "ladies": 346},
+      {"hole": 3, "par": 3, "hdcp": 17, "back": 185, "regular": 175, "front": 138, "ladies": 138},
+      {"hole": 4, "par": 4, "hdcp": 11, "back": 478, "regular": 409, "front": 395, "ladies": 395},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 373, "regular": 361, "front": 305, "ladies": 305},
+      {"hole": 6, "par": 4, "hdcp": 7, "back": 342, "regular": 328, "front": 312, "ladies": 312},
+      {"hole": 7, "par": 3, "hdcp": 15, "back": 168, "regular": 156, "front": 133, "ladies": 133},
+      {"hole": 8, "par": 4, "hdcp": 13, "back": 353, "regular": 332, "front": 326, "ladies": 326},
+      {"hole": 9, "par": 5, "hdcp": 5, "back": 517, "regular": 497, "front": 495, "ladies": 360},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 12, "back": 381, "regular": 353, "front": 290, "ladies": 290},
+      {"hole": 11, "par": 4, "hdcp": 2, "back": 430, "regular": 408, "front": 354, "ladies": 354},
+      {"hole": 12, "par": 5, "hdcp": 6, "back": 584, "regular": 483, "front": 433, "ladies": 433},
+      {"hole": 13, "par": 3, "hdcp": 18, "back": 200, "regular": 176, "front": 159, "ladies": 115},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 418, "regular": 397, "front": 381, "ladies": 336},
+      {"hole": 15, "par": 4, "hdcp": 14, "back": 369, "regular": 350, "front": 341, "ladies": 275},
+      {"hole": 16, "par": 5, "hdcp": 10, "back": 554, "regular": 496, "front": 440, "ladies": 440},
+      {"hole": 17, "par": 3, "hdcp": 16, "back": 175, "regular": 161, "front": 155, "ladies": 120},
+      {"hole": 18, "par": 4, "hdcp": 4, "back": 432, "regular": 392, "front": 373, "ladies": 373},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// ちとせインター 18H 1G(ベント)3T HGA北海道 所在:千歳市協和 出典GORA010170 2026-06-22
+VENUES.push({
+  id: "chitose_inter_gc",
+  reading: "チトセインターゴルフクラブ",
+  name: "ちとせインターゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "back": 357, "regular": 309, "ladies": 301},
+      {"hole": 2, "par": 4, "hdcp": 2, "back": 416, "regular": 401, "ladies": 320},
+      {"hole": 3, "par": 3, "hdcp": 3, "back": 175, "regular": 145, "ladies": 138},
+      {"hole": 4, "par": 5, "hdcp": 4, "back": 525, "regular": 511, "ladies": 338},
+      {"hole": 5, "par": 5, "hdcp": 5, "back": 540, "regular": 506, "ladies": 470},
+      {"hole": 6, "par": 3, "hdcp": 8, "back": 177, "regular": 163, "ladies": 128},
+      {"hole": 7, "par": 4, "hdcp": 9, "back": 376, "regular": 305, "ladies": 299},
+      {"hole": 8, "par": 4, "hdcp": 1, "back": 430, "regular": 411, "ladies": 282},
+      {"hole": 9, "par": 4, "hdcp": 6, "back": 360, "regular": 337, "ladies": 327},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 3, "back": 357, "regular": 337, "ladies": 301},
+      {"hole": 11, "par": 4, "hdcp": 7, "back": 403, "regular": 360, "ladies": 305},
+      {"hole": 12, "par": 3, "hdcp": 5, "back": 175, "regular": 145, "ladies": 138},
+      {"hole": 13, "par": 5, "hdcp": 1, "back": 525, "regular": 508, "ladies": 336},
+      {"hole": 14, "par": 5, "hdcp": 4, "back": 540, "regular": 530, "ladies": 470},
+      {"hole": 15, "par": 3, "hdcp": 9, "back": 177, "regular": 137, "ladies": 128},
+      {"hole": 16, "par": 4, "hdcp": 2, "back": 376, "regular": 335, "ladies": 299},
+      {"hole": 17, "par": 4, "hdcp": 6, "back": 381, "regular": 368, "ladies": 231},
+      {"hole": 18, "par": 4, "hdcp": 8, "back": 360, "regular": 337, "ladies": 327},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 千歳 18H(しらかば/からまつ)1G(ベント)3T HGA北海道 所在:千歳市協和 出典GORA010079 2026-06-22
+VENUES.push({
+  id: "chitose_cc",
+  reading: "チトセカントリークラブ",
+  name: "千歳カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "blue", "label": "Blue"}, {"id": "white", "label": "White"}, {"id": "red", "label": "Red"}],
+  subCourses: [
+    { name: "しらかば", holes: [
+      {"hole": 1, "par": 5, "hdcp": 6, "blue": 495, "white": 470, "red": 357},
+      {"hole": 2, "par": 4, "hdcp": 9, "blue": 325, "white": 313, "red": 289},
+      {"hole": 3, "par": 4, "hdcp": 2, "blue": 422, "white": 369, "red": 330},
+      {"hole": 4, "par": 3, "hdcp": 3, "blue": 185, "white": 165, "red": 70},
+      {"hole": 5, "par": 4, "hdcp": 1, "blue": 394, "white": 370, "red": 296},
+      {"hole": 6, "par": 4, "hdcp": 5, "blue": 399, "white": 366, "red": 365},
+      {"hole": 7, "par": 5, "hdcp": 8, "blue": 468, "white": 462, "red": 445},
+      {"hole": 8, "par": 3, "hdcp": 7, "blue": 180, "white": 150, "red": 137},
+      {"hole": 9, "par": 4, "hdcp": 4, "blue": 400, "white": 385, "red": 258},
+    ]},
+    { name: "からまつ", holes: [
+      {"hole": 10, "par": 4, "hdcp": 2, "blue": 427, "white": 400, "red": 273},
+      {"hole": 11, "par": 4, "hdcp": 9, "blue": 475, "white": 350, "red": 300},
+      {"hole": 12, "par": 3, "hdcp": 8, "blue": 186, "white": 156, "red": 140},
+      {"hole": 13, "par": 5, "hdcp": 4, "blue": 543, "white": 535, "red": 388},
+      {"hole": 14, "par": 4, "hdcp": 7, "blue": 387, "white": 366, "red": 348},
+      {"hole": 15, "par": 3, "hdcp": 5, "blue": 205, "white": 185, "red": 100},
+      {"hole": 16, "par": 5, "hdcp": 1, "blue": 485, "white": 470, "red": 405},
+      {"hole": 17, "par": 4, "hdcp": 6, "blue": 379, "white": 370, "red": 345},
+      {"hole": 18, "par": 4, "hdcp": 3, "blue": 410, "white": 390, "red": 237},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 千歳空港 27H(せきれい/はくちょう/おしどり)1G(ベント)4T HGA北海道 所在:千歳市 出典GORA010093 2026-06-22
+VENUES.push({
+  id: "chitose_kuko_cc",
+  reading: "チトセクウコウカントリークラブ",
+  name: "千歳空港カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "black", "label": "BLACK"}, {"id": "blue", "label": "BLUE"}, {"id": "white", "label": "WHITE"}, {"id": "red", "label": "RED"}],
+  subCourses: [
+    { name: "せきれい", holes: [
+      {"hole": 1, "par": 4, "hdcp": 1, "black": 456, "blue": 429, "white": 401, "red": 324},
+      {"hole": 2, "par": 3, "hdcp": 8, "black": 177, "blue": 162, "white": 157, "red": 157},
+      {"hole": 3, "par": 5, "hdcp": 3, "black": 592, "blue": 571, "white": 526, "red": 526},
+      {"hole": 4, "par": 4, "hdcp": 2, "black": 433, "blue": 394, "white": 348, "red": 348},
+      {"hole": 5, "par": 4, "hdcp": 6, "black": 382, "blue": 359, "white": 326, "red": 326},
+      {"hole": 6, "par": 4, "hdcp": 4, "black": 381, "blue": 352, "white": 335, "red": 286},
+      {"hole": 7, "par": 3, "hdcp": 9, "black": 187, "blue": 172, "white": 160, "red": 160},
+      {"hole": 8, "par": 4, "hdcp": 5, "black": 400, "blue": 359, "white": 345, "red": 303},
+      {"hole": 9, "par": 5, "hdcp": 7, "black": 532, "blue": 510, "white": 468, "red": 468},
+    ]},
+    { name: "はくちょう", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "black": 553, "blue": 539, "white": 515, "red": 503},
+      {"hole": 2, "par": 3, "hdcp": 8, "black": 181, "blue": 161, "white": 147, "red": 134},
+      {"hole": 3, "par": 4, "hdcp": 2, "black": 405, "blue": 370, "white": 353, "red": 345},
+      {"hole": 4, "par": 4, "hdcp": 7, "black": 378, "blue": 358, "white": 282, "red": 237},
+      {"hole": 5, "par": 4, "hdcp": 4, "black": 384, "blue": 356, "white": 339, "red": 330},
+      {"hole": 6, "par": 3, "hdcp": 3, "black": 195, "blue": 177, "white": 161, "red": 118},
+      {"hole": 7, "par": 4, "hdcp": 9, "black": 368, "blue": 360, "white": 338, "red": 338},
+      {"hole": 8, "par": 4, "hdcp": 1, "black": 429, "blue": 384, "white": 367, "red": 312},
+      {"hole": 9, "par": 5, "hdcp": 6, "black": 552, "blue": 528, "white": 448, "red": 448},
+    ]},
+    { name: "おしどり", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "black": 388, "blue": 371, "white": 360, "red": 306},
+      {"hole": 2, "par": 3, "hdcp": 9, "black": 143, "blue": 130, "white": 119, "red": 119},
+      {"hole": 3, "par": 5, "hdcp": 2, "black": 558, "blue": 540, "white": 415, "red": 415},
+      {"hole": 4, "par": 4, "hdcp": 8, "black": 406, "blue": 383, "white": 298, "red": 298},
+      {"hole": 5, "par": 5, "hdcp": 4, "black": 545, "blue": 533, "white": 461, "red": 461},
+      {"hole": 6, "par": 3, "hdcp": 3, "black": 187, "blue": 172, "white": 162, "red": 162},
+      {"hole": 7, "par": 4, "hdcp": 6, "black": 396, "blue": 369, "white": 332, "red": 332},
+      {"hole": 8, "par": 4, "hdcp": 1, "black": 437, "blue": 415, "white": 321, "red": 321},
+      {"hole": 9, "par": 4, "hdcp": 5, "black": 412, "blue": 377, "white": 362, "red": 362},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// ツキサップ 18H 1G(ベント)3T HGA北海道 所在:札幌市豊平区有明 出典GORA010095 2026-06-22
+VENUES.push({
+  id: "tsukisappu_gc",
+  reading: "ツキサップゴルフクラブ",
+  name: "ツキサップゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "B.T"}, {"id": "regular", "label": "R.T"}, {"id": "front", "label": "F.T"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "back": 440, "regular": 410, "front": 353},
+      {"hole": 2, "par": 5, "hdcp": 9, "back": 550, "regular": 525, "front": 439},
+      {"hole": 3, "par": 4, "hdcp": 13, "back": 390, "regular": 375, "front": 358},
+      {"hole": 4, "par": 4, "hdcp": 1, "back": 435, "regular": 420, "front": 362},
+      {"hole": 5, "par": 3, "hdcp": 11, "back": 200, "regular": 185, "front": 162},
+      {"hole": 6, "par": 4, "hdcp": 3, "back": 420, "regular": 395, "front": 350},
+      {"hole": 7, "par": 5, "hdcp": 5, "back": 510, "regular": 485, "front": 419},
+      {"hole": 8, "par": 3, "hdcp": 17, "back": 185, "regular": 160, "front": 142},
+      {"hole": 9, "par": 4, "hdcp": 15, "back": 380, "regular": 355, "front": 335},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 8, "back": 400, "regular": 375, "front": 348},
+      {"hole": 11, "par": 4, "hdcp": 4, "back": 455, "regular": 430, "front": 356},
+      {"hole": 12, "par": 4, "hdcp": 18, "back": 355, "regular": 340, "front": 319},
+      {"hole": 13, "par": 3, "hdcp": 12, "back": 180, "regular": 160, "front": 144},
+      {"hole": 14, "par": 5, "hdcp": 2, "back": 550, "regular": 525, "front": 429},
+      {"hole": 15, "par": 4, "hdcp": 16, "back": 385, "regular": 355, "front": 330},
+      {"hole": 16, "par": 3, "hdcp": 14, "back": 215, "regular": 185, "front": 142},
+      {"hole": 17, "par": 4, "hdcp": 6, "back": 450, "regular": 425, "front": 357},
+      {"hole": 18, "par": 5, "hdcp": 10, "back": 505, "regular": 490, "front": 477},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 十勝 18H 1G(ベント)4T HDCP不明 HGA北海道 所在:河東郡音更町下士幌 出典GORA010100 2026-06-22
+VENUES.push({
+  id: "tokachi_cc",
+  reading: "トカチカントリークラブ",
+  name: "十勝カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック(青)"}, {"id": "regular", "label": "レギュラー(白)"}, {"id": "front", "label": "フロント(金)"}, {"id": "ladies", "label": "レディース(赤)"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 414, "regular": 396, "front": 385, "ladies": 350},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 347, "regular": 342, "front": 315, "ladies": 315},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 146, "regular": 134, "front": 111, "ladies": 111},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 337, "regular": 298, "front": 288, "ladies": 282},
+      {"hole": 5, "par": 5, "hdcp": null, "back": 549, "regular": 529, "front": 515, "ladies": 515},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 398, "regular": 388, "front": 368, "ladies": 368},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 338, "regular": 332, "front": 304, "ladies": 304},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 182, "regular": 170, "front": 148, "ladies": 148},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 528, "regular": 488, "front": 471, "ladies": 432},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 373, "regular": 365, "front": 350, "ladies": 350},
+      {"hole": 11, "par": 4, "hdcp": null, "back": 360, "regular": 346, "front": 346, "ladies": 312},
+      {"hole": 12, "par": 3, "hdcp": null, "back": 211, "regular": 198, "front": 185, "ladies": 185},
+      {"hole": 13, "par": 5, "hdcp": null, "back": 594, "regular": 556, "front": 538, "ladies": 457},
+      {"hole": 14, "par": 4, "hdcp": null, "back": 394, "regular": 381, "front": 365, "ladies": 349},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 381, "regular": 371, "front": 353, "ladies": 353},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 399, "regular": 359, "front": 349, "ladies": 328},
+      {"hole": 17, "par": 3, "hdcp": null, "back": 222, "regular": 194, "front": 184, "ladies": 105},
+      {"hole": 18, "par": 5, "hdcp": null, "back": 490, "regular": 475, "front": 465, "ladies": 437},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 名寄白樺 18H 1G(ベント)3T HGA北海道 所在:名寄市日彰 出典GORA010106 2026-06-22
+VENUES.push({
+  id: "nayoro_shirakaba_cc",
+  reading: "ナヨロシラカバカントリークラブ",
+  name: "名寄白樺カントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 11, "back": 480, "regular": 473, "front": 463},
+      {"hole": 2, "par": 4, "hdcp": 15, "back": 369, "regular": 334, "front": 289},
+      {"hole": 3, "par": 4, "hdcp": 3, "back": 448, "regular": 426, "front": 353},
+      {"hole": 4, "par": 4, "hdcp": 9, "back": 375, "regular": 352, "front": 306},
+      {"hole": 5, "par": 3, "hdcp": 17, "back": 170, "regular": 148, "front": 120},
+      {"hole": 6, "par": 5, "hdcp": 5, "back": 565, "regular": 540, "front": 490},
+      {"hole": 7, "par": 3, "hdcp": 7, "back": 234, "regular": 209, "front": 190},
+      {"hole": 8, "par": 4, "hdcp": 13, "back": 359, "regular": 335, "front": 319},
+      {"hole": 9, "par": 4, "hdcp": 1, "back": 454, "regular": 422, "front": 365},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 14, "back": 379, "regular": 359, "front": 344},
+      {"hole": 11, "par": 4, "hdcp": 16, "back": 363, "regular": 342, "front": 320},
+      {"hole": 12, "par": 3, "hdcp": 12, "back": 200, "regular": 180, "front": 162},
+      {"hole": 13, "par": 5, "hdcp": 8, "back": 522, "regular": 500, "front": 468},
+      {"hole": 14, "par": 3, "hdcp": 18, "back": 158, "regular": 144, "front": 128},
+      {"hole": 15, "par": 4, "hdcp": 10, "back": 375, "regular": 340, "front": 304},
+      {"hole": 16, "par": 4, "hdcp": 6, "back": 425, "regular": 410, "front": 360},
+      {"hole": 17, "par": 4, "hdcp": 2, "back": 419, "regular": 392, "front": 369},
+      {"hole": 18, "par": 5, "hdcp": 4, "back": 622, "regular": 586, "front": 527},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// ニセコゴルフ&リゾート 18H 1G(ベント)2T HDCP不明 HGA北海道 所在:磯谷郡蘭越町栄 出典GORA010108 2026-06-22
+VENUES.push({
+  id: "niseko_gr_gc",
+  reading: "ニセコゴルフアンドリゾート",
+  name: "ニセコゴルフ＆リゾート",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 374, "regular": 339},
+      {"hole": 2, "par": 5, "hdcp": null, "back": 506, "regular": 474},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 182, "regular": 153},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 413, "regular": 397},
+      {"hole": 5, "par": 5, "hdcp": null, "back": 556, "regular": 518},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 417, "regular": 389},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 379, "regular": 367},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 200, "regular": 166},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 387, "regular": 355},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 382, "regular": 352},
+      {"hole": 11, "par": 5, "hdcp": null, "back": 493, "regular": 460},
+      {"hole": 12, "par": 3, "hdcp": null, "back": 195, "regular": 143},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 407, "regular": 382},
+      {"hole": 14, "par": 3, "hdcp": null, "back": 188, "regular": 158},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 396, "regular": 367},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 398, "regular": 323},
+      {"hole": 17, "par": 4, "hdcp": null, "back": 414, "regular": 382},
+      {"hole": 18, "par": 5, "hdcp": null, "back": 507, "regular": 479},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 根室 9H×2(アウト/イン)1G(ベント)1T HGA北海道 所在:根室市友知 出典GORA001931 2026-06-22
+VENUES.push({
+  id: "nemuro_gc",
+  reading: "ネムロゴルフクラブ",
+  name: "根室ゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "regular", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 11, "regular": 347},
+      {"hole": 2, "par": 4, "hdcp": 13, "regular": 309},
+      {"hole": 3, "par": 3, "hdcp": 15, "regular": 135},
+      {"hole": 4, "par": 4, "hdcp": 5, "regular": 428},
+      {"hole": 5, "par": 4, "hdcp": 7, "regular": 377},
+      {"hole": 6, "par": 4, "hdcp": 17, "regular": 260},
+      {"hole": 7, "par": 5, "hdcp": 3, "regular": 582},
+      {"hole": 8, "par": 3, "hdcp": 9, "regular": 174},
+      {"hole": 9, "par": 5, "hdcp": 1, "regular": 565},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 12, "regular": 352},
+      {"hole": 11, "par": 4, "hdcp": 14, "regular": 319},
+      {"hole": 12, "par": 3, "hdcp": 16, "regular": 142},
+      {"hole": 13, "par": 4, "hdcp": 6, "regular": 433},
+      {"hole": 14, "par": 4, "hdcp": 8, "regular": 382},
+      {"hole": 15, "par": 4, "hdcp": 18, "regular": 265},
+      {"hole": 16, "par": 5, "hdcp": 4, "regular": 587},
+      {"hole": 17, "par": 3, "hdcp": 10, "regular": 179},
+      {"hole": 18, "par": 5, "hdcp": 2, "regular": 540},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// === HGA北海道 第5バッチ 21venue追加 2026-06-22 ===
+// ノーザンアーク 18H 1G(ベント)4T HGA北海道 所在:北見市端野町 出典GORA520181 2026-06-22
+VENUES.push({
+  id: "northern_arc_gc",
+  reading: "ノーザンアークゴルフクラブ",
+  name: "ノーザンアークゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champion", "label": "CHAMPION"}, {"id": "back", "label": "BACK"}, {"id": "regular", "label": "REGULAR"}, {"id": "lady", "label": "LADY"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "champion": 589, "back": 562, "regular": 551, "lady": 513},
+      {"hole": 2, "par": 3, "hdcp": 9, "champion": 205, "back": 185, "regular": 167, "lady": 145},
+      {"hole": 3, "par": 4, "hdcp": 17, "champion": 374, "back": 334, "regular": 304, "lady": 267},
+      {"hole": 4, "par": 4, "hdcp": 7, "champion": 386, "back": 366, "regular": 335, "lady": 304},
+      {"hole": 5, "par": 5, "hdcp": 5, "champion": 524, "back": 494, "regular": 450, "lady": 431},
+      {"hole": 6, "par": 4, "hdcp": 15, "champion": 402, "back": 378, "regular": 354, "lady": 322},
+      {"hole": 7, "par": 4, "hdcp": 1, "champion": 413, "back": 388, "regular": 375, "lady": 325},
+      {"hole": 8, "par": 3, "hdcp": 11, "champion": 213, "back": 184, "regular": 160, "lady": 134},
+      {"hole": 9, "par": 4, "hdcp": 13, "champion": 384, "back": 353, "regular": 336, "lady": 318},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 12, "champion": 432, "back": 397, "regular": 374, "lady": 331},
+      {"hole": 11, "par": 4, "hdcp": 10, "champion": 401, "back": 384, "regular": 360, "lady": 299},
+      {"hole": 12, "par": 3, "hdcp": 18, "champion": 213, "back": 180, "regular": 158, "lady": 150},
+      {"hole": 13, "par": 5, "hdcp": 4, "champion": 596, "back": 567, "regular": 538, "lady": 454},
+      {"hole": 14, "par": 4, "hdcp": 8, "champion": 425, "back": 403, "regular": 373, "lady": 349},
+      {"hole": 15, "par": 4, "hdcp": 2, "champion": 396, "back": 387, "regular": 370, "lady": 347},
+      {"hole": 16, "par": 4, "hdcp": 14, "champion": 440, "back": 428, "regular": 410, "lady": 328},
+      {"hole": 17, "par": 3, "hdcp": 6, "champion": 201, "back": 183, "regular": 160, "lady": 138},
+      {"hole": 18, "par": 5, "hdcp": 16, "champion": 540, "back": 499, "regular": 474, "lady": 448},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// ノースバレー 18H 1G(ベント)4T HDCP不明 HGA北海道 所在:稚内市宗谷村 出典GORA010114 2026-06-22(早来CCと同距離・要確認)
+VENUES.push({
+  id: "north_valley_cc",
+  reading: "ノースバレーカントリークラブ",
+  name: "ノースバレーカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "silver", "label": "シルバー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 4, "back": 561, "regular": 527, "silver": 522, "front": 466},
+      {"hole": 2, "par": 4, "hdcp": 10, "back": 385, "regular": 348, "silver": 343, "front": 335},
+      {"hole": 3, "par": 3, "hdcp": 16, "back": 138, "regular": 122, "silver": 118, "front": 112},
+      {"hole": 4, "par": 4, "hdcp": 2, "back": 430, "regular": 410, "silver": 405, "front": 320},
+      {"hole": 5, "par": 3, "hdcp": 14, "back": 137, "regular": 122, "silver": 118, "front": 110},
+      {"hole": 6, "par": 4, "hdcp": 8, "back": 370, "regular": 355, "silver": 350, "front": 256},
+      {"hole": 7, "par": 4, "hdcp": 18, "back": 385, "regular": 324, "silver": 320, "front": 305},
+      {"hole": 8, "par": 4, "hdcp": 12, "back": 353, "regular": 327, "silver": 322, "front": 308},
+      {"hole": 9, "par": 5, "hdcp": 6, "back": 560, "regular": 513, "silver": 508, "front": 427},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 13, "back": 370, "regular": 320, "silver": 315, "front": 253},
+      {"hole": 11, "par": 4, "hdcp": 9, "back": 403, "regular": 378, "silver": 308, "front": 304},
+      {"hole": 12, "par": 3, "hdcp": 5, "back": 226, "regular": 210, "silver": 164, "front": 160},
+      {"hole": 13, "par": 5, "hdcp": 1, "back": 590, "regular": 575, "silver": 515, "front": 513},
+      {"hole": 14, "par": 4, "hdcp": 7, "back": 425, "regular": 405, "silver": 400, "front": 345},
+      {"hole": 15, "par": 4, "hdcp": 3, "back": 441, "regular": 425, "silver": 322, "front": 320},
+      {"hole": 16, "par": 4, "hdcp": 17, "back": 375, "regular": 360, "silver": 355, "front": 298},
+      {"hole": 17, "par": 3, "hdcp": 15, "back": 171, "regular": 145, "silver": 141, "front": 135},
+      {"hole": 18, "par": 5, "hdcp": 11, "back": 496, "regular": 480, "silver": 475, "front": 467},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 登別 18H 1G(ベント)4T HGA北海道 所在:登別市上登別町 出典GORA010115 2026-06-22
+VENUES.push({
+  id: "noboribetsu_cc",
+  reading: "ノボリベツカントリークラブ",
+  name: "登別カントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "back": 431, "regular": 407, "front": 374, "ladies": 261},
+      {"hole": 2, "par": 4, "hdcp": 17, "back": 375, "regular": 319, "front": 319, "ladies": 319},
+      {"hole": 3, "par": 3, "hdcp": 15, "back": 187, "regular": 166, "front": 144, "ladies": 144},
+      {"hole": 4, "par": 4, "hdcp": 5, "back": 441, "regular": 406, "front": 384, "ladies": 384},
+      {"hole": 5, "par": 5, "hdcp": 1, "back": 605, "regular": 548, "front": 503, "ladies": 428},
+      {"hole": 6, "par": 4, "hdcp": 11, "back": 411, "regular": 383, "front": 348, "ladies": 348},
+      {"hole": 7, "par": 4, "hdcp": 9, "back": 397, "regular": 372, "front": 307, "ladies": 206},
+      {"hole": 8, "par": 3, "hdcp": 3, "back": 183, "regular": 165, "front": 132, "ladies": 117},
+      {"hole": 9, "par": 5, "hdcp": 13, "back": 496, "regular": 471, "front": 471, "ladies": 471},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 14, "back": 403, "regular": 367, "front": 307, "ladies": 307},
+      {"hole": 11, "par": 5, "hdcp": 4, "back": 585, "regular": 547, "front": 533, "ladies": 397},
+      {"hole": 12, "par": 4, "hdcp": 18, "back": 376, "regular": 328, "front": 328, "ladies": 328},
+      {"hole": 13, "par": 3, "hdcp": 12, "back": 180, "regular": 162, "front": 134, "ladies": 125},
+      {"hole": 14, "par": 4, "hdcp": 2, "back": 426, "regular": 403, "front": 374, "ladies": 352},
+      {"hole": 15, "par": 3, "hdcp": 6, "back": 202, "regular": 187, "front": 165, "ladies": 125},
+      {"hole": 16, "par": 4, "hdcp": 10, "back": 438, "regular": 410, "front": 382, "ladies": 324},
+      {"hole": 17, "par": 5, "hdcp": 8, "back": 546, "regular": 501, "front": 431, "ladies": 431},
+      {"hole": 18, "par": 4, "hdcp": 16, "back": 412, "regular": 369, "front": 369, "ladies": 369},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 函館湯の川 18H 1G(ベント)3T(他FRONT/PINKは合計のみ)HGA北海道 所在:函館市見晴町 出典GORA010161 2026-06-22
+VENUES.push({
+  id: "hakodate_gc_yunokawa",
+  reading: "ハコダテゴルフクラブユノカワゴルフジョウ",
+  name: "函館ゴルフ倶楽部 湯の川ゴルフ場",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "back": 408, "reg": 387, "ladies": 333},
+      {"hole": 2, "par": 5, "hdcp": 9, "back": 509, "reg": 494, "ladies": 444},
+      {"hole": 3, "par": 3, "hdcp": 17, "back": 151, "reg": 138, "ladies": 100},
+      {"hole": 4, "par": 5, "hdcp": 1, "back": 499, "reg": 480, "ladies": 422},
+      {"hole": 5, "par": 4, "hdcp": 14, "back": 385, "reg": 376, "ladies": 309},
+      {"hole": 6, "par": 4, "hdcp": 5, "back": 381, "reg": 369, "ladies": 285},
+      {"hole": 7, "par": 3, "hdcp": 13, "back": 123, "reg": 113, "ladies": 81},
+      {"hole": 8, "par": 4, "hdcp": 11, "back": 331, "reg": 324, "ladies": 213},
+      {"hole": 9, "par": 4, "hdcp": 12, "back": 384, "reg": 363, "ladies": 333},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 2, "back": 415, "reg": 395, "ladies": 340},
+      {"hole": 11, "par": 5, "hdcp": 6, "back": 511, "reg": 461, "ladies": 445},
+      {"hole": 12, "par": 3, "hdcp": 10, "back": 151, "reg": 139, "ladies": 100},
+      {"hole": 13, "par": 5, "hdcp": 4, "back": 521, "reg": 501, "ladies": 444},
+      {"hole": 14, "par": 4, "hdcp": 7, "back": 370, "reg": 355, "ladies": 300},
+      {"hole": 15, "par": 4, "hdcp": 8, "back": 393, "reg": 369, "ladies": 285},
+      {"hole": 16, "par": 3, "hdcp": 18, "back": 105, "reg": 95, "ladies": 57},
+      {"hole": 17, "par": 4, "hdcp": 16, "back": 324, "reg": 317, "ladies": 208},
+      {"hole": 18, "par": 4, "hdcp": 15, "back": 411, "reg": 390, "ladies": 360},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 函館ベイコースト 18H 1G(ベント)4T HGA北海道 所在:北海道(GORA未明示) 出典GORA010011 2026-06-22
+VENUES.push({
+  id: "hakodate_baycoast_cc",
+  reading: "ハコダテベイコーストカントリークラブ",
+  name: "函館ベイコーストカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー1"}, {"id": "ladies", "label": "レディース"}, {"id": "front", "label": "レディースフロント"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 5, "back": 394, "regular": 370, "ladies": 305, "front": 335},
+      {"hole": 2, "par": 4, "hdcp": 17, "back": 324, "regular": 313, "ladies": 270, "front": 293},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 212, "regular": 186, "ladies": 120, "front": 152},
+      {"hole": 4, "par": 5, "hdcp": 1, "back": 576, "regular": 546, "ladies": 475, "front": 512},
+      {"hole": 5, "par": 4, "hdcp": 13, "back": 385, "regular": 362, "ladies": 311, "front": 331},
+      {"hole": 6, "par": 4, "hdcp": 3, "back": 430, "regular": 408, "ladies": 330, "front": 368},
+      {"hole": 7, "par": 4, "hdcp": 11, "back": 423, "regular": 406, "ladies": 350, "front": 385},
+      {"hole": 8, "par": 3, "hdcp": 15, "back": 168, "regular": 153, "ladies": 108, "front": 138},
+      {"hole": 9, "par": 5, "hdcp": 7, "back": 578, "regular": 553, "ladies": 485, "front": 529},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 470, "regular": 451, "ladies": 343, "front": 425},
+      {"hole": 11, "par": 3, "hdcp": 10, "back": 195, "regular": 154, "ladies": 109, "front": 127},
+      {"hole": 12, "par": 4, "hdcp": 14, "back": 415, "regular": 400, "ladies": 333, "front": 375},
+      {"hole": 13, "par": 4, "hdcp": 18, "back": 403, "regular": 369, "ladies": 308, "front": 347},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 470, "regular": 410, "ladies": 355, "front": 372},
+      {"hole": 15, "par": 5, "hdcp": 2, "back": 513, "regular": 491, "ladies": 382, "front": 462},
+      {"hole": 16, "par": 3, "hdcp": 6, "back": 197, "regular": 186, "ladies": 88, "front": 170},
+      {"hole": 17, "par": 4, "hdcp": 16, "back": 330, "regular": 310, "ladies": 255, "front": 281},
+      {"hole": 18, "par": 5, "hdcp": 12, "back": 533, "regular": 520, "ladies": 424, "front": 493},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// ハッピーバレー札幌 27H(伊達山/青山/金沢)1G(ベント)3T HGA北海道 所在:石狩郡当別町金沢 出典GORA010121 2026-06-22
+VENUES.push({
+  id: "happy_valley_gc_sapporo",
+  reading: "ハッピーバレーゴルフクラブサッポロ",
+  name: "ハッピーバレーゴルフクラブ札幌",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "伊達山", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "back": 384, "reg": 357, "front": 329},
+      {"hole": 2, "par": 5, "hdcp": 5, "back": 519, "reg": 471, "front": 424},
+      {"hole": 3, "par": 4, "hdcp": 6, "back": 367, "reg": 334, "front": 319},
+      {"hole": 4, "par": 4, "hdcp": 8, "back": 371, "reg": 351, "front": 330},
+      {"hole": 5, "par": 3, "hdcp": 9, "back": 154, "reg": 114, "front": 131},
+      {"hole": 6, "par": 5, "hdcp": 1, "back": 564, "reg": 527, "front": 487},
+      {"hole": 7, "par": 4, "hdcp": 4, "back": 375, "reg": 348, "front": 320},
+      {"hole": 8, "par": 3, "hdcp": 7, "back": 183, "reg": 164, "front": 148},
+      {"hole": 9, "par": 4, "hdcp": 2, "back": 437, "reg": 398, "front": 354},
+    ]},
+    { name: "青山", holes: [
+      {"hole": 1, "par": 5, "hdcp": 8, "back": 539, "reg": 503, "front": 474},
+      {"hole": 2, "par": 3, "hdcp": 3, "back": 216, "reg": 197, "front": 172},
+      {"hole": 3, "par": 4, "hdcp": 9, "back": 363, "reg": 238, "front": 276},
+      {"hole": 4, "par": 4, "hdcp": 2, "back": 396, "reg": 364, "front": 316},
+      {"hole": 5, "par": 4, "hdcp": 4, "back": 398, "reg": 368, "front": 357},
+      {"hole": 6, "par": 5, "hdcp": 1, "back": 551, "reg": 530, "front": 505},
+      {"hole": 7, "par": 4, "hdcp": 5, "back": 358, "reg": 335, "front": 320},
+      {"hole": 8, "par": 3, "hdcp": 6, "back": 189, "reg": 163, "front": 136},
+      {"hole": 9, "par": 4, "hdcp": 7, "back": 348, "reg": 325, "front": 304},
+    ]},
+    { name: "金沢", holes: [
+      {"hole": 1, "par": 4, "hdcp": 8, "back": 367, "reg": 343, "front": 295},
+      {"hole": 2, "par": 5, "hdcp": 4, "back": 521, "reg": 501, "front": 459},
+      {"hole": 3, "par": 4, "hdcp": 9, "back": 344, "reg": 313, "front": 286},
+      {"hole": 4, "par": 3, "hdcp": 6, "back": 199, "reg": 183, "front": 155},
+      {"hole": 5, "par": 4, "hdcp": 3, "back": 419, "reg": 393, "front": 371},
+      {"hole": 6, "par": 4, "hdcp": 5, "back": 344, "reg": 323, "front": 304},
+      {"hole": 7, "par": 3, "hdcp": 7, "back": 152, "reg": 135, "front": 132},
+      {"hole": 8, "par": 5, "hdcp": 1, "back": 549, "reg": 508, "front": 449},
+      {"hole": 9, "par": 4, "hdcp": 2, "back": 466, "reg": 424, "front": 382},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 平取 18H 1G(ベント)2T HGA北海道 所在:沙流郡平取町荷菜 出典GORA010127 2026-06-22
+VENUES.push({
+  id: "biratori_cc",
+  reading: "ビラトリカントリークラブ",
+  name: "平取カントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 11, "back": 363, "regular": 353},
+      {"hole": 2, "par": 4, "hdcp": 15, "back": 334, "regular": 326},
+      {"hole": 3, "par": 5, "hdcp": 1, "back": 555, "regular": 535},
+      {"hole": 4, "par": 4, "hdcp": 3, "back": 405, "regular": 368},
+      {"hole": 5, "par": 4, "hdcp": 17, "back": 281, "regular": 273},
+      {"hole": 6, "par": 3, "hdcp": 9, "back": 195, "regular": 180},
+      {"hole": 7, "par": 5, "hdcp": 7, "back": 475, "regular": 457},
+      {"hole": 8, "par": 4, "hdcp": 5, "back": 383, "regular": 382},
+      {"hole": 9, "par": 3, "hdcp": 13, "back": 168, "regular": 156},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 2, "back": 570, "regular": 536},
+      {"hole": 11, "par": 4, "hdcp": 4, "back": 388, "regular": 329},
+      {"hole": 12, "par": 4, "hdcp": 10, "back": 382, "regular": 361},
+      {"hole": 13, "par": 3, "hdcp": 18, "back": 145, "regular": 133},
+      {"hole": 14, "par": 4, "hdcp": 16, "back": 306, "regular": 291},
+      {"hole": 15, "par": 4, "hdcp": 14, "back": 350, "regular": 340},
+      {"hole": 16, "par": 4, "hdcp": 6, "back": 409, "regular": 377},
+      {"hole": 17, "par": 3, "hdcp": 12, "back": 143, "regular": 133},
+      {"hole": 18, "par": 5, "hdcp": 8, "back": 514, "regular": 500},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 深川 18H 1G(ベント)4T HGA北海道 所在:深川市一已町三北星 出典GORA010128 2026-06-22
+VENUES.push({
+  id: "fukagawa_cc",
+  reading: "フカガワカントリークラブ",
+  name: "深川カントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "Back"}, {"id": "regular", "label": "Regular"}, {"id": "silver", "label": "Silver"}, {"id": "ladies", "label": "Ladies"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 8, "back": 315, "regular": 300, "silver": 300, "ladies": 300},
+      {"hole": 2, "par": 5, "hdcp": 1, "back": 555, "regular": 540, "silver": 485, "ladies": 485},
+      {"hole": 3, "par": 4, "hdcp": 3, "back": 400, "regular": 385, "silver": 320, "ladies": 320},
+      {"hole": 4, "par": 3, "hdcp": 7, "back": 220, "regular": 190, "silver": 166, "ladies": 166},
+      {"hole": 5, "par": 4, "hdcp": 6, "back": 350, "regular": 325, "silver": 325, "ladies": 255},
+      {"hole": 6, "par": 4, "hdcp": 2, "back": 395, "regular": 390, "silver": 330, "ladies": 330},
+      {"hole": 7, "par": 4, "hdcp": 4, "back": 400, "regular": 365, "silver": 325, "ladies": 325},
+      {"hole": 8, "par": 5, "hdcp": 5, "back": 555, "regular": 530, "silver": 439, "ladies": 439},
+      {"hole": 9, "par": 3, "hdcp": 9, "back": 170, "regular": 154, "silver": 154, "ladies": 143},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 2, "back": 490, "regular": 480, "silver": 430, "ladies": 430},
+      {"hole": 11, "par": 4, "hdcp": 1, "back": 405, "regular": 365, "silver": 365, "ladies": 290},
+      {"hole": 12, "par": 3, "hdcp": 3, "back": 215, "regular": 190, "silver": 140, "ladies": 140},
+      {"hole": 13, "par": 4, "hdcp": 6, "back": 395, "regular": 380, "silver": 325, "ladies": 325},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 380, "regular": 340, "silver": 340, "ladies": 340},
+      {"hole": 15, "par": 4, "hdcp": 4, "back": 385, "regular": 370, "silver": 315, "ladies": 315},
+      {"hole": 16, "par": 3, "hdcp": 9, "back": 160, "regular": 135, "silver": 135, "ladies": 135},
+      {"hole": 17, "par": 5, "hdcp": 7, "back": 480, "regular": 468, "silver": 400, "ladies": 400},
+      {"hole": 18, "par": 4, "hdcp": 5, "back": 400, "regular": 374, "silver": 374, "ladies": 295},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 北海道クラシック帯広クラシック 18H 1G(ベント)3T HGA北海道 所在:上川郡清水町羽帯 出典GORA010132 2026-06-22
+VENUES.push({
+  id: "hokkaido_classic_obihiro_classic",
+  reading: "ホッカイドウクラシックゴルフクラブオビヒロクラシックコース",
+  name: "北海道クラシックゴルフクラブ帯広 クラシックコース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "back": 550, "regular": 519, "ladies": 503},
+      {"hole": 2, "par": 4, "hdcp": 9, "back": 401, "regular": 362, "ladies": 327},
+      {"hole": 3, "par": 4, "hdcp": 15, "back": 371, "regular": 321, "ladies": 278},
+      {"hole": 4, "par": 3, "hdcp": 13, "back": 170, "regular": 120, "ladies": 120},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 381, "regular": 332, "ladies": 291},
+      {"hole": 6, "par": 5, "hdcp": 1, "back": 489, "regular": 430, "ladies": 401},
+      {"hole": 7, "par": 4, "hdcp": 5, "back": 364, "regular": 342, "ladies": 267},
+      {"hole": 8, "par": 3, "hdcp": 17, "back": 186, "regular": 137, "ladies": 122},
+      {"hole": 9, "par": 4, "hdcp": 11, "back": 379, "regular": 351, "ladies": 322},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 4, "back": 554, "regular": 511, "ladies": 456},
+      {"hole": 11, "par": 4, "hdcp": 10, "back": 392, "regular": 330, "ladies": 255},
+      {"hole": 12, "par": 3, "hdcp": 16, "back": 173, "regular": 149, "ladies": 132},
+      {"hole": 13, "par": 4, "hdcp": 8, "back": 451, "regular": 429, "ladies": 284},
+      {"hole": 14, "par": 4, "hdcp": 2, "back": 417, "regular": 397, "ladies": 337},
+      {"hole": 15, "par": 4, "hdcp": 14, "back": 388, "regular": 366, "ladies": 317},
+      {"hole": 16, "par": 4, "hdcp": 12, "back": 377, "regular": 344, "ladies": 290},
+      {"hole": 17, "par": 3, "hdcp": 18, "back": 172, "regular": 142, "ladies": 121},
+      {"hole": 18, "par": 5, "hdcp": 6, "back": 598, "regular": 542, "ladies": 495},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 北海道クラシック帯広メイプル 18H 1G(ベント)3T HGA北海道 所在:上川郡清水町羽帯 出典GORA010136 2026-06-22
+VENUES.push({
+  id: "hokkaido_classic_obihiro_maple",
+  reading: "ホッカイドウクラシックゴルフクラブオビヒロメイプルコース",
+  name: "北海道クラシックゴルフクラブ帯広 メイプルコース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "back": 585, "regular": 558, "ladies": 531},
+      {"hole": 2, "par": 4, "hdcp": 7, "back": 391, "regular": 371, "ladies": 299},
+      {"hole": 3, "par": 3, "hdcp": 11, "back": 183, "regular": 158, "ladies": 125},
+      {"hole": 4, "par": 4, "hdcp": 9, "back": 372, "regular": 355, "ladies": 328},
+      {"hole": 5, "par": 4, "hdcp": 17, "back": 352, "regular": 314, "ladies": 287},
+      {"hole": 6, "par": 3, "hdcp": 15, "back": 175, "regular": 148, "ladies": 126},
+      {"hole": 7, "par": 4, "hdcp": 1, "back": 440, "regular": 365, "ladies": 287},
+      {"hole": 8, "par": 5, "hdcp": 13, "back": 523, "regular": 485, "ladies": 425},
+      {"hole": 9, "par": 4, "hdcp": 3, "back": 404, "regular": 361, "ladies": 300},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 8, "back": 412, "regular": 368, "ladies": 320},
+      {"hole": 11, "par": 3, "hdcp": 12, "back": 196, "regular": 164, "ladies": 131},
+      {"hole": 12, "par": 5, "hdcp": 10, "back": 501, "regular": 485, "ladies": 436},
+      {"hole": 13, "par": 4, "hdcp": 18, "back": 341, "regular": 308, "ladies": 276},
+      {"hole": 14, "par": 4, "hdcp": 14, "back": 361, "regular": 323, "ladies": 274},
+      {"hole": 15, "par": 4, "hdcp": 2, "back": 396, "regular": 369, "ladies": 336},
+      {"hole": 16, "par": 3, "hdcp": 16, "back": 191, "regular": 153, "ladies": 153},
+      {"hole": 17, "par": 4, "hdcp": 6, "back": 370, "regular": 338, "ladies": 310},
+      {"hole": 18, "par": 5, "hdcp": 4, "back": 569, "regular": 526, "ladies": 423},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 北海道ドリーム 18H 1G(ベント)5T HGA北海道 所在:苫小牧市樽前 出典GORA010103 2026-06-22
+VENUES.push({
+  id: "hokkaido_dream_cc",
+  reading: "ホッカイドウドリームカントリークラブ",
+  name: "北海道ドリームカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champion", "label": "チャンピオン"}, {"id": "back", "label": "レギュラー"}, {"id": "regular", "label": "フロント"}, {"id": "front", "label": "レディース"}, {"id": "ladies", "label": "ゴールド"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "champion": 442, "back": 415, "regular": 377, "front": 346, "ladies": 346},
+      {"hole": 2, "par": 4, "hdcp": 13, "champion": 376, "back": 352, "regular": 306, "front": 277, "ladies": 277},
+      {"hole": 3, "par": 5, "hdcp": 9, "champion": 521, "back": 493, "regular": 450, "front": 405, "ladies": 405},
+      {"hole": 4, "par": 4, "hdcp": 7, "champion": 413, "back": 377, "regular": 307, "front": 269, "ladies": 269},
+      {"hole": 5, "par": 5, "hdcp": 1, "champion": 565, "back": 535, "regular": 481, "front": 418, "ladies": 418},
+      {"hole": 6, "par": 3, "hdcp": 17, "champion": 154, "back": 135, "regular": 116, "front": 101, "ladies": 101},
+      {"hole": 7, "par": 4, "hdcp": 15, "champion": 341, "back": 325, "regular": 307, "front": 282, "ladies": 282},
+      {"hole": 8, "par": 4, "hdcp": 5, "champion": 410, "back": 396, "regular": 360, "front": 332, "ladies": 332},
+      {"hole": 9, "par": 3, "hdcp": 11, "champion": 195, "back": 181, "regular": 163, "front": 140, "ladies": 140},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 10, "champion": 406, "back": 380, "regular": 355, "front": 293, "ladies": 293},
+      {"hole": 11, "par": 4, "hdcp": 6, "champion": 436, "back": 403, "regular": 329, "front": 269, "ladies": 269},
+      {"hole": 12, "par": 5, "hdcp": 2, "champion": 561, "back": 552, "regular": 527, "front": 423, "ladies": 423},
+      {"hole": 13, "par": 3, "hdcp": 14, "champion": 198, "back": 178, "regular": 158, "front": 139, "ladies": 139},
+      {"hole": 14, "par": 4, "hdcp": 18, "champion": 328, "back": 297, "regular": 284, "front": 253, "ladies": 253},
+      {"hole": 15, "par": 4, "hdcp": 12, "champion": 371, "back": 349, "regular": 329, "front": 292, "ladies": 292},
+      {"hole": 16, "par": 3, "hdcp": 16, "champion": 181, "back": 155, "regular": 126, "front": 126, "ladies": 126},
+      {"hole": 17, "par": 5, "hdcp": 4, "champion": 565, "back": 545, "regular": 529, "front": 460, "ladies": 460},
+      {"hole": 18, "par": 4, "hdcp": 8, "champion": 409, "back": 391, "regular": 372, "front": 324, "ladies": 324},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 北海道ブルックス 18H 1G(ベント)5T HGA北海道 所在:苫小牧市植苗 出典GORA010101 2026-06-22
+VENUES.push({
+  id: "hokkaido_brooks_cc",
+  reading: "ホッカイドウブルックスカントリークラブ",
+  name: "北海道ブルックスカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "championship", "label": "Championship"}, {"id": "back", "label": "Back"}, {"id": "regular", "label": "Regular"}, {"id": "front", "label": "Front"}, {"id": "ladies", "label": "Ladies"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 15, "championship": 418, "back": 396, "regular": 370, "front": 347, "ladies": 321},
+      {"hole": 2, "par": 4, "hdcp": 7, "championship": 430, "back": 430, "regular": 406, "front": 386, "ladies": 336},
+      {"hole": 3, "par": 4, "hdcp": 3, "championship": 434, "back": 403, "regular": 378, "front": 358, "ladies": 260},
+      {"hole": 4, "par": 5, "hdcp": 13, "championship": 544, "back": 522, "regular": 486, "front": 467, "ladies": 432},
+      {"hole": 5, "par": 3, "hdcp": 9, "championship": 200, "back": 180, "regular": 163, "front": 148, "ladies": 90},
+      {"hole": 6, "par": 4, "hdcp": 5, "championship": 410, "back": 388, "regular": 360, "front": 340, "ladies": 316},
+      {"hole": 7, "par": 3, "hdcp": 17, "championship": 196, "back": 196, "regular": 174, "front": 146, "ladies": 139},
+      {"hole": 8, "par": 4, "hdcp": 1, "championship": 457, "back": 434, "regular": 397, "front": 382, "ladies": 295},
+      {"hole": 9, "par": 5, "hdcp": 11, "championship": 557, "back": 534, "regular": 487, "front": 487, "ladies": 386},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 10, "championship": 424, "back": 400, "regular": 358, "front": 332, "ladies": 301},
+      {"hole": 11, "par": 5, "hdcp": 4, "championship": 551, "back": 551, "regular": 515, "front": 481, "ladies": 431},
+      {"hole": 12, "par": 4, "hdcp": 16, "championship": 364, "back": 335, "regular": 335, "front": 309, "ladies": 283},
+      {"hole": 13, "par": 3, "hdcp": 14, "championship": 222, "back": 195, "regular": 195, "front": 171, "ladies": 146},
+      {"hole": 14, "par": 4, "hdcp": 2, "championship": 456, "back": 428, "regular": 428, "front": 364, "ladies": 364},
+      {"hole": 15, "par": 4, "hdcp": 8, "championship": 445, "back": 413, "regular": 395, "front": 381, "ladies": 346},
+      {"hole": 16, "par": 3, "hdcp": 18, "championship": 201, "back": 169, "regular": 143, "front": 120, "ladies": 111},
+      {"hole": 17, "par": 5, "hdcp": 6, "championship": 558, "back": 526, "regular": 506, "front": 472, "ladies": 382},
+      {"hole": 18, "par": 4, "hdcp": 12, "championship": 461, "back": 441, "regular": 385, "front": 368, "ladies": 330},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 北海道ポロト 18H 1G(ベント)4T HGA北海道 所在:白老郡白老町 出典GORA010143 2026-06-22
+VENUES.push({
+  id: "hokkaido_poroto_gc",
+  reading: "ホッカイドウポロトゴルフクラブ",
+  name: "北海道ポロトゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "back": 570, "regular": 549, "front": 525, "ladies": 467},
+      {"hole": 2, "par": 4, "hdcp": 11, "back": 422, "regular": 390, "front": 337, "ladies": 290},
+      {"hole": 3, "par": 3, "hdcp": 7, "back": 205, "regular": 192, "front": 182, "ladies": 108},
+      {"hole": 4, "par": 4, "hdcp": 15, "back": 346, "regular": 318, "front": 318, "ladies": 249},
+      {"hole": 5, "par": 4, "hdcp": 9, "back": 401, "regular": 372, "front": 372, "ladies": 340},
+      {"hole": 6, "par": 5, "hdcp": 1, "back": 603, "regular": 537, "front": 537, "ladies": 469},
+      {"hole": 7, "par": 3, "hdcp": 17, "back": 176, "regular": 150, "front": 150, "ladies": 132},
+      {"hole": 8, "par": 4, "hdcp": 3, "back": 447, "regular": 418, "front": 418, "ladies": 288},
+      {"hole": 9, "par": 4, "hdcp": 13, "back": 375, "regular": 347, "front": 347, "ladies": 274},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 14, "back": 508, "regular": 491, "front": 468, "ladies": 451},
+      {"hole": 11, "par": 4, "hdcp": 16, "back": 378, "regular": 344, "front": 344, "ladies": 328},
+      {"hole": 12, "par": 4, "hdcp": 6, "back": 444, "regular": 423, "front": 423, "ladies": 374},
+      {"hole": 13, "par": 3, "hdcp": 18, "back": 161, "regular": 134, "front": 134, "ladies": 119},
+      {"hole": 14, "par": 4, "hdcp": 10, "back": 367, "regular": 325, "front": 303, "ladies": 255},
+      {"hole": 15, "par": 5, "hdcp": 2, "back": 615, "regular": 550, "front": 550, "ladies": 496},
+      {"hole": 16, "par": 4, "hdcp": 12, "back": 446, "regular": 416, "front": 416, "ladies": 396},
+      {"hole": 17, "par": 3, "hdcp": 8, "back": 208, "regular": 178, "front": 178, "ladies": 132},
+      {"hole": 18, "par": 4, "hdcp": 4, "back": 425, "regular": 389, "front": 389, "ladies": 338},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 北海道リンクス美唄 18H 1G(ベント)4T HGA北海道 所在:美唄市峰延 出典GORA010137 2026-06-22(再取得正値)
+VENUES.push({
+  id: "hokkaido_links_bibai_cc",
+  reading: "ホッカイドウリンクスカントリークラブビバイコース",
+  name: "北海道リンクスカントリー倶楽部 美唄コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 9, "back": 392, "regular": 366, "front": 350, "ladies": 330},
+      {"hole": 2, "par": 3, "hdcp": 17, "back": 183, "regular": 136, "front": 130, "ladies": 130},
+      {"hole": 3, "par": 5, "hdcp": 13, "back": 538, "regular": 478, "front": 468, "ladies": 421},
+      {"hole": 4, "par": 4, "hdcp": 15, "back": 317, "regular": 289, "front": 273, "ladies": 263},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 442, "regular": 428, "front": 387, "ladies": 319},
+      {"hole": 6, "par": 5, "hdcp": 2, "back": 513, "regular": 486, "front": 450, "ladies": 360},
+      {"hole": 7, "par": 3, "hdcp": 5, "back": 204, "regular": 174, "front": 143, "ladies": 143},
+      {"hole": 8, "par": 4, "hdcp": 11, "back": 427, "regular": 393, "front": 315, "ladies": 308},
+      {"hole": 9, "par": 4, "hdcp": 3, "back": 426, "regular": 400, "front": 355, "ladies": 299},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 401, "regular": 378, "front": 363, "ladies": 292},
+      {"hole": 11, "par": 5, "hdcp": 1, "back": 602, "regular": 585, "front": 575, "ladies": 485},
+      {"hole": 12, "par": 3, "hdcp": 8, "back": 190, "regular": 187, "front": 162, "ladies": 125},
+      {"hole": 13, "par": 4, "hdcp": 12, "back": 348, "regular": 333, "front": 308, "ladies": 292},
+      {"hole": 14, "par": 4, "hdcp": 17, "back": 329, "regular": 329, "front": 289, "ladies": 279},
+      {"hole": 15, "par": 4, "hdcp": 6, "back": 365, "regular": 348, "front": 337, "ladies": 308},
+      {"hole": 16, "par": 3, "hdcp": 14, "back": 202, "regular": 174, "front": 168, "ladies": 140},
+      {"hole": 17, "par": 5, "hdcp": 10, "back": 554, "regular": 515, "front": 506, "ladies": 482},
+      {"hole": 18, "par": 4, "hdcp": 16, "back": 363, "regular": 343, "front": 343, "ladies": 322},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 増毛 18H 1G(ベント)2T HGA北海道 所在:増毛郡増毛町阿分 出典GORA010141 2026-06-22
+VENUES.push({
+  id: "mashike_gc",
+  reading: "マシケゴルフクラブ",
+  name: "増毛ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "B.TEE"}, {"id": "reg", "label": "F.TEE"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "back": 383, "reg": 367},
+      {"hole": 2, "par": 4, "hdcp": 11, "back": 350, "reg": 333},
+      {"hole": 3, "par": 3, "hdcp": 17, "back": 153, "reg": 153},
+      {"hole": 4, "par": 4, "hdcp": 3, "back": 361, "reg": 352},
+      {"hole": 5, "par": 5, "hdcp": 5, "back": 512, "reg": 493},
+      {"hole": 6, "par": 4, "hdcp": 9, "back": 388, "reg": 355},
+      {"hole": 7, "par": 3, "hdcp": 15, "back": 176, "reg": 158},
+      {"hole": 8, "par": 4, "hdcp": 1, "back": 436, "reg": 420},
+      {"hole": 9, "par": 5, "hdcp": 13, "back": 513, "reg": 480},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 10, "back": 357, "reg": 339},
+      {"hole": 11, "par": 5, "hdcp": 6, "back": 504, "reg": 487},
+      {"hole": 12, "par": 3, "hdcp": 18, "back": 186, "reg": 167},
+      {"hole": 13, "par": 4, "hdcp": 4, "back": 395, "reg": 365},
+      {"hole": 14, "par": 5, "hdcp": 14, "back": 556, "reg": 497},
+      {"hole": 15, "par": 4, "hdcp": 8, "back": 406, "reg": 365},
+      {"hole": 16, "par": 4, "hdcp": 2, "back": 398, "reg": 377},
+      {"hole": 17, "par": 3, "hdcp": 16, "back": 186, "reg": 170},
+      {"hole": 18, "par": 4, "hdcp": 12, "back": 339, "reg": 324},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 南宗谷 18H 1G(ベント)2T HDCP不明 HGA北海道 所在:枝幸郡枝幸町歌登辺毛内 出典GORA010146 2026-06-22
+VENUES.push({
+  id: "minami_souya_gc",
+  reading: "ミナミソウヤゴルフジョウ",
+  name: "南宗谷ゴルフ場",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 334, "regular": 317},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 382, "regular": 358},
+      {"hole": 3, "par": 5, "hdcp": null, "back": 525, "regular": 502},
+      {"hole": 4, "par": 3, "hdcp": null, "back": 199, "regular": 183},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 336, "regular": 323},
+      {"hole": 6, "par": 5, "hdcp": null, "back": 502, "regular": 480},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 342, "regular": 302},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 135, "regular": 121},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 396, "regular": 379},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 314, "regular": 294},
+      {"hole": 11, "par": 5, "hdcp": null, "back": 533, "regular": 509},
+      {"hole": 12, "par": 3, "hdcp": null, "back": 195, "regular": 177},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 372, "regular": 355},
+      {"hole": 14, "par": 5, "hdcp": null, "back": 531, "regular": 521},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 424, "regular": 396},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 421, "regular": 408},
+      {"hole": 17, "par": 3, "hdcp": null, "back": 202, "regular": 181},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 399, "regular": 378},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 室蘭 18H 1G(ベント)2T HGA北海道 所在:室蘭市崎守町 出典GORA010147 2026-06-22(再取得正値)
+VENUES.push({
+  id: "muroran_gc",
+  reading: "ムロランゴルフクラブ",
+  name: "室蘭ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "cham", "label": "Champion"}, {"id": "rgl", "label": "Regular"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "cham": 379, "rgl": 355},
+      {"hole": 2, "par": 5, "hdcp": 9, "cham": 514, "rgl": 482},
+      {"hole": 3, "par": 4, "hdcp": 1, "cham": 451, "rgl": 411},
+      {"hole": 4, "par": 3, "hdcp": 17, "cham": 175, "rgl": 151},
+      {"hole": 5, "par": 5, "hdcp": 5, "cham": 538, "rgl": 506},
+      {"hole": 6, "par": 3, "hdcp": 11, "cham": 192, "rgl": 180},
+      {"hole": 7, "par": 4, "hdcp": 13, "cham": 354, "rgl": 329},
+      {"hole": 8, "par": 4, "hdcp": 3, "cham": 439, "rgl": 409},
+      {"hole": 9, "par": 4, "hdcp": 14, "cham": 401, "rgl": 378},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 10, "cham": 510, "rgl": 484},
+      {"hole": 11, "par": 4, "hdcp": 8, "cham": 386, "rgl": 353},
+      {"hole": 12, "par": 5, "hdcp": 4, "cham": 541, "rgl": 498},
+      {"hole": 13, "par": 3, "hdcp": 18, "cham": 164, "rgl": 150},
+      {"hole": 14, "par": 4, "hdcp": 2, "cham": 399, "rgl": 375},
+      {"hole": 15, "par": 4, "hdcp": 6, "cham": 401, "rgl": 374},
+      {"hole": 16, "par": 3, "hdcp": 16, "cham": 203, "rgl": 174},
+      {"hole": 17, "par": 4, "hdcp": 12, "cham": 396, "rgl": 359},
+      {"hole": 18, "par": 4, "hdcp": 15, "cham": 382, "rgl": 363},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 紋別 18H 1G(ベント)2T HGA北海道 所在:紋別市新生 出典GORA010149 2026-06-22(再取得正値)
+VENUES.push({
+  id: "monbetsu_cc",
+  reading: "モンベツカントリークラブ",
+  name: "紋別カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 11, "back": 363, "regular": 353},
+      {"hole": 2, "par": 4, "hdcp": 15, "back": 334, "regular": 326},
+      {"hole": 3, "par": 5, "hdcp": 1, "back": 555, "regular": 535},
+      {"hole": 4, "par": 4, "hdcp": 3, "back": 405, "regular": 368},
+      {"hole": 5, "par": 4, "hdcp": 17, "back": 281, "regular": 273},
+      {"hole": 6, "par": 3, "hdcp": 9, "back": 195, "regular": 180},
+      {"hole": 7, "par": 5, "hdcp": 7, "back": 475, "regular": 457},
+      {"hole": 8, "par": 4, "hdcp": 5, "back": 383, "regular": 382},
+      {"hole": 9, "par": 3, "hdcp": 13, "back": 168, "regular": 156},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 2, "back": 570, "regular": 536},
+      {"hole": 11, "par": 4, "hdcp": 4, "back": 388, "regular": 329},
+      {"hole": 12, "par": 4, "hdcp": 10, "back": 382, "regular": 361},
+      {"hole": 13, "par": 3, "hdcp": 18, "back": 145, "regular": 133},
+      {"hole": 14, "par": 4, "hdcp": 16, "back": 306, "regular": 291},
+      {"hole": 15, "par": 4, "hdcp": 14, "back": 350, "regular": 340},
+      {"hole": 16, "par": 4, "hdcp": 6, "back": 409, "regular": 377},
+      {"hole": 17, "par": 3, "hdcp": 12, "back": 143, "regular": 133},
+      {"hole": 18, "par": 5, "hdcp": 8, "back": 514, "regular": 500},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// レンブラント札幌 18H 1G(ベント)4T HGA北海道 所在:札幌市清田区有明 出典GORA520103 2026-06-22
+VENUES.push({
+  id: "rembrandt_gc_sapporo",
+  reading: "レンブラントゴルフクラブサッポロ",
+  name: "レンブラントゴルフ倶楽部札幌",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "Back"}, {"id": "regular", "label": "Regular"}, {"id": "silver", "label": "Silver"}, {"id": "ladies", "label": "Ladies"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "back": 440, "regular": 420, "silver": 410, "ladies": 401},
+      {"hole": 2, "par": 4, "hdcp": 15, "back": 375, "regular": 346, "silver": 340, "ladies": 335},
+      {"hole": 3, "par": 4, "hdcp": 11, "back": 340, "regular": 330, "silver": 321, "ladies": 311},
+      {"hole": 4, "par": 3, "hdcp": 13, "back": 194, "regular": 176, "silver": 170, "ladies": 170},
+      {"hole": 5, "par": 4, "hdcp": 17, "back": 297, "regular": 273, "silver": 258, "ladies": 248},
+      {"hole": 6, "par": 5, "hdcp": 1, "back": 490, "regular": 435, "silver": 320, "ladies": 300},
+      {"hole": 7, "par": 3, "hdcp": 5, "back": 188, "regular": 166, "silver": 160, "ladies": 160},
+      {"hole": 8, "par": 4, "hdcp": 3, "back": 392, "regular": 361, "silver": 355, "ladies": 344},
+      {"hole": 9, "par": 5, "hdcp": 9, "back": 470, "regular": 458, "silver": 411, "ladies": 406},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 6, "back": 600, "regular": 583, "silver": 510, "ladies": 500},
+      {"hole": 11, "par": 4, "hdcp": 18, "back": 361, "regular": 354, "silver": 349, "ladies": 349},
+      {"hole": 12, "par": 3, "hdcp": 14, "back": 154, "regular": 131, "silver": 125, "ladies": 125},
+      {"hole": 13, "par": 4, "hdcp": 4, "back": 374, "regular": 336, "silver": 296, "ladies": 291},
+      {"hole": 14, "par": 4, "hdcp": 16, "back": 343, "regular": 325, "silver": 215, "ladies": 207},
+      {"hole": 15, "par": 4, "hdcp": 12, "back": 363, "regular": 341, "silver": 333, "ladies": 328},
+      {"hole": 16, "par": 3, "hdcp": 8, "back": 175, "regular": 148, "silver": 141, "ladies": 141},
+      {"hole": 17, "par": 4, "hdcp": 2, "back": 380, "regular": 369, "silver": 363, "ladies": 358},
+      {"hole": 18, "par": 5, "hdcp": 10, "back": 585, "regular": 565, "silver": 465, "ladies": 460},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 稚内 18H 1G(ベント)2T HGA北海道 所在:稚内市声問村恵北 出典GORA010160 2026-06-22(日本最北)
+VENUES.push({
+  id: "wakkanai_cc",
+  reading: "ワッカナイカントリークラブ",
+  name: "稚内カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 8, "back": 372, "reg": 372},
+      {"hole": 2, "par": 5, "hdcp": 6, "back": 530, "reg": 518},
+      {"hole": 3, "par": 4, "hdcp": 18, "back": 338, "reg": 309},
+      {"hole": 4, "par": 4, "hdcp": 2, "back": 429, "reg": 377},
+      {"hole": 5, "par": 4, "hdcp": 16, "back": 358, "reg": 348},
+      {"hole": 6, "par": 3, "hdcp": 10, "back": 188, "reg": 179},
+      {"hole": 7, "par": 4, "hdcp": 14, "back": 355, "reg": 348},
+      {"hole": 8, "par": 3, "hdcp": 4, "back": 200, "reg": 179},
+      {"hole": 9, "par": 5, "hdcp": 12, "back": 526, "reg": 484},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 17, "back": 475, "reg": 475},
+      {"hole": 11, "par": 3, "hdcp": 11, "back": 165, "reg": 144},
+      {"hole": 12, "par": 4, "hdcp": 7, "back": 303, "reg": 303},
+      {"hole": 13, "par": 5, "hdcp": 3, "back": 612, "reg": 584},
+      {"hole": 14, "par": 4, "hdcp": 1, "back": 370, "reg": 370},
+      {"hole": 15, "par": 4, "hdcp": 15, "back": 322, "reg": 322},
+      {"hole": 16, "par": 3, "hdcp": 13, "back": 150, "reg": 150},
+      {"hole": 17, "par": 4, "hdcp": 9, "back": 304, "reg": 304},
+      {"hole": 18, "par": 4, "hdcp": 5, "back": 357, "reg": 357},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 早来 36H(北ウィング/南ウィング)1G(ベント)4T HGA北海道 所在:勇払郡安平町早来 出典YOS提示2026-06-22(安平GCとは別施設・早来CC独立)
+VENUES.push({
+  id: "hayakita_cc",
+  reading: "ハヤキタカントリークラブ",
+  name: "早来カントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "ct", "label": "C.T(チャンピオン)"}, {"id": "bt", "label": "B.T(バック)"}, {"id": "rt", "label": "R.T(レギュラー)"}, {"id": "ft", "label": "F.T(フロント)"}],
+  subCourses: [
+    { name: "北OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 11, "ct": 394, "bt": 369, "rt": 348, "ft": 309},
+      {"hole": 2, "par": 3, "hdcp": 15, "ct": 180, "bt": 170, "rt": 170, "ft": 138},
+      {"hole": 3, "par": 5, "hdcp": 17, "ct": 575, "bt": 515, "rt": 491, "ft": 455},
+      {"hole": 4, "par": 4, "hdcp": 7, "ct": 420, "bt": 385, "rt": 351, "ft": 318},
+      {"hole": 5, "par": 4, "hdcp": 3, "ct": 449, "bt": 425, "rt": 407, "ft": 270},
+      {"hole": 6, "par": 4, "hdcp": 1, "ct": 429, "bt": 405, "rt": 382, "ft": 341},
+      {"hole": 7, "par": 3, "hdcp": 9, "ct": 207, "bt": 182, "rt": 165, "ft": 127},
+      {"hole": 8, "par": 5, "hdcp": 13, "ct": 564, "bt": 541, "rt": 515, "ft": 481},
+      {"hole": 9, "par": 4, "hdcp": 5, "ct": 421, "bt": 389, "rt": 371, "ft": 347},
+    ]},
+    { name: "北IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 14, "ct": 405, "bt": 377, "rt": 356, "ft": 334},
+      {"hole": 11, "par": 4, "hdcp": 16, "ct": 390, "bt": 356, "rt": 356, "ft": 308},
+      {"hole": 12, "par": 4, "hdcp": 2, "ct": 449, "bt": 423, "rt": 401, "ft": 379},
+      {"hole": 13, "par": 5, "hdcp": 12, "ct": 560, "bt": 530, "rt": 506, "ft": 468},
+      {"hole": 14, "par": 3, "hdcp": 18, "ct": 175, "bt": 139, "rt": 139, "ft": 111},
+      {"hole": 15, "par": 4, "hdcp": 10, "ct": 394, "bt": 365, "rt": 365, "ft": 329},
+      {"hole": 16, "par": 4, "hdcp": 8, "ct": 418, "bt": 389, "rt": 367, "ft": 343},
+      {"hole": 17, "par": 3, "hdcp": 6, "ct": 213, "bt": 184, "rt": 162, "ft": 140},
+      {"hole": 18, "par": 5, "hdcp": 4, "ct": 557, "bt": 518, "rt": 496, "ft": 465},
+    ]},
+    { name: "南OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "ct": 421, "bt": 392, "rt": 392, "ft": 300},
+      {"hole": 2, "par": 3, "hdcp": 5, "ct": 213, "bt": 185, "rt": 165, "ft": 126},
+      {"hole": 3, "par": 5, "hdcp": 11, "ct": 515, "bt": 483, "rt": 483, "ft": 401},
+      {"hole": 4, "par": 4, "hdcp": 15, "ct": 363, "bt": 334, "rt": 334, "ft": 238},
+      {"hole": 5, "par": 4, "hdcp": 1, "ct": 443, "bt": 417, "rt": 361, "ft": 333},
+      {"hole": 6, "par": 4, "hdcp": 9, "ct": 372, "bt": 334, "rt": 334, "ft": 309},
+      {"hole": 7, "par": 5, "hdcp": 13, "ct": 554, "bt": 536, "rt": 507, "ft": 455},
+      {"hole": 8, "par": 3, "hdcp": 17, "ct": 200, "bt": 175, "rt": 149, "ft": 119},
+      {"hole": 9, "par": 4, "hdcp": 7, "ct": 407, "bt": 370, "rt": 332, "ft": 273},
+    ]},
+    { name: "南IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 16, "ct": 535, "bt": 517, "rt": 473, "ft": 405},
+      {"hole": 11, "par": 4, "hdcp": 18, "ct": 360, "bt": 331, "rt": 331, "ft": 258},
+      {"hole": 12, "par": 4, "hdcp": 6, "ct": 421, "bt": 395, "rt": 395, "ft": 296},
+      {"hole": 13, "par": 3, "hdcp": 8, "ct": 170, "bt": 144, "rt": 144, "ft": 119},
+      {"hole": 14, "par": 4, "hdcp": 2, "ct": 437, "bt": 411, "rt": 385, "ft": 333},
+      {"hole": 15, "par": 4, "hdcp": 14, "ct": 390, "bt": 363, "rt": 321, "ft": 273},
+      {"hole": 16, "par": 3, "hdcp": 4, "ct": 208, "bt": 182, "rt": 155, "ft": 124},
+      {"hole": 17, "par": 4, "hdcp": 10, "ct": 392, "bt": 365, "rt": 333, "ft": 300},
+      {"hole": 18, "par": 5, "hdcp": 12, "ct": 540, "bt": 513, "rt": 463, "ft": 425},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
