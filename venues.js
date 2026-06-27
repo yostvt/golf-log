@@ -5927,28 +5927,40 @@ var VENUES = [
   {
     id: "takanodai_cc", reading: "タカノダイカンツリークラブ",
     name: "鷹之台カンツリー倶楽部",
-    greens: [{ id: "bent", label: "ベント（1グリーン使用）" }],
+    greens: [{ id: "a", label: "ベント" }, { id: "b", label: "コウライ" }],
     tees: [
-      { id: "fullback", label: "Fullback" },
-      { id: "back",     label: "Back" },
-      { id: "reg",      label: "Regular" },
-      { id: "front",    label: "Front" },
-      { id: "ladies",   label: "Ladies" },
+      { id: "champion",  label: "チャンピオン" },
+      { id: "back",      label: "バック" },
+      { id: "reg",       label: "レギュラー" },
+      { id: "front",     label: "フロント" },
+      { id: "universal", label: "ユニバーサル" },
+      { id: "ladies",    label: "レディース" },
     ],
     subCourses: [
-      { name: "OUT", holes: TAKANODAI_CC_COURSE.holes.slice(0, 9) },
-      { name: "IN",  holes: TAKANODAI_CC_COURSE.holes.slice(9, 18) },
+      { name: "OUT", holes: [
+      { hole: 1, par: 4, hdcp: 11, champion_a: 427, back_a: 427, reg_a: 402, front_a: 375, universal_a: 357, ladies_a: 316, champion_b: 419, back_b: 419, reg_b: 394, front_b: 367, universal_b: 349, ladies_b: 308 },
+      { hole: 2, par: 4, hdcp: 3, champion_a: 399, back_a: 399, reg_a: 371, front_a: 347, universal_a: 332, ladies_a: 300, champion_b: 383, back_b: 383, reg_b: 355, front_b: 331, universal_b: 316, ladies_b: 284 },
+      { hole: 3, par: 3, hdcp: 17, champion_a: 186, back_a: 168, reg_a: 147, front_a: 133, universal_a: 133, ladies_a: 133, champion_b: 163, back_b: 145, reg_b: 124, front_b: 110, universal_b: 107, ladies_b: 107 },
+      { hole: 4, par: 5, hdcp: 7, champion_a: 538, back_a: 538, reg_a: 517, front_a: 499, universal_a: 471, ladies_a: 421, champion_b: 511, back_b: 511, reg_b: 490, front_b: 472, universal_b: 444, ladies_b: 394 },
+      { hole: 5, par: 4, hdcp: 1, champion_a: 416, back_a: 416, reg_a: 393, front_a: 364, universal_a: 348, ladies_a: 305, champion_b: 429, back_b: 429, reg_b: 406, front_b: 377, universal_b: 361, ladies_b: 318 },
+      { hole: 6, par: 5, hdcp: 5, champion_a: 590, back_a: 564, reg_a: 545, front_a: 516, universal_a: 483, ladies_a: 440, champion_b: 567, back_b: 541, reg_b: 522, front_b: 493, universal_b: 460, ladies_b: 417 },
+      { hole: 7, par: 3, hdcp: 15, champion_a: 205, back_a: 205, reg_a: 186, front_a: 175, universal_a: 155, ladies_a: 155, champion_b: 199, back_b: 199, reg_b: 180, front_b: 169, universal_b: 149, ladies_b: 149 },
+      { hole: 8, par: 4, hdcp: 13, champion_a: 368, back_a: 361, reg_a: 339, front_a: 329, universal_a: 329, ladies_a: 279, champion_b: 369, back_b: 362, reg_b: 340, front_b: 330, universal_b: 330, ladies_b: 280 },
+      { hole: 9, par: 4, hdcp: 9, champion_a: 411, back_a: 411, reg_a: 393, front_a: 370, universal_a: 357, ladies_a: 313, champion_b: 407, back_b: 407, reg_b: 389, front_b: 366, universal_b: 353, ladies_b: 309 },
+      ] },
+      { name: "IN", holes: [
+      { hole: 10, par: 4, hdcp: 6, champion_a: 447, back_a: 447, reg_a: 414, front_a: 397, universal_a: 367, ladies_a: 323, champion_b: 437, back_b: 437, reg_b: 404, front_b: 387, universal_b: 357, ladies_b: 313 },
+      { hole: 11, par: 4, hdcp: 12, champion_a: 406, back_a: 406, reg_a: 372, front_a: 343, universal_a: 329, ladies_a: 278, champion_b: 386, back_b: 386, reg_b: 352, front_b: 323, universal_b: 309, ladies_b: 258 },
+      { hole: 12, par: 4, hdcp: 4, champion_a: 363, back_a: 363, reg_a: 338, front_a: 319, universal_a: 303, ladies_a: 260, champion_b: 362, back_b: 362, reg_b: 337, front_b: 318, universal_b: 302, ladies_b: 259 },
+      { hole: 13, par: 3, hdcp: 18, champion_a: 171, back_a: 171, reg_a: 150, front_a: 144, universal_a: 144, ladies_a: 144, champion_b: 159, back_b: 159, reg_b: 138, front_b: 132, universal_b: 132, ladies_b: 132 },
+      { hole: 14, par: 5, hdcp: 2, champion_a: 606, back_a: 586, reg_a: 536, front_a: 508, universal_a: 494, ladies_a: 447, champion_b: 588, back_b: 568, reg_b: 518, front_b: 490, universal_b: 476, ladies_b: 429 },
+      { hole: 15, par: 3, hdcp: 14, champion_a: 233, back_a: 233, reg_a: 205, front_a: 191, universal_a: 171, ladies_a: 171, champion_b: 220, back_b: 220, reg_b: 192, front_b: 178, universal_b: 158, ladies_b: 158 },
+      { hole: 16, par: 4, hdcp: 8, champion_a: 434, back_a: 417, reg_a: 397, front_a: 369, universal_a: 351, ladies_a: 289, champion_b: 416, back_b: 399, reg_b: 379, front_b: 351, universal_b: 333, ladies_b: 271 },
+      { hole: 17, par: 4, hdcp: 10, champion_a: 404, back_a: 404, reg_a: 374, front_a: 350, universal_a: 320, ladies_a: 281, champion_b: 419, back_b: 419, reg_b: 389, front_b: 365, universal_b: 335, ladies_b: 296 },
+      { hole: 18, par: 5, hdcp: 16, champion_a: 528, back_a: 528, reg_a: 506, front_a: 489, universal_a: 446, ladies_a: 446, champion_b: 518, back_b: 518, reg_b: 496, front_b: 479, universal_b: 436, ladies_b: 436 },
+      ] },
     ],
-    getYardage: (hole, green, tee) => {
-      const d = hole.bent;
-      if (!d) return null;
-      if (tee === "fullback") return d.fullback;
-      if (tee === "back")     return d.back;
-      if (tee === "reg")      return d.reg;
-      if (tee === "front")    return d.front;
-      if (tee === "ladies")   return d.ladies;
-      return null;
-    },
+    getYardage: (hole, green, tee) => hole[tee + "_" + green] ?? null,
   },
   // ─── 太平洋クラブ 八千代コース ───
   {
@@ -70959,6 +70971,2628 @@ VENUES.push({
       {"hole": 16, "par": 3, "hdcp": null, "back": 153, "regular": 145, "ladies": 122},
       {"hole": 17, "par": 4, "hdcp": null, "back": 410, "regular": 382, "ladies": 297},
       {"hole": 18, "par": 5, "hdcp": null, "back": 519, "regular": 487, "ladies": 374},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+
+// ===== 四国45施設（破損ファイルから救出・正常backupへ移植 2026/06/27）=====
+VENUES.push({
+  id: "alpha_tsuda_cc",
+  reading: "アルファツダカントリークラブ",
+  name: "アルファ津田カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "gold", "label": "GOLD"}, {"id": "ladies", "label": "レディース"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "アルファ津田カントリークラブ", holes: [
+      {"hole": 1, "par": 4, "hdcp": 5, "back": 403, "regular": 393, "front": 380, "gold": 380, "ladies": 380},
+      {"hole": 2, "par": 3, "hdcp": 15, "back": 167, "regular": 155, "front": 155, "gold": 155, "ladies": 148},
+      {"hole": 3, "par": 5, "hdcp": 17, "back": 501, "regular": 483, "front": 465, "gold": 455, "ladies": 455},
+      {"hole": 4, "par": 4, "hdcp": 9, "back": 372, "regular": 367, "front": 367, "gold": 367, "ladies": 275},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 371, "regular": 341, "front": 321, "gold": 254, "ladies": 254},
+      {"hole": 6, "par": 3, "hdcp": 11, "back": 193, "regular": 179, "front": 179, "gold": 179, "ladies": 104},
+      {"hole": 7, "par": 4, "hdcp": 7, "back": 348, "regular": 340, "front": 335, "gold": 330, "ladies": 330},
+      {"hole": 8, "par": 5, "hdcp": 13, "back": 441, "regular": 416, "front": 413, "gold": 413, "ladies": 410},
+      {"hole": 9, "par": 4, "hdcp": 3, "back": 369, "regular": 357, "front": 340, "gold": 340, "ladies": 325},
+      {"hole": 10, "par": 4, "hdcp": 6, "back": 390, "regular": 379, "front": 367, "gold": 367, "ladies": 341},
+      {"hole": 11, "par": 3, "hdcp": 10, "back": 205, "regular": 191, "front": 191, "gold": 191, "ladies": 83},
+      {"hole": 12, "par": 4, "hdcp": 16, "back": 311, "regular": 298, "front": 298, "gold": 298, "ladies": 280},
+      {"hole": 13, "par": 4, "hdcp": 14, "back": 321, "regular": 312, "front": 312, "gold": 312, "ladies": 307},
+      {"hole": 14, "par": 5, "hdcp": 8, "back": 473, "regular": 458, "front": 458, "gold": 458, "ladies": 320},
+      {"hole": 15, "par": 5, "hdcp": 4, "back": 474, "regular": 459, "front": 459, "gold": 390, "ladies": 375},
+      {"hole": 16, "par": 4, "hdcp": 2, "back": 399, "regular": 380, "front": 342, "gold": 342, "ladies": 342},
+      {"hole": 17, "par": 3, "hdcp": 18, "back": 181, "regular": 159, "front": 143, "gold": 143, "ladies": 143},
+      {"hole": 18, "par": 4, "hdcp": 12, "back": 343, "regular": 324, "front": 324, "gold": 324, "ladies": 286},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "anan_cc",
+  reading: "アナンカントリークラブ",
+  name: "阿南カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 563, "reg": 549},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 295, "reg": 284},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 396, "reg": 384},
+      {"hole": 4, "par": 3, "hdcp": null, "back": 240, "reg": 202},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 427, "reg": 406},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 344, "reg": 329},
+      {"hole": 7, "par": 3, "hdcp": null, "back": 148, "reg": 140},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 339, "reg": 334},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 574, "reg": 490},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 438, "reg": 420},
+      {"hole": 11, "par": 4, "hdcp": null, "back": 418, "reg": 409},
+      {"hole": 12, "par": 3, "hdcp": null, "back": 153, "reg": 145},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 400, "reg": 390},
+      {"hole": 14, "par": 3, "hdcp": null, "back": 170, "reg": 153},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 383, "reg": 372},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 330, "reg": 310},
+      {"hole": 17, "par": 5, "hdcp": null, "back": 492, "reg": 476},
+      {"hole": 18, "par": 5, "hdcp": null, "back": 500, "reg": 483},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "ayutaki_cc",
+  reading: "アユタキカントリークラブ",
+  name: "鮎滝カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champion", "label": "チャンピオン"}, {"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}, {"id": "senior", "label": "シニア"}],
+  subCourses: [
+    { name: "鮎滝カントリークラブ", holes: [
+      {"hole": 1, "par": 4, "hdcp": 9, "champion": 471, "back": 452, "regular": 382, "senior": 303, "ladies": 359},
+      {"hole": 2, "par": 4, "hdcp": 3, "champion": 422, "back": 398, "regular": 384, "senior": 346, "ladies": 346},
+      {"hole": 3, "par": 4, "hdcp": 15, "champion": 376, "back": 356, "regular": 332, "senior": 332, "ladies": 306},
+      {"hole": 4, "par": 3, "hdcp": 13, "champion": 191, "back": 163, "regular": 140, "senior": 140, "ladies": 123},
+      {"hole": 5, "par": 4, "hdcp": 7, "champion": 357, "back": 341, "regular": 310, "senior": 310, "ladies": 260},
+      {"hole": 6, "par": 5, "hdcp": 5, "champion": 525, "back": 495, "regular": 469, "senior": 439, "ladies": 439},
+      {"hole": 7, "par": 4, "hdcp": 1, "champion": 419, "back": 391, "regular": 358, "senior": 292, "ladies": 330},
+      {"hole": 8, "par": 3, "hdcp": 17, "champion": 187, "back": 168, "regular": 146, "senior": 146, "ladies": 133},
+      {"hole": 9, "par": 5, "hdcp": 11, "champion": 528, "back": 516, "regular": 481, "senior": 458, "ladies": 458},
+      {"hole": 10, "par": 4, "hdcp": 10, "champion": 405, "back": 385, "regular": 360, "senior": 349, "ladies": 349},
+      {"hole": 11, "par": 4, "hdcp": 16, "champion": 314, "back": 302, "regular": 294, "senior": 294, "ladies": 263},
+      {"hole": 12, "par": 4, "hdcp": 4, "champion": 421, "back": 413, "regular": 386, "senior": 386, "ladies": 359},
+      {"hole": 13, "par": 3, "hdcp": 18, "champion": 162, "back": 136, "regular": 116, "senior": 116, "ladies": 93},
+      {"hole": 14, "par": 5, "hdcp": 2, "champion": 529, "back": 512, "regular": 489, "senior": 489, "ladies": 450},
+      {"hole": 15, "par": 4, "hdcp": 8, "champion": 328, "back": 311, "regular": 287, "senior": 287, "ladies": 274},
+      {"hole": 16, "par": 3, "hdcp": 14, "champion": 208, "back": 180, "regular": 157, "senior": 125, "ladies": 125},
+      {"hole": 17, "par": 4, "hdcp": 6, "champion": 379, "back": 357, "regular": 335, "senior": 275, "ladies": 318},
+      {"hole": 18, "par": 5, "hdcp": 12, "champion": 573, "back": 558, "regular": 509, "senior": 469, "ladies": 469},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "bizan_cc",
+  reading: "ビザンカントリークラブ",
+  name: "眉山カントリークラブ",
+  greens: [{"id": "a", "label": "高麗"}],
+  tees: [{"id": "back", "label": "B.T"}, {"id": "reg", "label": "R.T"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 9, "back": 388, "reg": 378},
+      {"hole": 2, "par": 4, "hdcp": 5, "back": 336, "reg": 325},
+      {"hole": 3, "par": 3, "hdcp": 13, "back": 146, "reg": 139},
+      {"hole": 4, "par": 4, "hdcp": 3, "back": 372, "reg": 365},
+      {"hole": 5, "par": 4, "hdcp": 15, "back": 274, "reg": 267},
+      {"hole": 6, "par": 5, "hdcp": 1, "back": 509, "reg": 499},
+      {"hole": 7, "par": 4, "hdcp": 17, "back": 268, "reg": 258},
+      {"hole": 8, "par": 3, "hdcp": 11, "back": 177, "reg": 164},
+      {"hole": 9, "par": 4, "hdcp": 7, "back": 355, "reg": 337},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 3, "hdcp": 12, "back": 137, "reg": 127},
+      {"hole": 11, "par": 4, "hdcp": 4, "back": 388, "reg": 376},
+      {"hole": 12, "par": 4, "hdcp": 10, "back": 306, "reg": 287},
+      {"hole": 13, "par": 5, "hdcp": 6, "back": 483, "reg": 475},
+      {"hole": 14, "par": 4, "hdcp": 16, "back": 290, "reg": 268},
+      {"hole": 15, "par": 3, "hdcp": 18, "back": 137, "reg": 133},
+      {"hole": 16, "par": 4, "hdcp": 2, "back": 455, "reg": 431},
+      {"hole": 17, "par": 4, "hdcp": 14, "back": 299, "reg": 289},
+      {"hole": 18, "par": 4, "hdcp": 8, "back": 352, "reg": 343},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "cherry_gc_sanuki",
+  reading: "チェリーゴルフサヌキコース",
+  name: "チェリーゴルフ讃岐コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "blue", "label": "BLUE"}, {"id": "white", "label": "WHITE"}, {"id": "gold", "label": "GOLD"}, {"id": "red", "label": "RED"}, {"id": "pink", "label": "PINK"}, {"id": "compe", "label": "コンペ"}],
+  subCourses: [
+    { name: "チェリーゴルフ讃岐コース", holes: [
+      {"hole": 1, "par": 4, "hdcp": 11, "blue": 350, "compe": 350, "white": 330, "gold": 300, "red": 300, "pink": 300},
+      {"hole": 2, "par": 4, "hdcp": 9, "blue": 395, "compe": 368, "white": 368, "gold": 346, "red": 346, "pink": 321},
+      {"hole": 3, "par": 3, "hdcp": 15, "blue": 205, "compe": 181, "white": 181, "gold": 135, "red": 135, "pink": 135},
+      {"hole": 4, "par": 5, "hdcp": 3, "blue": 605, "compe": 574, "white": 532, "gold": 483, "red": 483, "pink": 408},
+      {"hole": 5, "par": 4, "hdcp": 7, "blue": 420, "compe": 420, "white": 397, "gold": 369, "red": 342, "pink": 294},
+      {"hole": 6, "par": 3, "hdcp": 17, "blue": 174, "compe": 161, "white": 161, "gold": 129, "red": 129, "pink": 129},
+      {"hole": 7, "par": 4, "hdcp": 1, "blue": 445, "compe": 355, "white": 340, "gold": 335, "red": 335, "pink": 265},
+      {"hole": 8, "par": 4, "hdcp": 13, "blue": 376, "compe": 352, "white": 352, "gold": 281, "red": 281, "pink": 214},
+      {"hole": 9, "par": 5, "hdcp": 5, "blue": 540, "compe": 515, "white": 515, "gold": 467, "red": 410, "pink": 357},
+      {"hole": 10, "par": 3, "hdcp": 18, "blue": 175, "compe": 175, "white": 156, "gold": 140, "red": 140, "pink": 140},
+      {"hole": 11, "par": 4, "hdcp": 12, "blue": 355, "compe": 355, "white": 334, "gold": 334, "red": 334, "pink": 282},
+      {"hole": 12, "par": 5, "hdcp": 6, "blue": 536, "compe": 510, "white": 498, "gold": 471, "red": 430, "pink": 378},
+      {"hole": 13, "par": 4, "hdcp": 10, "blue": 363, "compe": 293, "white": 293, "gold": 293, "red": 293, "pink": 233},
+      {"hole": 14, "par": 4, "hdcp": 14, "blue": 334, "compe": 334, "white": 312, "gold": 284, "red": 284, "pink": 284},
+      {"hole": 15, "par": 4, "hdcp": 2, "blue": 424, "compe": 409, "white": 389, "gold": 353, "red": 334, "pink": 224},
+      {"hole": 16, "par": 3, "hdcp": 16, "blue": 208, "compe": 188, "white": 162, "gold": 132, "red": 132, "pink": 132},
+      {"hole": 17, "par": 5, "hdcp": 8, "blue": 495, "compe": 495, "white": 471, "gold": 471, "red": 429, "pink": 429},
+      {"hole": 18, "par": 4, "hdcp": 4, "blue": 435, "compe": 412, "white": 383, "gold": 326, "red": 326, "pink": 272},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "dogo_gc",
+  reading: "ドウゴゴルフクラブ",
+  name: "道後ゴルフ倶楽部",
+  greens: [{"id": "main", "label": "ベント"}],
+  tees: [{"id": "bk", "label": "黒"}, {"id": "bl", "label": "青"}, {"id": "wh", "label": "白"}, {"id": "go", "label": "金"}, {"id": "re", "label": "赤"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "bk": 585, "bl": 575, "wh": 550, "go": 473, "re": 402},
+      {"hole": 2, "par": 4, "hdcp": 9, "bk": 419, "bl": 400, "wh": 380, "go": 350, "re": 279},
+      {"hole": 3, "par": 5, "hdcp": 15, "bk": 485, "bl": 485, "wh": 470, "go": 449, "re": 350},
+      {"hole": 4, "par": 4, "hdcp": 1, "bk": 420, "bl": 420, "wh": 400, "go": 370, "re": 340},
+      {"hole": 5, "par": 3, "hdcp": 13, "bk": 170, "bl": 170, "wh": 150, "go": 135, "re": 135},
+      {"hole": 6, "par": 4, "hdcp": 7, "bk": 358, "bl": 358, "wh": 330, "go": 330, "re": 253},
+      {"hole": 7, "par": 3, "hdcp": 11, "bk": 171, "bl": 171, "wh": 155, "go": 155, "re": 115},
+      {"hole": 8, "par": 4, "hdcp": 17, "bk": 345, "bl": 345, "wh": 325, "go": 305, "re": 180},
+      {"hole": 9, "par": 4, "hdcp": 5, "bk": 460, "bl": 460, "wh": 430, "go": 375, "re": 278},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "bk": 347, "bl": 347, "wh": 336, "go": 321, "re": 321},
+      {"hole": 11, "par": 4, "hdcp": null, "bk": 370, "bl": 370, "wh": 355, "go": 355, "re": 270},
+      {"hole": 12, "par": 3, "hdcp": null, "bk": 185, "bl": 185, "wh": 161, "go": 148, "re": 114},
+      {"hole": 13, "par": 4, "hdcp": null, "bk": 415, "bl": 400, "wh": 385, "go": 353, "re": 304},
+      {"hole": 14, "par": 5, "hdcp": null, "bk": 523, "bl": 523, "wh": 503, "go": 488, "re": 455},
+      {"hole": 15, "par": 4, "hdcp": null, "bk": 374, "bl": 352, "wh": 340, "go": 328, "re": 250},
+      {"hole": 16, "par": 3, "hdcp": null, "bk": 175, "bl": 175, "wh": 143, "go": 143, "re": 112},
+      {"hole": 17, "par": 4, "hdcp": null, "bk": 376, "bl": 360, "wh": 340, "go": 330, "re": 270},
+      {"hole": 18, "par": 5, "hdcp": null, "bk": 530, "bl": 510, "wh": 484, "go": 484, "re": 380},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "ehime_gc",
+  reading: "エヒメゴルフクラブ",
+  name: "愛媛ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "bt", "label": "BT"}, {"id": "ft", "label": "FT"}, {"id": "lt", "label": "LT"}],
+  subCourses: [
+    { name: "KING", holes: [
+      {"hole": 1, "par": 4, "hdcp": 5, "bt": 430, "ft": 380, "lt": 320},
+      {"hole": 2, "par": 5, "hdcp": 2, "bt": 540, "ft": 480, "lt": 420},
+      {"hole": 3, "par": 3, "hdcp": 8, "bt": 180, "ft": 130, "lt": 115},
+      {"hole": 4, "par": 4, "hdcp": 1, "bt": 420, "ft": 360, "lt": 320},
+      {"hole": 5, "par": 4, "hdcp": 4, "bt": 380, "ft": 360, "lt": 320},
+      {"hole": 6, "par": 3, "hdcp": 7, "bt": 220, "ft": 160, "lt": 130},
+      {"hole": 7, "par": 4, "hdcp": 9, "bt": 370, "ft": 350, "lt": 275},
+      {"hole": 8, "par": 4, "hdcp": 3, "bt": 440, "ft": 370, "lt": 330},
+      {"hole": 9, "par": 5, "hdcp": 6, "bt": 550, "ft": 490, "lt": 440},
+    ]},
+    { name: "PRINCE", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "bt": 530, "ft": 490, "lt": 430},
+      {"hole": 2, "par": 4, "hdcp": 8, "bt": 420, "ft": 350, "lt": 330},
+      {"hole": 3, "par": 4, "hdcp": 5, "bt": 440, "ft": 370, "lt": 320},
+      {"hole": 4, "par": 3, "hdcp": 4, "bt": 200, "ft": 150, "lt": 130},
+      {"hole": 5, "par": 4, "hdcp": 1, "bt": 450, "ft": 390, "lt": 320},
+      {"hole": 6, "par": 4, "hdcp": 7, "bt": 370, "ft": 330, "lt": 310},
+      {"hole": 7, "par": 5, "hdcp": 7, "bt": 520, "ft": 480, "lt": 410},
+      {"hole": 8, "par": 3, "hdcp": 6, "bt": 210, "ft": 160, "lt": 130},
+      {"hole": 9, "par": 4, "hdcp": 9, "bt": 390, "ft": 360, "lt": 270},
+    ]},
+    { name: "QUEEN", holes: [
+      {"hole": 1, "par": 3, "hdcp": 8, "bt": 200, "ft": 140, "lt": 140},
+      {"hole": 2, "par": 5, "hdcp": 5, "bt": 570, "ft": 500, "lt": 430},
+      {"hole": 3, "par": 4, "hdcp": 2, "bt": 450, "ft": 400, "lt": 310},
+      {"hole": 4, "par": 4, "hdcp": 4, "bt": 390, "ft": 350, "lt": 320},
+      {"hole": 5, "par": 5, "hdcp": 1, "bt": 540, "ft": 480, "lt": 445},
+      {"hole": 6, "par": 3, "hdcp": 7, "bt": 210, "ft": 170, "lt": 100},
+      {"hole": 7, "par": 4, "hdcp": 6, "bt": 360, "ft": 320, "lt": 275},
+      {"hole": 8, "par": 4, "hdcp": 3, "bt": 410, "ft": 370, "lt": 320},
+      {"hole": 9, "par": 4, "hdcp": 9, "bt": 400, "ft": 350, "lt": 310},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "elielle_gc_kagawa",
+  reading: "エリエールゴルフクラブカガワ",
+  name: "エリエールゴルフクラブ（香川県）",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "エリエールゴルフクラブ（香川県）", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "back": 532, "regular": 520, "ladies": 422},
+      {"hole": 2, "par": 4, "hdcp": 1, "back": 443, "regular": 418, "ladies": 422},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 197, "regular": 170, "ladies": 134},
+      {"hole": 4, "par": 4, "hdcp": 7, "back": 357, "regular": 326, "ladies": 293},
+      {"hole": 5, "par": 4, "hdcp": 13, "back": 343, "regular": 332, "ladies": 298},
+      {"hole": 6, "par": 4, "hdcp": 11, "back": 346, "regular": 328, "ladies": 245},
+      {"hole": 7, "par": 3, "hdcp": 17, "back": 159, "regular": 139, "ladies": 131},
+      {"hole": 8, "par": 4, "hdcp": 3, "back": 412, "regular": 401, "ladies": 245},
+      {"hole": 9, "par": 5, "hdcp": 15, "back": 503, "regular": 480, "ladies": 406},
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 434, "regular": 402, "ladies": 364},
+      {"hole": 11, "par": 5, "hdcp": 10, "back": 495, "regular": 473, "ladies": 419},
+      {"hole": 12, "par": 4, "hdcp": 8, "back": 429, "regular": 404, "ladies": 350},
+      {"hole": 13, "par": 3, "hdcp": 14, "back": 187, "regular": 170, "ladies": 147},
+      {"hole": 14, "par": 4, "hdcp": 16, "back": 338, "regular": 313, "ladies": 284},
+      {"hole": 15, "par": 4, "hdcp": 2, "back": 385, "regular": 337, "ladies": 310},
+      {"hole": 16, "par": 4, "hdcp": 18, "back": 301, "regular": 273, "ladies": 241},
+      {"hole": 17, "par": 3, "hdcp": 6, "back": 176, "regular": 161, "ladies": 96},
+      {"hole": 18, "par": 5, "hdcp": 12, "back": 535, "regular": 507, "ladies": 421},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "elleair_matsuyama",
+  reading: "エリエールゴルフクラブマツヤマ",
+  name: "エリエールゴルフクラブ松山",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "regular", "label": "REG"}, {"id": "front", "label": "FRONT"}, {"id": "gold", "label": "GOLD"}, {"id": "ladies", "label": "LADIE'S"}, {"id": "pink", "label": "PINK"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 403, "regular": 368, "front": 357, "gold": 357, "ladies": 316, "pink": 282},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 410, "regular": 384, "front": 364, "gold": 342, "ladies": 325, "pink": 243},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 182, "regular": 158, "front": 158, "gold": 143, "ladies": 129, "pink": 129},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 317, "regular": 317, "front": 287, "gold": 287, "ladies": 265, "pink": 265},
+      {"hole": 5, "par": 5, "hdcp": null, "back": 484, "regular": 471, "front": 451, "gold": 440, "ladies": 376, "pink": 376},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 412, "regular": 382, "front": 366, "gold": 322, "ladies": 322, "pink": 254},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 374, "regular": 374, "front": 351, "gold": 322, "ladies": 322, "pink": 302},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 170, "regular": 150, "front": 147, "gold": 147, "ladies": 119, "pink": 119},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 494, "regular": 494, "front": 474, "gold": 426, "ladies": 384, "pink": 384},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 380, "regular": 363, "front": 345, "gold": 334, "ladies": 334, "pink": 275},
+      {"hole": 11, "par": 5, "hdcp": null, "back": 533, "regular": 502, "front": 502, "gold": 461, "ladies": 368, "pink": 368},
+      {"hole": 12, "par": 3, "hdcp": null, "back": 156, "regular": 143, "front": 127, "gold": 127, "ladies": 102, "pink": 102},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 386, "regular": 363, "front": 336, "gold": 276, "ladies": 276, "pink": 276},
+      {"hole": 14, "par": 4, "hdcp": null, "back": 432, "regular": 418, "front": 395, "gold": 375, "ladies": 350, "pink": 308},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 374, "regular": 374, "front": 355, "gold": 340, "ladies": 280, "pink": 280},
+      {"hole": 16, "par": 3, "hdcp": null, "back": 190, "regular": 170, "front": 155, "gold": 140, "ladies": 127, "pink": 127},
+      {"hole": 17, "par": 5, "hdcp": null, "back": 513, "regular": 497, "front": 479, "gold": 453, "ladies": 390, "pink": 390},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 388, "regular": 368, "front": 355, "gold": 339, "ladies": 310, "pink": 260},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "gosho_cc",
+  reading: "ゴショカントリークラブ",
+  name: "御所カントリークラブ",
+  greens: [{"id": "a", "label": "高麗"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}, {"id": "ladies", "label": "LAD"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 1, "back": 415, "reg": 375, "ladies": 336},
+      {"hole": 2, "par": 5, "hdcp": 7, "back": 471, "reg": 447, "ladies": 380},
+      {"hole": 3, "par": 4, "hdcp": 8, "back": 318, "reg": 310, "ladies": 293},
+      {"hole": 4, "par": 4, "hdcp": 4, "back": 375, "reg": 361, "ladies": 298},
+      {"hole": 5, "par": 3, "hdcp": 9, "back": 185, "reg": 173, "ladies": 142},
+      {"hole": 6, "par": 5, "hdcp": 3, "back": 544, "reg": 528, "ladies": 505},
+      {"hole": 7, "par": 4, "hdcp": 5, "back": 401, "reg": 371, "ladies": 298},
+      {"hole": 8, "par": 3, "hdcp": 6, "back": 185, "reg": 175, "ladies": 155},
+      {"hole": 9, "par": 4, "hdcp": 2, "back": 341, "reg": 327, "ladies": 215},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 3, "back": 413, "reg": 387, "ladies": 316},
+      {"hole": 11, "par": 3, "hdcp": 9, "back": 149, "reg": 136, "ladies": 120},
+      {"hole": 12, "par": 5, "hdcp": 4, "back": 538, "reg": 516, "ladies": 417},
+      {"hole": 13, "par": 4, "hdcp": 8, "back": 340, "reg": 317, "ladies": 305},
+      {"hole": 14, "par": 4, "hdcp": 2, "back": 340, "reg": 329, "ladies": 270},
+      {"hole": 15, "par": 3, "hdcp": 7, "back": 182, "reg": 178, "ladies": 165},
+      {"hole": 16, "par": 4, "hdcp": 1, "back": 386, "reg": 366, "ladies": 283},
+      {"hole": 17, "par": 5, "hdcp": 6, "back": 542, "reg": 502, "ladies": 466},
+      {"hole": 18, "par": 4, "hdcp": 5, "back": 300, "reg": 292, "ladies": 275},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "greenfeel_gc",
+  reading: "グリーンフィールゴルフクラブ",
+  name: "グリーンフィールゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champion", "label": "CHAMPION"}, {"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "champion": 411, "back": 379, "reg": 361, "ladies": 317},
+      {"hole": 2, "par": 4, "hdcp": 9, "champion": 348, "back": 338, "reg": 333, "ladies": 236},
+      {"hole": 3, "par": 4, "hdcp": 1, "champion": 462, "back": 438, "reg": 404, "ladies": 332},
+      {"hole": 4, "par": 5, "hdcp": 5, "champion": 563, "back": 538, "reg": 512, "ladies": 379},
+      {"hole": 5, "par": 3, "hdcp": 15, "champion": 167, "back": 148, "reg": 133, "ladies": 120},
+      {"hole": 6, "par": 5, "hdcp": 13, "champion": 565, "back": 521, "reg": 482, "ladies": 365},
+      {"hole": 7, "par": 3, "hdcp": 3, "champion": 228, "back": 213, "reg": 171, "ladies": 110},
+      {"hole": 8, "par": 4, "hdcp": 11, "champion": 396, "back": 343, "reg": 320, "ladies": 302},
+      {"hole": 9, "par": 4, "hdcp": 17, "champion": 390, "back": 372, "reg": 349, "ladies": 306},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 16, "champion": 400, "back": 371, "reg": 342, "ladies": 296},
+      {"hole": 11, "par": 3, "hdcp": 12, "champion": 196, "back": 181, "reg": 149, "ladies": 128},
+      {"hole": 12, "par": 4, "hdcp": 4, "champion": 409, "back": 382, "reg": 369, "ladies": 265},
+      {"hole": 13, "par": 4, "hdcp": 2, "champion": 407, "back": 376, "reg": 357, "ladies": 232},
+      {"hole": 14, "par": 5, "hdcp": 8, "champion": 528, "back": 505, "reg": 485, "ladies": 415},
+      {"hole": 15, "par": 3, "hdcp": 10, "champion": 185, "back": 153, "reg": 130, "ladies": 115},
+      {"hole": 16, "par": 4, "hdcp": 6, "champion": 418, "back": 393, "reg": 374, "ladies": 254},
+      {"hole": 17, "par": 5, "hdcp": 18, "champion": 535, "back": 498, "reg": 478, "ladies": 376},
+      {"hole": 18, "par": 4, "hdcp": 14, "champion": 403, "back": 365, "reg": 346, "ladies": 256},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "hojo_cc",
+  reading: "ホウジョウカントリークラブ",
+  name: "北条カントリー倶楽部",
+  greens: [{"id": "a", "label": "左グリーン"}, {"id": "b", "label": "右グリーン"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "back_a": 543, "front_a": 497, "ladies_a": 457, "back_b": 507, "front_b": 484, "ladies_b": 421},
+      {"hole": 2, "par": 4, "hdcp": 9, "back_a": 371, "front_a": 305, "ladies_a": 264, "back_b": 393, "front_b": 327, "ladies_b": 286},
+      {"hole": 3, "par": 3, "hdcp": 15, "back_a": 144, "front_a": 129, "ladies_a": 112, "back_b": 123, "front_b": 107, "ladies_b": 90},
+      {"hole": 4, "par": 4, "hdcp": 1, "back_a": 444, "front_a": 332, "ladies_a": 252, "back_b": 403, "front_b": 318, "ladies_b": 215},
+      {"hole": 5, "par": 4, "hdcp": 7, "back_a": 356, "front_a": 312, "ladies_a": 280, "back_b": 328, "front_b": 284, "ladies_b": 252},
+      {"hole": 6, "par": 4, "hdcp": 13, "back_a": 364, "front_a": 322, "ladies_a": 292, "back_b": 351, "front_b": 309, "ladies_b": 279},
+      {"hole": 7, "par": 4, "hdcp": 5, "back_a": 419, "front_a": 364, "ladies_a": 277, "back_b": 433, "front_b": 379, "ladies_b": 292},
+      {"hole": 8, "par": 3, "hdcp": 17, "back_a": 152, "front_a": 124, "ladies_a": 99, "back_b": 177, "front_b": 149, "ladies_b": 124},
+      {"hole": 9, "par": 5, "hdcp": 11, "back_a": 515, "front_a": 479, "ladies_a": 449, "back_b": 532, "front_b": 496, "ladies_b": 465},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "back_a": 469, "front_a": 391, "ladies_a": 331, "back_b": 429, "front_b": 360, "ladies_b": 283},
+      {"hole": 11, "par": 5, "hdcp": 10, "back_a": 553, "front_a": 492, "ladies_a": 360, "back_b": 516, "front_b": 459, "ladies_b": 323},
+      {"hole": 12, "par": 3, "hdcp": 16, "back_a": 179, "front_a": 152, "ladies_a": 116, "back_b": 179, "front_b": 169, "ladies_b": 143},
+      {"hole": 13, "par": 4, "hdcp": 8, "back_a": 371, "front_a": 344, "ladies_a": 293, "back_b": 408, "front_b": 350, "ladies_b": 330},
+      {"hole": 14, "par": 4, "hdcp": 2, "back_a": 382, "front_a": 325, "ladies_a": 255, "back_b": 330, "front_b": 291, "ladies_b": 203},
+      {"hole": 15, "par": 3, "hdcp": 14, "back_a": 173, "front_a": 144, "ladies_a": 108, "back_b": 178, "front_b": 142, "ladies_b": 126},
+      {"hole": 16, "par": 4, "hdcp": 18, "back_a": 386, "front_a": 360, "ladies_a": 291, "back_b": 401, "front_b": 375, "ladies_b": 306},
+      {"hole": 17, "par": 4, "hdcp": 12, "back_a": 422, "front_a": 389, "ladies_a": 333, "back_b": 444, "front_b": 411, "ladies_b": 355},
+      {"hole": 18, "par": 5, "hdcp": 6, "back_a": 528, "front_a": 478, "ladies_a": 405, "back_b": 553, "front_b": 501, "ladies_b": 428},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t+'_'+g]??null
+});
+
+VENUES.push({
+  id: "imabari_cc",
+  reading: "イマバリカントリークラブ",
+  name: "今治カントリー倶楽部",
+  greens: [{"id": "main", "label": "ベント"}],
+  tees: [{"id": "bk", "label": "バック"}, {"id": "re", "label": "レギュラー"}, {"id": "la", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "bk": 518, "re": 499, "la": 435},
+      {"hole": 2, "par": 4, "hdcp": 17, "bk": 270, "re": 259, "la": 249},
+      {"hole": 3, "par": 3, "hdcp": 15, "bk": 172, "re": 161, "la": 106},
+      {"hole": 4, "par": 4, "hdcp": 3, "bk": 373, "re": 365, "la": 263},
+      {"hole": 5, "par": 4, "hdcp": 1, "bk": 358, "re": 350, "la": 298},
+      {"hole": 6, "par": 5, "hdcp": 13, "bk": 530, "re": 495, "la": 434},
+      {"hole": 7, "par": 4, "hdcp": 7, "bk": 352, "re": 322, "la": 271},
+      {"hole": 8, "par": 3, "hdcp": 11, "bk": 168, "re": 156, "la": 133},
+      {"hole": 9, "par": 4, "hdcp": 9, "bk": 393, "re": 388, "la": 317},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 10, "bk": 511, "re": 503, "la": 395},
+      {"hole": 11, "par": 4, "hdcp": 4, "bk": 431, "re": 410, "la": 267},
+      {"hole": 12, "par": 3, "hdcp": 18, "bk": 161, "re": 158, "la": 126},
+      {"hole": 13, "par": 4, "hdcp": 2, "bk": 423, "re": 400, "la": 315},
+      {"hole": 14, "par": 4, "hdcp": 14, "bk": 290, "re": 282, "la": 266},
+      {"hole": 15, "par": 3, "hdcp": 16, "bk": 159, "re": 151, "la": 120},
+      {"hole": 16, "par": 5, "hdcp": 8, "bk": 545, "re": 517, "la": 454},
+      {"hole": 17, "par": 4, "hdcp": 12, "bk": 347, "re": 336, "la": 293},
+      {"hole": 18, "par": 4, "hdcp": 6, "bk": 442, "re": 425, "la": 291},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "j_classic_gc",
+  reading: "ジェイクラシックゴルフクラブ",
+  name: "Ｊクラシックゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champion", "label": "チャンピオン"}, {"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 9, "champion": 536, "back": 513, "reg": 487, "front": 462, "ladies": 406},
+      {"hole": 2, "par": 3, "hdcp": 15, "champion": 164, "back": 149, "reg": 137, "front": 123, "ladies": 113},
+      {"hole": 3, "par": 4, "hdcp": 3, "champion": 456, "back": 438, "reg": 412, "front": 384, "ladies": 352},
+      {"hole": 4, "par": 4, "hdcp": 7, "champion": 435, "back": 435, "reg": 410, "front": 381, "ladies": 354},
+      {"hole": 5, "par": 4, "hdcp": 13, "champion": 411, "back": 411, "reg": 383, "front": 364, "ladies": 327},
+      {"hole": 6, "par": 3, "hdcp": 1, "champion": 213, "back": 188, "reg": 164, "front": 142, "ladies": 112},
+      {"hole": 7, "par": 5, "hdcp": 11, "champion": 502, "back": 488, "reg": 472, "front": 455, "ladies": 417},
+      {"hole": 8, "par": 4, "hdcp": 17, "champion": 383, "back": 366, "reg": 347, "front": 331, "ladies": 306},
+      {"hole": 9, "par": 4, "hdcp": 5, "champion": 470, "back": 419, "reg": 394, "front": 372, "ladies": 347},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "champion": 428, "back": 369, "reg": 353, "front": 330, "ladies": 318},
+      {"hole": 11, "par": 5, "hdcp": 10, "champion": 535, "back": 511, "reg": 493, "front": 476, "ladies": 438},
+      {"hole": 12, "par": 4, "hdcp": 16, "champion": 413, "back": 392, "reg": 370, "front": 349, "ladies": 335},
+      {"hole": 13, "par": 3, "hdcp": 14, "champion": 206, "back": 186, "reg": 168, "front": 147, "ladies": 131},
+      {"hole": 14, "par": 4, "hdcp": 8, "champion": 454, "back": 410, "reg": 390, "front": 368, "ladies": 338},
+      {"hole": 15, "par": 4, "hdcp": 2, "champion": 452, "back": 418, "reg": 391, "front": 364, "ladies": 328},
+      {"hole": 16, "par": 5, "hdcp": 12, "champion": 516, "back": 498, "reg": 479, "front": 457, "ladies": 415},
+      {"hole": 17, "par": 3, "hdcp": 18, "champion": 209, "back": 194, "reg": 175, "front": 156, "ladies": 124},
+      {"hole": 18, "par": 4, "hdcp": 6, "champion": 438, "back": 421, "reg": 402, "front": 381, "ladies": 349},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "kochi_gc",
+  reading: "コウチゴルフクラブ",
+  name: "高知ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "高麗"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}, {"id": "ladies", "label": "LADYS"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 11, "back": 514, "reg": 496, "ladies": 476},
+      {"hole": 2, "par": 3, "hdcp": 7, "back": 220, "reg": 182, "ladies": 147},
+      {"hole": 3, "par": 4, "hdcp": 5, "back": 346, "reg": 323, "ladies": 296},
+      {"hole": 4, "par": 4, "hdcp": 1, "back": 372, "reg": 358, "ladies": 331},
+      {"hole": 5, "par": 3, "hdcp": 13, "back": 176, "reg": 162, "ladies": 139},
+      {"hole": 6, "par": 5, "hdcp": 15, "back": 503, "reg": 489, "ladies": 487},
+      {"hole": 7, "par": 3, "hdcp": 3, "back": 334, "reg": 152, "ladies": 228},
+      {"hole": 8, "par": 4, "hdcp": 9, "back": 286, "reg": 276, "ladies": 255},
+      {"hole": 9, "par": 4, "hdcp": 17, "back": 318, "reg": 286, "ladies": 272},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 16, "back": 370, "reg": 354, "ladies": 344},
+      {"hole": 11, "par": 4, "hdcp": 12, "back": 303, "reg": 269, "ladies": 256},
+      {"hole": 12, "par": 4, "hdcp": 8, "back": 346, "reg": 328, "ladies": 304},
+      {"hole": 13, "par": 5, "hdcp": 2, "back": 530, "reg": 492, "ladies": 470},
+      {"hole": 14, "par": 3, "hdcp": 14, "back": 166, "reg": 153, "ladies": 137},
+      {"hole": 15, "par": 4, "hdcp": 10, "back": 367, "reg": 349, "ladies": 330},
+      {"hole": 16, "par": 3, "hdcp": 4, "back": 183, "reg": 161, "ladies": 148},
+      {"hole": 17, "par": 5, "hdcp": 18, "back": 481, "reg": 466, "ladies": 447},
+      {"hole": 18, "par": 4, "hdcp": 6, "back": 375, "reg": 354, "ladies": 305},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "kochi_kuroshio_cc",
+  reading: "コウチクロシオカントリークラブ",
+  name: "Kochi黒潮カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "太平洋", holes: [
+      {"hole": 1, "par": 5, "hdcp": 8, "back": 570, "reg": 530, "front": 495, "ladies": 460},
+      {"hole": 2, "par": 3, "hdcp": 6, "back": 205, "reg": 185, "front": 155, "ladies": 125},
+      {"hole": 3, "par": 4, "hdcp": 3, "back": 440, "reg": 415, "front": 385, "ladies": 260},
+      {"hole": 4, "par": 4, "hdcp": 7, "back": 420, "reg": 360, "front": 325, "ladies": 310},
+      {"hole": 5, "par": 3, "hdcp": 9, "back": 175, "reg": 160, "front": 140, "ladies": 115},
+      {"hole": 6, "par": 4, "hdcp": 2, "back": 395, "reg": 370, "front": 340, "ladies": 310},
+      {"hole": 7, "par": 4, "hdcp": 4, "back": 470, "reg": 405, "front": 385, "ladies": 340},
+      {"hole": 8, "par": 4, "hdcp": 1, "back": 420, "reg": 385, "front": 350, "ladies": 290},
+      {"hole": 9, "par": 5, "hdcp": 5, "back": 530, "reg": 490, "front": 455, "ladies": 400},
+    ]},
+    { name: "暖流", holes: [
+      {"hole": 1, "par": 4, "hdcp": 6, "back": 410, "reg": 385, "front": 360, "ladies": 325},
+      {"hole": 2, "par": 3, "hdcp": 8, "back": 220, "reg": 190, "front": 160, "ladies": 135},
+      {"hole": 3, "par": 5, "hdcp": 2, "back": 555, "reg": 510, "front": 470, "ladies": 440},
+      {"hole": 4, "par": 4, "hdcp": 1, "back": 470, "reg": 420, "front": 375, "ladies": 335},
+      {"hole": 5, "par": 4, "hdcp": 3, "back": 435, "reg": 405, "front": 360, "ladies": 260},
+      {"hole": 6, "par": 3, "hdcp": 9, "back": 190, "reg": 165, "front": 140, "ladies": 125},
+      {"hole": 7, "par": 4, "hdcp": 7, "back": 410, "reg": 370, "front": 340, "ladies": 325},
+      {"hole": 8, "par": 4, "hdcp": 5, "back": 400, "reg": 370, "front": 340, "ladies": 310},
+      {"hole": 9, "par": 5, "hdcp": 4, "back": 565, "reg": 530, "front": 495, "ladies": 470},
+    ]},
+    { name: "黒潮OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 17, "back": 400, "reg": 375, "front": 355, "ladies": 325},
+      {"hole": 2, "par": 3, "hdcp": 9, "back": 225, "reg": 200, "front": 160, "ladies": 135},
+      {"hole": 3, "par": 4, "hdcp": 5, "back": 435, "reg": 410, "front": 375, "ladies": 335},
+      {"hole": 4, "par": 4, "hdcp": 13, "back": 390, "reg": 340, "front": 340, "ladies": 295},
+      {"hole": 5, "par": 5, "hdcp": 11, "back": 570, "reg": 505, "front": 490, "ladies": 420},
+      {"hole": 6, "par": 3, "hdcp": 15, "back": 200, "reg": 185, "front": 150, "ladies": 130},
+      {"hole": 7, "par": 5, "hdcp": 7, "back": 560, "reg": 515, "front": 480, "ladies": 395},
+      {"hole": 8, "par": 4, "hdcp": 3, "back": 415, "reg": 395, "front": 360, "ladies": 265},
+      {"hole": 9, "par": 4, "hdcp": 1, "back": 455, "reg": 405, "front": 375, "ladies": 340},
+    ]},
+    { name: "黒潮IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 10, "back": 540, "reg": 520, "front": 475, "ladies": 425},
+      {"hole": 11, "par": 4, "hdcp": 8, "back": 385, "reg": 365, "front": 335, "ladies": 215},
+      {"hole": 12, "par": 3, "hdcp": 14, "back": 190, "reg": 170, "front": 140, "ladies": 125},
+      {"hole": 13, "par": 4, "hdcp": 2, "back": 455, "reg": 425, "front": 385, "ladies": 310},
+      {"hole": 14, "par": 4, "hdcp": 6, "back": 435, "reg": 400, "front": 350, "ladies": 315},
+      {"hole": 15, "par": 4, "hdcp": 12, "back": 465, "reg": 425, "front": 360, "ladies": 285},
+      {"hole": 16, "par": 5, "hdcp": 4, "back": 620, "reg": 565, "front": 525, "ladies": 485},
+      {"hole": 17, "par": 3, "hdcp": 16, "back": 225, "reg": 205, "front": 145, "ladies": 130},
+      {"hole": 18, "par": 4, "hdcp": 18, "back": 380, "reg": 370, "front": 325, "ladies": 290},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "kogen_gc_ehime",
+  reading: "コウゲンゴルフクラブ",
+  name: "高原ゴルフ倶楽部",
+  greens: [{"id": "main", "label": "ベント"}],
+  tees: [{"id": "bk", "label": "バック"}, {"id": "fr", "label": "フロント"}, {"id": "la", "label": "レディス"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 9, "bk": 588, "fr": 553, "la": 525},
+      {"hole": 2, "par": 3, "hdcp": 15, "bk": 164, "fr": 153, "la": 148},
+      {"hole": 3, "par": 5, "hdcp": 3, "bk": 493, "fr": 453, "la": 379},
+      {"hole": 4, "par": 4, "hdcp": 13, "bk": 296, "fr": 286, "la": 268},
+      {"hole": 5, "par": 4, "hdcp": 7, "bk": 440, "fr": 390, "la": 313},
+      {"hole": 6, "par": 4, "hdcp": 1, "bk": 423, "fr": 387, "la": 318},
+      {"hole": 7, "par": 4, "hdcp": 11, "bk": 403, "fr": 376, "la": 280},
+      {"hole": 8, "par": 3, "hdcp": 17, "bk": 183, "fr": 155, "la": 141},
+      {"hole": 9, "par": 4, "hdcp": 3, "bk": 432, "fr": 413, "la": 315},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 16, "bk": 351, "fr": 312, "la": 293},
+      {"hole": 11, "par": 4, "hdcp": 4, "bk": 334, "fr": 296, "la": 270},
+      {"hole": 12, "par": 3, "hdcp": 10, "bk": 161, "fr": 151, "la": 142},
+      {"hole": 13, "par": 4, "hdcp": 2, "bk": 394, "fr": 377, "la": 370},
+      {"hole": 14, "par": 4, "hdcp": 8, "bk": 356, "fr": 294, "la": 289},
+      {"hole": 15, "par": 5, "hdcp": 14, "bk": 517, "fr": 485, "la": 443},
+      {"hole": 16, "par": 4, "hdcp": 18, "bk": 293, "fr": 282, "la": 262},
+      {"hole": 17, "par": 5, "hdcp": 6, "bk": 515, "fr": 495, "la": 450},
+      {"hole": 18, "par": 3, "hdcp": 12, "bk": 150, "fr": 135, "la": 124},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "kuma_cc_ehime",
+  reading: "クマカントリークラブ",
+  name: "久万カントリークラブ",
+  greens: [{"id": "main", "label": "ベント"}],
+  tees: [{"id": "bk", "label": "BACK"}, {"id": "re", "label": "REG"}, {"id": "la", "label": "LADY"}, {"id": "go", "label": "GOLD"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 11, "bk": 290, "re": 287, "la": 282, "go": 282},
+      {"hole": 2, "par": 3, "hdcp": 9, "bk": 154, "re": 139, "la": 122, "go": 103},
+      {"hole": 3, "par": 5, "hdcp": 15, "bk": 521, "re": 504, "la": 488, "go": 475},
+      {"hole": 4, "par": 4, "hdcp": 3, "bk": 341, "re": 321, "la": 318, "go": 201},
+      {"hole": 5, "par": 4, "hdcp": 1, "bk": 449, "re": 405, "la": 355, "go": 322},
+      {"hole": 6, "par": 3, "hdcp": 7, "bk": 178, "re": 146, "la": 125, "go": 100},
+      {"hole": 7, "par": 4, "hdcp": 17, "bk": 307, "re": 292, "la": 287, "go": 287},
+      {"hole": 8, "par": 4, "hdcp": 13, "bk": 387, "re": 338, "la": 286, "go": 286},
+      {"hole": 9, "par": 5, "hdcp": 5, "bk": 480, "re": 467, "la": 403, "go": 353},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 8, "bk": 377, "re": 364, "la": 360, "go": 312},
+      {"hole": 11, "par": 3, "hdcp": 16, "bk": 151, "re": 141, "la": 125, "go": 103},
+      {"hole": 12, "par": 5, "hdcp": 14, "bk": 410, "re": 381, "la": 360, "go": 320},
+      {"hole": 13, "par": 4, "hdcp": 4, "bk": 356, "re": 340, "la": 331, "go": 331},
+      {"hole": 14, "par": 4, "hdcp": 2, "bk": 395, "re": 370, "la": 307, "go": 307},
+      {"hole": 15, "par": 4, "hdcp": 10, "bk": 356, "re": 332, "la": 312, "go": 312},
+      {"hole": 16, "par": 4, "hdcp": 12, "bk": 352, "re": 296, "la": 291, "go": 291},
+      {"hole": 17, "par": 3, "hdcp": 18, "bk": 108, "re": 101, "la": 95, "go": 95},
+      {"hole": 18, "par": 5, "hdcp": 6, "bk": 494, "re": 468, "la": 393, "go": 393},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "leoma_kogen_gc",
+  reading: "レオマコウゲンゴルフクラブ",
+  name: "レオマ高原ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 546, "reg": 524, "ladies": 474},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 389, "reg": 370, "ladies": 293},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 182, "reg": 151, "ladies": 120},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 407, "reg": 349, "ladies": 270},
+      {"hole": 5, "par": 3, "hdcp": null, "back": 176, "reg": 142, "ladies": 130},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 404, "reg": 388, "ladies": 344},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 331, "reg": 307, "ladies": 288},
+      {"hole": 8, "par": 5, "hdcp": null, "back": 566, "reg": 540, "ladies": 403},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 400, "reg": 381, "ladies": 323},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": null, "back": 499, "reg": 475, "ladies": 420},
+      {"hole": 11, "par": 4, "hdcp": null, "back": 462, "reg": 447, "ladies": 309},
+      {"hole": 12, "par": 4, "hdcp": null, "back": 299, "reg": 277, "ladies": 236},
+      {"hole": 13, "par": 3, "hdcp": null, "back": 155, "reg": 121, "ladies": 92},
+      {"hole": 14, "par": 4, "hdcp": null, "back": 387, "reg": 367, "ladies": 348},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 361, "reg": 346, "ladies": 330},
+      {"hole": 16, "par": 5, "hdcp": null, "back": 540, "reg": 503, "ladies": 413},
+      {"hole": 17, "par": 3, "hdcp": null, "back": 191, "reg": 174, "ladies": 155},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 322, "reg": 301, "ladies": 271},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "manno_hills_cc",
+  reading: "マンノウヒルズカントリークラブ",
+  name: "満濃ヒルズカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "champion", "label": "チャンピオン"}, {"id": "back", "label": "バック"}, {"id": "white", "label": "WHITE"}, {"id": "gold", "label": "GOLD"}],
+  subCourses: [
+    { name: "満濃ヒルズカントリークラブ", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "champion": 427, "back": 404, "white": 376, "gold": 347},
+      {"hole": 2, "par": 5, "hdcp": null, "champion": 510, "back": 492, "white": 475, "gold": 459},
+      {"hole": 3, "par": 3, "hdcp": null, "champion": 200, "back": 178, "white": 150, "gold": 128},
+      {"hole": 4, "par": 4, "hdcp": null, "champion": 425, "back": 397, "white": 369, "gold": 343},
+      {"hole": 5, "par": 4, "hdcp": null, "champion": 405, "back": 378, "white": 344, "gold": 315},
+      {"hole": 6, "par": 5, "hdcp": null, "champion": 525, "back": 512, "white": 497, "gold": 461},
+      {"hole": 7, "par": 4, "hdcp": null, "champion": 352, "back": 325, "white": 300, "gold": 276},
+      {"hole": 8, "par": 3, "hdcp": null, "champion": 177, "back": 159, "white": 140, "gold": 121},
+      {"hole": 9, "par": 4, "hdcp": null, "champion": 408, "back": 386, "white": 366, "gold": 341},
+      {"hole": 10, "par": 4, "hdcp": 8, "champion": 385, "back": 359, "white": 334, "gold": 308},
+      {"hole": 11, "par": 4, "hdcp": 4, "champion": 415, "back": 393, "white": 374, "gold": 366},
+      {"hole": 12, "par": 3, "hdcp": 18, "champion": 191, "back": 155, "white": 136, "gold": 116},
+      {"hole": 13, "par": 4, "hdcp": 12, "champion": 374, "back": 348, "white": 320, "gold": 290},
+      {"hole": 14, "par": 4, "hdcp": 2, "champion": 433, "back": 413, "white": 391, "gold": 351},
+      {"hole": 15, "par": 5, "hdcp": 14, "champion": 516, "back": 501, "white": 483, "gold": 446},
+      {"hole": 16, "par": 4, "hdcp": 6, "champion": 386, "back": 360, "white": 345, "gold": 286},
+      {"hole": 17, "par": 3, "hdcp": 16, "champion": 208, "back": 191, "white": 168, "gold": 148},
+      {"hole": 18, "par": 5, "hdcp": 10, "champion": 513, "back": 496, "white": 473, "gold": 434},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "matsuyama_gc_kawauchi",
+  reading: "マツヤマゴルフクラブカワウチコース",
+  name: "松山ゴルフ倶楽部 川内コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "gold", "label": "ゴールド"}, {"id": "ladies", "label": "レディース"}, {"id": "pink", "label": "ピンク"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 366, "reg": 342, "gold": 326, "ladies": 308, "pink": 220},
+      {"hole": 2, "par": 5, "hdcp": null, "back": 535, "reg": 521, "gold": 500, "ladies": 435, "pink": 415},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 371, "reg": 340, "gold": 305, "ladies": 297, "pink": 297},
+      {"hole": 4, "par": 5, "hdcp": null, "back": 526, "reg": 487, "gold": 468, "ladies": 420, "pink": 420},
+      {"hole": 5, "par": 3, "hdcp": null, "back": 201, "reg": 190, "gold": 164, "ladies": 164, "pink": 144},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 306, "reg": 306, "gold": 300, "ladies": 300, "pink": 240},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 375, "reg": 350, "gold": 332, "ladies": 332, "pink": 280},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 166, "reg": 141, "gold": 113, "ladies": 113, "pink": 113},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 450, "reg": 434, "gold": 360, "ladies": 320, "pink": 290},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 391, "reg": 360, "gold": 340, "ladies": 305, "pink": 279},
+      {"hole": 11, "par": 4, "hdcp": null, "back": 450, "reg": 358, "gold": 320, "ladies": 320, "pink": 290},
+      {"hole": 12, "par": 5, "hdcp": null, "back": 480, "reg": 480, "gold": 430, "ladies": 415, "pink": 290},
+      {"hole": 13, "par": 3, "hdcp": null, "back": 180, "reg": 168, "gold": 138, "ladies": 117, "pink": 117},
+      {"hole": 14, "par": 4, "hdcp": null, "back": 356, "reg": 339, "gold": 299, "ladies": 285, "pink": 285},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 319, "reg": 319, "gold": 290, "ladies": 250, "pink": 250},
+      {"hole": 16, "par": 5, "hdcp": null, "back": 495, "reg": 475, "gold": 455, "ladies": 395, "pink": 375},
+      {"hole": 17, "par": 3, "hdcp": null, "back": 175, "reg": 146, "gold": 146, "ladies": 146, "pink": 108},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 350, "reg": 350, "gold": 320, "ladies": 320, "pink": 295},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "matsuyama_seaside_cc",
+  reading: "マツヤマシーサイドカントリークラブ",
+  name: "松山シーサイドカントリークラブ",
+  greens: [{"id": "main", "label": "ベント"}],
+  tees: [{"id": "bk", "label": "バック"}, {"id": "re", "label": "レギュラー"}, {"id": "fr", "label": "フロント"}, {"id": "la", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 15, "bk": 345, "re": 323, "fr": 301, "la": 283},
+      {"hole": 2, "par": 5, "hdcp": 9, "bk": 570, "re": 549, "fr": 520, "la": 444},
+      {"hole": 3, "par": 3, "hdcp": 13, "bk": 184, "re": 164, "fr": 135, "la": 118},
+      {"hole": 4, "par": 4, "hdcp": 5, "bk": 388, "re": 349, "fr": 313, "la": 242},
+      {"hole": 5, "par": 4, "hdcp": 3, "bk": 387, "re": 366, "fr": 343, "la": 243},
+      {"hole": 6, "par": 5, "hdcp": 11, "bk": 544, "re": 517, "fr": 500, "la": 480},
+      {"hole": 7, "par": 3, "hdcp": 17, "bk": 166, "re": 161, "fr": 130, "la": 107},
+      {"hole": 8, "par": 4, "hdcp": 1, "bk": 457, "re": 355, "fr": 330, "la": 282},
+      {"hole": 9, "par": 4, "hdcp": 7, "bk": 446, "re": 428, "fr": 393, "la": 336},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 10, "bk": 573, "re": 553, "fr": 532, "la": 456},
+      {"hole": 11, "par": 3, "hdcp": 18, "bk": 168, "re": 152, "fr": 135, "la": 135},
+      {"hole": 12, "par": 4, "hdcp": 2, "bk": 457, "re": 377, "fr": 357, "la": 295},
+      {"hole": 13, "par": 4, "hdcp": 16, "bk": 304, "re": 304, "fr": 282, "la": 282},
+      {"hole": 14, "par": 5, "hdcp": 12, "bk": 562, "re": 537, "fr": 514, "la": 487},
+      {"hole": 15, "par": 4, "hdcp": 14, "bk": 365, "re": 344, "fr": 328, "la": 328},
+      {"hole": 16, "par": 4, "hdcp": 4, "bk": 451, "re": 436, "fr": 415, "la": 368},
+      {"hole": 17, "par": 3, "hdcp": 8, "bk": 218, "re": 185, "fr": 166, "la": 148},
+      {"hole": 18, "par": 4, "hdcp": 6, "bk": 466, "re": 447, "fr": 426, "la": 305},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "naruto_cc",
+  reading: "ナルトカントリークラブ",
+  name: "鳴門カントリークラブ",
+  greens: [{"id": "a", "label": "高麗"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "gold", "label": "GOLD"}, {"id": "ladies", "label": "LADIES"}, {"id": "pink", "label": "PINK"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 7, "back": 502, "reg": 488, "front": 467, "gold": 456, "ladies": 441, "pink": 381},
+      {"hole": 2, "par": 4, "hdcp": 3, "back": 393, "reg": 383, "front": 366, "gold": 326, "ladies": 326, "pink": 326},
+      {"hole": 3, "par": 4, "hdcp": 17, "back": 284, "reg": 274, "front": 267, "gold": 267, "ladies": 267, "pink": 267},
+      {"hole": 4, "par": 3, "hdcp": 15, "back": 152, "reg": 142, "front": 142, "gold": 135, "ladies": 108, "pink": 88},
+      {"hole": 5, "par": 4, "hdcp": 5, "back": 372, "reg": 350, "front": 340, "gold": 340, "ladies": 330, "pink": 320},
+      {"hole": 6, "par": 3, "hdcp": 9, "back": 176, "reg": 172, "front": 172, "gold": 160, "ladies": 98, "pink": 98},
+      {"hole": 7, "par": 4, "hdcp": 13, "back": 385, "reg": 375, "front": 360, "gold": 350, "ladies": 345, "pink": 310},
+      {"hole": 8, "par": 4, "hdcp": 1, "back": 345, "reg": 330, "front": 315, "gold": 255, "ladies": 255, "pink": 255},
+      {"hole": 9, "par": 5, "hdcp": 11, "back": 522, "reg": 500, "front": 485, "gold": 472, "ladies": 460, "pink": 422},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 6, "back": 475, "reg": 461, "front": 455, "gold": 436, "ladies": 436, "pink": 428},
+      {"hole": 11, "par": 4, "hdcp": 2, "back": 388, "reg": 362, "front": 313, "gold": 275, "ladies": 275, "pink": 240},
+      {"hole": 12, "par": 4, "hdcp": 18, "back": 363, "reg": 354, "front": 343, "gold": 333, "ladies": 323, "pink": 323},
+      {"hole": 13, "par": 3, "hdcp": 8, "back": 195, "reg": 185, "front": 165, "gold": 145, "ladies": 121, "pink": 121},
+      {"hole": 14, "par": 4, "hdcp": 14, "back": 330, "reg": 320, "front": 310, "gold": 194, "ladies": 180, "pink": 180},
+      {"hole": 15, "par": 4, "hdcp": 10, "back": 374, "reg": 364, "front": 360, "gold": 270, "ladies": 260, "pink": 260},
+      {"hole": 16, "par": 3, "hdcp": 16, "back": 185, "reg": 175, "front": 160, "gold": 142, "ladies": 121, "pink": 121},
+      {"hole": 17, "par": 4, "hdcp": 4, "back": 364, "reg": 286, "front": 274, "gold": 247, "ladies": 240, "pink": 230},
+      {"hole": 18, "par": 5, "hdcp": 12, "back": 500, "reg": 480, "front": 460, "gold": 440, "ladies": 440, "pink": 365},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "niihama_cc",
+  reading: "ニイハマカントリークラブ",
+  name: "新居浜カントリー倶楽部",
+  greens: [{"id": "main", "label": "コーライ"}],
+  tees: [{"id": "bt", "label": "BT"}, {"id": "rt", "label": "RT"}, {"id": "ft", "label": "FT"}, {"id": "lt", "label": "LT"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 15, "bt": 518, "rt": 498, "ft": 478, "lt": 405},
+      {"hole": 2, "par": 4, "hdcp": 3, "bt": 371, "rt": 353, "ft": 318, "lt": 273},
+      {"hole": 3, "par": 3, "hdcp": 9, "bt": 198, "rt": 187, "ft": 160, "lt": 160},
+      {"hole": 4, "par": 4, "hdcp": 7, "bt": 427, "rt": 393, "ft": 367, "lt": 334},
+      {"hole": 5, "par": 4, "hdcp": 13, "bt": 404, "rt": 394, "ft": 360, "lt": 305},
+      {"hole": 6, "par": 4, "hdcp": 1, "bt": 427, "rt": 404, "ft": 390, "lt": 284},
+      {"hole": 7, "par": 4, "hdcp": 5, "bt": 362, "rt": 345, "ft": 328, "lt": 300},
+      {"hole": 8, "par": 3, "hdcp": 17, "bt": 159, "rt": 159, "ft": 143, "lt": 120},
+      {"hole": 9, "par": 5, "hdcp": 11, "bt": 521, "rt": 492, "ft": 475, "lt": 371},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 10, "bt": 379, "rt": 369, "ft": 350, "lt": 317},
+      {"hole": 11, "par": 4, "hdcp": 4, "bt": 387, "rt": 369, "ft": 360, "lt": 254},
+      {"hole": 12, "par": 3, "hdcp": 16, "bt": 207, "rt": 187, "ft": 177, "lt": 137},
+      {"hole": 13, "par": 4, "hdcp": 2, "bt": 398, "rt": 384, "ft": 372, "lt": 308},
+      {"hole": 14, "par": 4, "hdcp": 8, "bt": 412, "rt": 394, "ft": 394, "lt": 289},
+      {"hole": 15, "par": 5, "hdcp": 14, "bt": 540, "rt": 525, "ft": 499, "lt": 444},
+      {"hole": 16, "par": 4, "hdcp": 6, "bt": 358, "rt": 335, "ft": 322, "lt": 278},
+      {"hole": 17, "par": 3, "hdcp": 12, "bt": 178, "rt": 161, "ft": 142, "lt": 126},
+      {"hole": 18, "par": 5, "hdcp": 18, "bt": 514, "rt": 505, "ft": 478, "lt": 428},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "nishikiyama_cc",
+  reading: "ニシキヤマカントリークラブ",
+  name: "錦山カントリークラブ",
+  greens: [{"id": "a", "label": "高麗"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 18, "back": 475, "reg": 463, "front": 445, "ladies": 396},
+      {"hole": 2, "par": 4, "hdcp": 12, "back": 381, "reg": 365, "front": 345, "ladies": 313},
+      {"hole": 3, "par": 4, "hdcp": 4, "back": 372, "reg": 348, "front": 301, "ladies": 258},
+      {"hole": 4, "par": 4, "hdcp": 2, "back": 402, "reg": 361, "front": 340, "ladies": 294},
+      {"hole": 5, "par": 3, "hdcp": 6, "back": 202, "reg": 155, "front": 150, "ladies": 142},
+      {"hole": 6, "par": 4, "hdcp": 8, "back": 403, "reg": 377, "front": 369, "ladies": 319},
+      {"hole": 7, "par": 4, "hdcp": 16, "back": 328, "reg": 309, "front": 295, "ladies": 265},
+      {"hole": 8, "par": 3, "hdcp": 10, "back": 190, "reg": 152, "front": 152, "ladies": 135},
+      {"hole": 9, "par": 5, "hdcp": 14, "back": 570, "reg": 544, "front": 522, "ladies": 466},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 5, "back": 511, "reg": 486, "front": 481, "ladies": 420},
+      {"hole": 11, "par": 3, "hdcp": 15, "back": 170, "reg": 150, "front": 142, "ladies": 135},
+      {"hole": 12, "par": 4, "hdcp": 1, "back": 401, "reg": 383, "front": 359, "ladies": 310},
+      {"hole": 13, "par": 4, "hdcp": 17, "back": 325, "reg": 304, "front": 278, "ladies": 265},
+      {"hole": 14, "par": 3, "hdcp": 11, "back": 175, "reg": 139, "front": 129, "ladies": 123},
+      {"hole": 15, "par": 4, "hdcp": 7, "back": 362, "reg": 344, "front": 313, "ladies": 301},
+      {"hole": 16, "par": 4, "hdcp": 3, "back": 357, "reg": 334, "front": 325, "ladies": 281},
+      {"hole": 17, "par": 5, "hdcp": 13, "back": 507, "reg": 490, "front": 475, "ladies": 435},
+      {"hole": 18, "par": 4, "hdcp": 9, "back": 366, "reg": 342, "front": 326, "ladies": 293},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "ozu_gc",
+  reading: "オオズゴルフクラブ",
+  name: "大洲ゴルフ倶楽部",
+  greens: [{"id": "main", "label": "高麗"}],
+  tees: [{"id": "bk", "label": "バック"}, {"id": "re", "label": "レギュラー"}, {"id": "la", "label": "レディース"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 11, "bk": 499, "re": 482, "la": 456},
+      {"hole": 2, "par": 4, "hdcp": 9, "bk": 350, "re": 341, "la": 328},
+      {"hole": 3, "par": 3, "hdcp": 17, "bk": 155, "re": 134, "la": 131},
+      {"hole": 4, "par": 5, "hdcp": 1, "bk": 482, "re": 471, "la": 420},
+      {"hole": 5, "par": 4, "hdcp": 5, "bk": 402, "re": 385, "la": 240},
+      {"hole": 6, "par": 3, "hdcp": 15, "bk": 178, "re": 171, "la": 115},
+      {"hole": 7, "par": 4, "hdcp": 13, "bk": 312, "re": 300, "la": 242},
+      {"hole": 8, "par": 4, "hdcp": 3, "bk": 415, "re": 404, "la": 359},
+      {"hole": 9, "par": 4, "hdcp": 7, "bk": 381, "re": 367, "la": 323},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 3, "hdcp": 18, "bk": 150, "re": 140, "la": 138},
+      {"hole": 11, "par": 4, "hdcp": 4, "bk": 438, "re": 414, "la": 356},
+      {"hole": 12, "par": 4, "hdcp": 12, "bk": 349, "re": 335, "la": 230},
+      {"hole": 13, "par": 5, "hdcp": 8, "bk": 472, "re": 462, "la": 354},
+      {"hole": 14, "par": 3, "hdcp": 16, "bk": 171, "re": 158, "la": 120},
+      {"hole": 15, "par": 4, "hdcp": 10, "bk": 374, "re": 359, "la": 274},
+      {"hole": 16, "par": 5, "hdcp": 2, "bk": 535, "re": 526, "la": 442},
+      {"hole": 17, "par": 4, "hdcp": 6, "bk": 413, "re": 403, "la": 338},
+      {"hole": 18, "par": 4, "hdcp": 14, "bk": 324, "re": 318, "la": 282},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "pacific_gc_kochi",
+  reading: "パシフィックゴルフクラブ",
+  name: "パシフィックゴルフクラブ",
+  greens: [{"id": "a", "label": "高麗"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 14, "back": 534, "reg": 520, "front": 500, "ladies": 477},
+      {"hole": 2, "par": 3, "hdcp": 12, "back": 176, "reg": 157, "front": 135, "ladies": 115},
+      {"hole": 3, "par": 4, "hdcp": 18, "back": 272, "reg": 262, "front": 262, "ladies": 258},
+      {"hole": 4, "par": 3, "hdcp": 6, "back": 210, "reg": 180, "front": 158, "ladies": 116},
+      {"hole": 5, "par": 4, "hdcp": 10, "back": 394, "reg": 377, "front": 357, "ladies": 254},
+      {"hole": 6, "par": 4, "hdcp": 2, "back": 383, "reg": 360, "front": 320, "ladies": 232},
+      {"hole": 7, "par": 4, "hdcp": 4, "back": 332, "reg": 320, "front": 311, "ladies": 299},
+      {"hole": 8, "par": 4, "hdcp": 16, "back": 380, "reg": 367, "front": 350, "ladies": 334},
+      {"hole": 9, "par": 5, "hdcp": 8, "back": 573, "reg": 555, "front": 539, "ladies": 460},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 5, "back": 602, "reg": 574, "front": 558, "ladies": 501},
+      {"hole": 11, "par": 4, "hdcp": 11, "back": 362, "reg": 330, "front": 330, "ladies": 274},
+      {"hole": 12, "par": 4, "hdcp": 15, "back": 374, "reg": 355, "front": 333, "ladies": 314},
+      {"hole": 13, "par": 3, "hdcp": 13, "back": 192, "reg": 181, "front": 157, "ladies": 105},
+      {"hole": 14, "par": 4, "hdcp": 9, "back": 415, "reg": 393, "front": 383, "ladies": 285},
+      {"hole": 15, "par": 5, "hdcp": 7, "back": 560, "reg": 543, "front": 524, "ladies": 400},
+      {"hole": 16, "par": 4, "hdcp": 1, "back": 464, "reg": 444, "front": 426, "ladies": 342},
+      {"hole": 17, "par": 3, "hdcp": 17, "back": 175, "reg": 153, "front": 139, "ladies": 122},
+      {"hole": 18, "par": 4, "hdcp": 3, "back": 392, "reg": 372, "front": 360, "ladies": 268},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "royal_takamatsu_cc",
+  reading: "ロイヤルタカマツカントリークラブ",
+  name: "ロイヤル高松カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}, {"id": "b", "label": "高麗"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}, {"id": "front", "label": "フロント"}, {"id": "pink", "label": "PINK"}],
+  subCourses: [
+    { name: "ロイヤル高松カントリークラブ", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "back_a": 422, "back_b": 420, "regular_a": 390, "regular_b": 388, "front_a": 370, "front_b": 368, "ladies_a": 347, "ladies_b": 345, "pink_a": 289, "pink_b": 287},
+      {"hole": 2, "par": 5, "hdcp": 9, "back_a": 523, "back_b": 507, "regular_a": 496, "regular_b": 481, "front_a": 461, "front_b": 446, "ladies_a": 413, "ladies_b": 395, "pink_a": 413, "pink_b": 395},
+      {"hole": 3, "par": 3, "hdcp": 15, "back_a": 193, "back_b": 182, "regular_a": 171, "regular_b": 160, "front_a": 131, "front_b": 120, "ladies_a": 131, "ladies_b": 120, "pink_a": 131, "pink_b": 120},
+      {"hole": 4, "par": 4, "hdcp": 7, "back_a": 396, "back_b": 371, "regular_a": 379, "regular_b": 355, "front_a": 336, "front_b": 312, "ladies_a": 279, "ladies_b": 255, "pink_a": 255, "pink_b": 231},
+      {"hole": 5, "par": 4, "hdcp": 13, "back_a": 310, "back_b": 301, "regular_a": 281, "regular_b": 274, "front_a": 281, "front_b": 274, "ladies_a": 252, "ladies_b": 243, "pink_a": 252, "pink_b": 243},
+      {"hole": 6, "par": 3, "hdcp": 1, "back_a": 209, "back_b": 149, "regular_a": 184, "regular_b": 124, "front_a": 161, "front_b": 101, "ladies_a": 112, "ladies_b": 101, "pink_a": 112, "pink_b": 101},
+      {"hole": 7, "par": 5, "hdcp": 5, "back_a": 563, "back_b": 544, "regular_a": 547, "regular_b": 527, "front_a": 422, "front_b": 402, "ladies_a": 422, "ladies_b": 402, "pink_a": 374, "pink_b": 354},
+      {"hole": 8, "par": 4, "hdcp": 17, "back_a": 337, "back_b": 316, "regular_a": 317, "regular_b": 296, "front_a": 317, "front_b": 296, "ladies_a": 268, "ladies_b": 248, "pink_a": 268, "pink_b": 248},
+      {"hole": 9, "par": 4, "hdcp": 11, "back_a": 382, "back_b": 368, "regular_a": 367, "regular_b": 353, "front_a": 347, "front_b": 333, "ladies_a": 296, "ladies_b": 282, "pink_a": 296, "pink_b": 282},
+      {"hole": 10, "par": 4, "hdcp": 16, "back_a": 377, "back_b": 355, "regular_a": 365, "regular_b": 343, "front_a": 335, "front_b": 314, "ladies_a": 335, "ladies_b": 314, "pink_a": 286, "pink_b": 264},
+      {"hole": 11, "par": 4, "hdcp": 4, "back_a": 455, "back_b": 411, "regular_a": 442, "regular_b": 398, "front_a": 376, "front_b": 332, "ladies_a": 333, "ladies_b": 289, "pink_a": 269, "pink_b": 225},
+      {"hole": 12, "par": 5, "hdcp": 10, "back_a": 547, "back_b": 542, "regular_a": 528, "regular_b": 522, "front_a": 459, "front_b": 454, "ladies_a": 459, "ladies_b": 454, "pink_a": 361, "pink_b": 355},
+      {"hole": 13, "par": 4, "hdcp": 14, "back_a": 317, "back_b": 315, "regular_a": 301, "regular_b": 297, "front_a": 301, "front_b": 297, "ladies_a": 240, "ladies_b": 236, "pink_a": 240, "pink_b": 236},
+      {"hole": 14, "par": 3, "hdcp": 8, "back_a": 154, "back_b": 138, "regular_a": 149, "regular_b": 133, "front_a": 112, "front_b": 95, "ladies_a": 105, "ladies_b": 89, "pink_a": 105, "pink_b": 89},
+      {"hole": 15, "par": 4, "hdcp": 2, "back_a": 390, "back_b": 370, "regular_a": 358, "regular_b": 337, "front_a": 281, "front_b": 260, "ladies_a": 281, "ladies_b": 260, "pink_a": 281, "pink_b": 260},
+      {"hole": 16, "par": 5, "hdcp": 12, "back_a": 549, "back_b": 544, "regular_a": 529, "regular_b": 522, "front_a": 438, "front_b": 431, "ladies_a": 410, "ladies_b": 403, "pink_a": 377, "pink_b": 370},
+      {"hole": 17, "par": 3, "hdcp": 18, "back_a": 146, "back_b": 125, "regular_a": 131, "regular_b": 110, "front_a": 131, "front_b": 110, "ladies_a": 131, "ladies_b": 110, "pink_a": 131, "pink_b": 110},
+      {"hole": 18, "par": 4, "hdcp": 6, "back_a": 420, "back_b": 403, "regular_a": 398, "regular_b": 381, "front_a": 332, "front_b": 315, "ladies_a": 304, "ladies_b": 287, "pink_a": 255, "pink_b": 238},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t+"_"+g]??null
+});
+
+VENUES.push({
+  id: "saijo_gc",
+  reading: "サイジョウゴルフクラブ",
+  name: "西条ゴルフ倶楽部",
+  greens: [{"id": "main", "label": "コーライ"}],
+  tees: [{"id": "bt", "label": "BT"}, {"id": "rt", "label": "RT"}, {"id": "ft", "label": "FT"}, {"id": "lt", "label": "LT"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 15, "bt": 482, "rt": 451, "ft": 437, "lt": 421},
+      {"hole": 2, "par": 4, "hdcp": 3, "bt": 360, "rt": 345, "ft": 324, "lt": 282},
+      {"hole": 3, "par": 3, "hdcp": 17, "bt": 124, "rt": 113, "ft": 108, "lt": 105},
+      {"hole": 4, "par": 4, "hdcp": 1, "bt": 403, "rt": 369, "ft": 356, "lt": 336},
+      {"hole": 5, "par": 4, "hdcp": 13, "bt": 274, "rt": 268, "ft": 261, "lt": 253},
+      {"hole": 6, "par": 3, "hdcp": 7, "bt": 174, "rt": 170, "ft": 166, "lt": 161},
+      {"hole": 7, "par": 5, "hdcp": 11, "bt": 466, "rt": 449, "ft": 417, "lt": 403},
+      {"hole": 8, "par": 4, "hdcp": 5, "bt": 367, "rt": 356, "ft": 338, "lt": 320},
+      {"hole": 9, "par": 4, "hdcp": 9, "bt": 390, "rt": 366, "ft": 356, "lt": 332},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 16, "bt": 473, "rt": 437, "ft": 428, "lt": 389},
+      {"hole": 11, "par": 4, "hdcp": 4, "bt": 344, "rt": 334, "ft": 317, "lt": 266},
+      {"hole": 12, "par": 3, "hdcp": 18, "bt": 117, "rt": 111, "ft": 108, "lt": 105},
+      {"hole": 13, "par": 4, "hdcp": 2, "bt": 375, "rt": 369, "ft": 349, "lt": 273},
+      {"hole": 14, "par": 4, "hdcp": 14, "bt": 267, "rt": 263, "ft": 257, "lt": 251},
+      {"hole": 15, "par": 3, "hdcp": 8, "bt": 179, "rt": 173, "ft": 169, "lt": 163},
+      {"hole": 16, "par": 5, "hdcp": 12, "bt": 436, "rt": 431, "ft": 408, "lt": 398},
+      {"hole": 17, "par": 4, "hdcp": 6, "bt": 357, "rt": 351, "ft": 327, "lt": 308},
+      {"hole": 18, "par": 4, "hdcp": 10, "bt": 380, "rt": 362, "ft": 336, "lt": 228},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "shido_cc",
+  reading: "シドカントリークラブ",
+  name: "志度カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "gold", "label": "GOLD"}, {"id": "ladies", "label": "レディース"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "東コース", holes: [
+      {"hole": 1, "par": 3, "hdcp": 5, "back": 188, "regular": 172, "front": 152, "gold": 130, "ladies": 130},
+      {"hole": 2, "par": 4, "hdcp": 7, "back": 312, "regular": 301, "front": 301, "gold": 260, "ladies": 260},
+      {"hole": 3, "par": 4, "hdcp": 2, "back": 394, "regular": 374, "front": 355, "gold": 332, "ladies": 332},
+      {"hole": 4, "par": 4, "hdcp": 8, "back": 322, "regular": 304, "front": 304, "gold": 290, "ladies": 290},
+      {"hole": 5, "par": 3, "hdcp": 9, "back": 172, "regular": 166, "front": 149, "gold": 149, "ladies": 149},
+      {"hole": 6, "par": 4, "hdcp": 1, "back": 375, "regular": 355, "front": 335, "gold": 267, "ladies": 267},
+      {"hole": 7, "par": 5, "hdcp": 6, "back": 548, "regular": 534, "front": 534, "gold": 509, "ladies": 509},
+      {"hole": 8, "par": 4, "hdcp": 4, "back": 340, "regular": 303, "front": 303, "gold": 283, "ladies": 283},
+      {"hole": 9, "par": 5, "hdcp": 3, "back": 493, "regular": 478, "front": 449, "gold": 432, "ladies": 432},
+    ]},
+    { name: "中コース", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "back": 559, "regular": 545, "front": 508, "gold": 477, "ladies": 477},
+      {"hole": 2, "par": 3, "hdcp": 5, "back": 196, "regular": 180, "front": 168, "gold": 150, "ladies": 150},
+      {"hole": 3, "par": 4, "hdcp": 2, "back": 389, "regular": 359, "front": 341, "gold": 253, "ladies": 253},
+      {"hole": 4, "par": 3, "hdcp": 8, "back": 168, "regular": 156, "front": 148, "gold": 148, "ladies": 148},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 363, "regular": 348, "front": 337, "gold": 327, "ladies": 327},
+      {"hole": 6, "par": 4, "hdcp": 4, "back": 334, "regular": 315, "front": 297, "gold": 221, "ladies": 221},
+      {"hole": 7, "par": 3, "hdcp": 9, "back": 145, "regular": 130, "front": 130, "gold": 119, "ladies": 119},
+      {"hole": 8, "par": 5, "hdcp": 6, "back": 480, "regular": 468, "front": 468, "gold": 454, "ladies": 454},
+      {"hole": 9, "par": 5, "hdcp": 1, "back": 560, "regular": 545, "front": 528, "gold": 448, "ladies": 448},
+    ]},
+    { name: "西コース", holes: [
+      {"hole": 1, "par": 4, "hdcp": 8, "back": 389, "regular": 374, "front": 352, "gold": 352, "ladies": 352},
+      {"hole": 2, "par": 5, "hdcp": 4, "back": 497, "regular": 468, "front": 468, "gold": 428, "ladies": 428},
+      {"hole": 3, "par": 3, "hdcp": 3, "back": 250, "regular": 186, "front": 176, "gold": 135, "ladies": 135},
+      {"hole": 4, "par": 4, "hdcp": 5, "back": 375, "regular": 355, "front": 355, "gold": 316, "ladies": 316},
+      {"hole": 5, "par": 4, "hdcp": 2, "back": 377, "regular": 354, "front": 354, "gold": 241, "ladies": 241},
+      {"hole": 6, "par": 4, "hdcp": 7, "back": 328, "regular": 317, "front": 306, "gold": 276, "ladies": 276},
+      {"hole": 7, "par": 3, "hdcp": 9, "back": 125, "regular": 114, "front": 114, "gold": 114, "ladies": 114},
+      {"hole": 8, "par": 4, "hdcp": 1, "back": 421, "regular": 402, "front": 384, "gold": 328, "ladies": 328},
+      {"hole": 9, "par": 5, "hdcp": 6, "back": 486, "regular": 475, "front": 457, "gold": 388, "ladies": 388},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "shikoku_cc_anabuki",
+  reading: "シコクカントリークラブアナブキコース",
+  name: "四国カントリークラブ 穴吹コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BT"}, {"id": "reg", "label": "RT"}, {"id": "front", "label": "FT"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 11, "back": 536, "reg": 526, "front": 526},
+      {"hole": 2, "par": 4, "hdcp": 3, "back": 404, "reg": 380, "front": 380},
+      {"hole": 3, "par": 3, "hdcp": 13, "back": 174, "reg": 158, "front": 158},
+      {"hole": 4, "par": 4, "hdcp": 15, "back": 383, "reg": 373, "front": 373},
+      {"hole": 5, "par": 5, "hdcp": 9, "back": 487, "reg": 472, "front": 472},
+      {"hole": 6, "par": 4, "hdcp": 5, "back": 440, "reg": 414, "front": 414},
+      {"hole": 7, "par": 3, "hdcp": 7, "back": 191, "reg": 168, "front": 168},
+      {"hole": 8, "par": 4, "hdcp": 1, "back": 454, "reg": 433, "front": 433},
+      {"hole": 9, "par": 4, "hdcp": 17, "back": 321, "reg": 307, "front": 307},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 18, "back": 344, "reg": 322, "front": 322},
+      {"hole": 11, "par": 4, "hdcp": 10, "back": 405, "reg": 383, "front": 383},
+      {"hole": 12, "par": 5, "hdcp": 4, "back": 527, "reg": 519, "front": 519},
+      {"hole": 13, "par": 3, "hdcp": 16, "back": 168, "reg": 156, "front": 142},
+      {"hole": 14, "par": 4, "hdcp": 2, "back": 371, "reg": 359, "front": 369},
+      {"hole": 15, "par": 5, "hdcp": 8, "back": 534, "reg": 526, "front": 494},
+      {"hole": 16, "par": 3, "hdcp": 12, "back": 237, "reg": 153, "front": 134},
+      {"hole": 17, "par": 4, "hdcp": 14, "back": 349, "reg": 311, "front": 311},
+      {"hole": 18, "par": 4, "hdcp": 6, "back": 413, "reg": 395, "front": 395},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "shimanto_cc",
+  reading: "シマントカントリークラブ",
+  name: "四万十カントリークラブ",
+  greens: [{"id": "a", "label": "高麗"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}, {"id": "senior", "label": "SENIOR"}, {"id": "gold", "label": "GOLD"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "back": 470, "reg": 442, "senior": 414, "gold": 377, "ladies": 334},
+      {"hole": 2, "par": 4, "hdcp": 9, "back": 375, "reg": 340, "senior": 340, "gold": 276, "ladies": 224},
+      {"hole": 3, "par": 3, "hdcp": 17, "back": 122, "reg": 111, "senior": 111, "gold": 100, "ladies": 96},
+      {"hole": 4, "par": 4, "hdcp": 15, "back": 266, "reg": 260, "senior": 260, "gold": 252, "ladies": 252},
+      {"hole": 5, "par": 4, "hdcp": 11, "back": 332, "reg": 311, "senior": 289, "gold": 221, "ladies": 221},
+      {"hole": 6, "par": 4, "hdcp": 1, "back": 395, "reg": 377, "senior": 307, "gold": 286, "ladies": 215},
+      {"hole": 7, "par": 5, "hdcp": 7, "back": 470, "reg": 441, "senior": 441, "gold": 405, "ladies": 362},
+      {"hole": 8, "par": 3, "hdcp": 13, "back": 162, "reg": 149, "senior": 128, "gold": 111, "ladies": 111},
+      {"hole": 9, "par": 4, "hdcp": 5, "back": 388, "reg": 365, "senior": 338, "gold": 300, "ladies": 257},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 397, "reg": 379, "senior": 347, "gold": 306, "ladies": 288},
+      {"hole": 11, "par": 5, "hdcp": null, "back": 460, "reg": 443, "senior": 430, "gold": 359, "ladies": 307},
+      {"hole": 12, "par": 4, "hdcp": null, "back": 428, "reg": 396, "senior": 368, "gold": 333, "ladies": 294},
+      {"hole": 13, "par": 3, "hdcp": null, "back": 192, "reg": 154, "senior": 154, "gold": 142, "ladies": 142},
+      {"hole": 14, "par": 5, "hdcp": null, "back": 513, "reg": 485, "senior": 457, "gold": 420, "ladies": 307},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 336, "reg": 309, "senior": 309, "gold": 309, "ladies": 282},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 355, "reg": 337, "senior": 337, "gold": 298, "ladies": 244},
+      {"hole": 17, "par": 3, "hdcp": null, "back": 188, "reg": 165, "senior": 146, "gold": 126, "ladies": 126},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 404, "reg": 383, "senior": 358, "gold": 249, "ladies": 218},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "shodoshima_seaside_gc",
+  reading: "ショウドシマシーサイドゴルフクラブ",
+  name: "小豆島シーサイドゴルフクラブ",
+  greens: [{"id": "a", "label": "高麗"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "小豆島シーサイドゴルフクラブ", holes: [
+      {"hole": 1, "par": 4, "hdcp": 13, "back": 356, "regular": 340, "ladies": 300},
+      {"hole": 2, "par": 4, "hdcp": 9, "back": 326, "regular": 315, "ladies": 275},
+      {"hole": 3, "par": 3, "hdcp": 11, "back": 118, "regular": 103, "ladies": 100},
+      {"hole": 4, "par": 5, "hdcp": 7, "back": 493, "regular": 483, "ladies": 416},
+      {"hole": 5, "par": 4, "hdcp": 5, "back": 392, "regular": 382, "ladies": 287},
+      {"hole": 6, "par": 3, "hdcp": 17, "back": 179, "regular": 155, "ladies": 125},
+      {"hole": 7, "par": 4, "hdcp": 3, "back": 407, "regular": 392, "ladies": 267},
+      {"hole": 8, "par": 5, "hdcp": 1, "back": 610, "regular": 594, "ladies": 427},
+      {"hole": 9, "par": 4, "hdcp": 15, "back": 366, "regular": 356, "ladies": 304},
+      {"hole": 10, "par": 4, "hdcp": 16, "back": 320, "regular": 310, "ladies": 291},
+      {"hole": 11, "par": 4, "hdcp": 10, "back": 366, "regular": 356, "ladies": 298},
+      {"hole": 12, "par": 3, "hdcp": 18, "back": 105, "regular": 86, "ladies": 86},
+      {"hole": 13, "par": 4, "hdcp": 14, "back": 342, "regular": 326, "ladies": 272},
+      {"hole": 14, "par": 3, "hdcp": 8, "back": 224, "regular": 149, "ladies": 140},
+      {"hole": 15, "par": 5, "hdcp": 12, "back": 493, "regular": 483, "ladies": 426},
+      {"hole": 16, "par": 5, "hdcp": 2, "back": 617, "regular": 600, "ladies": 498},
+      {"hole": 17, "par": 4, "hdcp": 4, "back": 410, "regular": 384, "ladies": 351},
+      {"hole": 18, "par": 4, "hdcp": 6, "back": 396, "regular": 386, "ladies": 312},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "skybay_gc",
+  reading: "スカイベイゴルフクラブ",
+  name: "スカイベイゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 393, "reg": 359},
+      {"hole": 2, "par": 3, "hdcp": null, "back": 184, "reg": 162},
+      {"hole": 3, "par": 5, "hdcp": null, "back": 561, "reg": 534},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 343, "reg": 259},
+      {"hole": 5, "par": 3, "hdcp": null, "back": 162, "reg": 148},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 261, "reg": 259},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 418, "reg": 393},
+      {"hole": 8, "par": 5, "hdcp": null, "back": 411, "reg": 372},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 302, "reg": 293},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 393, "reg": 383},
+      {"hole": 11, "par": 4, "hdcp": null, "back": 351, "reg": 334},
+      {"hole": 12, "par": 3, "hdcp": null, "back": 144, "reg": 139},
+      {"hole": 13, "par": 5, "hdcp": null, "back": 487, "reg": 471},
+      {"hole": 14, "par": 4, "hdcp": null, "back": 386, "reg": 318},
+      {"hole": 15, "par": 3, "hdcp": null, "back": 177, "reg": 163},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 246, "reg": 232},
+      {"hole": 17, "par": 5, "hdcp": null, "back": 479, "reg": 454},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 321, "reg": 289},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "sunrise_hills_cc",
+  reading: "サンライズヒルズカントリークラブ",
+  name: "サンライズヒルズカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "ladies", "label": "レディース"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "東コース", holes: [
+      {"hole": 1, "par": 5, "hdcp": 2, "back": 538, "front": 498, "ladies": 382},
+      {"hole": 2, "par": 3, "hdcp": 5, "back": 186, "front": 152, "ladies": 112},
+      {"hole": 3, "par": 4, "hdcp": 1, "back": 405, "front": 362, "ladies": 244},
+      {"hole": 4, "par": 5, "hdcp": 7, "back": 492, "front": 460, "ladies": 379},
+      {"hole": 5, "par": 4, "hdcp": 3, "back": 380, "front": 336, "ladies": 287},
+      {"hole": 6, "par": 4, "hdcp": 6, "back": 380, "front": 345, "ladies": 302},
+      {"hole": 7, "par": 3, "hdcp": 4, "back": 202, "front": 156, "ladies": 100},
+      {"hole": 8, "par": 4, "hdcp": 9, "back": 381, "front": 346, "ladies": 240},
+      {"hole": 9, "par": 4, "hdcp": 8, "back": 365, "front": 337, "ladies": 288},
+    ]},
+    { name: "中コース", holes: [
+      {"hole": 1, "par": 4, "hdcp": 2, "back": 420, "front": 371, "ladies": 326},
+      {"hole": 2, "par": 3, "hdcp": 9, "back": 118, "front": 104, "ladies": 94},
+      {"hole": 3, "par": 4, "hdcp": 8, "back": 345, "front": 310, "ladies": 292},
+      {"hole": 4, "par": 4, "hdcp": 4, "back": 400, "front": 350, "ladies": 315},
+      {"hole": 5, "par": 5, "hdcp": 5, "back": 570, "front": 494, "ladies": 420},
+      {"hole": 6, "par": 4, "hdcp": 3, "back": 395, "front": 339, "ladies": 263},
+      {"hole": 7, "par": 4, "hdcp": 1, "back": 412, "front": 379, "ladies": 285},
+      {"hole": 8, "par": 3, "hdcp": 6, "back": 185, "front": 152, "ladies": 122},
+      {"hole": 9, "par": 5, "hdcp": 7, "back": 560, "front": 525, "ladies": 398},
+    ]},
+    { name: "西コース", holes: [
+      {"hole": 1, "par": 4, "hdcp": 1, "back": 450, "front": 384, "ladies": 285},
+      {"hole": 2, "par": 3, "hdcp": 5, "back": 196, "front": 152, "ladies": 130},
+      {"hole": 3, "par": 5, "hdcp": 4, "back": 558, "front": 510, "ladies": 419},
+      {"hole": 4, "par": 4, "hdcp": 6, "back": 373, "front": 322, "ladies": 296},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 368, "front": 295, "ladies": 276},
+      {"hole": 6, "par": 3, "hdcp": 9, "back": 177, "front": 149, "ladies": 116},
+      {"hole": 7, "par": 4, "hdcp": 2, "back": 403, "front": 361, "ladies": 258},
+      {"hole": 8, "par": 4, "hdcp": 3, "back": 373, "front": 320, "ladies": 296},
+      {"hole": 9, "par": 5, "hdcp": 8, "back": 514, "front": 481, "ladies": 387},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "sunset_hills_cc",
+  reading: "サンセットヒルズカントリークラブ",
+  name: "サンセットヒルズカントリークラブ",
+  greens: [{"id": "a", "label": "Aグリーン"}, {"id": "b", "label": "Bグリーン"}],
+  tees: [{"id": "bt", "label": "BT"}, {"id": "rt", "label": "RT"}, {"id": "ft", "label": "FT"}, {"id": "lt", "label": "LT"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 9, "bt_a": 421, "rt_a": 399, "ft_a": 377, "lt_a": 344, "bt_b": 416, "rt_b": 394, "ft_b": 372, "lt_b": 339},
+      {"hole": 2, "par": 4, "hdcp": 15, "bt_a": 372, "rt_a": 350, "ft_a": 328, "lt_a": 295, "bt_b": 388, "rt_b": 366, "ft_b": 344, "lt_b": 312},
+      {"hole": 3, "par": 5, "hdcp": 3, "bt_a": 530, "rt_a": 509, "ft_a": 487, "lt_a": 454, "bt_b": 525, "rt_b": 503, "ft_b": 481, "lt_b": 448},
+      {"hole": 4, "par": 3, "hdcp": 7, "bt_a": 191, "rt_a": 175, "ft_a": 158, "lt_a": 142, "bt_b": 142, "rt_b": 126, "ft_b": 109, "lt_b": 93},
+      {"hole": 5, "par": 4, "hdcp": 1, "bt_a": 410, "rt_a": 399, "ft_a": 350, "lt_a": 341, "bt_b": 427, "rt_b": 416, "ft_b": 367, "lt_b": 358},
+      {"hole": 6, "par": 3, "hdcp": 17, "bt_a": 202, "rt_a": 180, "ft_a": 159, "lt_a": 131, "bt_b": 175, "rt_b": 153, "ft_b": 131, "lt_b": 109},
+      {"hole": 7, "par": 5, "hdcp": 5, "bt_a": 536, "rt_a": 517, "ft_a": 498, "lt_a": 457, "bt_b": 525, "rt_b": 506, "ft_b": 487, "lt_b": 448},
+      {"hole": 8, "par": 4, "hdcp": 13, "bt_a": 405, "rt_a": 385, "ft_a": 361, "lt_a": 323, "bt_b": 394, "rt_b": 374, "ft_b": 350, "lt_b": 312},
+      {"hole": 9, "par": 4, "hdcp": 11, "bt_a": 416, "rt_a": 394, "ft_a": 372, "lt_a": 339, "bt_b": 421, "rt_b": 399, "ft_b": 377, "lt_b": 344},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 10, "bt_a": 377, "rt_a": 355, "ft_a": 334, "lt_a": 301, "bt_b": 377, "rt_b": 355, "ft_b": 334, "lt_b": 301},
+      {"hole": 11, "par": 5, "hdcp": 4, "bt_a": 519, "rt_a": 498, "ft_a": 481, "lt_a": 470, "bt_b": 519, "rt_b": 498, "ft_b": 481, "lt_b": 470},
+      {"hole": 12, "par": 3, "hdcp": 16, "bt_a": 186, "rt_a": 170, "ft_a": 148, "lt_a": 131, "bt_b": 186, "rt_b": 170, "ft_b": 148, "lt_b": 131},
+      {"hole": 13, "par": 4, "hdcp": 8, "bt_a": 398, "rt_a": 361, "ft_a": 340, "lt_a": 323, "bt_b": 398, "rt_b": 361, "ft_b": 340, "lt_b": 323},
+      {"hole": 14, "par": 5, "hdcp": 2, "bt_a": 580, "rt_a": 558, "ft_a": 536, "lt_a": 503, "bt_b": 580, "rt_b": 558, "ft_b": 536, "lt_b": 503},
+      {"hole": 15, "par": 4, "hdcp": 14, "bt_a": 383, "rt_a": 361, "ft_a": 339, "lt_a": 306, "bt_b": 383, "rt_b": 361, "ft_b": 339, "lt_b": 306},
+      {"hole": 16, "par": 4, "hdcp": 12, "bt_a": 437, "rt_a": 416, "ft_a": 394, "lt_a": 361, "bt_b": 437, "rt_b": 416, "ft_b": 394, "lt_b": 361},
+      {"hole": 17, "par": 3, "hdcp": 18, "bt_a": 208, "rt_a": 186, "ft_a": 164, "lt_a": 131, "bt_b": 208, "rt_b": 186, "ft_b": 164, "lt_b": 131},
+      {"hole": 18, "par": 4, "hdcp": 6, "bt_a": 361, "rt_a": 328, "ft_a": 300, "lt_a": 278, "bt_b": 361, "rt_b": 328, "ft_b": 300, "lt_b": 278},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t+"_"+g]??null
+});
+
+VENUES.push({
+  id: "takamatsu_cc",
+  reading: "タカマツカントリークラブ",
+  name: "高松カントリー倶楽部",
+  greens: [{"id": "a", "label": "高麗"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}],
+  subCourses: [
+    { name: "高松カントリー倶楽部", holes: [
+      {"hole": 1, "par": 3, "hdcp": 11, "back": 174, "regular": 150},
+      {"hole": 2, "par": 5, "hdcp": 1, "back": 401, "regular": 401},
+      {"hole": 3, "par": 4, "hdcp": 17, "back": 341, "regular": 335},
+      {"hole": 4, "par": 4, "hdcp": 9, "back": 299, "regular": 270},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 357, "regular": 335},
+      {"hole": 6, "par": 5, "hdcp": 5, "back": 530, "regular": 483},
+      {"hole": 7, "par": 4, "hdcp": 3, "back": 407, "regular": 350},
+      {"hole": 8, "par": 3, "hdcp": 13, "back": 226, "regular": 185},
+      {"hole": 9, "par": 4, "hdcp": 15, "back": 355, "regular": 345},
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 465, "regular": 410},
+      {"hole": 11, "par": 4, "hdcp": 8, "back": 380, "regular": 360},
+      {"hole": 12, "par": 5, "hdcp": 6, "back": 519, "regular": 498},
+      {"hole": 13, "par": 5, "hdcp": 2, "back": 455, "regular": 440},
+      {"hole": 14, "par": 3, "hdcp": 12, "back": 211, "regular": 178},
+      {"hole": 15, "par": 4, "hdcp": 18, "back": 327, "regular": 315},
+      {"hole": 16, "par": 4, "hdcp": 14, "back": 357, "regular": 322},
+      {"hole": 17, "par": 3, "hdcp": 16, "back": 171, "regular": 156},
+      {"hole": 18, "par": 4, "hdcp": 10, "back": 345, "regular": 318},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "takamatsu_gold_cc",
+  reading: "タカマツゴールドカントリークラブ",
+  name: "高松ゴールドカントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "black", "label": "BLACK"}, {"id": "blue", "label": "BLUE"}, {"id": "white", "label": "WHITE"}, {"id": "gold", "label": "GOLD"}, {"id": "red", "label": "RED"}, {"id": "pink", "label": "PINK"}],
+  subCourses: [
+    { name: "高松ゴールドカントリー倶楽部", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "black": 424, "blue": 407, "white": 385, "gold": 365, "red": 327, "pink": 272},
+      {"hole": 2, "par": 5, "hdcp": 9, "black": 532, "blue": 502, "white": 471, "gold": 444, "red": 389, "pink": 298},
+      {"hole": 3, "par": 3, "hdcp": 15, "black": 198, "blue": 177, "white": 164, "gold": 144, "red": 121, "pink": 121},
+      {"hole": 4, "par": 4, "hdcp": 5, "black": 378, "blue": 362, "white": 345, "gold": 325, "red": 313, "pink": 243},
+      {"hole": 5, "par": 4, "hdcp": 11, "black": 353, "blue": 353, "white": 338, "gold": 319, "red": 273, "pink": 273},
+      {"hole": 6, "par": 4, "hdcp": 17, "black": 360, "blue": 346, "white": 319, "gold": 303, "red": 285, "pink": 285},
+      {"hole": 7, "par": 3, "hdcp": 13, "black": 155, "blue": 149, "white": 144, "gold": 135, "red": 127, "pink": 127},
+      {"hole": 8, "par": 4, "hdcp": 1, "black": 478, "blue": 260, "white": 260, "gold": 216, "red": 216, "pink": 216},
+      {"hole": 9, "par": 5, "hdcp": 7, "black": 531, "blue": 498, "white": 468, "gold": 449, "red": 422, "pink": 323},
+      {"hole": 10, "par": 4, "hdcp": 18, "black": 342, "blue": 328, "white": 301, "gold": 281, "red": 281, "pink": 246},
+      {"hole": 11, "par": 5, "hdcp": 6, "black": 515, "blue": 502, "white": 489, "gold": 463, "red": 379, "pink": 291},
+      {"hole": 12, "par": 4, "hdcp": 12, "black": 380, "blue": 369, "white": 344, "gold": 318, "red": 263, "pink": 263},
+      {"hole": 13, "par": 4, "hdcp": 8, "black": 362, "blue": 350, "white": 328, "gold": 316, "red": 244, "pink": 244},
+      {"hole": 14, "par": 3, "hdcp": 16, "black": 170, "blue": 138, "white": 127, "gold": 115, "red": 103, "pink": 103},
+      {"hole": 15, "par": 4, "hdcp": 2, "black": 426, "blue": 407, "white": 382, "gold": 364, "red": 333, "pink": 272},
+      {"hole": 16, "par": 4, "hdcp": 4, "black": 411, "blue": 394, "white": 378, "gold": 325, "red": 305, "pink": 271},
+      {"hole": 17, "par": 3, "hdcp": 14, "black": 167, "blue": 145, "white": 125, "gold": 104, "red": 92, "pink": 92},
+      {"hole": 18, "par": 5, "hdcp": 10, "black": 502, "blue": 490, "white": 455, "gold": 434, "red": 419, "pink": 321},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "takamatsu_grand_cc",
+  reading: "タカマツグランドカントリークラブ",
+  name: "高松グランドカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}, {"id": "front", "label": "フロント"}],
+  subCourses: [
+    { name: "氷上コース", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "back": 390, "regular": 365, "front": 365, "ladies": 292},
+      {"hole": 2, "par": 4, "hdcp": 15, "back": 328, "regular": 307, "front": 307, "ladies": 264},
+      {"hole": 3, "par": 5, "hdcp": 9, "back": 542, "regular": 511, "front": 497, "ladies": 401},
+      {"hole": 4, "par": 3, "hdcp": 13, "back": 155, "regular": 149, "front": 138, "ladies": 101},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 309, "regular": 262, "front": 262, "ladies": 224},
+      {"hole": 6, "par": 4, "hdcp": 1, "back": 418, "regular": 394, "front": 377, "ladies": 262},
+      {"hole": 7, "par": 3, "hdcp": 17, "back": 182, "regular": 168, "front": 168, "ladies": 124},
+      {"hole": 8, "par": 5, "hdcp": 11, "back": 502, "regular": 480, "front": 480, "ladies": 423},
+      {"hole": 9, "par": 4, "hdcp": 5, "back": 376, "regular": 351, "front": 329, "ladies": 270},
+      {"hole": 10, "par": 5, "hdcp": 4, "back": 531, "regular": 515, "front": 515, "ladies": 446},
+      {"hole": 11, "par": 4, "hdcp": 18, "back": 364, "regular": 344, "front": 325, "ladies": 265},
+      {"hole": 12, "par": 3, "hdcp": 14, "back": 178, "regular": 161, "front": 161, "ladies": 120},
+      {"hole": 13, "par": 5, "hdcp": 8, "back": 511, "regular": 497, "front": 478, "ladies": 415},
+      {"hole": 14, "par": 3, "hdcp": 12, "back": 164, "regular": 147, "front": 130, "ladies": 109},
+      {"hole": 15, "par": 4, "hdcp": 2, "back": 371, "regular": 354, "front": 341, "ladies": 290},
+      {"hole": 16, "par": 4, "hdcp": 10, "back": 387, "regular": 372, "front": 372, "ladies": 317},
+      {"hole": 17, "par": 3, "hdcp": 16, "back": 161, "regular": 146, "front": 146, "ladies": 116},
+      {"hole": 18, "par": 5, "hdcp": 6, "back": 472, "regular": 451, "front": 451, "ladies": 358},
+    ]},
+    { name: "鹿庭コース", holes: [
+      {"hole": 1, "par": 5, "hdcp": 9, "back": 514, "regular": 499, "front": 469, "ladies": 413},
+      {"hole": 2, "par": 3, "hdcp": 15, "back": 185, "regular": 170, "front": 145, "ladies": 135},
+      {"hole": 3, "par": 4, "hdcp": 5, "back": 423, "regular": 409, "front": 389, "ladies": 279},
+      {"hole": 4, "par": 4, "hdcp": 17, "back": 328, "regular": 306, "front": 297, "ladies": 297},
+      {"hole": 5, "par": 4, "hdcp": 3, "back": 463, "regular": 398, "front": 398, "ladies": 268},
+      {"hole": 6, "par": 4, "hdcp": 1, "back": 462, "regular": 443, "front": 372, "ladies": 338},
+      {"hole": 7, "par": 3, "hdcp": 11, "back": 220, "regular": 196, "front": 165, "ladies": 144},
+      {"hole": 8, "par": 4, "hdcp": 13, "back": 396, "regular": 377, "front": 329, "ladies": 318},
+      {"hole": 9, "par": 5, "hdcp": 7, "back": 567, "regular": 540, "front": 509, "ladies": 444},
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 416, "regular": 399, "front": 382, "ladies": 351},
+      {"hole": 11, "par": 5, "hdcp": 6, "back": 521, "regular": 509, "front": 481, "ladies": 372},
+      {"hole": 12, "par": 3, "hdcp": 16, "back": 188, "regular": 168, "front": 148, "ladies": 148},
+      {"hole": 13, "par": 4, "hdcp": 14, "back": 353, "regular": 328, "front": 293, "ladies": 268},
+      {"hole": 14, "par": 4, "hdcp": 12, "back": 417, "regular": 399, "front": 379, "ladies": 349},
+      {"hole": 15, "par": 4, "hdcp": 2, "back": 376, "regular": 352, "front": 338, "ladies": 302},
+      {"hole": 16, "par": 5, "hdcp": 10, "back": 501, "regular": 477, "front": 454, "ladies": 417},
+      {"hole": 17, "par": 3, "hdcp": 18, "back": 158, "regular": 129, "front": 112, "ladies": 98},
+      {"hole": 18, "par": 4, "hdcp": 8, "back": 363, "regular": 350, "front": 337, "ladies": 280},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "takinomiya_cc",
+  reading: "タキノミヤカントリークラブ",
+  name: "滝の宮カントリークラブ",
+  greens: [{"id": "a", "label": "メイン"}],
+  tees: [{"id": "compe", "label": "コンペ"}, {"id": "blue", "label": "青"}, {"id": "white", "label": "白"}, {"id": "silver", "label": "銀"}, {"id": "gold", "label": "金"}, {"id": "red", "label": "赤"}, {"id": "pink", "label": "桃"}, {"id": "purple", "label": "紫"}],
+  subCourses: [
+    { name: "赤石", holes: [
+      {"hole": 1, "par": 4, "hdcp": 5, "compe": 406, "blue": 396, "white": 372, "silver": 351, "gold": 351, "red": 334, "pink": 334, "purple": 314},
+      {"hole": 2, "par": 3, "hdcp": 8, "compe": 152, "blue": 152, "white": 139, "silver": 130, "gold": 130, "red": 120, "pink": 104, "purple": 104},
+      {"hole": 3, "par": 4, "hdcp": 2, "compe": 390, "blue": 390, "white": 345, "silver": 332, "gold": 332, "red": 306, "pink": 306, "purple": 244},
+      {"hole": 4, "par": 4, "hdcp": 1, "compe": 386, "blue": 372, "white": 349, "silver": 349, "gold": 327, "red": 327, "pink": 217, "purple": 217},
+      {"hole": 5, "par": 4, "hdcp": 7, "compe": 365, "blue": 348, "white": 348, "silver": 330, "gold": 330, "red": 299, "pink": 299, "purple": 299},
+      {"hole": 6, "par": 5, "hdcp": 4, "compe": 474, "blue": 474, "white": 456, "silver": 441, "gold": 441, "red": 401, "pink": 401, "purple": 367},
+      {"hole": 7, "par": 4, "hdcp": 9, "compe": 409, "blue": 398, "white": 398, "silver": 371, "gold": 371, "red": 336, "pink": 336, "purple": 336},
+      {"hole": 8, "par": 3, "hdcp": 6, "compe": 202, "blue": 180, "white": 165, "silver": 164, "gold": 115, "red": 115, "pink": 115, "purple": 115},
+      {"hole": 9, "par": 5, "hdcp": 3, "compe": 566, "blue": 566, "white": 544, "silver": 504, "gold": 438, "red": 373, "pink": 373, "purple": 373},
+    ]},
+    { name: "別子", holes: [
+      {"hole": 1, "par": 4, "hdcp": 5, "compe": 424, "blue": 424, "white": 411, "silver": 388, "gold": 369, "red": 369, "pink": 310, "purple": 310},
+      {"hole": 2, "par": 3, "hdcp": 8, "compe": 148, "blue": 148, "white": 138, "silver": 138, "gold": 132, "red": 132, "pink": 132, "purple": 90},
+      {"hole": 3, "par": 5, "hdcp": 2, "compe": 524, "blue": 524, "white": 502, "silver": 485, "gold": 455, "red": 455, "pink": 418, "purple": 343},
+      {"hole": 4, "par": 4, "hdcp": 1, "compe": 410, "blue": 410, "white": 387, "silver": 365, "gold": 345, "red": 265, "pink": 265, "purple": 265},
+      {"hole": 5, "par": 4, "hdcp": 7, "compe": 377, "blue": 377, "white": 361, "silver": 344, "gold": 344, "red": 289, "pink": 289, "purple": 289},
+      {"hole": 6, "par": 3, "hdcp": 4, "compe": 211, "blue": 187, "white": 166, "silver": 148, "gold": 148, "red": 97, "pink": 80, "purple": 80},
+      {"hole": 7, "par": 4, "hdcp": 9, "compe": 319, "blue": 319, "white": 304, "silver": 288, "gold": 288, "red": 267, "pink": 267, "purple": 267},
+      {"hole": 8, "par": 4, "hdcp": 3, "compe": 408, "blue": 388, "white": 370, "silver": 370, "gold": 329, "red": 297, "pink": 297, "purple": 267},
+      {"hole": 9, "par": 5, "hdcp": 6, "compe": 523, "blue": 503, "white": 487, "silver": 467, "gold": 467, "red": 445, "pink": 413, "purple": 413},
+    ]},
+    { name: "石鎚", holes: [
+      {"hole": 1, "par": 3, "hdcp": 2, "compe": 194, "blue": 180, "white": 158, "silver": 147, "gold": 130, "red": 130, "pink": 130, "purple": 130},
+      {"hole": 2, "par": 5, "hdcp": 8, "compe": 520, "blue": 520, "white": 506, "silver": 450, "gold": 450, "red": 365, "pink": 365, "purple": 365},
+      {"hole": 3, "par": 4, "hdcp": 5, "compe": 407, "blue": 394, "white": 394, "silver": 379, "gold": 379, "red": 294, "pink": 294, "purple": 294},
+      {"hole": 4, "par": 4, "hdcp": 7, "compe": 325, "blue": 325, "white": 298, "silver": 287, "gold": 262, "red": 262, "pink": 151, "purple": 151},
+      {"hole": 5, "par": 4, "hdcp": 4, "compe": 391, "blue": 391, "white": 364, "silver": 364, "gold": 319, "red": 319, "pink": 319, "purple": 319},
+      {"hole": 6, "par": 4, "hdcp": 1, "compe": 412, "blue": 382, "white": 362, "silver": 342, "gold": 342, "red": 342, "pink": 288, "purple": 288},
+      {"hole": 7, "par": 5, "hdcp": 3, "compe": 530, "blue": 518, "white": 502, "silver": 490, "gold": 490, "red": 429, "pink": 429, "purple": 343},
+      {"hole": 8, "par": 4, "hdcp": 6, "compe": 440, "blue": 420, "white": 396, "silver": 396, "gold": 357, "red": 357, "pink": 357, "purple": 323},
+      {"hole": 9, "par": 3, "hdcp": 9, "compe": 190, "blue": 172, "white": 158, "silver": 136, "gold": 136, "red": 116, "pink": 116, "purple": 116},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "tokushima_cc_tsukinomiya",
+  reading: "トクシマカントリークラブツキノミヤコース",
+  name: "徳島カントリー倶楽部 月の宮コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "Back"}, {"id": "front", "label": "Front"}, {"id": "ladies", "label": "Lady's"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 13, "back": 538, "front": 528, "ladies": 448},
+      {"hole": 2, "par": 4, "hdcp": 1, "back": 428, "front": 408, "ladies": 338},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 198, "front": 183, "ladies": 158},
+      {"hole": 4, "par": 4, "hdcp": 15, "back": 347, "front": 337, "ladies": 327},
+      {"hole": 5, "par": 5, "hdcp": 7, "back": 531, "front": 511, "ladies": 411},
+      {"hole": 6, "par": 4, "hdcp": 11, "back": 396, "front": 376, "ladies": 315},
+      {"hole": 7, "par": 4, "hdcp": 17, "back": 395, "front": 381, "ladies": 325},
+      {"hole": 8, "par": 3, "hdcp": 3, "back": 175, "front": 157, "ladies": 129},
+      {"hole": 9, "par": 4, "hdcp": 5, "back": 398, "front": 378, "ladies": 328},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 2, "back": 418, "front": 408, "ladies": 377},
+      {"hole": 11, "par": 4, "hdcp": 10, "back": 385, "front": 375, "ladies": 324},
+      {"hole": 12, "par": 3, "hdcp": 16, "back": 190, "front": 183, "ladies": 136},
+      {"hole": 13, "par": 4, "hdcp": 12, "back": 380, "front": 362, "ladies": 290},
+      {"hole": 14, "par": 5, "hdcp": 14, "back": 545, "front": 531, "ladies": 451},
+      {"hole": 15, "par": 3, "hdcp": 6, "back": 214, "front": 197, "ladies": 147},
+      {"hole": 16, "par": 4, "hdcp": 18, "back": 293, "front": 288, "ladies": 278},
+      {"hole": 17, "par": 5, "hdcp": 4, "back": 595, "front": 576, "ladies": 508},
+      {"hole": 18, "par": 4, "hdcp": 8, "back": 374, "front": 354, "ladies": 310},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "tokushima_gc_yoshinogawa",
+  reading: "トクシマゴルフクラブヨシノガワコース",
+  name: "徳島ゴルフ倶楽部 吉野川コース",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "Back"}, {"id": "front", "label": "Front"}, {"id": "ladies", "label": "Ladies"}],
+  subCourses: [
+    { name: "吉野川", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 354, "front": 338, "ladies": 312},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 379, "front": 359, "ladies": 314},
+      {"hole": 3, "par": 5, "hdcp": null, "back": 453, "front": 413, "ladies": 365},
+      {"hole": 4, "par": 3, "hdcp": null, "back": 171, "front": 151, "ladies": 135},
+      {"hole": 5, "par": 5, "hdcp": null, "back": 557, "front": 532, "ladies": 480},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 424, "front": 398, "ladies": 346},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 324, "front": 316, "ladies": 273},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 152, "front": 136, "ladies": 124},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 402, "front": 381, "ladies": 322},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "tosa_cc",
+  reading: "トサカントリークラブ",
+  name: "土佐カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "桂浜", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 351, "reg": 334, "ladies": 280},
+      {"hole": 2, "par": 5, "hdcp": null, "back": 501, "reg": 489, "ladies": 403},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 341, "reg": 322, "ladies": 297},
+      {"hole": 4, "par": 3, "hdcp": null, "back": 162, "reg": 135, "ladies": 121},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 400, "reg": 375, "ladies": 295},
+      {"hole": 6, "par": 5, "hdcp": null, "back": 603, "reg": 545, "ladies": 434},
+      {"hole": 7, "par": 3, "hdcp": null, "back": 176, "reg": 160, "ladies": 106},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 434, "reg": 398, "ladies": 260},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 335, "reg": 317, "ladies": 294},
+    ]},
+    { name: "室戸", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 565, "reg": 544, "ladies": 498},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 296, "reg": 288, "ladies": 247},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 372, "reg": 356, "ladies": 267},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 403, "reg": 352, "ladies": 226},
+      {"hole": 5, "par": 3, "hdcp": null, "back": 182, "reg": 163, "ladies": 124},
+      {"hole": 6, "par": 5, "hdcp": null, "back": 509, "reg": 499, "ladies": 414},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 340, "reg": 315, "ladies": 288},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 218, "reg": 180, "ladies": 132},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 440, "reg": 370, "ladies": 302},
+    ]},
+    { name: "足摺OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 17, "back": 343, "reg": 330, "ladies": 286},
+      {"hole": 2, "par": 3, "hdcp": 11, "back": 192, "reg": 166, "ladies": 115},
+      {"hole": 3, "par": 5, "hdcp": 13, "back": 539, "reg": 471, "ladies": 391},
+      {"hole": 4, "par": 4, "hdcp": 5, "back": 435, "reg": 386, "ladies": 292},
+      {"hole": 5, "par": 3, "hdcp": 15, "back": 172, "reg": 154, "ladies": 123},
+      {"hole": 6, "par": 4, "hdcp": 3, "back": 438, "reg": 403, "ladies": 320},
+      {"hole": 7, "par": 4, "hdcp": 7, "back": 396, "reg": 342, "ladies": 285},
+      {"hole": 8, "par": 5, "hdcp": 9, "back": 512, "reg": 489, "ladies": 412},
+      {"hole": 9, "par": 4, "hdcp": 1, "back": 427, "reg": 360, "ladies": 316},
+    ]},
+    { name: "足摺IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 12, "back": 526, "reg": 499, "ladies": 403},
+      {"hole": 11, "par": 3, "hdcp": 18, "back": 172, "reg": 136, "ladies": 129},
+      {"hole": 12, "par": 4, "hdcp": 8, "back": 377, "reg": 359, "ladies": 314},
+      {"hole": 13, "par": 4, "hdcp": 14, "back": 381, "reg": 368, "ladies": 351},
+      {"hole": 14, "par": 3, "hdcp": 10, "back": 188, "reg": 160, "ladies": 150},
+      {"hole": 15, "par": 4, "hdcp": 6, "back": 412, "reg": 392, "ladies": 310},
+      {"hole": 16, "par": 5, "hdcp": 4, "back": 523, "reg": 463, "ladies": 382},
+      {"hole": 17, "par": 4, "hdcp": 2, "back": 414, "reg": 363, "ladies": 306},
+      {"hole": 18, "par": 4, "hdcp": 16, "back": 399, "reg": 383, "ladies": 318},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "tosa_utopia_cc",
+  reading: "トサユートピアカントリークラブ",
+  name: "土佐ユートピアカントリークラブ",
+  greens: [{"id": "a", "label": "メイン"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "front", "label": "FRONT"}, {"id": "senior", "label": "SENIOR"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 9, "back": 418, "front": 383, "senior": 325, "ladies": 325},
+      {"hole": 2, "par": 5, "hdcp": 3, "back": 544, "front": 515, "senior": 423, "ladies": 372},
+      {"hole": 3, "par": 3, "hdcp": 15, "back": 201, "front": 168, "senior": 152, "ladies": 152},
+      {"hole": 4, "par": 4, "hdcp": 1, "back": 374, "front": 336, "senior": 273, "ladies": 273},
+      {"hole": 5, "par": 5, "hdcp": 7, "back": 503, "front": 480, "senior": 389, "ladies": 389},
+      {"hole": 6, "par": 4, "hdcp": 13, "back": 346, "front": 310, "senior": 260, "ladies": 260},
+      {"hole": 7, "par": 4, "hdcp": 11, "back": 365, "front": 348, "senior": 219, "ladies": 219},
+      {"hole": 8, "par": 3, "hdcp": 17, "back": 167, "front": 148, "senior": 137, "ladies": 137},
+      {"hole": 9, "par": 4, "hdcp": 5, "back": 386, "front": 365, "senior": 236, "ladies": 236},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 10, "back": 525, "front": 499, "senior": 410, "ladies": 410},
+      {"hole": 11, "par": 4, "hdcp": 16, "back": 359, "front": 323, "senior": 308, "ladies": 186},
+      {"hole": 12, "par": 4, "hdcp": 4, "back": 407, "front": 366, "senior": 305, "ladies": 259},
+      {"hole": 13, "par": 3, "hdcp": 14, "back": 181, "front": 152, "senior": 136, "ladies": 131},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 283, "front": 265, "senior": 210, "ladies": 210},
+      {"hole": 15, "par": 4, "hdcp": 2, "back": 347, "front": 326, "senior": 228, "ladies": 228},
+      {"hole": 16, "par": 3, "hdcp": 18, "back": 166, "front": 153, "senior": 128, "ladies": 117},
+      {"hole": 17, "par": 4, "hdcp": 12, "back": 386, "front": 362, "senior": 297, "ladies": 236},
+      {"hole": 18, "par": 5, "hdcp": 6, "back": 548, "front": 539, "senior": 403, "ladies": 403},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+VENUES.push({
+  id: "yashima_cc_takamatsu",
+  reading: "ヤシマカントリークラブ",
+  name: "屋島カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "屋島カントリークラブ", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 350, "regular": 321, "ladies": 300},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 395, "regular": 341, "ladies": 311},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 178, "regular": 150, "ladies": 129},
+      {"hole": 4, "par": 5, "hdcp": null, "back": 478, "regular": 448, "ladies": 420},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 426, "regular": 334, "ladies": 300},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 292, "regular": 276, "ladies": 240},
+      {"hole": 7, "par": 3, "hdcp": null, "back": 213, "regular": 187, "ladies": 176},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 368, "regular": 348, "ladies": 310},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 507, "regular": 485, "ladies": 472},
+      {"hole": 10, "par": 4, "hdcp": null, "back": 373, "regular": 353, "ladies": 338},
+      {"hole": 11, "par": 4, "hdcp": null, "back": 465, "regular": 409, "ladies": 326},
+      {"hole": 12, "par": 3, "hdcp": null, "back": 168, "regular": 151, "ladies": 137},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 387, "regular": 352, "ladies": 317},
+      {"hole": 14, "par": 4, "hdcp": null, "back": 408, "regular": 364, "ladies": 334},
+      {"hole": 15, "par": 3, "hdcp": null, "back": 218, "regular": 184, "ladies": 166},
+      {"hole": 16, "par": 5, "hdcp": null, "back": 485, "regular": 463, "ladies": 441},
+      {"hole": 17, "par": 4, "hdcp": null, "back": 443, "regular": 392, "ladies": 365},
+      {"hole": 18, "par": 5, "hdcp": null, "back": 482, "regular": 432, "ladies": 406},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+
+// 芦原GC 36H(海/湖) 1G 4T CGA福井 あわら市浜坂66 出典GORA180001 2026-06-27
+VENUES.push({
+  id: "ashihara_gc",
+  reading: "アシハラゴルフクラブ",
+  name: "芦原ゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "gold", "label": "GOLD"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "海OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "back": 471, "reg": 437, "gold": 411, "ladies": 380},
+      {"hole": 2, "par": 4, "hdcp": 9, "back": 500, "reg": 443, "gold": 378, "ladies": 329},
+      {"hole": 3, "par": 3, "hdcp": 15, "back": 205, "reg": 177, "gold": 166, "ladies": 149},
+      {"hole": 4, "par": 4, "hdcp": 13, "back": 377, "reg": 359, "gold": 344, "ladies": 243},
+      {"hole": 5, "par": 5, "hdcp": 1, "back": 548, "reg": 510, "gold": 477, "ladies": 410},
+      {"hole": 6, "par": 4, "hdcp": 7, "back": 393, "reg": 353, "gold": 353, "ladies": 264},
+      {"hole": 7, "par": 3, "hdcp": 17, "back": 197, "reg": 188, "gold": 175, "ladies": 143},
+      {"hole": 8, "par": 4, "hdcp": 5, "back": 384, "reg": 374, "gold": 366, "ladies": 357},
+      {"hole": 9, "par": 4, "hdcp": 11, "back": 394, "reg": 366, "gold": 324, "ladies": 257},
+    ]},
+    { name: "海IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 374, "reg": 349, "gold": 333, "ladies": 319},
+      {"hole": 11, "par": 4, "hdcp": 10, "back": 318, "reg": 302, "gold": 287, "ladies": 287},
+      {"hole": 12, "par": 3, "hdcp": 16, "back": 145, "reg": 138, "gold": 124, "ladies": 124},
+      {"hole": 13, "par": 4, "hdcp": 14, "back": 343, "reg": 310, "gold": 310, "ladies": 310},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 429, "reg": 405, "gold": 405, "ladies": 362},
+      {"hole": 15, "par": 5, "hdcp": 2, "back": 495, "reg": 476, "gold": 455, "ladies": 380},
+      {"hole": 16, "par": 4, "hdcp": 12, "back": 394, "reg": 373, "gold": 347, "ladies": 256},
+      {"hole": 17, "par": 3, "hdcp": 18, "back": 187, "reg": 177, "gold": 160, "ladies": 141},
+      {"hole": 18, "par": 5, "hdcp": 6, "back": 559, "reg": 524, "gold": 524, "ladies": 435},
+    ]},
+    { name: "湖OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 9, "back": 329, "reg": 329, "gold": 329, "ladies": 329},
+      {"hole": 2, "par": 4, "hdcp": 17, "back": 324, "reg": 309, "gold": 292, "ladies": 292},
+      {"hole": 3, "par": 5, "hdcp": 3, "back": 573, "reg": 547, "gold": 488, "ladies": 428},
+      {"hole": 4, "par": 3, "hdcp": 15, "back": 200, "reg": 161, "gold": 137, "ladies": 137},
+      {"hole": 5, "par": 5, "hdcp": 1, "back": 527, "reg": 479, "gold": 427, "ladies": 427},
+      {"hole": 6, "par": 3, "hdcp": 11, "back": 198, "reg": 163, "gold": 149, "ladies": 134},
+      {"hole": 7, "par": 4, "hdcp": 5, "back": 385, "reg": 377, "gold": 320, "ladies": 320},
+      {"hole": 8, "par": 4, "hdcp": 13, "back": 390, "reg": 376, "gold": 364, "ladies": 312},
+      {"hole": 9, "par": 4, "hdcp": 7, "back": 373, "reg": 360, "gold": 290, "ladies": 290},
+    ]},
+    { name: "湖IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 14, "back": 533, "reg": 520, "gold": 407, "ladies": 407},
+      {"hole": 11, "par": 4, "hdcp": 16, "back": 381, "reg": 349, "gold": 315, "ladies": 315},
+      {"hole": 12, "par": 5, "hdcp": 2, "back": 536, "reg": 490, "gold": 403, "ladies": 403},
+      {"hole": 13, "par": 3, "hdcp": 12, "back": 197, "reg": 151, "gold": 117, "ladies": 117},
+      {"hole": 14, "par": 4, "hdcp": 8, "back": 444, "reg": 398, "gold": 353, "ladies": 324},
+      {"hole": 15, "par": 4, "hdcp": 18, "back": 374, "reg": 344, "gold": 331, "ladies": 331},
+      {"hole": 16, "par": 4, "hdcp": 4, "back": 385, "reg": 350, "gold": 306, "ladies": 306},
+      {"hole": 17, "par": 3, "hdcp": 10, "back": 181, "reg": 150, "gold": 150, "ladies": 150},
+      {"hole": 18, "par": 4, "hdcp": 6, "back": 414, "reg": 395, "gold": 348, "ladies": 348},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 越前CC 18H 1G(ベント。公式は2G表記だが第2Gホール別非公開) 3T CGA福井 あわら市指中75-1 出典公式echizen-cc 2026-06-27
+VENUES.push({id:"echizen_cc",reading:"えちぜんかんとりーくらぶ",name:"越前カントリークラブ",greens:[{id:"m",name:"メイングリーン"},{id:"s",name:"サブグリーン"}],tees:[{id:"back",name:"バック"},{id:"reg",name:"レギュラー"},{id:"front",name:"フロント"},{id:"ladies",name:"レディース"}],subCourses:[{name:"OUT",holes:[{"hole":1,"par":4,"hdcp":15,"back_m":420,"back_s":416,"reg_m":396,"reg_s":394,"front_m":396,"front_s":394,"ladies_m":284,"ladies_s":282},{"hole":2,"par":5,"hdcp":1,"back_m":642,"back_s":666,"reg_m":518,"reg_s":542,"front_m":487,"front_s":511,"ladies_m":449,"ladies_s":372},{"hole":3,"par":3,"hdcp":17,"back_m":151,"back_s":151,"reg_m":135,"reg_s":135,"front_m":135,"front_s":120,"ladies_m":109,"ladies_s":109},{"hole":4,"par":4,"hdcp":11,"back_m":366,"back_s":355,"reg_m":337,"reg_s":326,"front_m":325,"front_s":314,"ladies_m":298,"ladies_s":287},{"hole":5,"par":4,"hdcp":5,"back_m":376,"back_s":337,"reg_m":364,"reg_s":325,"front_m":350,"front_s":311,"ladies_m":244,"ladies_s":205},{"hole":6,"par":3,"hdcp":13,"back_m":228,"back_s":228,"reg_m":158,"reg_s":158,"front_m":158,"front_s":138,"ladies_m":127,"ladies_s":127},{"hole":7,"par":4,"hdcp":3,"back_m":488,"back_s":481,"reg_m":401,"reg_s":394,"front_m":381,"front_s":374,"ladies_m":330,"ladies_s":299},{"hole":8,"par":5,"hdcp":9,"back_m":483,"back_s":483,"reg_m":471,"reg_s":471,"front_m":473,"front_s":453,"ladies_m":410,"ladies_s":408},{"hole":9,"par":4,"hdcp":7,"back_m":448,"back_s":444,"reg_m":390,"reg_s":386,"front_m":374,"front_s":370,"ladies_m":286,"ladies_s":282}]},{name:"IN",holes:[{"hole":10,"par":4,"hdcp":16,"back_m":340,"back_s":340,"reg_m":295,"reg_s":295,"front_m":295,"front_s":295,"ladies_m":290,"ladies_s":290},{"hole":11,"par":4,"hdcp":2,"back_m":370,"back_s":370,"reg_m":347,"reg_s":347,"front_m":294,"front_s":294,"ladies_m":227,"ladies_s":227},{"hole":12,"par":4,"hdcp":4,"back_m":406,"back_s":406,"reg_m":386,"reg_s":386,"front_m":375,"front_s":375,"ladies_m":283,"ladies_s":283},{"hole":13,"par":5,"hdcp":14,"back_m":474,"back_s":474,"reg_m":465,"reg_s":465,"front_m":458,"front_s":458,"ladies_m":425,"ladies_s":425},{"hole":14,"par":3,"hdcp":18,"back_m":140,"back_s":140,"reg_m":133,"reg_s":133,"front_m":133,"front_s":133,"ladies_m":109,"ladies_s":109},{"hole":15,"par":4,"hdcp":10,"back_m":329,"back_s":329,"reg_m":304,"reg_s":304,"front_m":304,"front_s":304,"ladies_m":287,"ladies_s":287},{"hole":16,"par":4,"hdcp":6,"back_m":359,"back_s":359,"reg_m":347,"reg_s":347,"front_m":337,"front_s":337,"ladies_m":327,"ladies_s":327},{"hole":17,"par":3,"hdcp":12,"back_m":152,"back_s":152,"reg_m":130,"reg_s":130,"front_m":130,"front_s":130,"ladies_m":112,"ladies_s":112},{"hole":18,"par":5,"hdcp":8,"back_m":527,"back_s":527,"reg_m":478,"reg_s":478,"front_m":416,"front_s":416,"ladies_m":402,"ladies_s":402}]}],getYardage:(hole,green,tee)=>hole[tee+"_"+green]??null});
+
+// 越前武生CC 18H 1G 4T CGA福井 越前市勝蓮花町62-1-1 出典GORA180005 2026-06-27
+VENUES.push({
+  id: "echizen_takefu_cc",
+  reading: "エチゼンタケフカントリークラブ",
+  name: "越前武生カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 5, "back": 418, "reg": 379, "front": 379, "ladies": 343},
+      {"hole": 2, "par": 5, "hdcp": 3, "back": 523, "reg": 504, "front": 504, "ladies": 450},
+      {"hole": 3, "par": 3, "hdcp": 17, "back": 184, "reg": 161, "front": 131, "ladies": 107},
+      {"hole": 4, "par": 4, "hdcp": 13, "back": 336, "reg": 305, "front": 283, "ladies": 254},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 432, "reg": 389, "front": 389, "ladies": 333},
+      {"hole": 6, "par": 3, "hdcp": 15, "back": 180, "reg": 151, "front": 130, "ladies": 128},
+      {"hole": 7, "par": 5, "hdcp": 11, "back": 552, "reg": 503, "front": 503, "ladies": 451},
+      {"hole": 8, "par": 4, "hdcp": 7, "back": 393, "reg": 364, "front": 339, "ladies": 315},
+      {"hole": 9, "par": 4, "hdcp": 9, "back": 376, "reg": 344, "front": 344, "ladies": 300},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 8, "back": 392, "reg": 364, "front": 336, "ladies": 293},
+      {"hole": 11, "par": 3, "hdcp": 18, "back": 209, "reg": 155, "front": 153, "ladies": 147},
+      {"hole": 12, "par": 4, "hdcp": 14, "back": 369, "reg": 335, "front": 328, "ladies": 317},
+      {"hole": 13, "par": 5, "hdcp": 10, "back": 502, "reg": 475, "front": 475, "ladies": 424},
+      {"hole": 14, "par": 4, "hdcp": 12, "back": 379, "reg": 344, "front": 328, "ladies": 224},
+      {"hole": 15, "par": 4, "hdcp": 4, "back": 411, "reg": 370, "front": 335, "ladies": 319},
+      {"hole": 16, "par": 3, "hdcp": 16, "back": 178, "reg": 150, "front": 128, "ladies": 107},
+      {"hole": 17, "par": 5, "hdcp": 2, "back": 556, "reg": 532, "front": 510, "ladies": 479},
+      {"hole": 18, "par": 4, "hdcp": 6, "back": 430, "reg": 413, "front": 366, "ladies": 333},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 杉ノ木台GC 18H Par71 1G 3T CGA福井 福井市三十八社町32-20-1 出典GORA180004 2026-06-27
+VENUES.push({
+  id: "suginokidai_gc",
+  reading: "スギノキダイゴルフクラブ",
+  name: "杉ノ木台ゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "back": 459, "reg": 418, "ladies": 352},
+      {"hole": 2, "par": 3, "hdcp": 15, "back": 162, "reg": 153, "ladies": 145},
+      {"hole": 3, "par": 4, "hdcp": 7, "back": 393, "reg": 371, "ladies": 360},
+      {"hole": 4, "par": 4, "hdcp": 1, "back": 470, "reg": 446, "ladies": 400},
+      {"hole": 5, "par": 4, "hdcp": 9, "back": 350, "reg": 332, "ladies": 209},
+      {"hole": 6, "par": 4, "hdcp": 11, "back": 355, "reg": 349, "ladies": 229},
+      {"hole": 7, "par": 3, "hdcp": 17, "back": 158, "reg": 145, "ladies": 145},
+      {"hole": 8, "par": 4, "hdcp": 13, "back": 279, "reg": 250, "ladies": 209},
+      {"hole": 9, "par": 5, "hdcp": 5, "back": 559, "reg": 541, "ladies": 488},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 441, "reg": 426, "ladies": 357},
+      {"hole": 11, "par": 5, "hdcp": 14, "back": 531, "reg": 508, "ladies": 500},
+      {"hole": 12, "par": 4, "hdcp": 8, "back": 386, "reg": 375, "ladies": 243},
+      {"hole": 13, "par": 3, "hdcp": 18, "back": 173, "reg": 153, "ladies": 136},
+      {"hole": 14, "par": 4, "hdcp": 2, "back": 423, "reg": 402, "ladies": 346},
+      {"hole": 15, "par": 5, "hdcp": 12, "back": 545, "reg": 527, "ladies": 459},
+      {"hole": 16, "par": 4, "hdcp": 6, "back": 421, "reg": 339, "ladies": 307},
+      {"hole": 17, "par": 3, "hdcp": 16, "back": 226, "reg": 162, "ladies": 131},
+      {"hole": 18, "par": 4, "hdcp": 10, "back": 394, "reg": 375, "ladies": 354},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+// 敦賀国際GC 27H(緑ヶ丘/野坂山/泉) 1G(2G表記だが距離単一) 3T HDCP不明 CGA福井 敦賀市みどりケ丘165 出典GORA180006 2026-06-27
+VENUES.push({id:"tsuruga_kokusai_gc",reading:"ツルガコクサイゴルフクラブ",name:"敦賀国際ゴルフ倶楽部",greens:[{id:"a",name:"Aベント"},{id:"b",name:"Bベント"}],tees:[{id:"back",name:"back"},{id:"reg",name:"reg"},{id:"ladies",name:"ladies"}],subCourses:[{name:"緑ヶ丘",holes:[{"hole":1,"par":4,"hdcp":null,"back_a":428,"back_b":393,"reg_a":413,"reg_b":378,"ladies_a":366,"ladies_b":366},{"hole":2,"par":4,"hdcp":null,"back_a":450,"back_b":412,"reg_a":420,"reg_b":372,"ladies_a":327,"ladies_b":327},{"hole":3,"par":3,"hdcp":null,"back_a":176,"back_b":157,"reg_a":155,"reg_b":136,"ladies_a":155,"ladies_b":155},{"hole":4,"par":5,"hdcp":null,"back_a":486,"back_b":496,"reg_a":472,"reg_b":482,"ladies_a":405,"ladies_b":405},{"hole":5,"par":3,"hdcp":null,"back_a":206,"back_b":169,"reg_a":197,"reg_b":160,"ladies_a":143,"ladies_b":143},{"hole":6,"par":5,"hdcp":null,"back_a":573,"back_b":551,"reg_a":556,"reg_b":534,"ladies_a":451,"ladies_b":451},{"hole":7,"par":4,"hdcp":null,"back_a":415,"back_b":379,"reg_a":399,"reg_b":363,"ladies_a":299,"ladies_b":299},{"hole":8,"par":4,"hdcp":null,"back_a":400,"back_b":398,"reg_a":384,"reg_b":382,"ladies_a":296,"ladies_b":296},{"hole":9,"par":4,"hdcp":null,"back_a":395,"back_b":404,"reg_a":381,"reg_b":390,"ladies_a":275,"ladies_b":275}]},{name:"野坂山",holes:[{"hole":1,"par":4,"hdcp":null,"back_a":419,"back_b":403,"reg_a":398,"reg_b":382,"ladies_a":331,"ladies_b":331},{"hole":2,"par":3,"hdcp":null,"back_a":187,"back_b":164,"reg_a":166,"reg_b":143,"ladies_a":122,"ladies_b":122},{"hole":3,"par":5,"hdcp":null,"back_a":532,"back_b":495,"reg_a":516,"reg_b":479,"ladies_a":401,"ladies_b":401},{"hole":4,"par":3,"hdcp":null,"back_a":155,"back_b":107,"reg_a":153,"reg_b":105,"ladies_a":143,"ladies_b":143},{"hole":5,"par":4,"hdcp":null,"back_a":341,"back_b":298,"reg_a":330,"reg_b":273,"ladies_a":316,"ladies_b":316},{"hole":6,"par":4,"hdcp":null,"back_a":354,"back_b":312,"reg_a":338,"reg_b":296,"ladies_a":323,"ladies_b":323},{"hole":7,"par":4,"hdcp":null,"back_a":331,"back_b":279,"reg_a":315,"reg_b":263,"ladies_a":280,"ladies_b":280},{"hole":8,"par":5,"hdcp":null,"back_a":498,"back_b":482,"reg_a":489,"reg_b":473,"ladies_a":447,"ladies_b":447},{"hole":9,"par":4,"hdcp":null,"back_a":402,"back_b":378,"reg_a":359,"reg_b":335,"ladies_a":339,"ladies_b":339}]},{name:"泉",holes:[{"hole":1,"par":5,"hdcp":null,"back_a":554,"back_b":519,"reg_a":537,"reg_b":503,"ladies_a":401,"ladies_b":401},{"hole":2,"par":4,"hdcp":null,"back_a":453,"back_b":432,"reg_a":427,"reg_b":406,"ladies_a":325,"ladies_b":325},{"hole":3,"par":4,"hdcp":null,"back_a":393,"back_b":372,"reg_a":385,"reg_b":363,"ladies_a":367,"ladies_b":367},{"hole":4,"par":3,"hdcp":null,"back_a":195,"back_b":157,"reg_a":175,"reg_b":138,"ladies_a":162,"ladies_b":162},{"hole":5,"par":5,"hdcp":null,"back_a":499,"back_b":488,"reg_a":484,"reg_b":473,"ladies_a":412,"ladies_b":412},{"hole":6,"par":4,"hdcp":null,"back_a":348,"back_b":330,"reg_a":325,"reg_b":307,"ladies_a":325,"ladies_b":325},{"hole":7,"par":4,"hdcp":null,"back_a":439,"back_b":407,"reg_a":419,"reg_b":388,"ladies_a":328,"ladies_b":328},{"hole":8,"par":3,"hdcp":null,"back_a":195,"back_b":179,"reg_a":177,"reg_b":163,"ladies_a":128,"ladies_b":128},{"hole":9,"par":4,"hdcp":null,"back_a":401,"back_b":353,"reg_a":401,"reg_b":315,"ladies_a":350,"ladies_b":350}]}],getYardage:(hole,green,tee)=>hole[tee+"_"+green]??null});
+
+// フォーレスト福井GC 18H 1G 3T HDCP不明 CGA福井 福井市燈豊町42-53 出典GORA180008 2026-06-27
+VENUES.push({
+  id: "forest_fukui_gc",
+  reading: "フォーレストフクイゴルフクラブ",
+  name: "フォーレスト福井ゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 339, "reg": 313, "ladies": 274},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 341, "reg": 318, "ladies": 269},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 230, "reg": 190, "ladies": 134},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 412, "reg": 388, "ladies": 326},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 396, "reg": 356, "ladies": 301},
+      {"hole": 6, "par": 5, "hdcp": null, "back": 580, "reg": 530, "ladies": 420},
+      {"hole": 7, "par": 3, "hdcp": null, "back": 189, "reg": 160, "ladies": 146},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 360, "reg": 345, "ladies": 258},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 596, "reg": 575, "ladies": 514},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 394, "reg": 366, "ladies": 294},
+      {"hole": 11, "par": 4, "hdcp": null, "back": 390, "reg": 374, "ladies": 312},
+      {"hole": 12, "par": 3, "hdcp": null, "back": 164, "reg": 148, "ladies": 101},
+      {"hole": 13, "par": 5, "hdcp": null, "back": 615, "reg": 589, "ladies": 521},
+      {"hole": 14, "par": 4, "hdcp": null, "back": 430, "reg": 416, "ladies": 377},
+      {"hole": 15, "par": 3, "hdcp": null, "back": 222, "reg": 194, "ladies": 115},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 308, "reg": 293, "ladies": 246},
+      {"hole": 17, "par": 4, "hdcp": null, "back": 350, "reg": 334, "ladies": 300},
+      {"hole": 18, "par": 5, "hdcp": null, "back": 551, "reg": 501, "ladies": 455},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 福井国際CC 27H(九頭竜/越前岬/東尋坊) 1G 3T CGA福井 あわら市柿原 出典GORA180010 2026-06-27
+VENUES.push({
+  id: "fukui_kokusai_cc",
+  reading: "フクイコクサイカントリークラブ",
+  name: "福井国際カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "black", "label": "BLACK"}, {"id": "white", "label": "WHITE"}, {"id": "red", "label": "RED"}],
+  subCourses: [
+    { name: "九頭竜", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "black": 406, "white": 389, "red": 365},
+      {"hole": 2, "par": 4, "hdcp": 9, "black": 365, "white": 343, "red": 288},
+      {"hole": 3, "par": 3, "hdcp": 6, "black": 173, "white": 163, "red": 140},
+      {"hole": 4, "par": 5, "hdcp": 7, "black": 550, "white": 521, "red": 410},
+      {"hole": 5, "par": 4, "hdcp": 1, "black": 442, "white": 418, "red": 306},
+      {"hole": 6, "par": 3, "hdcp": 5, "black": 186, "white": 159, "red": 159},
+      {"hole": 7, "par": 4, "hdcp": 4, "black": 370, "white": 349, "red": 327},
+      {"hole": 8, "par": 5, "hdcp": 2, "black": 560, "white": 545, "red": 521},
+      {"hole": 9, "par": 4, "hdcp": 8, "black": 362, "white": 347, "red": 347},
+    ]},
+    { name: "越前岬", holes: [
+      {"hole": 1, "par": 5, "hdcp": 8, "black": 571, "white": 551, "red": 465},
+      {"hole": 2, "par": 4, "hdcp": 2, "black": 376, "white": 357, "red": 285},
+      {"hole": 3, "par": 4, "hdcp": 5, "black": 371, "white": 348, "red": 325},
+      {"hole": 4, "par": 3, "hdcp": 7, "black": 191, "white": 172, "red": 154},
+      {"hole": 5, "par": 4, "hdcp": 1, "black": 427, "white": 400, "red": 328},
+      {"hole": 6, "par": 4, "hdcp": 9, "black": 357, "white": 323, "red": 289},
+      {"hole": 7, "par": 4, "hdcp": 3, "black": 398, "white": 376, "red": 353},
+      {"hole": 8, "par": 3, "hdcp": 4, "black": 196, "white": 176, "red": 158},
+      {"hole": 9, "par": 5, "hdcp": 6, "black": 551, "white": 530, "red": 405},
+    ]},
+    { name: "東尋坊", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "black": 442, "white": 408, "red": 393},
+      {"hole": 2, "par": 5, "hdcp": 6, "black": 507, "white": 489, "red": 416},
+      {"hole": 3, "par": 3, "hdcp": 4, "black": 179, "white": 161, "red": 161},
+      {"hole": 4, "par": 4, "hdcp": 1, "black": 395, "white": 364, "red": 297},
+      {"hole": 5, "par": 4, "hdcp": 5, "black": 317, "white": 291, "red": 291},
+      {"hole": 6, "par": 5, "hdcp": 7, "black": 533, "white": 492, "red": 465},
+      {"hole": 7, "par": 4, "hdcp": 9, "black": 366, "white": 344, "red": 344},
+      {"hole": 8, "par": 3, "hdcp": 8, "black": 186, "white": 171, "red": 153},
+      {"hole": 9, "par": 4, "hdcp": 2, "black": 431, "white": 404, "red": 339},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// わかさCC 27H(すいげつ/ひゅうが/すが) 1G 5T CGA福井 三方上中郡若狭町新道9-3 出典GORA180011 2026-06-27
+VENUES.push({
+  id: "wakasa_cc",
+  reading: "ワカサカントリークラブ",
+  name: "わかさカントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "black", "label": "BLACK"}, {"id": "blue", "label": "BLUE"}, {"id": "white", "label": "WHITE"}, {"id": "gold", "label": "GOLD"}, {"id": "red", "label": "RED"}],
+  subCourses: [
+    { name: "すいげつ湖", holes: [
+      {"hole": 1, "par": 4, "hdcp": 2, "black": 443, "blue": 418, "white": 408, "gold": 386, "red": 351},
+      {"hole": 2, "par": 4, "hdcp": 5, "black": 374, "blue": 354, "white": 346, "gold": 325, "red": 288},
+      {"hole": 3, "par": 3, "hdcp": 6, "black": 211, "blue": 188, "white": 175, "gold": 163, "red": 119},
+      {"hole": 4, "par": 5, "hdcp": 3, "black": 568, "blue": 568, "white": 534, "gold": 534, "red": 436},
+      {"hole": 5, "par": 3, "hdcp": 9, "black": 191, "blue": 189, "white": 169, "gold": 169, "red": 152},
+      {"hole": 6, "par": 4, "hdcp": 7, "black": 339, "blue": 320, "white": 320, "gold": 293, "red": 293},
+      {"hole": 7, "par": 4, "hdcp": 8, "black": 344, "blue": 344, "white": 327, "gold": 297, "red": 280},
+      {"hole": 8, "par": 4, "hdcp": 1, "black": 455, "blue": 445, "white": 428, "gold": 416, "red": 328},
+      {"hole": 9, "par": 5, "hdcp": 4, "black": 574, "blue": 573, "white": 552, "gold": 552, "red": 489},
+    ]},
+    { name: "ひゅうが湖", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "black": 449, "blue": 409, "white": 392, "gold": 375, "red": 347},
+      {"hole": 2, "par": 4, "hdcp": 7, "black": 353, "blue": 337, "white": 311, "gold": 295, "red": 284},
+      {"hole": 3, "par": 4, "hdcp": 5, "black": 398, "blue": 398, "white": 387, "gold": 372, "red": 293},
+      {"hole": 4, "par": 4, "hdcp": 8, "black": 340, "blue": 340, "white": 314, "gold": 306, "red": 281},
+      {"hole": 5, "par": 5, "hdcp": 1, "black": 540, "blue": 521, "white": 506, "gold": 506, "red": 471},
+      {"hole": 6, "par": 4, "hdcp": 6, "black": 350, "blue": 350, "white": 333, "gold": 306, "red": 306},
+      {"hole": 7, "par": 3, "hdcp": 4, "black": 206, "blue": 174, "white": 159, "gold": 159, "red": 141},
+      {"hole": 8, "par": 5, "hdcp": 2, "black": 531, "blue": 514, "white": 495, "gold": 474, "red": 474},
+      {"hole": 9, "par": 3, "hdcp": 9, "black": 158, "blue": 135, "white": 135, "gold": 115, "red": 115},
+    ]},
+    { name: "すが湖", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "black": 473, "blue": 458, "white": 442, "gold": 423, "red": 423},
+      {"hole": 2, "par": 4, "hdcp": 1, "black": 438, "blue": 423, "white": 407, "gold": 407, "red": 303},
+      {"hole": 3, "par": 4, "hdcp": 6, "black": 406, "blue": 379, "white": 362, "gold": 342, "red": 306},
+      {"hole": 4, "par": 3, "hdcp": 8, "black": 191, "blue": 177, "white": 162, "gold": 141, "red": 141},
+      {"hole": 5, "par": 4, "hdcp": 9, "black": 402, "blue": 391, "white": 373, "gold": 354, "red": 332},
+      {"hole": 6, "par": 4, "hdcp": 3, "black": 405, "blue": 387, "white": 368, "gold": 350, "red": 350},
+      {"hole": 7, "par": 3, "hdcp": 7, "black": 186, "blue": 170, "white": 154, "gold": 134, "red": 134},
+      {"hole": 8, "par": 5, "hdcp": 2, "black": 485, "blue": 457, "white": 438, "gold": 438, "red": 419},
+      {"hole": 9, "par": 4, "hdcp": 4, "black": 415, "blue": 398, "white": 378, "gold": 359, "red": 288},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+// 加賀CC 27H(松/竹/梅) 1G 5T CGA石川 加賀市日谷町 出典公式kaga-cc 2026-06-27
+VENUES.push({
+  id: "kaga_cc_ishikawa",
+  reading: "カガカントリークラブ",
+  name: "加賀カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "gold", "label": "GOLD"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "松", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "back": 375, "reg": 365, "front": 352, "gold": 345, "ladies": 342},
+      {"hole": 2, "par": 5, "hdcp": 2, "back": 570, "reg": 538, "front": 523, "gold": 499, "ladies": 410},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 180, "reg": 161, "front": 146, "gold": 128, "ladies": 126},
+      {"hole": 4, "par": 4, "hdcp": 4, "back": 370, "reg": 331, "front": 315, "gold": 265, "ladies": 261},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 406, "reg": 366, "front": 340, "gold": 275, "ladies": 272},
+      {"hole": 6, "par": 4, "hdcp": 8, "back": 390, "reg": 372, "front": 360, "gold": 352, "ladies": 317},
+      {"hole": 7, "par": 3, "hdcp": 6, "back": 196, "reg": 186, "front": 171, "gold": 157, "ladies": 127},
+      {"hole": 8, "par": 5, "hdcp": 3, "back": 547, "reg": 530, "front": 521, "gold": 496, "ladies": 442},
+      {"hole": 9, "par": 4, "hdcp": 5, "back": 424, "reg": 411, "front": 377, "gold": 339, "ladies": 331},
+    ]},
+    { name: "竹", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "back": 564, "reg": 551, "front": 533, "gold": 484, "ladies": 448},
+      {"hole": 2, "par": 4, "hdcp": 6, "back": 385, "reg": 365, "front": 343, "gold": 337, "ladies": 311},
+      {"hole": 3, "par": 4, "hdcp": 2, "back": 395, "reg": 375, "front": 350, "gold": 306, "ladies": 302},
+      {"hole": 4, "par": 3, "hdcp": 9, "back": 181, "reg": 162, "front": 148, "gold": 110, "ladies": 102},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 470, "reg": 460, "front": 448, "gold": 398, "ladies": 346},
+      {"hole": 6, "par": 5, "hdcp": 4, "back": 548, "reg": 533, "front": 533, "gold": 453, "ladies": 405},
+      {"hole": 7, "par": 3, "hdcp": 8, "back": 182, "reg": 174, "front": 164, "gold": 96, "ladies": 94},
+      {"hole": 8, "par": 4, "hdcp": 5, "back": 406, "reg": 389, "front": 360, "gold": 340, "ladies": 315},
+      {"hole": 9, "par": 4, "hdcp": 7, "back": 360, "reg": 350, "front": 340, "gold": 308, "ladies": 305},
+    ]},
+    { name: "梅", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "back": 417, "reg": 392, "front": 392, "gold": 344, "ladies": 344},
+      {"hole": 2, "par": 3, "hdcp": 7, "back": 185, "reg": 150, "front": 145, "gold": 130, "ladies": 101},
+      {"hole": 3, "par": 4, "hdcp": 8, "back": 339, "reg": 339, "front": 339, "gold": 308, "ladies": 288},
+      {"hole": 4, "par": 4, "hdcp": 4, "back": 400, "reg": 386, "front": 370, "gold": 318, "ladies": 294},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 432, "reg": 411, "front": 401, "gold": 345, "ladies": 320},
+      {"hole": 6, "par": 5, "hdcp": 2, "back": 541, "reg": 525, "front": 510, "gold": 440, "ladies": 399},
+      {"hole": 7, "par": 3, "hdcp": 9, "back": 138, "reg": 125, "front": 108, "gold": 108, "ladies": 105},
+      {"hole": 8, "par": 4, "hdcp": 6, "back": 373, "reg": 361, "front": 361, "gold": 325, "ladies": 287},
+      {"hole": 9, "par": 5, "hdcp": 5, "back": 513, "reg": 502, "front": 482, "gold": 450, "ladies": 450},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 加賀セントラルGC 18H 1G 4T CGA石川 加賀市熊坂町 出典公式kaga-golf+GORA170003 2026-06-27
+VENUES.push({
+  id: "kaga_central_gc",
+  reading: "カガセントラルゴルフクラブ",
+  name: "加賀セントラルゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "back": 424, "reg": 392, "front": 355, "ladies": 319},
+      {"hole": 2, "par": 4, "hdcp": 15, "back": 358, "reg": 311, "front": 311, "ladies": 267},
+      {"hole": 3, "par": 4, "hdcp": 9, "back": 391, "reg": 362, "front": 324, "ladies": 293},
+      {"hole": 4, "par": 3, "hdcp": 13, "back": 215, "reg": 187, "front": 162, "ladies": 137},
+      {"hole": 5, "par": 5, "hdcp": 1, "back": 538, "reg": 516, "front": 485, "ladies": 455},
+      {"hole": 6, "par": 3, "hdcp": 17, "back": 206, "reg": 181, "front": 150, "ladies": 116},
+      {"hole": 7, "par": 4, "hdcp": 11, "back": 370, "reg": 330, "front": 330, "ladies": 287},
+      {"hole": 8, "par": 5, "hdcp": 3, "back": 511, "reg": 485, "front": 453, "ladies": 420},
+      {"hole": 9, "par": 4, "hdcp": 5, "back": 469, "reg": 420, "front": 384, "ladies": 349},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 12, "back": 386, "reg": 357, "front": 328, "ladies": 288},
+      {"hole": 11, "par": 3, "hdcp": 16, "back": 191, "reg": 171, "front": 146, "ladies": 123},
+      {"hole": 12, "par": 4, "hdcp": 14, "back": 350, "reg": 316, "front": 316, "ladies": 276},
+      {"hole": 13, "par": 4, "hdcp": 2, "back": 424, "reg": 390, "front": 361, "ladies": 331},
+      {"hole": 14, "par": 5, "hdcp": 8, "back": 530, "reg": 483, "front": 462, "ladies": 441},
+      {"hole": 15, "par": 4, "hdcp": 4, "back": 415, "reg": 383, "front": 356, "ladies": 289},
+      {"hole": 16, "par": 4, "hdcp": 10, "back": 412, "reg": 379, "front": 348, "ladies": 315},
+      {"hole": 17, "par": 3, "hdcp": 18, "back": 195, "reg": 151, "front": 127, "ladies": 109},
+      {"hole": 18, "par": 5, "hdcp": 6, "back": 536, "reg": 490, "front": 490, "ladies": 444},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 金沢CC 27H(東/中/西) 1G(公式は2Gだがホール別はメイン系のみ・サブG/Frontは非公開) 3T CGA石川 かほく市 出典GORA170007+公式 2026-06-27
+VENUES.push({id:"kanazawa_cc",reading:"カナザワカントリークラブ",name:"金沢カントリー倶楽部",greens:[{id:"a",name:"ベント1"},{id:"b",name:"ベント2"}],tees:[{id:"back",name:"back"},{id:"reg",name:"reg"},{id:"ladies",name:"ladies"}],subCourses:[{name:"東",holes:[{"hole":1,"par":5,"hdcp":2,"back_a":459,"back_b":459,"reg_a":441,"reg_b":441,"ladies_a":422,"ladies_b":422},{"hole":2,"par":4,"hdcp":4,"back_a":341,"back_b":342,"reg_a":324,"reg_b":325,"ladies_a":202,"ladies_b":208},{"hole":3,"par":3,"hdcp":8,"back_a":153,"back_b":168,"reg_a":141,"reg_b":156,"ladies_a":114,"ladies_b":129},{"hole":4,"par":4,"hdcp":1,"back_a":434,"back_b":420,"reg_a":418,"reg_b":404,"ladies_a":356,"ladies_b":342},{"hole":5,"par":4,"hdcp":6,"back_a":338,"back_b":352,"reg_a":321,"reg_b":335,"ladies_a":302,"ladies_b":316},{"hole":6,"par":3,"hdcp":9,"back_a":169,"back_b":146,"reg_a":139,"reg_b":116,"ladies_a":124,"ladies_b":101},{"hole":7,"par":4,"hdcp":7,"back_a":365,"back_b":365,"reg_a":347,"reg_b":347,"ladies_a":329,"ladies_b":329},{"hole":8,"par":4,"hdcp":5,"back_a":299,"back_b":299,"reg_a":285,"reg_b":285,"ladies_a":263,"ladies_b":263},{"hole":9,"par":5,"hdcp":3,"back_a":524,"back_b":510,"reg_a":502,"reg_b":488,"ladies_a":479,"ladies_b":465}]},{name:"中",holes:[{"hole":1,"par":4,"hdcp":8,"back_a":324,"back_b":345,"reg_a":304,"reg_b":325,"ladies_a":300,"ladies_b":321},{"hole":2,"par":3,"hdcp":9,"back_a":168,"back_b":157,"reg_a":152,"reg_b":141,"ladies_a":111,"ladies_b":99},{"hole":3,"par":4,"hdcp":3,"back_a":349,"back_b":324,"reg_a":336,"reg_b":311,"ladies_a":336,"ladies_b":311},{"hole":4,"par":4,"hdcp":6,"back_a":371,"back_b":377,"reg_a":358,"reg_b":364,"ladies_a":334,"ladies_b":350},{"hole":5,"par":3,"hdcp":7,"back_a":186,"back_b":186,"reg_a":162,"reg_b":162,"ladies_a":162,"ladies_b":162},{"hole":6,"par":5,"hdcp":1,"back_a":520,"back_b":545,"reg_a":502,"reg_b":527,"ladies_a":460,"ladies_b":485},{"hole":7,"par":4,"hdcp":5,"back_a":355,"back_b":383,"reg_a":340,"reg_b":368,"ladies_a":300,"ladies_b":328},{"hole":8,"par":4,"hdcp":2,"back_a":404,"back_b":404,"reg_a":389,"reg_b":389,"ladies_a":370,"ladies_b":370},{"hole":9,"par":5,"hdcp":4,"back_a":493,"back_b":516,"reg_a":478,"reg_b":501,"ladies_a":459,"ladies_b":482}]},{name:"西",holes:[{"hole":1,"par":4,"hdcp":4,"back_a":363,"back_b":363,"reg_a":350,"reg_b":350,"ladies_a":342,"ladies_b":342},{"hole":2,"par":3,"hdcp":8,"back_a":162,"back_b":162,"reg_a":143,"reg_b":143,"ladies_a":126,"ladies_b":126},{"hole":3,"par":4,"hdcp":5,"back_a":340,"back_b":330,"reg_a":325,"reg_b":315,"ladies_a":285,"ladies_b":280},{"hole":4,"par":4,"hdcp":6,"back_a":362,"back_b":362,"reg_a":345,"reg_b":345,"ladies_a":306,"ladies_b":306},{"hole":5,"par":5,"hdcp":2,"back_a":500,"back_b":500,"reg_a":473,"reg_b":473,"ladies_a":444,"ladies_b":444},{"hole":6,"par":4,"hdcp":7,"back_a":350,"back_b":350,"reg_a":329,"reg_b":329,"ladies_a":329,"ladies_b":329},{"hole":7,"par":3,"hdcp":9,"back_a":177,"back_b":160,"reg_a":162,"reg_b":145,"ladies_a":145,"ladies_b":128},{"hole":8,"par":4,"hdcp":1,"back_a":426,"back_b":404,"reg_a":401,"reg_b":379,"ladies_a":401,"ladies_b":379},{"hole":9,"par":5,"hdcp":3,"back_a":515,"back_b":543,"reg_a":493,"reg_b":521,"ladies_a":407,"ladies_b":435}]}],getYardage:(hole,green,tee)=>hole[tee+"_"+green]??null});
+
+// 金沢GC 27H(湯涌/兼六/戸室) 1G 3T HDCP不明 CGA石川 金沢市蓮如町 出典GORA170009 2026-06-27
+VENUES.push({
+  id: "kanazawa_gc",
+  reading: "カナザワゴルフクラブ",
+  name: "金沢ゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "lady", "label": "LADY"}],
+  subCourses: [
+    { name: "湯涌", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 394, "reg": 352, "lady": 296},
+      {"hole": 2, "par": 3, "hdcp": null, "back": 208, "reg": 132, "lady": 122},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 410, "reg": 365, "lady": 323},
+      {"hole": 4, "par": 5, "hdcp": null, "back": 542, "reg": 501, "lady": 455},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 375, "reg": 350, "lady": 291},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 383, "reg": 363, "lady": 296},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 369, "reg": 327, "lady": 294},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 210, "reg": 170, "lady": 159},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 539, "reg": 525, "lady": 432},
+    ]},
+    { name: "兼六", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 535, "reg": 513, "lady": 483},
+      {"hole": 2, "par": 3, "hdcp": null, "back": 197, "reg": 179, "lady": 130},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 416, "reg": 406, "lady": 380},
+      {"hole": 4, "par": 5, "hdcp": null, "back": 576, "reg": 540, "lady": 527},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 378, "reg": 367, "lady": 251},
+      {"hole": 6, "par": 3, "hdcp": null, "back": 195, "reg": 143, "lady": 127},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 368, "reg": 324, "lady": 285},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 418, "reg": 387, "lady": 371},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 398, "reg": 374, "lady": 259},
+    ]},
+    { name: "戸室", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 332, "reg": 317, "lady": 298},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 367, "reg": 352, "lady": 305},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 182, "reg": 150, "lady": 149},
+      {"hole": 4, "par": 5, "hdcp": null, "back": 509, "reg": 480, "lady": 461},
+      {"hole": 5, "par": 3, "hdcp": null, "back": 149, "reg": 135, "lady": 125},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 301, "reg": 290, "lady": 251},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 369, "reg": 352, "lady": 292},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 365, "reg": 345, "lady": 321},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 524, "reg": 505, "lady": 439},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+// 金沢東GC 18H 1G(2G表記だがホール別距離は1組) 3T CGA石川 金沢市竹又町 出典GORA170008 2026-06-27
+VENUES.push({
+  id: "kanazawa_higashi_gc",
+  reading: "カナザワヒガシゴルフクラブ",
+  name: "金沢東ゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 7, "back": 538, "reg": 509, "ladies": 474},
+      {"hole": 2, "par": 4, "hdcp": 5, "back": 376, "reg": 365, "ladies": 337},
+      {"hole": 3, "par": 4, "hdcp": 1, "back": 448, "reg": 428, "ladies": 342},
+      {"hole": 4, "par": 4, "hdcp": 11, "back": 323, "reg": 309, "ladies": 275},
+      {"hole": 5, "par": 3, "hdcp": 13, "back": 170, "reg": 155, "ladies": 145},
+      {"hole": 6, "par": 5, "hdcp": 9, "back": 522, "reg": 505, "ladies": 459},
+      {"hole": 7, "par": 4, "hdcp": 3, "back": 414, "reg": 397, "ladies": 357},
+      {"hole": 8, "par": 3, "hdcp": 15, "back": 167, "reg": 159, "ladies": 148},
+      {"hole": 9, "par": 4, "hdcp": 17, "back": 354, "reg": 335, "ladies": 318},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 12, "back": 542, "reg": 520, "ladies": 492},
+      {"hole": 11, "par": 3, "hdcp": 18, "back": 138, "reg": 127, "ladies": 118},
+      {"hole": 12, "par": 4, "hdcp": 14, "back": 378, "reg": 359, "ladies": 340},
+      {"hole": 13, "par": 4, "hdcp": 8, "back": 376, "reg": 358, "ladies": 319},
+      {"hole": 14, "par": 5, "hdcp": 2, "back": 539, "reg": 512, "ladies": 464},
+      {"hole": 15, "par": 4, "hdcp": 4, "back": 410, "reg": 399, "ladies": 362},
+      {"hole": 16, "par": 4, "hdcp": 6, "back": 357, "reg": 340, "ladies": 322},
+      {"hole": 17, "par": 3, "hdcp": 16, "back": 154, "reg": 137, "ladies": 122},
+      {"hole": 18, "par": 4, "hdcp": 10, "back": 309, "reg": 294, "ladies": 236},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 小松CC 18H 1G 4T HDCP不明 CGA石川 小松市木場町 出典GORA170011 2026-06-27
+VENUES.push({
+  id: "komatsu_cc",
+  reading: "コマツカントリークラブ",
+  name: "小松カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "bt", "label": "BT"}, {"id": "rt", "label": "RT"}, {"id": "ft", "label": "FT"}, {"id": "lt", "label": "LT"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "bt": 378, "rt": 368, "ft": 353, "lt": 311},
+      {"hole": 2, "par": 4, "hdcp": null, "bt": 371, "rt": 351, "ft": 339, "lt": 299},
+      {"hole": 3, "par": 3, "hdcp": null, "bt": 202, "rt": 151, "ft": 134, "lt": 110},
+      {"hole": 4, "par": 4, "hdcp": null, "bt": 387, "rt": 353, "ft": 336, "lt": 297},
+      {"hole": 5, "par": 5, "hdcp": null, "bt": 543, "rt": 527, "ft": 511, "lt": 463},
+      {"hole": 6, "par": 4, "hdcp": null, "bt": 433, "rt": 407, "ft": 379, "lt": 323},
+      {"hole": 7, "par": 3, "hdcp": null, "bt": 190, "rt": 168, "ft": 146, "lt": 133},
+      {"hole": 8, "par": 4, "hdcp": null, "bt": 433, "rt": 433, "ft": 404, "lt": 369},
+      {"hole": 9, "par": 5, "hdcp": null, "bt": 533, "rt": 511, "ft": 485, "lt": 425},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": null, "bt": 529, "rt": 515, "ft": 496, "lt": 450},
+      {"hole": 11, "par": 3, "hdcp": null, "bt": 190, "rt": 174, "ft": 156, "lt": 121},
+      {"hole": 12, "par": 4, "hdcp": null, "bt": 408, "rt": 397, "ft": 355, "lt": 332},
+      {"hole": 13, "par": 4, "hdcp": null, "bt": 430, "rt": 401, "ft": 393, "lt": 359},
+      {"hole": 14, "par": 5, "hdcp": null, "bt": 573, "rt": 552, "ft": 529, "lt": 469},
+      {"hole": 15, "par": 4, "hdcp": null, "bt": 358, "rt": 345, "ft": 328, "lt": 287},
+      {"hole": 16, "par": 4, "hdcp": null, "bt": 361, "rt": 323, "ft": 301, "lt": 282},
+      {"hole": 17, "par": 3, "hdcp": null, "bt": 205, "rt": 186, "ft": 170, "lt": 123},
+      {"hole": 18, "par": 4, "hdcp": null, "bt": 448, "rt": 399, "ft": 382, "lt": 345},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// ザ・CC能登 18H 1G 3T CGA石川 鳳珠郡穴水町麦ヶ浦 出典GORA170014 2026-06-27
+VENUES.push({
+  id: "the_cc_noto",
+  reading: "ザカントリークラブノト",
+  name: "ザ・カントリークラブ・能登",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 9, "back": 397, "reg": 357, "ladies": 308},
+      {"hole": 2, "par": 3, "hdcp": 8, "back": 198, "reg": 135, "ladies": 118},
+      {"hole": 3, "par": 4, "hdcp": 3, "back": 400, "reg": 364, "ladies": 329},
+      {"hole": 4, "par": 5, "hdcp": 6, "back": 548, "reg": 506, "ladies": 464},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 376, "reg": 337, "ladies": 301},
+      {"hole": 6, "par": 4, "hdcp": 1, "back": 424, "reg": 368, "ladies": 334},
+      {"hole": 7, "par": 3, "hdcp": 5, "back": 178, "reg": 158, "ladies": 113},
+      {"hole": 8, "par": 5, "hdcp": 4, "back": 595, "reg": 511, "ladies": 477},
+      {"hole": 9, "par": 4, "hdcp": 2, "back": 479, "reg": 411, "ladies": 394},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 4, "back": 420, "reg": 382, "ladies": 345},
+      {"hole": 11, "par": 4, "hdcp": 7, "back": 399, "reg": 347, "ladies": 315},
+      {"hole": 12, "par": 3, "hdcp": 5, "back": 223, "reg": 183, "ladies": 144},
+      {"hole": 13, "par": 4, "hdcp": 2, "back": 451, "reg": 397, "ladies": 357},
+      {"hole": 14, "par": 5, "hdcp": 1, "back": 503, "reg": 459, "ladies": 410},
+      {"hole": 15, "par": 4, "hdcp": 8, "back": 434, "reg": 379, "ladies": 330},
+      {"hole": 16, "par": 3, "hdcp": 3, "back": 204, "reg": 153, "ladies": 111},
+      {"hole": 17, "par": 4, "hdcp": 6, "back": 436, "reg": 376, "ladies": 330},
+      {"hole": 18, "par": 5, "hdcp": 9, "back": 546, "reg": 496, "ladies": 430},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// ツインフィールズ 36H(ゴールド/ダイヤモンド) 1G 4T CGA石川 小松市里川町 出典GORA170016 2026-06-27
+VENUES.push({
+  id: "twin_fields_gc",
+  reading: "ゴルフクラブツインフィールズ",
+  name: "ゴルフクラブツインフィールズ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "bt", "label": "B.T"}, {"id": "rt", "label": "R.T"}, {"id": "ft", "label": "F.T"}, {"id": "lt", "label": "L.T"}],
+  subCourses: [
+    { name: "ゴールドOUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 9, "bt": 573, "rt": 508, "ft": 502, "lt": 424},
+      {"hole": 2, "par": 3, "hdcp": 3, "bt": 200, "rt": 165, "ft": 149, "lt": 129},
+      {"hole": 3, "par": 4, "hdcp": 15, "bt": 416, "rt": 391, "ft": 372, "lt": 308},
+      {"hole": 4, "par": 4, "hdcp": 1, "bt": 423, "rt": 398, "ft": 378, "lt": 359},
+      {"hole": 5, "par": 5, "hdcp": 7, "bt": 547, "rt": 517, "ft": 496, "lt": 414},
+      {"hole": 6, "par": 4, "hdcp": 13, "bt": 363, "rt": 338, "ft": 316, "lt": 296},
+      {"hole": 7, "par": 3, "hdcp": 17, "bt": 223, "rt": 177, "ft": 153, "lt": 130},
+      {"hole": 8, "par": 4, "hdcp": 5, "bt": 421, "rt": 396, "ft": 373, "lt": 303},
+      {"hole": 9, "par": 4, "hdcp": 11, "bt": 425, "rt": 395, "ft": 375, "lt": 327},
+    ]},
+    { name: "ゴールドIN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 10, "bt": 545, "rt": 515, "ft": 509, "lt": 437},
+      {"hole": 11, "par": 4, "hdcp": 4, "bt": 423, "rt": 393, "ft": 372, "lt": 317},
+      {"hole": 12, "par": 3, "hdcp": 16, "bt": 178, "rt": 153, "ft": 136, "lt": 121},
+      {"hole": 13, "par": 4, "hdcp": 8, "bt": 412, "rt": 382, "ft": 359, "lt": 302},
+      {"hole": 14, "par": 4, "hdcp": 2, "bt": 428, "rt": 389, "ft": 370, "lt": 316},
+      {"hole": 15, "par": 4, "hdcp": 14, "bt": 367, "rt": 343, "ft": 320, "lt": 260},
+      {"hole": 16, "par": 3, "hdcp": 18, "bt": 195, "rt": 170, "ft": 148, "lt": 125},
+      {"hole": 17, "par": 5, "hdcp": 6, "bt": 555, "rt": 520, "ft": 497, "lt": 428},
+      {"hole": 18, "par": 4, "hdcp": 12, "bt": 442, "rt": 417, "ft": 405, "lt": 380},
+    ]},
+    { name: "ダイヤモンドOUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 3, "bt": 425, "rt": 400, "ft": 380, "lt": 362},
+      {"hole": 2, "par": 5, "hdcp": 9, "bt": 528, "rt": 498, "ft": 477, "lt": 459},
+      {"hole": 3, "par": 3, "hdcp": 11, "bt": 207, "rt": 187, "ft": 168, "lt": 130},
+      {"hole": 4, "par": 4, "hdcp": 17, "bt": 370, "rt": 341, "ft": 322, "lt": 304},
+      {"hole": 5, "par": 4, "hdcp": 5, "bt": 363, "rt": 343, "ft": 323, "lt": 302},
+      {"hole": 6, "par": 4, "hdcp": 7, "bt": 432, "rt": 407, "ft": 381, "lt": 358},
+      {"hole": 7, "par": 4, "hdcp": 1, "bt": 385, "rt": 359, "ft": 339, "lt": 321},
+      {"hole": 8, "par": 3, "hdcp": 15, "bt": 193, "rt": 168, "ft": 147, "lt": 128},
+      {"hole": 9, "par": 5, "hdcp": 13, "bt": 556, "rt": 521, "ft": 499, "lt": 481},
+    ]},
+    { name: "ダイヤモンドIN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 8, "bt": 550, "rt": 525, "ft": 503, "lt": 484},
+      {"hole": 11, "par": 4, "hdcp": 10, "bt": 397, "rt": 372, "ft": 352, "lt": 332},
+      {"hole": 12, "par": 3, "hdcp": 18, "bt": 167, "rt": 147, "ft": 128, "lt": 111},
+      {"hole": 13, "par": 4, "hdcp": 4, "bt": 422, "rt": 397, "ft": 372, "lt": 314},
+      {"hole": 14, "par": 4, "hdcp": 16, "bt": 325, "rt": 300, "ft": 280, "lt": 243},
+      {"hole": 15, "par": 4, "hdcp": 2, "bt": 400, "rt": 375, "ft": 353, "lt": 334},
+      {"hole": 16, "par": 3, "hdcp": 12, "bt": 216, "rt": 186, "ft": 168, "lt": 125},
+      {"hole": 17, "par": 4, "hdcp": 14, "bt": 383, "rt": 363, "ft": 343, "lt": 324},
+      {"hole": 18, "par": 5, "hdcp": 6, "bt": 548, "rt": 523, "ft": 497, "lt": 476},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+// チェリー和倉 18H 1G(2G表記だが両G同値) 3T CGA石川 七尾市直津町 出典GORA170025 2026-06-27
+VENUES.push({id:"cherry_wakura_gc",reading:"チェリーゴルフワクラコース",name:"チェリーゴルフ和倉コース",greens:[{id:"a",name:"ベント1"},{id:"b",name:"ベント2"}],tees:[{id:"back",name:"back"},{id:"reg",name:"reg"},{id:"ladies",name:"ladies"}],subCourses:[{name:"OUT",holes:[{"hole":1,"par":4,"hdcp":13,"back_a":403,"back_b":393,"reg_a":379,"reg_b":367,"ladies_a":338,"ladies_b":326},{"hole":2,"par":5,"hdcp":3,"back_a":567,"back_b":549,"reg_a":540,"reg_b":522,"ladies_a":493,"ladies_b":475},{"hole":3,"par":4,"hdcp":11,"back_a":418,"back_b":420,"reg_a":391,"reg_b":394,"ladies_a":346,"ladies_b":349},{"hole":4,"par":3,"hdcp":9,"back_a":230,"back_b":230,"reg_a":181,"reg_b":177,"ladies_a":140,"ladies_b":148},{"hole":5,"par":4,"hdcp":17,"back_a":368,"back_b":359,"reg_a":347,"reg_b":339,"ladies_a":296,"ladies_b":288},{"hole":6,"par":5,"hdcp":7,"back_a":538,"back_b":523,"reg_a":506,"reg_b":494,"ladies_a":471,"ladies_b":459},{"hole":7,"par":4,"hdcp":1,"back_a":452,"back_b":416,"reg_a":424,"reg_b":389,"ladies_a":380,"ladies_b":345},{"hole":8,"par":3,"hdcp":15,"back_a":200,"back_b":188,"reg_a":169,"reg_b":145,"ladies_a":142,"ladies_b":118},{"hole":9,"par":4,"hdcp":5,"back_a":432,"back_b":410,"reg_a":400,"reg_b":379,"ladies_a":354,"ladies_b":333}]},{name:"IN",holes:[{"hole":10,"par":4,"hdcp":12,"back_a":409,"back_b":384,"reg_a":387,"reg_b":362,"ladies_a":337,"ladies_b":312},{"hole":11,"par":4,"hdcp":14,"back_a":355,"back_b":340,"reg_a":329,"reg_b":317,"ladies_a":275,"ladies_b":263},{"hole":12,"par":3,"hdcp":2,"back_a":219,"back_b":207,"reg_a":196,"reg_b":188,"ladies_a":161,"ladies_b":154},{"hole":13,"par":4,"hdcp":4,"back_a":423,"back_b":398,"reg_a":399,"reg_b":376,"ladies_a":350,"ladies_b":327},{"hole":14,"par":5,"hdcp":8,"back_a":554,"back_b":537,"reg_a":518,"reg_b":501,"ladies_a":458,"ladies_b":441},{"hole":15,"par":4,"hdcp":16,"back_a":384,"back_b":362,"reg_a":357,"reg_b":335,"ladies_a":318,"ladies_b":296},{"hole":16,"par":3,"hdcp":18,"back_a":165,"back_b":157,"reg_a":144,"reg_b":139,"ladies_a":109,"ladies_b":101},{"hole":17,"par":4,"hdcp":6,"back_a":455,"back_b":426,"reg_a":427,"reg_b":400,"ladies_a":371,"ladies_b":344},{"hole":18,"par":5,"hdcp":10,"back_a":560,"back_b":540,"reg_a":527,"reg_b":509,"ladies_a":466,"ladies_b":448}]}],getYardage:(hole,green,tee)=>hole[tee+"_"+green]??null});
+
+// 朱鷺の台CC 45H(眉丈台OUT/IN・能州台OUT/IN/中) 1G 3T(能州台中はladies無) CGA石川 羽咋市柳田町 出典GORA170017 2026-06-27
+VENUES.push({id:"tokinodai_cc",reading:"ときのだいかんとりーくらぶ",name:"朱鷺の台カントリークラブ",greens:[{id:"a",name:"ベント"}],tees:[{id:"back",name:"BACK"},{id:"reg",name:"REGULAR"},{id:"ladies",name:"LADIES"}],subCourses:[{name:"眉丈台OUT",holes:[{"hole":1,"par":5,"hdcp":5,"back":517,"reg":498,"ladies":430},{"hole":2,"par":4,"hdcp":3,"back":430,"reg":349,"ladies":300},{"hole":3,"par":4,"hdcp":1,"back":420,"reg":386,"ladies":331},{"hole":4,"par":4,"hdcp":8,"back":331,"reg":306,"ladies":260},{"hole":5,"par":3,"hdcp":7,"back":173,"reg":147,"ladies":120},{"hole":6,"par":4,"hdcp":2,"back":405,"reg":376,"ladies":310},{"hole":7,"par":5,"hdcp":6,"back":479,"reg":457,"ladies":402},{"hole":8,"par":3,"hdcp":9,"back":163,"reg":137,"ladies":111},{"hole":9,"par":4,"hdcp":4,"back":400,"reg":376,"ladies":311}]},{name:"眉丈台IN",holes:[{"hole":10,"par":4,"hdcp":2,"back":410,"reg":349,"ladies":315},{"hole":11,"par":4,"hdcp":7,"back":419,"reg":377,"ladies":339},{"hole":12,"par":3,"hdcp":5,"back":175,"reg":133,"ladies":119},{"hole":13,"par":5,"hdcp":8,"back":537,"reg":474,"ladies":411},{"hole":14,"par":4,"hdcp":3,"back":398,"reg":348,"ladies":304},{"hole":15,"par":4,"hdcp":1,"back":434,"reg":413,"ladies":331},{"hole":16,"par":5,"hdcp":6,"back":511,"reg":499,"ladies":415},{"hole":17,"par":3,"hdcp":9,"back":180,"reg":142,"ladies":115},{"hole":18,"par":4,"hdcp":4,"back":443,"reg":367,"ladies":300}]},{name:"能州台OUT",holes:[{"hole":1,"par":4,"hdcp":5,"back":420,"reg":405,"ladies":343},{"hole":2,"par":5,"hdcp":17,"back":474,"reg":457,"ladies":422},{"hole":3,"par":4,"hdcp":1,"back":405,"reg":336,"ladies":289},{"hole":4,"par":3,"hdcp":15,"back":162,"reg":137,"ladies":103},{"hole":5,"par":5,"hdcp":11,"back":558,"reg":540,"ladies":452},{"hole":6,"par":4,"hdcp":13,"back":388,"reg":316,"ladies":291},{"hole":7,"par":4,"hdcp":7,"back":424,"reg":389,"ladies":323},{"hole":8,"par":3,"hdcp":9,"back":166,"reg":184,"ladies":120},{"hole":9,"par":5,"hdcp":3,"back":522,"reg":499,"ladies":428}]},{name:"能州台IN",holes:[{"hole":10,"par":4,"hdcp":8,"back":365,"reg":339,"ladies":264},{"hole":11,"par":4,"hdcp":4,"back":405,"reg":363,"ladies":320},{"hole":12,"par":4,"hdcp":2,"back":384,"reg":335,"ladies":292},{"hole":13,"par":3,"hdcp":18,"back":128,"reg":145,"ladies":115},{"hole":14,"par":4,"hdcp":10,"back":367,"reg":350,"ladies":316},{"hole":15,"par":5,"hdcp":12,"back":525,"reg":497,"ladies":425},{"hole":16,"par":4,"hdcp":14,"back":382,"reg":312,"ladies":278},{"hole":17,"par":3,"hdcp":16,"back":161,"reg":149,"ladies":131},{"hole":18,"par":4,"hdcp":6,"back":363,"reg":342,"ladies":299}]}],getYardage:(hole,green,tee)=>hole[tee]??null});
+
+// 那谷寺CC 18H(東/中) 1G 3T HDCP不明 CGA石川 小松市那谷町 出典GORA170004 2026-06-27
+VENUES.push({
+  id: "natadera_cc",
+  reading: "ナタデラカントリークラブ",
+  name: "那谷寺カントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "東", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 457, "reg": 431, "ladies": 395},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 439, "reg": 358, "ladies": 320},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 195, "reg": 154, "ladies": 138},
+      {"hole": 4, "par": 5, "hdcp": null, "back": 534, "reg": 511, "ladies": 406},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 399, "reg": 372, "ladies": 278},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 342, "reg": 326, "ladies": 206},
+      {"hole": 7, "par": 3, "hdcp": null, "back": 193, "reg": 177, "ladies": 112},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 393, "reg": 326, "ladies": 237},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 419, "reg": 398, "ladies": 340},
+    ]},
+    { name: "中", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 467, "reg": 445, "ladies": 436},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 369, "reg": 354, "ladies": 311},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 333, "reg": 320, "ladies": 262},
+      {"hole": 4, "par": 3, "hdcp": null, "back": 194, "reg": 182, "ladies": 114},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 307, "reg": 299, "ladies": 289},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 376, "reg": 345, "ladies": 325},
+      {"hole": 7, "par": 3, "hdcp": null, "back": 184, "reg": 169, "ladies": 157},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 349, "reg": 325, "ladies": 301},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 481, "reg": 471, "ladies": 378},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 能登島GCC 18H 1G 4T CGA石川 七尾市能登島半浦町 出典GORA170020 2026-06-27
+VENUES.push({
+  id: "notojima_gcc",
+  reading: "ノトジマゴルフアンドカントリークラブ",
+  name: "能登島ゴルフアンドカントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 15, "back": 536, "reg": 511, "front": 481, "ladies": 430},
+      {"hole": 2, "par": 4, "hdcp": 9, "back": 379, "reg": 362, "front": 340, "ladies": 306},
+      {"hole": 3, "par": 4, "hdcp": 3, "back": 442, "reg": 420, "front": 401, "ladies": 362},
+      {"hole": 4, "par": 4, "hdcp": 7, "back": 374, "reg": 352, "front": 332, "ladies": 301},
+      {"hole": 5, "par": 3, "hdcp": 13, "back": 206, "reg": 171, "front": 154, "ladies": 131},
+      {"hole": 6, "par": 4, "hdcp": 1, "back": 405, "reg": 379, "front": 358, "ladies": 326},
+      {"hole": 7, "par": 4, "hdcp": 17, "back": 370, "reg": 341, "front": 317, "ladies": 288},
+      {"hole": 8, "par": 5, "hdcp": 5, "back": 549, "reg": 523, "front": 503, "ladies": 425},
+      {"hole": 9, "par": 3, "hdcp": 11, "back": 221, "reg": 202, "front": 188, "ladies": 115},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 10, "back": 394, "reg": 365, "front": 339, "ladies": 312},
+      {"hole": 11, "par": 3, "hdcp": 16, "back": 157, "reg": 136, "front": 126, "ladies": 115},
+      {"hole": 12, "par": 4, "hdcp": 4, "back": 371, "reg": 349, "front": 323, "ladies": 295},
+      {"hole": 13, "par": 4, "hdcp": 8, "back": 389, "reg": 375, "front": 358, "ladies": 340},
+      {"hole": 14, "par": 4, "hdcp": 2, "back": 449, "reg": 423, "front": 397, "ladies": 352},
+      {"hole": 15, "par": 5, "hdcp": 14, "back": 569, "reg": 545, "front": 496, "ladies": 390},
+      {"hole": 16, "par": 3, "hdcp": 18, "back": 178, "reg": 161, "front": 144, "ladies": 108},
+      {"hole": 17, "par": 4, "hdcp": 6, "back": 448, "reg": 428, "front": 407, "ladies": 370},
+      {"hole": 18, "par": 5, "hdcp": 12, "back": 570, "reg": 548, "front": 533, "ladies": 447},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+
+// 白山CC 36H(松風/泉水) 1G 4T CGA石川 能美市 出典GORA170021/170022 2026-06-27
+VENUES.push({
+  id: "hakusan_cc",
+  reading: "ハクサンカントリークラブ",
+  name: "白山カントリー倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "松風OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 5, "back": 377, "reg": 355, "front": 355, "ladies": 303},
+      {"hole": 2, "par": 4, "hdcp": 11, "back": 356, "reg": 337, "front": 337, "ladies": 289},
+      {"hole": 3, "par": 3, "hdcp": 15, "back": 182, "reg": 158, "front": 158, "ladies": 128},
+      {"hole": 4, "par": 5, "hdcp": 3, "back": 536, "reg": 512, "front": 490, "ladies": 434},
+      {"hole": 5, "par": 4, "hdcp": 13, "back": 320, "reg": 305, "front": 305, "ladies": 305},
+      {"hole": 6, "par": 4, "hdcp": 9, "back": 348, "reg": 332, "front": 332, "ladies": 275},
+      {"hole": 7, "par": 3, "hdcp": 17, "back": 176, "reg": 159, "front": 142, "ladies": 142},
+      {"hole": 8, "par": 4, "hdcp": 1, "back": 432, "reg": 418, "front": 397, "ladies": 302},
+      {"hole": 9, "par": 5, "hdcp": 7, "back": 459, "reg": 444, "front": 422, "ladies": 393},
+    ]},
+    { name: "松風IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 10, "back": 513, "reg": 491, "front": 491, "ladies": 425},
+      {"hole": 11, "par": 4, "hdcp": 4, "back": 398, "reg": 361, "front": 361, "ladies": 292},
+      {"hole": 12, "par": 3, "hdcp": 12, "back": 189, "reg": 189, "front": 172, "ladies": 141},
+      {"hole": 13, "par": 4, "hdcp": 18, "back": 353, "reg": 330, "front": 330, "ladies": 296},
+      {"hole": 14, "par": 4, "hdcp": 14, "back": 379, "reg": 335, "front": 335, "ladies": 313},
+      {"hole": 15, "par": 4, "hdcp": 6, "back": 407, "reg": 394, "front": 394, "ladies": 287},
+      {"hole": 16, "par": 4, "hdcp": 2, "back": 431, "reg": 410, "front": 410, "ladies": 342},
+      {"hole": 17, "par": 3, "hdcp": 16, "back": 185, "reg": 170, "front": 152, "ladies": 123},
+      {"hole": 18, "par": 5, "hdcp": 8, "back": 497, "reg": 484, "front": 477, "ladies": 412},
+    ]},
+    { name: "泉水OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back": 408, "reg": 387, "front": 360, "ladies": 336},
+      {"hole": 2, "par": 3, "hdcp": null, "back": 201, "reg": 170, "front": 136, "ladies": 122},
+      {"hole": 3, "par": 5, "hdcp": null, "back": 602, "reg": 517, "front": 503, "ladies": 464},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 418, "reg": 399, "front": 376, "ladies": 364},
+      {"hole": 5, "par": 3, "hdcp": null, "back": 164, "reg": 146, "front": 124, "ladies": 124},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 403, "reg": 382, "front": 358, "ladies": 299},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 388, "reg": 370, "front": 340, "ladies": 305},
+      {"hole": 8, "par": 5, "hdcp": null, "back": 549, "reg": 517, "front": 517, "ladies": 456},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 399, "reg": 377, "front": 356, "ladies": 333},
+    ]},
+    { name: "泉水IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 401, "reg": 363, "front": 343, "ladies": 325},
+      {"hole": 11, "par": 3, "hdcp": null, "back": 188, "reg": 165, "front": 137, "ladies": 123},
+      {"hole": 12, "par": 4, "hdcp": null, "back": 367, "reg": 346, "front": 327, "ladies": 299},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 403, "reg": 342, "front": 325, "ladies": 280},
+      {"hole": 14, "par": 5, "hdcp": null, "back": 519, "reg": 494, "front": 478, "ladies": 431},
+      {"hole": 15, "par": 3, "hdcp": null, "back": 215, "reg": 183, "front": 149, "ladies": 114},
+      {"hole": 16, "par": 4, "hdcp": null, "back": 421, "reg": 392, "front": 368, "ladies": 331},
+      {"hole": 17, "par": 4, "hdcp": null, "back": 414, "reg": 394, "front": 371, "ladies": 354},
+      {"hole": 18, "par": 5, "hdcp": null, "back": 561, "reg": 539, "front": 515, "ladies": 470},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 山代GC 36H(キング/クイーン) 1G 4T CGA石川 加賀市小坂町 出典GORA520027/170024 2026-06-27
+VENUES.push({
+  id: "yamashiro_gc",
+  reading: "ヤマシロゴルフクラブ",
+  name: "山代ゴルフ倶楽部",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "キングOUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 563, "reg": 541, "front": 520, "ladies": 487},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 407, "reg": 391, "front": 367, "ladies": 351},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 430, "reg": 407, "front": 387, "ladies": 352},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 425, "reg": 386, "front": 361, "ladies": 329},
+      {"hole": 5, "par": 3, "hdcp": null, "back": 186, "reg": 165, "front": 145, "ladies": 116},
+      {"hole": 6, "par": 5, "hdcp": null, "back": 568, "reg": 534, "front": 503, "ladies": 453},
+      {"hole": 7, "par": 3, "hdcp": null, "back": 185, "reg": 166, "front": 151, "ladies": 136},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 365, "reg": 341, "front": 341, "ladies": 325},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 390, "reg": 368, "front": 339, "ladies": 317},
+    ]},
+    { name: "キングIN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 360, "reg": 340, "front": 317, "ladies": 275},
+      {"hole": 11, "par": 4, "hdcp": null, "back": 405, "reg": 376, "front": 353, "ladies": 316},
+      {"hole": 12, "par": 5, "hdcp": null, "back": 508, "reg": 488, "front": 466, "ladies": 431},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 366, "reg": 333, "front": 308, "ladies": 261},
+      {"hole": 14, "par": 3, "hdcp": null, "back": 218, "reg": 169, "front": 146, "ladies": 137},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 435, "reg": 413, "front": 386, "ladies": 334},
+      {"hole": 16, "par": 5, "hdcp": null, "back": 585, "reg": 557, "front": 433, "ladies": 416},
+      {"hole": 17, "par": 3, "hdcp": null, "back": 182, "reg": 163, "front": 140, "ladies": 118},
+      {"hole": 18, "par": 4, "hdcp": null, "back": 409, "reg": 378, "front": 358, "ladies": 327},
+    ]},
+    { name: "クイーンOUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 5, "back": 510, "reg": 484, "front": 466, "ladies": 413},
+      {"hole": 2, "par": 3, "hdcp": 17, "back": 145, "reg": 127, "front": 116, "ladies": 101},
+      {"hole": 3, "par": 4, "hdcp": 1, "back": 457, "reg": 411, "front": 379, "ladies": 348},
+      {"hole": 4, "par": 4, "hdcp": 13, "back": 383, "reg": 352, "front": 328, "ladies": 271},
+      {"hole": 5, "par": 5, "hdcp": 3, "back": 565, "reg": 534, "front": 510, "ladies": 451},
+      {"hole": 6, "par": 4, "hdcp": 11, "back": 368, "reg": 350, "front": 333, "ladies": 316},
+      {"hole": 7, "par": 3, "hdcp": 15, "back": 183, "reg": 153, "front": 133, "ladies": 113},
+      {"hole": 8, "par": 4, "hdcp": 9, "back": 356, "reg": 332, "front": 314, "ladies": 279},
+      {"hole": 9, "par": 4, "hdcp": 7, "back": 423, "reg": 397, "front": 373, "ladies": 331},
+    ]},
+    { name: "クイーンIN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 2, "back": 445, "reg": 413, "front": 393, "ladies": 364},
+      {"hole": 11, "par": 4, "hdcp": 12, "back": 365, "reg": 340, "front": 317, "ladies": 281},
+      {"hole": 12, "par": 3, "hdcp": 16, "back": 230, "reg": 190, "front": 140, "ladies": 115},
+      {"hole": 13, "par": 5, "hdcp": 4, "back": 548, "reg": 503, "front": 477, "ladies": 412},
+      {"hole": 14, "par": 4, "hdcp": 14, "back": 345, "reg": 325, "front": 302, "ladies": 274},
+      {"hole": 15, "par": 3, "hdcp": 18, "back": 192, "reg": 170, "front": 148, "ladies": 128},
+      {"hole": 16, "par": 4, "hdcp": 10, "back": 375, "reg": 360, "front": 338, "ladies": 299},
+      {"hole": 17, "par": 4, "hdcp": 8, "back": 408, "reg": 384, "front": 358, "ladies": 303},
+      {"hole": 18, "par": 5, "hdcp": 6, "back": 550, "reg": 515, "front": 485, "ladies": 434},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 魚津国際CC 18H 2G(メイン/サブ・両G距離別) 5T CGA富山 魚津市小川寺1004 出典GORA160001+公式 2026-06-27
+VENUES.push({id:"uozu_kokusai_cc",reading:"うおづこくさいかんとりーくらぶ",name:"魚津国際カントリークラブ",greens:[{id:"m",name:"メイングリーン"},{id:"s",name:"サブグリーン"}],tees:[{id:"fullback",name:"フルバック"},{id:"reg",name:"レギュラー"},{id:"front",name:"フロント"},{id:"gold",name:"ゴールド"},{id:"ladies",name:"レディース"}],subCourses:[{name:"OUT",holes:[{"hole":1,"par":5,"hdcp":13,"fullback_m":540,"fullback_s":530,"reg_m":520,"reg_s":510,"front_m":520,"front_s":510,"gold_m":500,"gold_s":490,"ladies_m":460,"ladies_s":450},{"hole":2,"par":4,"hdcp":3,"fullback_m":430,"fullback_s":415,"reg_m":420,"reg_s":405,"front_m":410,"front_s":395,"gold_m":365,"gold_s":350,"ladies_m":340,"ladies_s":325},{"hole":3,"par":3,"hdcp":15,"fullback_m":185,"fullback_s":170,"reg_m":160,"reg_s":160,"front_m":160,"front_s":160,"gold_m":145,"gold_s":145,"ladies_m":145,"ladies_s":145},{"hole":4,"par":4,"hdcp":1,"fullback_m":470,"fullback_s":450,"reg_m":390,"reg_s":370,"front_m":375,"front_s":355,"gold_m":355,"gold_s":335,"ladies_m":300,"ladies_s":280},{"hole":5,"par":4,"hdcp":5,"fullback_m":430,"fullback_s":435,"reg_m":390,"reg_s":395,"front_m":370,"front_s":375,"gold_m":335,"gold_s":340,"ladies_m":270,"ladies_s":275},{"hole":6,"par":3,"hdcp":17,"fullback_m":175,"fullback_s":145,"reg_m":155,"reg_s":130,"front_m":155,"front_s":130,"gold_m":140,"gold_s":110,"ladies_m":140,"ladies_s":110},{"hole":7,"par":5,"hdcp":9,"fullback_m":520,"fullback_s":490,"reg_m":505,"reg_s":475,"front_m":505,"front_s":475,"gold_m":460,"gold_s":430,"ladies_m":435,"ladies_s":405},{"hole":8,"par":4,"hdcp":7,"fullback_m":370,"fullback_s":345,"reg_m":345,"reg_s":320,"front_m":345,"front_s":320,"gold_m":270,"gold_s":245,"ladies_m":270,"ladies_s":245},{"hole":9,"par":4,"hdcp":11,"fullback_m":365,"fullback_s":355,"reg_m":355,"reg_s":345,"front_m":355,"front_s":345,"gold_m":290,"gold_s":280,"ladies_m":290,"ladies_s":280}]},{name:"IN",holes:[{"hole":10,"par":5,"hdcp":12,"fullback_m":525,"fullback_s":515,"reg_m":510,"reg_s":500,"front_m":510,"front_s":500,"gold_m":495,"gold_s":485,"ladies_m":470,"ladies_s":460},{"hole":11,"par":3,"hdcp":6,"fullback_m":180,"fullback_s":140,"reg_m":170,"reg_s":140,"front_m":160,"front_s":130,"gold_m":160,"gold_s":130,"ladies_m":160,"ladies_s":130},{"hole":12,"par":4,"hdcp":2,"fullback_m":340,"fullback_s":300,"reg_m":325,"reg_s":285,"front_m":325,"front_s":285,"gold_m":270,"gold_s":230,"ladies_m":270,"ladies_s":230},{"hole":13,"par":4,"hdcp":8,"fullback_m":335,"fullback_s":330,"reg_m":335,"reg_s":330,"front_m":340,"front_s":315,"gold_m":340,"gold_s":315,"ladies_m":310,"ladies_s":285},{"hole":14,"par":5,"hdcp":16,"fullback_m":505,"fullback_s":490,"reg_m":490,"reg_s":475,"front_m":490,"front_s":475,"gold_m":460,"gold_s":445,"ladies_m":420,"ladies_s":405},{"hole":15,"par":3,"hdcp":18,"fullback_m":235,"fullback_s":200,"reg_m":210,"reg_s":185,"front_m":190,"front_s":165,"gold_m":175,"gold_s":140,"ladies_m":175,"ladies_s":140},{"hole":16,"par":4,"hdcp":10,"fullback_m":430,"fullback_s":415,"reg_m":415,"reg_s":400,"front_m":390,"front_s":375,"gold_m":350,"gold_s":335,"ladies_m":285,"ladies_s":270},{"hole":17,"par":4,"hdcp":14,"fullback_m":365,"fullback_s":335,"reg_m":350,"reg_s":320,"front_m":350,"front_s":320,"gold_m":295,"gold_s":265,"ladies_m":250,"ladies_s":220},{"hole":18,"par":4,"hdcp":4,"fullback_m":410,"fullback_s":415,"reg_m":385,"reg_s":380,"front_m":370,"front_s":375,"gold_m":265,"gold_s":270,"ladies_m":245,"ladies_s":250}]}],getYardage:(hole,green,tee)=>hole[tee+"_"+green]??null});
+
+// 呉羽CC 36H(日本海[6T]/立山[5T・Champion無]) 1G HDCP不明 CGA富山 富山市三熊19-2 出典GORA160004 2026-06-27
+VENUES.push({id:"kureha_cc_nihonkai",reading:"くれはかんとりーくらぶにほんかいこーす",name:"呉羽カントリークラブ　日本海コース",greens:[{id:"a",name:"ベント"}],tees:[{id:"champion",name:"Champion"},{id:"back",name:"Back"},{id:"reg",name:"Regular"},{id:"front",name:"Front"},{id:"gold",name:"Gold"},{id:"ladies",name:"Ladies"}],subCourses:[{name:"OUT",holes:[{"hole":1,"par":5,"hdcp":5,"champion":554,"back":554,"reg":537,"front":537,"gold":454,"ladies":454},{"hole":2,"par":3,"hdcp":11,"champion":212,"back":188,"reg":168,"front":151,"gold":122,"ladies":119},{"hole":3,"par":4,"hdcp":15,"champion":391,"back":391,"reg":381,"front":361,"gold":361,"ladies":290},{"hole":4,"par":4,"hdcp":9,"champion":369,"back":369,"reg":355,"front":339,"gold":339,"ladies":250},{"hole":5,"par":5,"hdcp":3,"champion":542,"back":542,"reg":526,"front":526,"gold":449,"ladies":449},{"hole":6,"par":3,"hdcp":17,"champion":165,"back":165,"reg":144,"front":144,"gold":144,"ladies":110},{"hole":7,"par":4,"hdcp":1,"champion":441,"back":441,"reg":415,"front":415,"gold":371,"ladies":371},{"hole":8,"par":4,"hdcp":7,"champion":405,"back":405,"reg":329,"front":329,"gold":329,"ladies":270},{"hole":9,"par":4,"hdcp":13,"champion":346,"back":346,"reg":334,"front":334,"gold":283,"ladies":283}]},{name:"IN",holes:[{"hole":10,"par":4,"hdcp":2,"champion":465,"back":465,"reg":442,"front":425,"gold":374,"ladies":374},{"hole":11,"par":4,"hdcp":14,"champion":336,"back":336,"reg":318,"front":318,"gold":318,"ladies":318},{"hole":12,"par":3,"hdcp":8,"champion":226,"back":226,"reg":209,"front":189,"gold":156,"ladies":156},{"hole":13,"par":5,"hdcp":18,"champion":558,"back":503,"reg":483,"front":483,"gold":433,"ladies":433},{"hole":14,"par":4,"hdcp":4,"champion":426,"back":426,"reg":412,"front":412,"gold":357,"ladies":320},{"hole":15,"par":5,"hdcp":12,"champion":566,"back":525,"reg":505,"front":505,"gold":426,"ladies":426},{"hole":16,"par":4,"hdcp":6,"champion":424,"back":424,"reg":412,"front":412,"gold":328,"ladies":328},{"hole":17,"par":3,"hdcp":16,"champion":183,"back":183,"reg":162,"front":162,"gold":132,"ladies":132},{"hole":18,"par":4,"hdcp":10,"champion":404,"back":404,"reg":390,"front":390,"gold":323,"ladies":323}]}],getYardage:(hole,green,tee)=>hole[tee]??null});
+VENUES.push({id:"kureha_cc_tateyama",reading:"くれはかんとりーくらぶたてやまこーす",name:"呉羽カントリークラブ　立山コース",greens:[{id:"a",name:"ベント"}],tees:[{id:"back",name:"Back"},{id:"reg",name:"Regular"},{id:"front",name:"Front"},{id:"gold",name:"Gold"},{id:"ladies",name:"Ladies"}],subCourses:[{name:"OUT",holes:[{"hole":1,"par":4,"hdcp":5,"back":411,"reg":392,"front":392,"gold":352,"ladies":287},{"hole":2,"par":3,"hdcp":15,"back":189,"reg":173,"front":157,"gold":137,"ladies":137},{"hole":3,"par":5,"hdcp":9,"back":521,"reg":501,"front":501,"gold":501,"ladies":416},{"hole":4,"par":4,"hdcp":1,"back":408,"reg":373,"front":348,"gold":309,"ladies":309},{"hole":5,"par":4,"hdcp":7,"back":407,"reg":387,"front":387,"gold":332,"ladies":332},{"hole":6,"par":4,"hdcp":13,"back":401,"reg":360,"front":360,"gold":340,"ladies":340},{"hole":7,"par":4,"hdcp":3,"back":407,"reg":386,"front":367,"gold":310,"ladies":310},{"hole":8,"par":3,"hdcp":17,"back":184,"reg":162,"front":162,"gold":139,"ladies":139},{"hole":9,"par":5,"hdcp":11,"back":523,"reg":494,"front":494,"gold":458,"ladies":458}]},{name:"IN",holes:[{"hole":10,"par":3,"hdcp":16,"back":183,"reg":167,"front":151,"gold":110,"ladies":110},{"hole":11,"par":4,"hdcp":10,"back":329,"reg":306,"front":306,"gold":306,"ladies":306},{"hole":12,"par":4,"hdcp":4,"back":350,"reg":330,"front":324,"gold":324,"ladies":259},{"hole":13,"par":4,"hdcp":8,"back":397,"reg":362,"front":362,"gold":342,"ladies":250},{"hole":14,"par":4,"hdcp":2,"back":412,"reg":394,"front":394,"gold":376,"ladies":276},{"hole":15,"par":3,"hdcp":14,"back":217,"reg":187,"front":171,"gold":156,"ladies":156},{"hole":16,"par":4,"hdcp":6,"back":418,"reg":399,"front":399,"gold":345,"ladies":345},{"hole":17,"par":4,"hdcp":18,"back":350,"reg":340,"front":340,"gold":320,"ladies":300},{"hole":18,"par":5,"hdcp":12,"back":533,"reg":513,"front":513,"gold":451,"ladies":451}]}],getYardage:(hole,green,tee)=>hole[tee]??null});
+// ゴールドウイン 18H 1G 5T CGA富山 小矢部市 出典GORA160006 2026-06-27
+VENUES.push({
+  id: "goldwin_gc",
+  reading: "ゴルフクラブゴールドウイン",
+  name: "ゴルフ倶楽部ゴールドウイン",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "front", "label": "FRONT"}, {"id": "gold", "label": "GOLD"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 4, "hdcp": 11, "back": 346, "reg": 332, "front": 308, "gold": 287, "ladies": 287},
+      {"hole": 2, "par": 4, "hdcp": 3, "back": 385, "reg": 373, "front": 295, "gold": 275, "ladies": 275},
+      {"hole": 3, "par": 3, "hdcp": 13, "back": 160, "reg": 142, "front": 142, "gold": 122, "ladies": 122},
+      {"hole": 4, "par": 4, "hdcp": 17, "back": 339, "reg": 325, "front": 308, "gold": 291, "ladies": 272},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 420, "reg": 395, "front": 387, "gold": 376, "ladies": 345},
+      {"hole": 6, "par": 5, "hdcp": 5, "back": 493, "reg": 482, "front": 470, "gold": 463, "ladies": 448},
+      {"hole": 7, "par": 3, "hdcp": 9, "back": 200, "reg": 180, "front": 164, "gold": 150, "ladies": 140},
+      {"hole": 8, "par": 5, "hdcp": 7, "back": 520, "reg": 503, "front": 483, "gold": 462, "ladies": 441},
+      {"hole": 9, "par": 4, "hdcp": 15, "back": 359, "reg": 338, "front": 317, "gold": 307, "ladies": 283},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 5, "hdcp": 6, "back": 551, "reg": 541, "front": 509, "gold": 497, "ladies": 470},
+      {"hole": 11, "par": 4, "hdcp": 18, "back": 340, "reg": 325, "front": 315, "gold": 305, "ladies": 285},
+      {"hole": 12, "par": 3, "hdcp": 8, "back": 211, "reg": 185, "front": 175, "gold": 157, "ladies": 140},
+      {"hole": 13, "par": 4, "hdcp": 2, "back": 392, "reg": 373, "front": 358, "gold": 336, "ladies": 301},
+      {"hole": 14, "par": 4, "hdcp": 14, "back": 370, "reg": 349, "front": 341, "gold": 330, "ladies": 282},
+      {"hole": 15, "par": 3, "hdcp": 12, "back": 181, "reg": 155, "front": 155, "gold": 128, "ladies": 113},
+      {"hole": 16, "par": 4, "hdcp": 10, "back": 348, "reg": 339, "front": 314, "gold": 307, "ladies": 307},
+      {"hole": 17, "par": 4, "hdcp": 16, "back": 387, "reg": 365, "front": 343, "gold": 310, "ladies": 282},
+      {"hole": 18, "par": 5, "hdcp": 4, "back": 514, "reg": 506, "front": 485, "gold": 449, "ladies": 430},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 千羽平GC 27H(白山/日本海/立山) 1G 6T CGA富山 小矢部市蓑輪 出典GORA160007 2026-06-27
+VENUES.push({
+  id: "senbadaira_gc",
+  reading: "センバダイラゴルフクラブ",
+  name: "千羽平ゴルフクラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "green", "label": "グリーン"}, {"id": "gold", "label": "ゴールド"}, {"id": "ladies", "label": "レディース"}],
+  subCourses: [
+    { name: "白山", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "back": 385, "reg": 379, "front": 354, "green": 343, "gold": 343, "ladies": 327},
+      {"hole": 2, "par": 4, "hdcp": 8, "back": 386, "reg": 376, "front": 358, "green": 324, "gold": 324, "ladies": 298},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 155, "reg": 137, "front": 137, "green": 118, "gold": 118, "ladies": 118},
+      {"hole": 4, "par": 4, "hdcp": 1, "back": 341, "reg": 329, "front": 316, "green": 301, "gold": 301, "ladies": 231},
+      {"hole": 5, "par": 5, "hdcp": 4, "back": 487, "reg": 470, "front": 448, "green": 448, "gold": 423, "ladies": 423},
+      {"hole": 6, "par": 4, "hdcp": 3, "back": 391, "reg": 381, "front": 355, "green": 312, "gold": 312, "ladies": 284},
+      {"hole": 7, "par": 3, "hdcp": 5, "back": 180, "reg": 166, "front": 145, "green": 145, "gold": 145, "ladies": 145},
+      {"hole": 8, "par": 5, "hdcp": 6, "back": 538, "reg": 522, "front": 496, "green": 481, "gold": 413, "ladies": 413},
+      {"hole": 9, "par": 4, "hdcp": 2, "back": 390, "reg": 380, "front": 348, "green": 332, "gold": 317, "ladies": 271},
+    ]},
+    { name: "日本海", holes: [
+      {"hole": 1, "par": 4, "hdcp": 7, "back": 380, "reg": 366, "front": 349, "green": 334, "gold": 314, "ladies": 314},
+      {"hole": 2, "par": 3, "hdcp": 9, "back": 178, "reg": 166, "front": 151, "green": 134, "gold": 134, "ladies": 106},
+      {"hole": 3, "par": 4, "hdcp": 1, "back": 447, "reg": 436, "front": 412, "green": 311, "gold": 311, "ladies": 311},
+      {"hole": 4, "par": 5, "hdcp": 4, "back": 594, "reg": 570, "front": 555, "green": 475, "gold": 475, "ladies": 375},
+      {"hole": 5, "par": 4, "hdcp": 2, "back": 410, "reg": 395, "front": 380, "green": 337, "gold": 337, "ladies": 302},
+      {"hole": 6, "par": 4, "hdcp": 6, "back": 386, "reg": 376, "front": 361, "green": 345, "gold": 330, "ladies": 321},
+      {"hole": 7, "par": 5, "hdcp": 3, "back": 532, "reg": 509, "front": 497, "green": 439, "gold": 413, "ladies": 413},
+      {"hole": 8, "par": 3, "hdcp": 5, "back": 187, "reg": 170, "front": 170, "green": 151, "gold": 151, "ladies": 151},
+      {"hole": 9, "par": 4, "hdcp": 8, "back": 345, "reg": 331, "front": 316, "green": 316, "gold": 265, "ladies": 265},
+    ]},
+    { name: "立山", holes: [
+      {"hole": 1, "par": 5, "hdcp": 8, "back": 538, "reg": 523, "front": 497, "green": 497, "gold": 477, "ladies": 407},
+      {"hole": 2, "par": 3, "hdcp": 4, "back": 190, "reg": 167, "front": 144, "green": 114, "gold": 144, "ladies": 144},
+      {"hole": 3, "par": 4, "hdcp": 2, "back": 392, "reg": 382, "front": 358, "green": 334, "gold": 298, "ladies": 298},
+      {"hole": 4, "par": 5, "hdcp": 3, "back": 553, "reg": 496, "front": 480, "green": 416, "gold": 368, "ladies": 368},
+      {"hole": 5, "par": 4, "hdcp": 7, "back": 367, "reg": 342, "front": 324, "green": 309, "gold": 285, "ladies": 277},
+      {"hole": 6, "par": 4, "hdcp": 1, "back": 399, "reg": 382, "front": 369, "green": 281, "gold": 281, "ladies": 273},
+      {"hole": 7, "par": 3, "hdcp": 6, "back": 155, "reg": 147, "front": 139, "green": 139, "gold": 139, "ladies": 139},
+      {"hole": 8, "par": 4, "hdcp": 9, "back": 384, "reg": 286, "front": 264, "green": 300, "gold": 265, "ladies": 229},
+      {"hole": 9, "par": 4, "hdcp": 5, "back": 345, "reg": 325, "front": 325, "green": 293, "gold": 293, "ladies": 223},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 太閤山CC 27H(茜/蘭/楠) 1G 5T(黒/青/白/金/赤・紫非公開) CGA富山 射水市 出典GORA160008 2026-06-27
+VENUES.push({
+  id: "taikoyama_cc",
+  reading: "タイコウヤマカントリークラブ",
+  name: "太閤山カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "black", "label": "黒"}, {"id": "blue", "label": "青"}, {"id": "white", "label": "白"}, {"id": "gold", "label": "金"}, {"id": "red", "label": "赤"}],
+  subCourses: [
+    { name: "茜", holes: [
+      {"hole": 1, "par": 5, "hdcp": 7, "black": 534, "blue": 510, "white": 489, "gold": 469, "red": 457},
+      {"hole": 2, "par": 4, "hdcp": 8, "black": 366, "blue": 352, "white": 334, "gold": 327, "red": 315},
+      {"hole": 3, "par": 3, "hdcp": 4, "black": 199, "blue": 183, "white": 168, "gold": 153, "red": 132},
+      {"hole": 4, "par": 4, "hdcp": 2, "black": 406, "blue": 329, "white": 308, "gold": 289, "red": 270},
+      {"hole": 5, "par": 4, "hdcp": 6, "black": 368, "blue": 351, "white": 335, "gold": 318, "red": 298},
+      {"hole": 6, "par": 3, "hdcp": 9, "black": 163, "blue": 146, "white": 140, "gold": 124, "red": 102},
+      {"hole": 7, "par": 4, "hdcp": 5, "black": 349, "blue": 335, "white": 321, "gold": 303, "red": 277},
+      {"hole": 8, "par": 4, "hdcp": 1, "black": 414, "blue": 394, "white": 381, "gold": 365, "red": 319},
+      {"hole": 9, "par": 5, "hdcp": 3, "black": 504, "blue": 479, "white": 455, "gold": 433, "red": 395},
+    ]},
+    { name: "蘭", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "black": 592, "blue": 571, "white": 551, "gold": 511, "red": 492},
+      {"hole": 2, "par": 3, "hdcp": 7, "black": 215, "blue": 202, "white": 179, "gold": 140, "red": 124},
+      {"hole": 3, "par": 4, "hdcp": 1, "black": 444, "blue": 424, "white": 408, "gold": 389, "red": 368},
+      {"hole": 4, "par": 4, "hdcp": 8, "black": 388, "blue": 382, "white": 315, "gold": 276, "red": 256},
+      {"hole": 5, "par": 4, "hdcp": 2, "black": 413, "blue": 375, "white": 358, "gold": 341, "red": 322},
+      {"hole": 6, "par": 4, "hdcp": 5, "black": 379, "blue": 359, "white": 338, "gold": 316, "red": 298},
+      {"hole": 7, "par": 5, "hdcp": 9, "black": 542, "blue": 526, "white": 505, "gold": 486, "red": 419},
+      {"hole": 8, "par": 3, "hdcp": 6, "black": 205, "blue": 178, "white": 155, "gold": 149, "red": 137},
+      {"hole": 9, "par": 4, "hdcp": 4, "black": 390, "blue": 369, "white": 348, "gold": 329, "red": 311},
+    ]},
+    { name: "楠", holes: [
+      {"hole": 1, "par": 5, "hdcp": 9, "black": 499, "blue": 476, "white": 452, "gold": 431, "red": 410},
+      {"hole": 2, "par": 3, "hdcp": 7, "black": 180, "blue": 165, "white": 153, "gold": 139, "red": 127},
+      {"hole": 3, "par": 4, "hdcp": 3, "black": 405, "blue": 384, "white": 362, "gold": 338, "red": 315},
+      {"hole": 4, "par": 4, "hdcp": 8, "black": 383, "blue": 359, "white": 330, "gold": 307, "red": 282},
+      {"hole": 5, "par": 4, "hdcp": 1, "black": 454, "blue": 426, "white": 400, "gold": 376, "red": 314},
+      {"hole": 6, "par": 4, "hdcp": 2, "black": 436, "blue": 406, "white": 376, "gold": 346, "red": 310},
+      {"hole": 7, "par": 5, "hdcp": 4, "black": 549, "blue": 527, "white": 504, "gold": 480, "red": 434},
+      {"hole": 8, "par": 3, "hdcp": 6, "black": 196, "blue": 183, "white": 169, "gold": 142, "red": 126},
+      {"hole": 9, "par": 4, "hdcp": 5, "black": 396, "blue": 382, "white": 364, "gold": 345, "red": 297},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 高岡CC 36H(頼成/万葉) 1G 6T CGA富山 高岡市 出典GORA160009 2026-06-27
+VENUES.push({id:"takaoka_cc",reading:"タカオカカントリークラブ",name:"高岡カントリー倶楽部",greens:[{id:"a",label:"ベント"}],tees:[{id:"black",label:"BLACK"},{id:"blue",label:"BLUE"},{id:"white",label:"WHITE"},{id:"gold",label:"GOLD"},{id:"red",label:"RED"},{id:"red2",label:"RED②"},{id:"pink",label:"PINK"}],subCourses:[{name:"頼成OUT",holes:[{"hole":1,"par":5,"hdcp":9,"black":575,"blue":480,"white":460,"gold":441,"red":441,"pink":334,"red2":441},{"hole":2,"par":3,"hdcp":15,"black":179,"blue":160,"white":135,"gold":122,"red":122,"pink":122,"red2":122},{"hole":3,"par":4,"hdcp":3,"black":441,"blue":411,"white":366,"gold":355,"red":299,"pink":299,"red2":299},{"hole":4,"par":4,"hdcp":17,"black":362,"blue":345,"white":334,"gold":324,"red":324,"pink":254,"red2":290},{"hole":5,"par":5,"hdcp":5,"black":538,"blue":516,"white":500,"gold":467,"red":467,"pink":371,"red2":467},{"hole":6,"par":4,"hdcp":11,"black":363,"blue":353,"white":345,"gold":337,"red":329,"pink":275,"red2":284},{"hole":7,"par":4,"hdcp":1,"black":439,"blue":422,"white":385,"gold":357,"red":295,"pink":295,"red2":295},{"hole":8,"par":3,"hdcp":7,"black":215,"blue":205,"white":152,"gold":132,"red":122,"pink":122,"red2":122},{"hole":9,"par":4,"hdcp":13,"black":366,"blue":341,"white":333,"gold":323,"red":315,"pink":213,"red2":315}]},{name:"頼成IN",holes:[{"hole":10,"par":4,"hdcp":8,"black":407,"blue":390,"white":380,"gold":374,"red":346,"pink":277,"red2":346},{"hole":11,"par":4,"hdcp":2,"black":416,"blue":404,"white":390,"gold":356,"red":279,"pink":236,"red2":279},{"hole":12,"par":5,"hdcp":14,"black":519,"blue":502,"white":486,"gold":476,"red":449,"pink":407,"red2":449},{"hole":13,"par":3,"hdcp":4,"black":223,"blue":197,"white":160,"gold":150,"red":150,"pink":150,"red2":120},{"hole":14,"par":4,"hdcp":10,"black":386,"blue":358,"white":350,"gold":339,"red":330,"pink":241,"red2":290},{"hole":15,"par":5,"hdcp":16,"black":511,"blue":502,"white":492,"gold":483,"red":441,"pink":364,"red2":441},{"hole":16,"par":3,"hdcp":12,"black":185,"blue":169,"white":156,"gold":148,"red":139,"pink":139,"red2":139},{"hole":17,"par":4,"hdcp":18,"black":338,"blue":321,"white":311,"gold":305,"red":291,"pink":230,"red2":291},{"hole":18,"par":4,"hdcp":6,"black":351,"blue":328,"white":313,"gold":282,"red":266,"pink":217,"red2":266}]},{name:"万葉OUT",holes:[{"hole":1,"par":4,"hdcp":11,"black":408,"blue":385,"white":361,"gold":348,"red":311,"pink":280,"red2":311},{"hole":2,"par":5,"hdcp":17,"black":475,"blue":457,"white":446,"gold":417,"red":406,"pink":371,"red2":406},{"hole":3,"par":4,"hdcp":5,"black":386,"blue":370,"white":348,"gold":334,"red":281,"pink":281,"red2":281},{"hole":4,"par":3,"hdcp":13,"black":160,"blue":137,"white":137,"gold":106,"red":106,"pink":106,"red2":106},{"hole":5,"par":4,"hdcp":7,"black":408,"blue":389,"white":379,"gold":370,"red":354,"pink":284,"red2":294},{"hole":6,"par":4,"hdcp":1,"black":420,"blue":398,"white":398,"gold":332,"red":317,"pink":270,"red2":317},{"hole":7,"par":5,"hdcp":9,"black":576,"blue":549,"white":521,"gold":481,"red":467,"pink":363,"red2":417},{"hole":8,"par":3,"hdcp":3,"black":206,"blue":181,"white":170,"gold":150,"red":138,"pink":138,"red2":138},{"hole":9,"par":4,"hdcp":15,"black":396,"blue":378,"white":365,"gold":349,"red":349,"pink":247,"red2":315}]},{name:"万葉IN",holes:[{"hole":10,"par":4,"hdcp":12,"black":417,"blue":396,"white":382,"gold":379,"red":346,"pink":266,"red2":276},{"hole":11,"par":5,"hdcp":6,"black":597,"blue":566,"white":522,"gold":510,"red":490,"pink":449,"red2":449},{"hole":12,"par":3,"hdcp":18,"black":182,"blue":167,"white":151,"gold":137,"red":124,"pink":124,"red2":124},{"hole":13,"par":4,"hdcp":10,"black":399,"blue":379,"white":368,"gold":343,"red":343,"pink":298,"red2":298},{"hole":14,"par":4,"hdcp":16,"black":383,"blue":356,"white":328,"gold":316,"red":282,"pink":220,"red2":282},{"hole":15,"par":5,"hdcp":4,"black":517,"blue":498,"white":477,"gold":460,"red":460,"pink":391,"red2":391},{"hole":16,"par":4,"hdcp":2,"black":394,"blue":375,"white":363,"gold":328,"red":310,"pink":246,"red2":310},{"hole":17,"par":3,"hdcp":14,"black":186,"blue":171,"white":155,"gold":124,"red":124,"pink":124,"red2":124},{"hole":18,"par":4,"hdcp":8,"black":397,"blue":373,"white":347,"gold":326,"red":326,"pink":280,"red2":326}]}],getYardage:(hole,green,tee)=>hole[tee]??null});
+// 立山CC 27H(雄山/雷鳥/称名) 2G(M.G.メイン/S.G.サブ・両G距離別) 5T HDCP不明 CGA富山 中新川郡立山町 出典GORA160010(M.G./S.G.タブ両取得) 2026-06-27
+VENUES.push({
+  id: "tateyama_cc_toyama", reading: "タテヤマカントリークラブ",
+  name: "立山カントリークラブ",
+  greens: [{ id: "m", label: "メイングリーン" }, { id: "s", label: "サブグリーン" }],
+  tees: [{ id: "back", label: "バック" }, { id: "reg", label: "レギュラー" }, { id: "front", label: "フロント" }, { id: "gold", label: "ゴールド" }, { id: "ladies", label: "レディース" }],
+  subCourses: [
+    { name: "雄山", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back_m": 404, "back_s": 385, "reg_m": 382, "reg_s": 363, "front_m": 355, "front_s": 335, "gold_m": 289, "gold_s": 269, "ladies_m": 289, "ladies_s": 269},
+      {"hole": 2, "par": 5, "hdcp": null, "back_m": 514, "back_s": 498, "reg_m": 487, "reg_s": 471, "front_m": 448, "front_s": 432, "gold_m": 448, "gold_s": 432, "ladies_m": 403, "ladies_s": 387},
+      {"hole": 3, "par": 4, "hdcp": null, "back_m": 355, "back_s": 336, "reg_m": 342, "reg_s": 326, "front_m": 312, "front_s": 296, "gold_m": 307, "gold_s": 291, "ladies_m": 279, "ladies_s": 263},
+      {"hole": 4, "par": 3, "hdcp": null, "back_m": 182, "back_s": 166, "reg_m": 163, "reg_s": 150, "front_m": 163, "front_s": 150, "gold_m": 133, "gold_s": 120, "ladies_m": 133, "ladies_s": 120},
+      {"hole": 5, "par": 4, "hdcp": null, "back_m": 383, "back_s": 356, "reg_m": 295, "reg_s": 287, "front_m": 295, "front_s": 287, "gold_m": 273, "gold_s": 265, "ladies_m": 273, "ladies_s": 265},
+      {"hole": 6, "par": 3, "hdcp": null, "back_m": 198, "back_s": 197, "reg_m": 173, "reg_s": 173, "front_m": 159, "front_s": 158, "gold_m": 148, "gold_s": 147, "ladies_m": 148, "ladies_s": 147},
+      {"hole": 7, "par": 4, "hdcp": null, "back_m": 431, "back_s": 429, "reg_m": 406, "reg_s": 406, "front_m": 406, "front_s": 406, "gold_m": 384, "gold_s": 384, "ladies_m": 244, "ladies_s": 243},
+      {"hole": 8, "par": 4, "hdcp": null, "back_m": 380, "back_s": 354, "reg_m": 360, "reg_s": 345, "front_m": 324, "front_s": 309, "gold_m": 305, "gold_s": 290, "ladies_m": 275, "ladies_s": 260},
+      {"hole": 9, "par": 5, "hdcp": null, "back_m": 555, "back_s": 546, "reg_m": 518, "reg_s": 509, "front_m": 485, "front_s": 476, "gold_m": 470, "gold_s": 462, "ladies_m": 470, "ladies_s": 462},
+    ]},
+    { name: "雷鳥", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "back_m": 369, "back_s": 369, "reg_m": 356, "reg_s": 356, "front_m": 342, "front_s": 342, "gold_m": 333, "gold_s": 333, "ladies_m": 333, "ladies_s": 333},
+      {"hole": 2, "par": 4, "hdcp": null, "back_m": 364, "back_s": 335, "reg_m": 339, "reg_s": 310, "front_m": 339, "front_s": 310, "gold_m": 323, "gold_s": 294, "ladies_m": 323, "ladies_s": 294},
+      {"hole": 3, "par": 3, "hdcp": null, "back_m": 205, "back_s": 196, "reg_m": 118, "reg_s": 115, "front_m": 118, "front_s": 115, "gold_m": 106, "gold_s": 103, "ladies_m": 106, "ladies_s": 103},
+      {"hole": 4, "par": 4, "hdcp": null, "back_m": 426, "back_s": 426, "reg_m": 407, "reg_s": 407, "front_m": 383, "front_s": 383, "gold_m": 383, "gold_s": 383, "ladies_m": 383, "ladies_s": 383},
+      {"hole": 5, "par": 5, "hdcp": null, "back_m": 540, "back_s": 515, "reg_m": 510, "reg_s": 490, "front_m": 490, "front_s": 480, "gold_m": 472, "gold_s": 461, "ladies_m": 388, "ladies_s": 377},
+      {"hole": 6, "par": 3, "hdcp": null, "back_m": 160, "back_s": 147, "reg_m": 142, "reg_s": 129, "front_m": 137, "front_s": 116, "gold_m": 137, "gold_s": 116, "ladies_m": 137, "ladies_s": 116},
+      {"hole": 7, "par": 4, "hdcp": null, "back_m": 313, "back_s": 313, "reg_m": 310, "reg_s": 310, "front_m": 292, "front_s": 292, "gold_m": 289, "gold_s": 289, "ladies_m": 289, "ladies_s": 289},
+      {"hole": 8, "par": 4, "hdcp": null, "back_m": 393, "back_s": 393, "reg_m": 360, "reg_s": 360, "front_m": 348, "front_s": 348, "gold_m": 348, "gold_s": 348, "ladies_m": 300, "ladies_s": 300},
+      {"hole": 9, "par": 5, "hdcp": null, "back_m": 532, "back_s": 526, "reg_m": 507, "reg_s": 501, "front_m": 479, "front_s": 473, "gold_m": 464, "gold_s": 458, "ladies_m": 422, "ladies_s": 415},
+    ]},
+    { name: "称名", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back_m": 546, "back_s": 517, "reg_m": 509, "reg_s": 479, "front_m": 492, "front_s": 463, "gold_m": 462, "gold_s": 432, "ladies_m": 462, "ladies_s": 432},
+      {"hole": 2, "par": 3, "hdcp": null, "back_m": 191, "back_s": 191, "reg_m": 183, "reg_s": 183, "front_m": 172, "front_s": 172, "gold_m": 143, "gold_s": 143, "ladies_m": 115, "ladies_s": 115},
+      {"hole": 3, "par": 4, "hdcp": null, "back_m": 388, "back_s": 388, "reg_m": 372, "reg_s": 372, "front_m": 351, "front_s": 351, "gold_m": 351, "gold_s": 351, "ladies_m": 285, "ladies_s": 285},
+      {"hole": 4, "par": 4, "hdcp": null, "back_m": 335, "back_s": 335, "reg_m": 314, "reg_s": 314, "front_m": 314, "front_s": 314, "gold_m": 295, "gold_s": 295, "ladies_m": 295, "ladies_s": 295},
+      {"hole": 5, "par": 5, "hdcp": null, "back_m": 493, "back_s": 493, "reg_m": 481, "reg_s": 481, "front_m": 457, "front_s": 457, "gold_m": 425, "gold_s": 425, "ladies_m": 425, "ladies_s": 425},
+      {"hole": 6, "par": 3, "hdcp": null, "back_m": 205, "back_s": 205, "reg_m": 167, "reg_s": 167, "front_m": 163, "front_s": 163, "gold_m": 139, "gold_s": 139, "ladies_m": 100, "ladies_s": 100},
+      {"hole": 7, "par": 4, "hdcp": null, "back_m": 359, "back_s": 359, "reg_m": 348, "reg_s": 348, "front_m": 332, "front_s": 332, "gold_m": 304, "gold_s": 304, "ladies_m": 218, "ladies_s": 218},
+      {"hole": 8, "par": 4, "hdcp": null, "back_m": 317, "back_s": 317, "reg_m": 298, "reg_s": 298, "front_m": 276, "front_s": 276, "gold_m": 276, "gold_s": 276, "ladies_m": 235, "ladies_s": 235},
+      {"hole": 9, "par": 4, "hdcp": null, "back_m": 379, "back_s": 379, "reg_m": 363, "reg_s": 363, "front_m": 347, "front_s": 347, "gold_m": 347, "gold_s": 347, "ladies_m": 289, "ladies_s": 289},
+    ]},
+  ],
+  getYardage: (hole, green, tee) => hole[tee + "_" + green] ?? null
+});
+
+// トナミロイヤルGC 18H 1G(2Gだがホール別距離1組) 4T(Gold非公開) CGA富山 南砺市井口 出典GORA160012 2026-06-27
+VENUES.push({id:"tonami_royal_gc",reading:"となみろいやるごるふくらぶ",name:"トナミロイヤルゴルフ倶楽部",greens:[{id:"l",name:"LEFTグリーン"},{id:"r",name:"RIGHTグリーン"}],tees:[{id:"back",name:"バック"},{id:"reg",name:"レギュラー"},{id:"front",name:"フロント"},{id:"ladies",name:"レディース"}],subCourses:[{name:"OUT/IN",holes:[{"hole":1,"par":4,"hdcp":13,"back_l":390,"back_r":390,"reg_l":373,"reg_r":373,"front_l":359,"front_r":359,"ladies_l":281,"ladies_r":281},{"hole":2,"par":4,"hdcp":11,"back_l":332,"back_r":357,"reg_l":324,"reg_r":349,"front_l":315,"front_r":340,"ladies_l":221,"ladies_r":245},{"hole":3,"par":4,"hdcp":3,"back_l":354,"back_r":387,"reg_l":341,"reg_r":375,"front_l":329,"front_r":362,"ladies_l":270,"ladies_r":301},{"hole":4,"par":5,"hdcp":15,"back_l":524,"back_r":519,"reg_l":494,"reg_r":489,"front_l":465,"front_r":460,"ladies_l":383,"ladies_r":385},{"hole":5,"par":4,"hdcp":17,"back_l":393,"back_r":385,"reg_l":378,"reg_r":370,"front_l":361,"front_r":353,"ladies_l":290,"ladies_r":280},{"hole":6,"par":3,"hdcp":5,"back_l":169,"back_r":193,"reg_l":150,"reg_r":174,"front_l":123,"front_r":147,"ladies_l":116,"ladies_r":141},{"hole":7,"par":5,"hdcp":9,"back_l":589,"back_r":583,"reg_l":567,"reg_r":561,"front_l":557,"front_r":551,"ladies_l":469,"ladies_r":454},{"hole":8,"par":4,"hdcp":1,"back_l":411,"back_r":430,"reg_l":366,"reg_r":379,"front_l":349,"front_r":362,"ladies_l":278,"ladies_r":297},{"hole":9,"par":3,"hdcp":7,"back_l":189,"back_r":189,"reg_l":175,"reg_r":175,"front_l":133,"front_r":133,"ladies_l":107,"ladies_r":107},{"hole":10,"par":5,"hdcp":16,"back_l":501,"back_r":504,"reg_l":492,"reg_r":495,"front_l":476,"front_r":479,"ladies_l":425,"ladies_r":426},{"hole":11,"par":4,"hdcp":12,"back_l":316,"back_r":340,"reg_l":310,"reg_r":334,"front_l":299,"front_r":323,"ladies_l":251,"ladies_r":275},{"hole":12,"par":3,"hdcp":4,"back_l":176,"back_r":182,"reg_l":158,"reg_r":166,"front_l":150,"front_r":156,"ladies_l":134,"ladies_r":139},{"hole":13,"par":4,"hdcp":14,"back_l":352,"back_r":333,"reg_l":349,"reg_r":330,"front_l":338,"front_r":319,"ladies_l":319,"ladies_r":301},{"hole":14,"par":4,"hdcp":2,"back_l":369,"back_r":378,"reg_l":317,"reg_r":325,"front_l":307,"front_r":315,"ladies_l":267,"ladies_r":275},{"hole":15,"par":4,"hdcp":8,"back_l":384,"back_r":413,"reg_l":365,"reg_r":394,"front_l":355,"front_r":384,"ladies_l":328,"ladies_r":355},{"hole":16,"par":3,"hdcp":10,"back_l":134,"back_r":168,"reg_l":123,"reg_r":158,"front_l":106,"front_r":141,"ladies_l":98,"ladies_r":133},{"hole":17,"par":5,"hdcp":6,"back_l":538,"back_r":567,"reg_l":522,"reg_r":551,"front_l":504,"front_r":533,"ladies_l":376,"ladies_r":406},{"hole":18,"par":4,"hdcp":18,"back_l":290,"back_r":313,"reg_l":281,"reg_r":305,"front_l":273,"front_r":298,"ladies_l":248,"ladies_r":274}]}],getYardage:(hole,green,tee)=>hole[tee+"_"+green]??null});
+
+// 富山CC 27H(有磯/薬師/神通) 1G 5T HDCP不明 CGA富山 富山市万願寺 出典GORA160013 2026-06-27
+VENUES.push({
+  id: "toyama_cc",
+  reading: "トヤマカントリークラブ",
+  name: "富山カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "bt", "label": "BT"}, {"id": "rt", "label": "RT"}, {"id": "ft", "label": "FT"}, {"id": "gt", "label": "GT"}, {"id": "lt", "label": "LT"}],
+  subCourses: [
+    { name: "有磯", holes: [
+      {"hole": 1, "par": 4, "hdcp": null, "bt": 343, "rt": 325, "ft": 307, "gt": 307, "lt": 307},
+      {"hole": 2, "par": 3, "hdcp": null, "bt": 158, "rt": 144, "ft": 144, "gt": 133, "lt": 133},
+      {"hole": 3, "par": 4, "hdcp": null, "bt": 319, "rt": 300, "ft": 300, "gt": 300, "lt": 300},
+      {"hole": 4, "par": 5, "hdcp": null, "bt": 544, "rt": 514, "ft": 492, "gt": 472, "lt": 472},
+      {"hole": 5, "par": 4, "hdcp": null, "bt": 356, "rt": 338, "ft": 311, "gt": 294, "lt": 238},
+      {"hole": 6, "par": 4, "hdcp": null, "bt": 360, "rt": 341, "ft": 316, "gt": 299, "lt": 285},
+      {"hole": 7, "par": 3, "hdcp": null, "bt": 207, "rt": 184, "ft": 176, "gt": 145, "lt": 145},
+      {"hole": 8, "par": 4, "hdcp": null, "bt": 408, "rt": 389, "ft": 372, "gt": 330, "lt": 297},
+      {"hole": 9, "par": 5, "hdcp": null, "bt": 566, "rt": 506, "ft": 483, "gt": 459, "lt": 397},
+    ]},
+    { name: "薬師", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "bt": 506, "rt": 493, "ft": 475, "gt": 455, "lt": 395},
+      {"hole": 2, "par": 4, "hdcp": null, "bt": 382, "rt": 369, "ft": 344, "gt": 283, "lt": 283},
+      {"hole": 3, "par": 4, "hdcp": null, "bt": 354, "rt": 341, "ft": 325, "gt": 325, "lt": 265},
+      {"hole": 4, "par": 3, "hdcp": null, "bt": 207, "rt": 174, "ft": 155, "gt": 136, "lt": 136},
+      {"hole": 5, "par": 4, "hdcp": null, "bt": 389, "rt": 367, "ft": 344, "gt": 288, "lt": 288},
+      {"hole": 6, "par": 5, "hdcp": null, "bt": 566, "rt": 534, "ft": 518, "gt": 496, "lt": 401},
+      {"hole": 7, "par": 4, "hdcp": null, "bt": 416, "rt": 408, "ft": 398, "gt": 345, "lt": 345},
+      {"hole": 8, "par": 3, "hdcp": null, "bt": 194, "rt": 169, "ft": 133, "gt": 114, "lt": 114},
+      {"hole": 9, "par": 4, "hdcp": null, "bt": 365, "rt": 314, "ft": 314, "gt": 314, "lt": 314},
+    ]},
+    { name: "神通", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "bt": 523, "rt": 496, "ft": 471, "gt": 455, "lt": 353},
+      {"hole": 2, "par": 4, "hdcp": null, "bt": 295, "rt": 283, "ft": 283, "gt": 283, "lt": 240},
+      {"hole": 3, "par": 3, "hdcp": null, "bt": 209, "rt": 161, "ft": 144, "gt": 131, "lt": 131},
+      {"hole": 4, "par": 4, "hdcp": null, "bt": 403, "rt": 395, "ft": 376, "gt": 354, "lt": 276},
+      {"hole": 5, "par": 4, "hdcp": null, "bt": 470, "rt": 455, "ft": 389, "gt": 353, "lt": 343},
+      {"hole": 6, "par": 4, "hdcp": null, "bt": 415, "rt": 398, "ft": 373, "gt": 355, "lt": 355},
+      {"hole": 7, "par": 3, "hdcp": null, "bt": 204, "rt": 179, "ft": 159, "gt": 139, "lt": 139},
+      {"hole": 8, "par": 4, "hdcp": null, "bt": 344, "rt": 328, "ft": 328, "gt": 328, "lt": 233},
+      {"hole": 9, "par": 5, "hdcp": null, "bt": 539, "rt": 520, "ft": 490, "gt": 424, "lt": 424},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 花尾CC 27H(東/中/西) 1G 2T(白/金/赤/ピンク非公開) HDCP不明 CGA富山 高岡市福岡町 出典GORA160014 2026-06-27
+VENUES.push({
+  id: "hanao_cc_toyama",
+  reading: "ハナオカントリークラブ",
+  name: "花尾カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}],
+  subCourses: [
+    { name: "東", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 520, "reg": 505},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 372, "reg": 353},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 304, "reg": 288},
+      {"hole": 4, "par": 3, "hdcp": null, "back": 218, "reg": 196},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 341, "reg": 326},
+      {"hole": 6, "par": 5, "hdcp": null, "back": 560, "reg": 543},
+      {"hole": 7, "par": 3, "hdcp": null, "back": 196, "reg": 170},
+      {"hole": 8, "par": 4, "hdcp": null, "back": 432, "reg": 374},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 405, "reg": 384},
+    ]},
+    { name: "中", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 507, "reg": 492},
+      {"hole": 2, "par": 3, "hdcp": null, "back": 194, "reg": 175},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 345, "reg": 331},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 469, "reg": 436},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 404, "reg": 401},
+      {"hole": 6, "par": 4, "hdcp": null, "back": 285, "reg": 275},
+      {"hole": 7, "par": 5, "hdcp": null, "back": 517, "reg": 503},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 163, "reg": 142},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 454, "reg": 429},
+    ]},
+    { name: "西", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 526, "reg": 514},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 382, "reg": 362},
+      {"hole": 3, "par": 3, "hdcp": null, "back": 164, "reg": 151},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 424, "reg": 402},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 425, "reg": 394},
+      {"hole": 6, "par": 3, "hdcp": null, "back": 182, "reg": 162},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 359, "reg": 340},
+      {"hole": 8, "par": 5, "hdcp": null, "back": 488, "reg": 474},
+      {"hole": 9, "par": 4, "hdcp": null, "back": 410, "reg": 397},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 氷見CC 18H 1G 3T CGA富山 氷見市 出典GORA160015 2026-06-27
+VENUES.push({
+  id: "himi_cc",
+  reading: "ヒミカントリークラブ",
+  name: "氷見カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REGULAR"}, {"id": "ladies", "label": "LADIES"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": 3, "back": 555, "reg": 534, "ladies": 518},
+      {"hole": 2, "par": 4, "hdcp": 11, "back": 354, "reg": 332, "ladies": 315},
+      {"hole": 3, "par": 3, "hdcp": 9, "back": 195, "reg": 172, "ladies": 153},
+      {"hole": 4, "par": 4, "hdcp": 7, "back": 371, "reg": 340, "ladies": 329},
+      {"hole": 5, "par": 4, "hdcp": 1, "back": 430, "reg": 408, "ladies": 384},
+      {"hole": 6, "par": 4, "hdcp": 17, "back": 344, "reg": 321, "ladies": 298},
+      {"hole": 7, "par": 4, "hdcp": 13, "back": 314, "reg": 280, "ladies": 248},
+      {"hole": 8, "par": 3, "hdcp": 15, "back": 168, "reg": 147, "ladies": 127},
+      {"hole": 9, "par": 5, "hdcp": 5, "back": 476, "reg": 454, "ladies": 432},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": 8, "back": 416, "reg": 394, "ladies": 372},
+      {"hole": 11, "par": 3, "hdcp": 18, "back": 186, "reg": 168, "ladies": 151},
+      {"hole": 12, "par": 5, "hdcp": 6, "back": 472, "reg": 438, "ladies": 388},
+      {"hole": 13, "par": 4, "hdcp": 4, "back": 422, "reg": 392, "ladies": 367},
+      {"hole": 14, "par": 4, "hdcp": 16, "back": 397, "reg": 375, "ladies": 340},
+      {"hole": 15, "par": 4, "hdcp": 14, "back": 378, "reg": 356, "ladies": 345},
+      {"hole": 16, "par": 5, "hdcp": 2, "back": 537, "reg": 504, "ladies": 482},
+      {"hole": 17, "par": 3, "hdcp": 12, "back": 247, "reg": 208, "ladies": 145},
+      {"hole": 18, "par": 4, "hdcp": 10, "back": 359, "reg": 338, "ladies": 311},
+    ]},
+  ],
+  getYardage: (h,g,t)=>h[t]??null
+});
+
+// 八尾CC 18H 1G 6T HDCP不明 CGA富山 富山市八尾町 出典GORA160016 2026-06-27
+VENUES.push({
+  id: "yatsuo_cc",
+  reading: "ヤツオカントリークラブ",
+  name: "八尾カントリークラブ",
+  greens: [{"id": "a", "label": "ベント"}],
+  tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "gold", "label": "ゴールド"}, {"id": "ladies", "label": "レディース"}, {"id": "red", "label": "レッド"}],
+  subCourses: [
+    { name: "OUT", holes: [
+      {"hole": 1, "par": 5, "hdcp": null, "back": 537, "reg": 518, "front": 495, "gold": 475, "ladies": 475, "red": 475},
+      {"hole": 2, "par": 4, "hdcp": null, "back": 346, "reg": 323, "front": 306, "gold": 287, "ladies": 287, "red": 287},
+      {"hole": 3, "par": 4, "hdcp": null, "back": 350, "reg": 329, "front": 308, "gold": 288, "ladies": 288, "red": 288},
+      {"hole": 4, "par": 4, "hdcp": null, "back": 432, "reg": 396, "front": 373, "gold": 351, "ladies": 291, "red": 291},
+      {"hole": 5, "par": 4, "hdcp": null, "back": 426, "reg": 413, "front": 371, "gold": 352, "ladies": 298, "red": 298},
+      {"hole": 6, "par": 3, "hdcp": null, "back": 172, "reg": 152, "front": 133, "gold": 115, "ladies": 115, "red": 115},
+      {"hole": 7, "par": 4, "hdcp": null, "back": 420, "reg": 395, "front": 370, "gold": 347, "ladies": 317, "red": 317},
+      {"hole": 8, "par": 3, "hdcp": null, "back": 212, "reg": 187, "front": 167, "gold": 132, "ladies": 132, "red": 132},
+      {"hole": 9, "par": 5, "hdcp": null, "back": 545, "reg": 510, "front": 491, "gold": 458, "ladies": 400, "red": 400},
+    ]},
+    { name: "IN", holes: [
+      {"hole": 10, "par": 4, "hdcp": null, "back": 398, "reg": 378, "front": 359, "gold": 338, "ladies": 338, "red": 338},
+      {"hole": 11, "par": 4, "hdcp": null, "back": 338, "reg": 325, "front": 312, "gold": 298, "ladies": 264, "red": 264},
+      {"hole": 12, "par": 3, "hdcp": null, "back": 178, "reg": 158, "front": 139, "gold": 120, "ladies": 120, "red": 120},
+      {"hole": 13, "par": 4, "hdcp": null, "back": 425, "reg": 400, "front": 376, "gold": 356, "ladies": 291, "red": 291},
+      {"hole": 14, "par": 5, "hdcp": null, "back": 584, "reg": 538, "front": 515, "gold": 484, "ladies": 484, "red": 484},
+      {"hole": 15, "par": 4, "hdcp": null, "back": 420, "reg": 394, "front": 370, "gold": 346, "ladies": 304, "red": 304},
+      {"hole": 16, "par": 3, "hdcp": null, "back": 196, "reg": 168, "front": 148, "gold": 131, "ladies": 116, "red": 116},
+      {"hole": 17, "par": 4, "hdcp": null, "back": 388, "reg": 369, "front": 349, "gold": 333, "ladies": 287, "red": 287},
+      {"hole": 18, "par": 5, "hdcp": null, "back": 547, "reg": 524, "front": 498, "gold": 460, "ladies": 393, "red": 393},
     ]},
   ],
   getYardage: (h,g,t)=>h[t]??null
