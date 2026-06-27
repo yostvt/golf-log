@@ -3008,7 +3008,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06240601";
+var APP_VERSION = "06271432";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -6006,7 +6006,18 @@ function GolfTracker() {
       })(), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px", marginTop: "5px", paddingTop: "5px", fontSize: "11px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D1\u30C3\u30C8 ", /* @__PURE__ */ React.createElement("span", { style: { color: "#1e293b", fontWeight: "700" } }, sa.totalPutts)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "OB ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalOB > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa.totalOB)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30DA\u30CA\u30EB\u30C6\u30A3 ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalPen > 0 ? "#b91c1c" : "#e2e8f0", fontWeight: "700" } }, sa.totalPen)), /* @__PURE__ */ React.createElement("span", { style: { color: "#475569", fontWeight: "600" } }, "\u30D0\u30F3\u30AB\u30FC ", /* @__PURE__ */ React.createElement("span", { style: { color: sa.totalBunker > 0 ? "#fbbf24" : "#e2e8f0", fontWeight: "700" } }, sa.totalBunker))), /* @__PURE__ */ React.createElement(
         "button",
         {
-          onClick: () => setShotDetailRid(shotDetailRid === r.rid ? null : r.rid),
+          onClick: (e) => {
+            const _btn = e.currentTarget;
+            const _before = _btn.getBoundingClientRect().top;
+            setShotDetailRid(shotDetailRid === r.rid ? null : r.rid);
+            requestAnimationFrame(() => {
+              try {
+                const _d2 = _btn.getBoundingClientRect().top - _before;
+                if (Math.abs(_d2) > 1) window.scrollBy(0, _d2);
+              } catch (_) {
+              }
+            });
+          },
           style: { padding: "4px 12px", borderRadius: "20px", border: "none", background: "linear-gradient(135deg,#f59e0b,#ea580c)", color: "#ffffff", fontSize: "10px", fontWeight: "700", cursor: "pointer", whiteSpace: "nowrap", boxShadow: "0 2px 6px rgba(245,158,11,0.30)" }
         },
         "\u30DB\u30FC\u30EB\u30D0\u30A4\u30DB\u30FC\u30EB"
