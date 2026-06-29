@@ -773,12 +773,10 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
     }
     const kBunk = __bunkers.length;
     if (kBunk > 0) {
-      __bunkers.forEach(({ bi, d }) => {
-        let __act = 0;
-        for (let bj = bi + 1; bj < shots.length; bj++) __act += shots[bj].shotCount || 1;
-        holeBK += ip(PRO_BASELINE.fairway, d) * R - __act;
-      });
-      holeBK += kBunk - 1;
+      const { bi, d } = __bunkers[0];
+      let __act = 0;
+      for (let bj = bi + 1; bj < shots.length; bj++) __act += shots[bj].shotCount || 1;
+      holeBK += ip(PRO_BASELINE.fairway, d) * R - __act;
     }
     holeBK = num(holeBK);
     BK += holeBK;
@@ -3008,7 +3006,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06271948";
+var APP_VERSION = "06291122";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
