@@ -287,10 +287,24 @@ var COLOR_MAP = {
 var GOAL_TYPES = [
   { id: "birdie", label: "\u30D0\u30FC\u30C7\u30A3\u4EE5\u4E0A" },
   { id: "par", label: "\u30D1\u30FC\u4EE5\u4E0A" },
+  { id: "bogey", label: "\u30DC\u30AE\u30FC\u4EE5\u4E0A" },
   { id: "gir", label: "\u30D1\u30FC\u30AA\u30F3\u9054\u6210" },
+  { id: "bogeyGir", label: "\u30DC\u30AE\u30FC\u30AA\u30F3\u9054\u6210" },
   { id: "tee", label: "Par4/5\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8\u6210\u529F" },
   { id: "twoPutt", label: "2\u30D1\u30C3\u30C8\u4EE5\u5185" }
 ];
+var GOAL_DEFAULT_TARGET = {
+  par: 6,
+  // パー以上
+  bogey: 9,
+  // ボギー以上
+  gir: 6,
+  // パーオン達成
+  bogeyGir: 9,
+  // ボギーオン達成
+  twoPutt: 18
+  // 2パット以内
+};
 function calcGoalProgress(holeData, holePars, goal) {
   if (!goal || !goal.type) return 0;
   return Object.entries(holeData).filter(([, hd]) => hd.done).filter(([hKey, hd]) => {
@@ -307,9 +321,15 @@ function calcGoalProgress(holeData, holePars, goal) {
         return totalStrokes - par <= -1;
       case "par":
         return totalStrokes - par <= 0;
+      case "bogey":
+        return totalStrokes - par <= 1;
       case "gir": {
         const onGreen = hasPutt || shots.some((s) => s.optionId === "cupin");
         return onGreen && nonPuttStrokes <= par - 2;
+      }
+      case "bogeyGir": {
+        const onGreenB = hasPutt || shots.some((s) => s.optionId === "cupin");
+        return onGreenB && nonPuttStrokes <= par - 1;
       }
       case "tee": {
         if (par < 4) return false;
@@ -3006,7 +3026,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "06291122";
+var APP_VERSION = "06301834";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -5775,10 +5795,13 @@ function GolfTracker() {
         return /* @__PURE__ */ React.createElement("div", { key: g.id, style: { marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px" } }, /* @__PURE__ */ React.createElement(
           "button",
           {
-            onClick: () => setRoundGoal((prev) => ({
-              type: g.id,
-              target: sel ? Math.min(prev.target, maxVal) : Math.min(3, maxVal)
-            })),
+            onClick: () => setRoundGoal((prev) => {
+              var _a3;
+              return {
+                type: g.id,
+                target: sel ? Math.min(prev.target, maxVal) : Math.min((_a3 = GOAL_DEFAULT_TARGET[g.id]) != null ? _a3 : 3, maxVal)
+              };
+            }),
             style: {
               flex: 1,
               padding: "9px 12px",
@@ -7660,7 +7683,7 @@ function GolfTracker() {
     ))), yard && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", marginTop: "5px", fontSize: "10px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { color: "#d97706", fontWeight: "700" } }, [greenLabel, teeLabel].filter(Boolean).join("\u3000"), " ", yard, "y")));
   })(), hd.shots.map((s, i) => {
     const c = COLOR_MAP[s.color] || COLOR_MAP.gray;
-    return /* @__PURE__ */ React.createElement("div", { key: s.id, style: { display: "flex", alignItems: "center", gap: "9px", padding: "9px 11px", borderRadius: "8px", background: "#f8fafc", border: "1px solid rgba(255,255,255,0.055)", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "22px", height: "22px", borderRadius: "50%", background: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: "800", color: "#64748b", flexShrink: 0 } }, hd.shots.slice(0, i).reduce((a, sh) => a + sh.shotCount, i > 0 ? 1 + (hd.extraPenalty || 0) : 1)), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "700", fontSize: "13px", color: c.text } }, s.optionLabel), s.remainDist && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#fbbf24", background: "rgba(251,191,36,0.1)", padding: "1px 6px", borderRadius: "4px" } }, s.remainDist), s.club && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#0ea5e9", background: "rgba(14,165,233,0.12)", padding: "1px 6px", borderRadius: "4px" } }, clubLabel(s.club))), s.penaltyCount > 0 && /* @__PURE__ */ React.createElement("div", { style: { color: "#b91c1c", fontSize: "10px" } }, "\uFF08+", s.penaltyCount, "\u7F70\u30FB\u8A08", s.shotCount, "\u6253\u6D88\u8CBB\uFF09"), s.shotCount > 1 && !s.penaltyCount && s.categoryKey === "putt" && /* @__PURE__ */ React.createElement("div", { style: { color: "#475569", fontSize: "10px" } }, "\uFF08", s.shotCount, "\u6253\u5206\uFF09"), s.note && /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "10px" } }, s.note)), /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "13px", flexShrink: 0, color: s.quality !== void 0 ? s.quality === "\u25CB" ? "#16a34a" : s.quality === "\u25B3" ? "#fbbf24" : "#94a3b8" : scoreColor(s.score) } }, s.quality !== void 0 ? s.quality : fmt(s.score)));
+    return /* @__PURE__ */ React.createElement("div", { key: s.id, style: { display: "flex", alignItems: "center", gap: "9px", padding: "9px 11px", borderRadius: "8px", background: "#f8fafc", border: "1px solid rgba(255,255,255,0.055)", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "22px", height: "22px", borderRadius: "50%", background: "#f1f5f9", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", fontWeight: "800", color: "#64748b", flexShrink: 0 } }, hd.shots.slice(0, i).reduce((a, sh) => a + sh.shotCount, i > 0 ? 1 + (hd.extraPenalty || 0) : 1)), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", flexWrap: "wrap" } }, /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "700", fontSize: "13px", color: c.text } }, s.optionLabel), s.remainDist && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#fbbf24", background: "rgba(251,191,36,0.1)", padding: "1px 6px", borderRadius: "4px" } }, s.remainDistRaw != null ? s.remainDistRaw + (s.categoryKey === "putt" ? "m" : "Y") : s.remainDist), s.club && /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#0ea5e9", background: "rgba(14,165,233,0.12)", padding: "1px 6px", borderRadius: "4px" } }, clubLabel(s.club))), s.penaltyCount > 0 && /* @__PURE__ */ React.createElement("div", { style: { color: "#b91c1c", fontSize: "10px" } }, "\uFF08+", s.penaltyCount, "\u7F70\u30FB\u8A08", s.shotCount, "\u6253\u6D88\u8CBB\uFF09"), s.shotCount > 1 && !s.penaltyCount && s.categoryKey === "putt" && /* @__PURE__ */ React.createElement("div", { style: { color: "#475569", fontSize: "10px" } }, "\uFF08", s.shotCount, "\u6253\u5206\uFF09"), s.note && /* @__PURE__ */ React.createElement("div", { style: { color: "#94a3b8", fontSize: "10px" } }, s.note)), /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "13px", flexShrink: 0, color: s.quality !== void 0 ? s.quality === "\u25CB" ? "#16a34a" : s.quality === "\u25B3" ? "#fbbf24" : "#94a3b8" : scoreColor(s.score) } }, s.quality !== void 0 ? s.quality : fmt(s.score)));
   }), hd.shots.length === 0 && /* @__PURE__ */ React.createElement("p", { style: { color: "#1e293b", fontSize: "12px", textAlign: "center", padding: "10px 0" } }, "\u3053\u306E\u30DB\u30FC\u30EB\u306F\u307E\u3060\u8A18\u9332\u304C\u3042\u308A\u307E\u305B\u3093"), (hd.extraPenalty || 0) > 0 && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "9px", padding: "9px 11px", borderRadius: "8px", background: "rgba(185,28,28,0.06)", border: "1px solid rgba(185,28,28,0.25)", marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { width: "22px", height: "22px", borderRadius: "50%", background: "rgba(185,28,28,0.10)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", flexShrink: 0 } }, "\u26A0\uFE0F"), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "700", fontSize: "13px", color: "#b91c1c" } }, "\u305D\u306E\u4ED6\u30DA\u30CA\u30EB\u30C6\u30A3"), /* @__PURE__ */ React.createElement("div", { style: { color: "#b91c1c", fontSize: "10px" } }, "\uFF08+", hd.extraPenalty, "\u7F70\u6253\uFF09")), /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "13px", color: "#b91c1c" } }, "\xD7")), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", marginTop: "10px" } }, !hd.done && currentCatDef ? /* @__PURE__ */ React.createElement(
     "button",
     {
