@@ -3046,7 +3046,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07021207";
+var APP_VERSION = "07021316";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -4035,9 +4035,11 @@ function DetailShotList({ r, S, open, onToggle, expandedMemos, onToggleMemo, exp
     _R = _pe > 0 ? (_pe + 3.1 + (HC || 0)) / _pe : 1;
   }
   const shotSGForHole = (h, hd) => {
-    const len = lens[h - 1];
-    if (!sgOn || !(len > 0)) return null;
     const shots = hd.shots || [];
+    const __teeShotForLen = shots.find((s) => s.categoryKey === "tee");
+    const __teeLenRaw = __teeShotForLen && Number.isFinite(__teeShotForLen.remainDistRaw) && __teeShotForLen.remainDistRaw > 0 ? __teeShotForLen.remainDistRaw : null;
+    const len = __teeLenRaw != null ? __teeLenRaw : lens[h - 1];
+    if (!sgOn || !(len > 0)) return null;
     const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + (s.shotCount || 1), 0);
     const pinM = hd.pinDistM != null ? hd.pinDistM : hd.pinDist != null && PUTT_LABEL_M[hd.pinDist] != null ? PUTT_LABEL_M[hd.pinDist] : null;
     let eP;
@@ -4153,8 +4155,10 @@ function buildRoundTSV(r) {
   const catLabel = (s) => s.categoryKey === "tee" ? "\u30C6\u30A3" : s.categoryKey === "putt" ? "\u30D1\u30C3\u30C8" : "\u30A2\u30D7\u30ED\u30FC\u30C1";
   const holeSG = (i) => {
     const hd = r.holeData[i];
-    const len = lens[i - 1];
     const shots = hd.shots || [];
+    const __teeShotForLen = shots.find((s) => s.categoryKey === "tee");
+    const __teeLenRaw = __teeShotForLen && Number.isFinite(__teeShotForLen.remainDistRaw) && __teeShotForLen.remainDistRaw > 0 ? __teeShotForLen.remainDistRaw : null;
+    const len = __teeLenRaw != null ? __teeLenRaw : lens[i - 1];
     const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + (s.shotCount || 1), 0);
     const pinM = hd.pinDistM != null ? hd.pinDistM : hd.pinDist != null && PUTT_LABEL_M[hd.pinDist] != null ? PUTT_LABEL_M[hd.pinDist] : null;
     let eP;
@@ -8705,6 +8709,7 @@ function GolfTracker() {
     return REXY_IMAGES[tc] ? /* @__PURE__ */ React.createElement(RexyIcon, { costume: tc, size: 46, alt: "" }) : null;
   })(), /* @__PURE__ */ React.createElement("span", { style: { color: "#15803d", fontWeight: "700", fontSize: "15px", lineHeight: 1.4, whiteSpace: "pre-line" } }, toast.message)), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver.", typeof VENUES !== "undefined" && Array.isArray(VENUES) ? String(VENUES.length).padStart(4, "0") : "0000", APP_VERSION));
 }
+var golf_tracker_06081520_default = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const __scrxRoot = document.getElementById("root");
   if (__scrxRoot && !window.__SCRX_MOUNTED) {
