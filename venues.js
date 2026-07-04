@@ -28269,7 +28269,7 @@ const YASHIMA_IN = [
 ];
 VENUES.push(
   {
-    id: "yashima_cc", reading: "チェリーゴルフヤシマコース",
+    id: "yashima_cc", reading: "ヤシマカントリークラブ",
     name: "八洲カントリークラブ",
     greens: [{ id: "main", label: "グリーン" }],
     tees: [
