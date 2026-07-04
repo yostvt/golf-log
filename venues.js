@@ -38390,7 +38390,7 @@ VENUES.push({
 });
 
 /* 埼玉県 追加分 （2026/6/13） */
-// ＰＧＭ武蔵ゴルフクラブ（埼玉県比企郡鳩山町 / 18H・Par72・ベント2グリーンのうち右グリーンのみ掲載・Black/Blue/White/Red）
+// PGM武蔵ゴルフクラブ（埼玉県比企郡鳩山町 / 18H・Par72・ベント2グリーンのうち右グリーンのみ掲載・Black/Blue/White/Red）
 // ※武蔵丘ゴルフコース・新武蔵丘ゴルフコース（飯能市）とは別施設
 // 出典：https://booking.gora.golf.rakuten.co.jp/guide/course_info/disp/c_id/110074/（照合：公式 https://www.pacificgolf.co.jp/musashi/ ※JSレンダリングで静的取得不能のためGORA主）
 // 検証：Par OUT36/IN36=72、Black 3405+3507=6912（GORA表示の総距離6,912Yと一致）
@@ -38418,8 +38418,8 @@ const PGM_MUSASHI_IN = [
 ];
 VENUES.push({
   id: "pgm_musashi_gc",
-  reading: "ピージーエムムサシゴルフクラブ",
-  name: "ＰＧＭ武蔵ゴルフクラブ",
+  reading: "PGMムサシゴルフクラブ",
+  name: "PGM武蔵ゴルフクラブ",
   greens: [{ id:"main", label:"ベント右" }],
   tees: [{ id:"black", label:"ブラック" }, { id:"blue", label:"ブルー" }, { id:"white", label:"ホワイト" }, { id:"red", label:"レッド" }],
   subCourses: [{ name:"OUT", holes: PGM_MUSASHI_OUT }, { name:"IN", holes: PGM_MUSASHI_IN }],
@@ -41966,8 +41966,8 @@ VENUES.push({
 });
 
 VENUES.push({
-  id: "pgm_okinawa_resort", reading: "ピージーエムゴルフリゾートオキナワ",
-  name: "ＰＧＭゴルフリゾート沖縄",
+  id: "pgm_okinawa_resort", reading: "PGMゴルフリゾートオキナワ",
+  name: "PGMゴルフリゾート沖縄",
   greens: [{"id":"main","label":"グリーン"}],
   tees: [{"id":"black","label":"Black"},{"id":"blue","label":"Blue"},{"id":"white","label":"White"},{"id":"gold","label":"Gold"},{"id":"red","label":"Red"}],
   subCourses: [
@@ -42303,8 +42303,8 @@ const GMG_HACHIOJI_NISHI = [
 ];
 
 VENUES.push({
-  id: "gmg_hachioji_gc", reading: "ジーエムジーハチオウジゴルフジョウ",
-  name: "ＧＭＧ八王子ゴルフ場",
+  id: "gmg_hachioji_gc", reading: "GMGハチオウジゴルフジョウ",
+  name: "GMG八王子ゴルフ場",
   greens: [{"id":"a","label":"Aグリーン"},{"id":"b","label":"Bグリーン"}],
   tees: [{"id":"back","label":"バック"},{"id":"reg","label":"レギュラー"}],
   subCourses: [
@@ -59036,8 +59036,8 @@ VENUES.push({
 // G-style(旧ダイヤモンド佐用)18H 1G(ベント)4T(FullBack合計のみ) KGU兵庫 所在:佐用町 出典GORA280090 2026-06-22
 VENUES.push({
   id: "gstyle_cc",
-  reading: "ジースタイルカントリークラブ",
-  name: "Ｇ－ｓｔｙｌｅカントリー倶楽部",
+  reading: "G-styleカントリークラブ",
+  name: "G-styleカントリー倶楽部",
   greens: [{"id": "a", "label": "ベント"}],
   tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
   subCourses: [
@@ -59952,8 +59952,8 @@ VENUES.push({
 // マダムJ 18H 1G(ベント)4T KGU兵庫 所在:丹波篠山市 出典公式+GORA 2026-06-22
 VENUES.push({
   id: "madam_j_gc",
-  reading: "マダムジェイゴルフクラブ",
-  name: "マダムＪゴルフ倶楽部",
+  reading: "マダムJゴルフクラブ",
+  name: "マダムJゴルフ倶楽部",
   greens: [{"id": "a", "label": "ベント"}],
   tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
   subCourses: [
@@ -60670,8 +60670,8 @@ VENUES.push({
 // チェリー小倉南(旧小倉南CC)18H 1G(ベント)5T GUK福岡 所在:みやこ町勝山松田 出典GORA400032 2026-06-22
 VENUES.push({
   id: "cherry_kokuranan_gc",
-  reading: "チェリーゴルフクラブコクラミナミ",
-  name: "チェリーゴルフクラブ 小倉南コース",
+  reading: "チェリーゴルフコクラミナミコース",
+  name: "チェリーゴルフ小倉南コース",
   greens: [{"id": "a", "label": "ベント"}],
   tees: [{"id": "fullback", "label": "フルバック"}, {"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "gold", "label": "ゴールド"}, {"id": "ladies", "label": "レディース"}],
   subCourses: [
@@ -60818,8 +60818,8 @@ VENUES.push({
 // JR内野 18H 1G(ベント)4T GUK福岡 所在:飯塚市弥山 出典公式 2026-06-22
 VENUES.push({
   id: "jr_uchino_cc",
-  reading: "ジェイアールウチノカントリークラブ",
-  name: "ＪＲ内野カントリークラブ",
+  reading: "JRウチノカントリークラブ",
+  name: "JR内野カントリークラブ",
   greens: [{"id": "a", "label": "ベント"}],
   tees: [{"id": "champ", "label": "CHAMP"}, {"id": "back", "label": "BACK"}, {"id": "front", "label": "FRONT"}, {"id": "ladies", "label": "LADIES"}],
   subCourses: [
@@ -63005,8 +63005,8 @@ VENUES.push({
 // チェリー天草 18H 1G(ティフトン)4T GUK熊本 所在:上天草市大矢野町 出典GORA430008 2026-06-22
 VENUES.push({
   id: "cherry_amakusa_gc",
-  reading: "チェリーゴルフクラブアマクサ",
-  name: "チェリーゴルフクラブ天草コース",
+  reading: "チェリーゴルフアマクサコース",
+  name: "チェリーゴルフ天草コース",
   greens: [{"id": "a", "label": "ティフトン"}],
   tees: [{"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
   subCourses: [
@@ -64337,8 +64337,8 @@ VENUES.push({
 // UMK 18H 1G(ベント)5T GUK宮崎 所在:宮崎市新名爪 出典公式+GORA450024 2026-06-22
 VENUES.push({
   id: "umk_cc",
-  reading: "ユーエムケイカントリークラブ",
-  name: "ＵＭＫカントリークラブ",
+  reading: "UMKカントリークラブ",
+  name: "UMKカントリークラブ",
   greens: [{"id": "a", "label": "ベント"}],
   tees: [{"id": "ct", "label": "C.T"}, {"id": "bt", "label": "B.T"}, {"id": "rt", "label": "R.T"}, {"id": "ft", "label": "F.T"}, {"id": "lt", "label": "L.T"}],
   subCourses: [
@@ -64679,8 +64679,8 @@ VENUES.push({
 // かごしま空港36 36H(横川/空港)1G(ベント)3T HDCP不明 GUK鹿児島 所在:霧島市横川町 出典GORA460009 2026-06-22
 VENUES.push({
   id: "kagoshima_kuko36_cc",
-  reading: "カゴシマクウコウサンジュウロクカントリークラブ",
-  name: "かごしま空港３６カントリークラブ",
+  reading: "カゴシマクウコウ36カントリークラブ",
+  name: "かごしま空港36カントリークラブ",
   greens: [{"id": "a", "label": "ベント"}],
   tees: [{"id": "back", "label": "BACK"}, {"id": "reg", "label": "REG"}, {"id": "lad", "label": "LAD"}],
   subCourses: [
@@ -71365,8 +71365,8 @@ VENUES.push({
 
 VENUES.push({
   id: "j_classic_gc",
-  reading: "ジェイクラシックゴルフクラブ",
-  name: "Ｊクラシックゴルフクラブ",
+  reading: "Jクラシックゴルフクラブ",
+  name: "Jクラシックゴルフクラブ",
   greens: [{"id": "a", "label": "ベント"}],
   tees: [{"id": "champion", "label": "チャンピオン"}, {"id": "back", "label": "バック"}, {"id": "reg", "label": "レギュラー"}, {"id": "front", "label": "フロント"}, {"id": "ladies", "label": "レディース"}],
   subCourses: [
@@ -72215,9 +72215,9 @@ VENUES.push({
   tees: [{"id": "back", "label": "バック"}, {"id": "regular", "label": "レギュラー"}, {"id": "ladies", "label": "レディース"}, {"id": "front", "label": "フロント"}],
   subCourses: [{name:"氷上OUT",holes:[
       {"hole": 1, "par": 4, "hdcp": 3, "back": 390, "regular": 365, "front": 365, "ladies": 292},
-      {"hole": 2, "par": 4, "hdcp": 15, "back": 328, "regular": 307, "front": 307, "ladies": 264},
+      {"hole": 2, "par": 4, "hdcp": 15, "back": 328, "regular": 318, "front": 307, "ladies": 264},
       {"hole": 3, "par": 5, "hdcp": 9, "back": 542, "regular": 511, "front": 497, "ladies": 401},
-      {"hole": 4, "par": 3, "hdcp": 13, "back": 155, "regular": 149, "front": 138, "ladies": 101},
+      {"hole": 4, "par": 3, "hdcp": 13, "back": 155, "regular": 138, "front": 138, "ladies": 101},
       {"hole": 5, "par": 4, "hdcp": 7, "back": 309, "regular": 262, "front": 262, "ladies": 224},
       {"hole": 6, "par": 4, "hdcp": 1, "back": 418, "regular": 394, "front": 377, "ladies": 262},
       {"hole": 7, "par": 3, "hdcp": 17, "back": 182, "regular": 168, "front": 168, "ladies": 124},
