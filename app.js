@@ -2910,7 +2910,7 @@ async function ocrRunExtraction(file, handlers) {
       backScores: (ex.back || []).map(function(h) {
         return h.par + ":" + (h.score == null ? "_" : h.score) + ":" + (h.putts == null ? "_" : h.putts);
       }),
-      puttCellsBack: (function() {
+      puttCellsBack: function() {
         var rys = ex._rowYs || [], pcx = W * 0.402, ch = W * 0.034, rh = H * 0.025, bk = ex.back || [], out = [];
         var start = rys.length - bk.length;
         for (var i = 0; i < bk.length; i++) {
@@ -2928,8 +2928,8 @@ async function ocrRunExtraction(file, handlers) {
           out.push("P" + bk[i].dispHole + ":[" + toks.join(" ") + "]");
         }
         return out;
-      })(),
-      detailColsBack: (function() {
+      }(),
+      detailColsBack: function() {
         var rys = ex._rowYs || [], rh = H * 0.025, bk = ex.back || [], out = [];
         var start = rys.length - bk.length, x0 = W * 0.42, x1 = W * 0.99;
         for (var i = 0; i < bk.length; i++) {
@@ -2947,8 +2947,8 @@ async function ocrRunExtraction(file, handlers) {
           out.push("P" + bk[i].dispHole + ":[" + toks.join(" ") + "]");
         }
         return out;
-      })(),
-      detailHeader: (function() {
+      }(),
+      detailHeader: function() {
         var rys = ex._rowYs || [];
         if (!rys.length) return [];
         var rh = H * 0.025;
@@ -2962,8 +2962,8 @@ async function ocrRunExtraction(file, handlers) {
         }).map(function(w) {
           return (w.text || "").replace(/\s/g, "") + "@" + Math.round((w.bbox.x0 + w.bbox.x1) / 2 / W * 1e3) / 10 + "%" + (w._sym ? "s" : "");
         }).slice(0, 40);
-      })(),
-      gridRows: (function() {
+      }(),
+      gridRows: function() {
         var items = (words || []).filter(function(w) {
           return w.bbox;
         }).map(function(w) {
@@ -2990,7 +2990,7 @@ async function ocrRunExtraction(file, handlers) {
             return t.t + "@" + Math.round(t.x / W * 1e3) / 10 + (t.sym ? "s" : "");
           }).join(" ");
         });
-      })()
+      }()
     }
   };
 }
@@ -3056,7 +3056,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07071113";
+var APP_VERSION = "07071158";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -3512,6 +3512,17 @@ async function ocrExtractVertical(img, words, fmt2) {
 }
 function ocrCalibrateColsH(words, parY, W, rowH) {
   if (parY == null) return null;
+  var bigBoxes = [];
+  (words || []).forEach(function(w) {
+    if (!w.bbox || w._sym) return;
+    var t = ocrNormDigits(w.text || "").replace(/[^0-9]/g, "");
+    if (t.length < 2) return;
+    var n = parseInt(t, 10);
+    if (isNaN(n) || n < 19) return;
+    var yc = (w.bbox.y0 + w.bbox.y1) / 2;
+    if (Math.abs(yc - parY) > rowH / 2) return;
+    bigBoxes.push(w.bbox);
+  });
   var xs = [];
   (words || []).forEach(function(w) {
     if (!w.bbox) return;
@@ -3521,7 +3532,11 @@ function ocrCalibrateColsH(words, parY, W, rowH) {
     if (n < 3 || n > 6) return;
     var xc = (w.bbox.x0 + w.bbox.x1) / 2, yc = (w.bbox.y0 + w.bbox.y1) / 2;
     if (Math.abs(yc - parY) > rowH / 2) return;
-    if (xc < W * 0.14 || xc > W * 0.9) return;
+    if (xc < W * 0.14 || xc > W * 0.935) return;
+    for (var bi = 0; bi < bigBoxes.length; bi++) {
+      var bb = bigBoxes[bi];
+      if (xc >= bb.x0 && xc <= bb.x1) return;
+    }
     xs.push(xc);
   });
   xs.sort(function(a, b2) {
@@ -3620,6 +3635,26 @@ function ocrCalibrateColsH(words, parY, W, rowH) {
   var f = resolveNine(sf, tmplFront), b = resolveNine(sb, tmplBack);
   if (!f || !b) return null;
   return f.concat(b);
+}
+function ocrNormalizeHoleNums(recs) {
+  if (!recs || recs.length !== 9) return recs;
+  var nums = recs.map(function(r) {
+    return r.dispHole;
+  });
+  var hi = 0, lo = 0, consec = true;
+  for (var i = 0; i < nums.length; i++) {
+    var n = nums[i];
+    if (typeof n === "number" && n >= 10 && n <= 18) hi++;
+    else if (typeof n === "number" && n >= 1 && n <= 9) lo++;
+    if (i > 0 && nums[i] !== nums[i - 1] + 1) consec = false;
+  }
+  if (consec && (hi === 9 || lo === 9)) return recs;
+  var base = hi >= 5 ? 10 : 1;
+  recs.forEach(function(r, j) {
+    r.dispHole = base + j;
+    r.holeNumUncertain = true;
+  });
+  return recs;
 }
 async function ocrExtractHorizontal(img, words) {
   var W = img.width, H = img.height;
@@ -3762,6 +3797,8 @@ async function ocrExtractHorizontal(img, words) {
     if (i < 9) front.push(rec);
     else back.push(rec);
   }
+  ocrNormalizeHoleNums(front);
+  ocrNormalizeHoleNums(back);
   return { front, back, totalYard: ocrFindTotalYard(words), frontCourseName, backCourseName };
 }
 async function ocrExtractSummary(img, words) {
