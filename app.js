@@ -2639,19 +2639,29 @@ function ocrInferTee(totalYard, venue, green) {
 function ocrMatchVenue(courseName, venues) {
   if (!courseName || !venues) return null;
   var norm = function(s) {
-    return String(s).replace(/\s|　/g, "").replace(/ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|GC|CC|G\.?C\.?|C\.?C\.?/gi, "").toLowerCase();
+    return String(s).replace(/[Ａ-Ｚａ-ｚ０-９]/g, function(ch) {
+      return String.fromCharCode(ch.charCodeAt(0) - 65248);
+    }).replace(/旧[:：][^）)]*/g, "").replace(/\s|　/g, "").replace(/ゴルフ倶楽部|ゴルフクラブ|カントリークラブ|カントリー倶楽部|GC|CC|G\.?C\.?|C\.?C\.?/gi, "").toLowerCase();
   };
   var target = norm(courseName);
   if (!target) return null;
   for (var i = 0; i < venues.length; i++) {
     if (String(venues[i].name).replace(/\s|　/g, "") === String(courseName).replace(/\s|　/g, "")) return venues[i].id;
   }
+  var best = null, bestScore = 0;
   for (var j = 0; j < venues.length; j++) {
     var vn = norm(venues[j].name);
     if (!vn) continue;
-    if (vn === target || vn.indexOf(target) >= 0 || target.indexOf(vn) >= 0) return venues[j].id;
+    var score = 0;
+    if (vn === target) score = 1e4;
+    else if (target.indexOf(vn) >= 0) score = 1e3 + vn.length;
+    else if (vn.indexOf(target) >= 0) score = 100 + target.length;
+    if (score > bestScore) {
+      bestScore = score;
+      best = venues[j].id;
+    }
   }
-  return null;
+  return best;
 }
 function ocrMapWeather(text) {
   var t = String(text || "");
@@ -3046,7 +3056,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07071050";
+var APP_VERSION = "07071113";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -3216,7 +3226,7 @@ function ocrGuessCourseName(words, fullText, H) {
     var j2 = clean(ws.map(function(w) {
       return w.text;
     }).join(""));
-    return j2.replace(/倶[月品]楽部|倶楽部/g, "\u5036\u697D\u90E8").replace(/(倶楽部|クラブ|GC|CC)\s*((?:EAST|WEST|NORTH|SOUTH|イースト|ウエスト|ウェスト|ノース|サウス))?.*$/i, "$1$2");
+    return j2.replace(/倶[月品]楽部|倶楽部/g, "\u5036\u697D\u90E8").replace(/旧[:：].*$/, "").replace(/(ＰＧＭ|PGM|ＮＧＫ|アコーディア)/gi, "").replace(/(倶楽部|クラブ|GC|CC)((?:[ぁ-んァ-ヶ一-龠a-zA-Z0-9ＥＷ]|コース){0,14}).*$/i, "$1$2");
   };
   var cjk = (words || []).filter(function(w) {
     if (!w.bbox || w._sym) return false;
