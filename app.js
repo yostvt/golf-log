@@ -3046,7 +3046,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07052242";
+var APP_VERSION = "07071050";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -5822,6 +5822,7 @@ function GolfTracker() {
     setView("home");
   };
   const ocrBackToData = () => {
+    var _a2, _b2;
     setOcr(null);
     setOcrStep(null);
     setOcrError("");
@@ -5829,7 +5830,8 @@ function GolfTracker() {
     setOcrEditField(null);
     setOcrSel(null);
     setOcrDoneInfo(null);
-    setView("clubs");
+    setProfileEdit(__spreadProps(__spreadValues({}, profile), { driveFrom: (_a2 = profile.driveFrom) != null ? _a2 : 180, driveTo: (_b2 = profile.driveTo) != null ? _b2 : 230 }));
+    setView("profile");
     try {
       window.scrollTo(0, 0);
     } catch (e) {
@@ -7216,7 +7218,7 @@ function GolfTracker() {
     })() : null;
     if (ocrStep === "setup") {
       const field = (label, valNode, onEdit, editable) => /* @__PURE__ */ React.createElement("div", { style: { background: "#fff", border: "1px solid #e2e8f0", borderRadius: "11px", padding: "11px 13px", marginBottom: "9px", display: "flex", alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#64748b", width: "82px", flex: "none" } }, label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "14px", fontWeight: "700", flex: 1, color: "#1e293b" } }, valNode), editable !== false && /* @__PURE__ */ React.createElement("span", { onClick: onEdit, style: { fontSize: "11px", color: "#0ea5e9", fontWeight: "700", cursor: "pointer", padding: "4px 2px" } }, "\u7DE8\u96C6"));
-      const courseBadge = su.edited.course ? /* @__PURE__ */ React.createElement("span", { style: badgeWarn }, "\u624B\u52D5") : b.matched ? /* @__PURE__ */ React.createElement("span", { style: badgeOk }, "\u30DE\u30B9\u30BF\u4E00\u81F4") : /* @__PURE__ */ React.createElement("span", { style: badgeWarn }, "\u753B\u50CF\u306E\u30B3\u30FC\u30B9\u540D\u3067\u767B\u9332");
+      const courseBadge = b.matched ? /* @__PURE__ */ React.createElement("span", { style: badgeOk }, su.edited.course ? "\u30DE\u30B9\u30BF\u4E00\u81F4\uFF08\u624B\u52D5\u9078\u629E\uFF09" : "\u30DE\u30B9\u30BF\u4E00\u81F4") : su.edited.course ? /* @__PURE__ */ React.createElement("span", { style: badgeWarn }, "\u624B\u52D5") : /* @__PURE__ */ React.createElement("span", { style: badgeWarn }, "\u753B\u50CF\u306E\u30B3\u30FC\u30B9\u540D\u3067\u767B\u9332");
       return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: modeBadge }, "\u{1F4F7} \u30E9\u30A6\u30F3\u30C9\u8A2D\u5B9A\uFF08\u8AAD\u307F\u53D6\u308A\u5185\u5BB9\uFF09"), /* @__PURE__ */ React.createElement("div", { style: { border: "1px solid #ef4444", background: "rgba(239,68,68,0.06)", borderRadius: "8px", padding: "8px 10px", margin: "8px 0", fontSize: "10px", color: "#b91c1c", lineHeight: 1.65 } }, "\u203B\u672C\u30A2\u30D7\u30EA\u306E\u30C6\u30AD\u30B9\u30C8\u62BD\u51FA\uFF08OCR\uFF09\u6A5F\u80FD\u306F\u6280\u8853\u7684\u306A\u5236\u9650\u306B\u3088\u308A\u8AA4\u8A8D\u8B58\u304C\u767A\u751F\u3059\u308B\u5834\u5408\u304C\u3042\u308A\u307E\u3059\u3002\u51FA\u529B\u3055\u308C\u305F\u5185\u5BB9\u306B\u3064\u3044\u3066\u306F\u5FC5\u305A\u30E6\u30FC\u30B6\u30FC\u69D8\u306B\u3066\u6700\u7D42\u78BA\u8A8D\u306E\u4E0A\u3001\u767B\u9332\u3092\u884C\u3063\u3066\u304F\u3060\u3055\u3044\u3002"), field("\u30B3\u30FC\u30B9", /* @__PURE__ */ React.createElement(React.Fragment, null, b.course || "\uFF08\u672A\u8A2D\u5B9A\uFF09", courseBadge), () => {
         setVenueSearch("");
         setOcrEditField("course");
