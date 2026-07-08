@@ -39,6 +39,10 @@
     return d.replace(/\//g, ".").replace(/\.0(\d)/g, ".$1");
   }
 
+  /* スタイルB用: 記号の高彩度カラー（写真上での視認性向上） */
+  const VIVID = { "#f87171": "#ff6b60", "#4ade80": "#42e089", "#93c5fd": "#6da8ff", "#60a5fa": "#4d8dff", "#818cf8": "#8f7dff", "#c4b5fd": "#b39dff" };
+  const vividColor = (c) => VIVID[c] || c;
+
   /* テキストシャドウ共通 */
   const TS  = "0 1px 8px rgba(0,0,0,1), 0 0 16px rgba(0,0,0,0.7)";
   const TSS = "0 1px 5px rgba(0,0,0,1)";
@@ -216,7 +220,7 @@
         const cell = document.createElement("div");
         cell.style.cssText = [
           "flex:1;text-align:center;font-size:20px;font-weight:900;line-height:1.1",
-          `color:${color}`,
+          `color:${vividColor(color)}`,
           "filter:drop-shadow(0 1px 4px rgba(0,0,0,1))",
         ].join(";");
         cell.textContent = sym;
@@ -232,8 +236,15 @@
       return row;
     }
 
-    if (frontSymbols.length) band.appendChild(buildSymRow(frontLabel, frontSymbols, frontScore));
-    if (backSymbols.length)  band.appendChild(buildSymRow(backLabel,  backSymbols,  backScore));
+    /* 記号2行だけをカバーする低いグラデーション帯（下55%→上0%） */
+    const symBand = document.createElement("div");
+    symBand.style.cssText = [
+      "margin:0 -16px -11px", "padding:8px 16px 11px",
+      "background:linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0.18) 82%, rgba(0,0,0,0) 100%)",
+    ].join(";");
+    if (frontSymbols.length) symBand.appendChild(buildSymRow(frontLabel, frontSymbols, frontScore));
+    if (backSymbols.length)  symBand.appendChild(buildSymRow(backLabel,  backSymbols,  backScore));
+    band.appendChild(symBand);
 
     outer.appendChild(band);
     return outer;
@@ -362,6 +373,7 @@
           document.body.removeChild(wrap);
           /* PNG に変換してダウンロード */
           canvas.toBlob((blob) => {
+            if (!blob) { onError("画像の生成に失敗しました（メモリ不足の可能性）"); return; }
             const fileName = `scorexo_${(r.date || "").replace(/\//g, "")}.png`;
             saveOrShareBlob(blob, fileName, onSaved, onError, onCancel);
           }, "image/png");
