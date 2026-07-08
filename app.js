@@ -2910,7 +2910,7 @@ async function ocrRunExtraction(file, handlers) {
       backScores: (ex.back || []).map(function(h) {
         return h.par + ":" + (h.score == null ? "_" : h.score) + ":" + (h.putts == null ? "_" : h.putts);
       }),
-      puttCellsBack: function() {
+      puttCellsBack: (function() {
         var rys = ex._rowYs || [], pcx = W * 0.402, ch = W * 0.034, rh = H * 0.025, bk = ex.back || [], out = [];
         var start = rys.length - bk.length;
         for (var i = 0; i < bk.length; i++) {
@@ -2928,8 +2928,8 @@ async function ocrRunExtraction(file, handlers) {
           out.push("P" + bk[i].dispHole + ":[" + toks.join(" ") + "]");
         }
         return out;
-      }(),
-      detailColsBack: function() {
+      })(),
+      detailColsBack: (function() {
         var rys = ex._rowYs || [], rh = H * 0.025, bk = ex.back || [], out = [];
         var start = rys.length - bk.length, x0 = W * 0.42, x1 = W * 0.99;
         for (var i = 0; i < bk.length; i++) {
@@ -2947,8 +2947,8 @@ async function ocrRunExtraction(file, handlers) {
           out.push("P" + bk[i].dispHole + ":[" + toks.join(" ") + "]");
         }
         return out;
-      }(),
-      detailHeader: function() {
+      })(),
+      detailHeader: (function() {
         var rys = ex._rowYs || [];
         if (!rys.length) return [];
         var rh = H * 0.025;
@@ -2962,8 +2962,8 @@ async function ocrRunExtraction(file, handlers) {
         }).map(function(w) {
           return (w.text || "").replace(/\s/g, "") + "@" + Math.round((w.bbox.x0 + w.bbox.x1) / 2 / W * 1e3) / 10 + "%" + (w._sym ? "s" : "");
         }).slice(0, 40);
-      }(),
-      gridRows: function() {
+      })(),
+      gridRows: (function() {
         var items = (words || []).filter(function(w) {
           return w.bbox;
         }).map(function(w) {
@@ -2990,7 +2990,7 @@ async function ocrRunExtraction(file, handlers) {
             return t.t + "@" + Math.round(t.x / W * 1e3) / 10 + (t.sym ? "s" : "");
           }).join(" ");
         });
-      }()
+      })()
     }
   };
 }
@@ -3056,7 +3056,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07090205";
+var APP_VERSION = "07090245";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -5169,6 +5169,9 @@ function GolfTracker() {
   const [simpleHoleData, setSimpleHoleData] = useState({});
   const [rounds, setRounds] = useState([]);
   const [importedTestData, setImportedTestData] = useState([]);
+  const [roundSearch, setRoundSearch] = useState("");
+  const [roundPeriod, setRoundPeriod] = useState("all");
+  const [roundListLimit, setRoundListLimit] = useState(20);
   const [dataMgmtOpen, setDataMgmtOpen] = useState(false);
   const [storageLoaded, setStorageLoaded] = useState(false);
   const [currentRound, setCurrentRound] = useState(null);
@@ -7193,9 +7196,76 @@ function GolfTracker() {
     setShowFocusEdit(false);
   }, style: { flex: 1, padding: "10px", borderRadius: "9px", border: "none", background: "linear-gradient(135deg,#f59e0b,#ea580c)", color: "#fff", fontWeight: "800", fontSize: "13px", cursor: "pointer" } }, "\u4FDD\u5B58")))), false, false) : RoundSetupForm(), rounds.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: S.card({ padding: "24px 18px" }) }, REXY_IMAGES.basic10 ? /* @__PURE__ */ React.createElement(RexyBubble, { costume: "basic10", size: 72 }, "\u4E00\u7DD2\u306B\u30E9\u30A6\u30F3\u30C9\u3092\u958B\u59CB\u3057\u3088\u3046\uFF01") : /* @__PURE__ */ React.createElement("p", { style: { fontWeight: "700", color: "#94a3b8", textAlign: "center" } }, "\u307E\u3060\u30E9\u30A6\u30F3\u30C9\u304C\u3042\u308A\u307E\u305B\u3093")) : (() => {
     const teeRates = calcHistoricalTeeRates(rounds);
-    return [...rounds].sort((a, b) => {
-      return dateToNum(b.date) - dateToNum(a.date);
-    }).map((r) => /* @__PURE__ */ React.createElement(RoundCardErrorBoundary, { key: r.id }, RoundCard({ r, teeRates })));
+    const normKana = (s) => (s || "").toLowerCase().replace(/[ぁ-ん]/g, (c) => String.fromCharCode(c.charCodeAt(0) + 96));
+    const q = normKana(roundSearch.trim());
+    const today = /* @__PURE__ */ new Date();
+    const monthsAgoNum = (m) => {
+      const d = new Date(today.getFullYear(), today.getMonth() - m, today.getDate());
+      return d.getFullYear() * 1e4 + (d.getMonth() + 1) * 100 + d.getDate();
+    };
+    const years = [...new Set(rounds.map((r) => (r.date || "").split("/")[0]).filter(Boolean))].sort((a, b) => Number(b) - Number(a));
+    const filtered = [...rounds].sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).filter((r) => {
+      if (q) {
+        const v = r.venueId ? VENUES.find((x) => x.id === r.venueId) : null;
+        const hay = normKana(r.course || "") + "|" + normKana(v && v.reading || "");
+        if (hay.indexOf(q) === -1) return false;
+      }
+      if (roundPeriod !== "all") {
+        const dn = dateToNum(r.date);
+        if (roundPeriod === "1m") {
+          if (dn < monthsAgoNum(1)) return false;
+        } else if (roundPeriod === "3m") {
+          if (dn < monthsAgoNum(3)) return false;
+        } else if (roundPeriod === "6m") {
+          if (dn < monthsAgoNum(6)) return false;
+        } else if (roundPeriod === "1y") {
+          if (dn < monthsAgoNum(12)) return false;
+        } else if (/^y\d{4}$/.test(roundPeriod)) {
+          if ((r.date || "").split("/")[0] !== roundPeriod.slice(1)) return false;
+        }
+      }
+      return true;
+    });
+    const visibleRounds = filtered.slice(0, roundListLimit);
+    const remainingCount = filtered.length - visibleRounds.length;
+    return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "8px", marginBottom: "12px" } }, /* @__PURE__ */ React.createElement(
+      "input",
+      {
+        type: "text",
+        value: roundSearch,
+        placeholder: "\u30B3\u30FC\u30B9\u540D\u3067\u691C\u7D22",
+        onChange: (e) => {
+          setRoundSearch(e.target.value);
+          setRoundListLimit(20);
+        },
+        style: __spreadProps(__spreadValues({}, S.input), { flex: 1, minWidth: 0 })
+      }
+    ), /* @__PURE__ */ React.createElement(
+      "select",
+      {
+        value: roundPeriod,
+        onChange: (e) => {
+          setRoundPeriod(e.target.value);
+          setRoundListLimit(20);
+        },
+        style: __spreadProps(__spreadValues({}, S.input), { width: "auto", flexShrink: 0 })
+      },
+      /* @__PURE__ */ React.createElement("option", { value: "all" }, "\u3059\u3079\u3066"),
+      /* @__PURE__ */ React.createElement("option", { value: "1m" }, "\u76F4\u8FD11\u30F6\u6708"),
+      /* @__PURE__ */ React.createElement("option", { value: "3m" }, "\u76F4\u8FD13\u30F6\u6708"),
+      /* @__PURE__ */ React.createElement("option", { value: "6m" }, "\u76F4\u8FD16\u30F6\u6708"),
+      /* @__PURE__ */ React.createElement("option", { value: "1y" }, "\u76F4\u8FD11\u5E74"),
+      years.map((y) => /* @__PURE__ */ React.createElement("option", { key: y, value: "y" + y }, y, "\u5E74"))
+    )), filtered.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: S.card({ padding: "24px 18px" }) }, /* @__PURE__ */ React.createElement("p", { style: { fontWeight: "700", color: "#94a3b8", textAlign: "center" } }, "\u8A72\u5F53\u3059\u308B\u30E9\u30A6\u30F3\u30C9\u304C\u3042\u308A\u307E\u305B\u3093")) : /* @__PURE__ */ React.createElement(React.Fragment, null, visibleRounds.map((r) => /* @__PURE__ */ React.createElement(RoundCardErrorBoundary, { key: r.id }, RoundCard({ r, teeRates }))), remainingCount > 0 && /* @__PURE__ */ React.createElement(
+      "button",
+      {
+        style: __spreadProps(__spreadValues({}, S.btn("secondary")), { width: "100%", padding: "10px" }),
+        onClick: () => setRoundListLimit((n) => n + 20)
+      },
+      "\u3082\u3063\u3068\u898B\u308B\uFF08\u6B8B\u308A",
+      remainingCount,
+      "\u4EF6\uFF09"
+    )));
   })()), view === "ocr" && ocrStep && (() => {
     var _a2, _b2;
     const venue = ocr && ocr.venueId ? VENUES.find((v) => v.id === ocr.venueId) : null;
@@ -8776,7 +8846,7 @@ function GolfTracker() {
     setExportJson("");
   } }), /* @__PURE__ */ React.createElement(ToastLayer, { toast, weather: currentRound ? currentRound.weather : null }), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver.", typeof VENUES !== "undefined" && Array.isArray(VENUES) ? String(VENUES.length).padStart(4, "0") : "0000", APP_VERSION));
 }
-var stdin_default = GolfTracker;
+var golf_tracker_06081520_default = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const __scrxRoot = document.getElementById("root");
   if (__scrxRoot && !window.__SCRX_MOUNTED) {
