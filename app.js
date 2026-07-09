@@ -3072,7 +3072,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07091100";
+var APP_VERSION = "07091809";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -4827,64 +4827,65 @@ const renderTrend = (n5, n20, betterLow, unit, mult) => {
   const magStr = unit === "Y" ? String(Math.round(mag)) : (Math.round(mag * 10) / 10).toFixed(1).replace(/\.0$/, "");
   return /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, display: "inline-flex", alignItems: "center", whiteSpace: "nowrap" } }, trendArrow(c, !improved, 24), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "700", color: c, marginLeft: "1px" } }, magStr, unit));
 };
+const calcRoundStats = (list) => {
+  if (!list.length) return null;
+  const statsWeight = list.reduce((a, r) => {
+    var _a, _b;
+    return a + (((_b = (_a = r.holePars) == null ? void 0 : _a.length) != null ? _b : 18) <= 12 ? 0.5 : 1);
+  }, 0);
+  const avgScore = statsWeight ? Math.round(list.reduce((a, r) => a + Object.values(r.simpleHoleData || {}).reduce((s, h) => s + (h.score || 0), 0), 0) / statsWeight * 10) / 10 : 0;
+  let gir = 0, bogeyOn = 0, holes = 0, recOk = 0, recTot = 0, pbHoles = 0, pbTot = 0;
+  list.forEach((r) => {
+    const hd = r.simpleHoleData || {};
+    const pars = r.holePars || Array(18).fill(4);
+    Object.entries(hd).forEach(([hStr, h]) => {
+      const par = pars[parseInt(hStr) - 1] || 4;
+      holes++;
+      pbTot++;
+      const shotsToGreen = (h.score || 0) - (h.putts || 0);
+      const isGIR = shotsToGreen <= par - 2;
+      if (isGIR) gir++;
+      if (shotsToGreen <= par - 1) bogeyOn++;
+      if (!isGIR) {
+        recTot++;
+        if ((h.score || 0) <= par) recOk++;
+      }
+      if ((h.score || 0) <= par) pbHoles++;
+    });
+  });
+  const avgGIR = statsWeight ? Math.round(gir / statsWeight * 10) / 10 : 0;
+  const avgBogeyOn = statsWeight ? Math.round(bogeyOn / statsWeight * 10) / 10 : 0;
+  const girRate = holes ? Math.round(gir / holes * 1e3) / 10 : 0;
+  const bogeyOnRate = holes ? Math.round(bogeyOn / holes * 1e3) / 10 : 0;
+  const recoveryRate = recTot ? Math.round(recOk / recTot * 1e3) / 10 : null;
+  const parBreakRate = pbTot ? Math.round(pbHoles / pbTot * 1e3) / 10 : null;
+  let putts = 0, puttHoles = 0;
+  const roundPutts = [];
+  list.forEach((r) => {
+    const hs = Object.values(r.simpleHoleData || {});
+    const rP = hs.reduce((a, h) => a + (h.putts || 0), 0);
+    roundPutts.push(rP);
+    putts += rP;
+    puttHoles += hs.length;
+  });
+  const avgPuttPerHole = puttHoles ? Math.round(putts / puttHoles * 10) / 10 : null;
+  const avgTotalPutts = statsWeight ? Math.round(roundPutts.reduce((a, v) => a + v, 0) / statsWeight * 10) / 10 : 0;
+  let ob = 0, pen = 0;
+  list.forEach((r) => {
+    const hs = Object.values(r.simpleHoleData || {});
+    ob += hs.reduce((a, h) => a + (h.ob || 0), 0);
+    pen += hs.reduce((a, h) => a + (h.penalty || 0), 0);
+  });
+  const avgOB = statsWeight ? Math.round(ob / statsWeight * 10) / 10 : 0;
+  const avgPenalty = statsWeight ? Math.round(pen / statsWeight * 10) / 10 : 0;
+  return { avgScore, avgGIR, avgBogeyOn, girRate, bogeyOnRate, recoveryRate, parBreakRate, avgPuttPerHole, avgTotalPutts, avgOB, avgPenalty };
+};
 const AnalyticsStatsImpl = ({ rounds, handicap, profile, S }) => {
   const allCompleted = [...rounds.filter((r) => r.isComplete && Object.keys(r.simpleHoleData || {}).length > 0)].sort((a, b) => dateToNum(b.date) - dateToNum(a.date));
   const sc20 = allCompleted.slice(0, 20);
   const sc5 = allCompleted.slice(0, 5);
   if (sc20.length === 0) return null;
-  const calcStats = (list) => {
-    if (!list.length) return null;
-    const statsWeight = list.reduce((a, r) => {
-      var _a, _b;
-      return a + (((_b = (_a = r.holePars) == null ? void 0 : _a.length) != null ? _b : 18) <= 12 ? 0.5 : 1);
-    }, 0);
-    const avgScore = statsWeight ? Math.round(list.reduce((a, r) => a + Object.values(r.simpleHoleData || {}).reduce((s, h) => s + (h.score || 0), 0), 0) / statsWeight * 10) / 10 : 0;
-    let gir = 0, bogeyOn = 0, holes = 0, recOk = 0, recTot = 0, pbHoles = 0, pbTot = 0;
-    list.forEach((r) => {
-      const hd = r.simpleHoleData || {};
-      const pars = r.holePars || Array(18).fill(4);
-      Object.entries(hd).forEach(([hStr, h]) => {
-        const par = pars[parseInt(hStr) - 1] || 4;
-        holes++;
-        pbTot++;
-        const shotsToGreen = (h.score || 0) - (h.putts || 0);
-        const isGIR = shotsToGreen <= par - 2;
-        if (isGIR) gir++;
-        if (shotsToGreen <= par - 1) bogeyOn++;
-        if (!isGIR) {
-          recTot++;
-          if ((h.score || 0) <= par) recOk++;
-        }
-        if ((h.score || 0) <= par) pbHoles++;
-      });
-    });
-    const avgGIR = statsWeight ? Math.round(gir / statsWeight * 10) / 10 : 0;
-    const avgBogeyOn = statsWeight ? Math.round(bogeyOn / statsWeight * 10) / 10 : 0;
-    const girRate = holes ? Math.round(gir / holes * 1e3) / 10 : 0;
-    const bogeyOnRate = holes ? Math.round(bogeyOn / holes * 1e3) / 10 : 0;
-    const recoveryRate = recTot ? Math.round(recOk / recTot * 1e3) / 10 : null;
-    const parBreakRate = pbTot ? Math.round(pbHoles / pbTot * 1e3) / 10 : null;
-    let putts = 0, puttHoles = 0;
-    const roundPutts = [];
-    list.forEach((r) => {
-      const hs = Object.values(r.simpleHoleData || {});
-      const rP = hs.reduce((a, h) => a + (h.putts || 0), 0);
-      roundPutts.push(rP);
-      putts += rP;
-      puttHoles += hs.length;
-    });
-    const avgPuttPerHole = puttHoles ? Math.round(putts / puttHoles * 10) / 10 : null;
-    const avgTotalPutts = statsWeight ? Math.round(roundPutts.reduce((a, v) => a + v, 0) / statsWeight * 10) / 10 : 0;
-    let ob = 0, pen = 0;
-    list.forEach((r) => {
-      const hs = Object.values(r.simpleHoleData || {});
-      ob += hs.reduce((a, h) => a + (h.ob || 0), 0);
-      pen += hs.reduce((a, h) => a + (h.penalty || 0), 0);
-    });
-    const avgOB = statsWeight ? Math.round(ob / statsWeight * 10) / 10 : 0;
-    const avgPenalty = statsWeight ? Math.round(pen / statsWeight * 10) / 10 : 0;
-    return { avgScore, avgGIR, avgBogeyOn, girRate, bogeyOnRate, recoveryRate, parBreakRate, avgPuttPerHole, avgTotalPutts, avgOB, avgPenalty };
-  };
+  const calcStats = calcRoundStats;
   const s20 = calcStats(sc20);
   const s5 = calcStats(sc5);
   const hcpVal = handicap !== null ? handicap.hcp : profile.manualHcp !== null && profile.manualHcp !== void 0 ? profile.manualHcp : null;
@@ -5173,6 +5174,153 @@ const ExportModal = React.memo(function ExportModal2({ roundsCount, exportJson, 
 const AnalyticsAIDiagnosis = React.memo(AnalyticsAIDiagnosisImpl);
 const AnalyticsScoreChart = React.memo(AnalyticsScoreChartImpl);
 const AnalyticsStats = React.memo(AnalyticsStatsImpl);
+const StatsCompareImpl = ({ rounds, S }) => {
+  const [cmpA, setCmpA] = React.useState({ venues: [], period: "all" });
+  const [cmpB, setCmpB] = React.useState({ venues: [], period: "all" });
+  const [openVenue, setOpenVenue] = React.useState(null);
+  const completed = React.useMemo(() => [...rounds.filter((r) => r.isComplete && Object.keys(r.simpleHoleData || {}).length > 0)].sort((a, b) => dateToNum(b.date) - dateToNum(a.date)), [rounds]);
+  if (completed.length === 0) return null;
+  const venueKeyOf = (r) => r.venueId ? "v:" + r.venueId : "c:" + (r.course || "\u4E0D\u660E");
+  const venueMap = /* @__PURE__ */ new Map();
+  completed.forEach((r) => {
+    const key = venueKeyOf(r);
+    const cur = venueMap.get(key);
+    if (cur) cur.count++;
+    else venueMap.set(key, { key, label: r.course || "\uFF08\u30B3\u30FC\u30B9\u540D\u306A\u3057\uFF09", count: 1 });
+  });
+  const venueOpts = [...venueMap.values()].sort((a, b) => b.count - a.count);
+  const years = [...new Set(completed.map((r) => (r.date || "").split("/")[0]).filter(Boolean))].sort((a, b) => Number(b) - Number(a));
+  const today = /* @__PURE__ */ new Date();
+  const monthsAgoNum = (m) => {
+    const d = new Date(today.getFullYear(), today.getMonth() - m, today.getDate());
+    return d.getFullYear() * 1e4 + (d.getMonth() + 1) * 100 + d.getDate();
+  };
+  const matchCond = (r, cond) => {
+    if (cond.venues.length > 0 && !cond.venues.includes(venueKeyOf(r))) return false;
+    if (cond.period !== "all") {
+      const dn = dateToNum(r.date);
+      if (cond.period === "1m") {
+        if (dn < monthsAgoNum(1)) return false;
+      } else if (cond.period === "3m") {
+        if (dn < monthsAgoNum(3)) return false;
+      } else if (cond.period === "6m") {
+        if (dn < monthsAgoNum(6)) return false;
+      } else if (cond.period === "1y") {
+        if (dn < monthsAgoNum(12)) return false;
+      } else if (/^y\d{4}$/.test(cond.period)) {
+        if ((r.date || "").split("/")[0] !== cond.period.slice(1)) return false;
+      }
+    }
+    return true;
+  };
+  const listA = completed.filter((r) => matchCond(r, cmpA));
+  const listB = completed.filter((r) => matchCond(r, cmpB));
+  const sA = calcRoundStats(listA);
+  const sB = calcRoundStats(listB);
+  const ddAvgOf = (list) => {
+    const dd = calcDriverDistStats(list, Infinity);
+    return dd.length > 0 ? Math.round(dd.reduce((a, r) => a + r.avg, 0) / dd.length) : null;
+  };
+  const ddA = ddAvgOf(listA);
+  const ddB = ddAvgOf(listB);
+  const fmt2 = (v) => v == null ? "\uFF0D" : String(v);
+  const fmtPct = (v) => v == null ? "\uFF0D" : v + "%";
+  const statDefs = [
+    { label: "\u5E73\u5747\u30B9\u30B3\u30A2", get: (s) => fmt2(s.avgScore), color: "#16a34a", unit: "" },
+    { label: "\u5E73\u5747\u30D1\u30C3\u30C8\u6570\uFF081H\uFF09", get: (s) => fmt2(s.avgPuttPerHole), color: "#94a3b8", unit: "\u6253" },
+    { label: "\u5E73\u5747\u30C8\u30FC\u30BF\u30EB\u30D1\u30C3\u30C8\u6570\uFF0818H\uFF09", get: (s) => fmt2(s.avgTotalPutts), color: "#64748b", unit: "\u6253" },
+    { label: "\u30D1\u30FC\u30AA\u30F3\u7387", get: (s) => fmtPct(s.girRate), color: "#fbbf24", unit: "" },
+    { label: "\u5E73\u5747\u30D1\u30FC\u30AA\u30F3\u6570\uFF0818H\uFF09", get: (s) => fmt2(s.avgGIR) + " \u56DE", color: "#a78bfa", unit: "" },
+    { label: "\u30DC\u30AE\u30FC\u30AA\u30F3\u7387", get: (s) => fmtPct(s.bogeyOnRate), color: "#38bdf8", unit: "" },
+    { label: "\u5E73\u5747\u30DC\u30AE\u30FC\u30AA\u30F3\u6570\uFF0818H\uFF09", get: (s) => fmt2(s.avgBogeyOn) + " \u56DE", color: "#7dd3fc", unit: "" },
+    { label: "\u30EA\u30AB\u30D0\u30EA\u30FC\u7387", get: (s) => fmtPct(s.recoveryRate), color: "#fb923c", unit: "" },
+    { label: "\u30D1\u30FC\u30D6\u30EC\u30A4\u30AF\u7387", get: (s) => fmtPct(s.parBreakRate), color: "#f472b6", unit: "" },
+    { label: "OB\u6570\uFF0818H\uFF09", get: (s) => fmt2(s.avgOB), color: "#dc2626", unit: "\u56DE" },
+    { label: "\u30DA\u30CA\u30EB\u30C6\u30A3\u6570\uFF0818H\uFF09", get: (s) => fmt2(s.avgPenalty), color: "#b91c1c", unit: "\u56DE" }
+  ];
+  const periodLabel = (p) => p === "all" ? "\u3059\u3079\u3066" : p === "1m" ? "\u76F4\u8FD11\u30F6\u6708" : p === "3m" ? "\u76F4\u8FD13\u30F6\u6708" : p === "6m" ? "\u76F4\u8FD16\u30F6\u6708" : p === "1y" ? "\u76F4\u8FD11\u5E74" : p.slice(1) + "\u5E74";
+  const venueLabel = (cond) => {
+    const sel = venueOpts.filter((o) => cond.venues.includes(o.key));
+    if (sel.length === 0) return "\u5168\u30B4\u30EB\u30D5\u5834";
+    if (sel.length === 1) return sel[0].label;
+    return sel[0].label + " \u4ED6" + (sel.length - 1) + "\u4EF6";
+  };
+  const condSummary = (c) => venueLabel(c) + "\u30FB" + periodLabel(c.period);
+  const toggleVenue = (cond, setter, key) => {
+    const has = cond.venues.includes(key);
+    setter(__spreadProps(__spreadValues({}, cond), { venues: has ? cond.venues.filter((k) => k !== key) : [...cond.venues, key] }));
+  };
+  const selRows = [
+    { tag: "A", cond: cmpA, setter: setCmpA, color: "#f59e0b" },
+    { tag: "B", cond: cmpB, setter: setCmpB, color: "#0ea5e9" }
+  ];
+  const colHead = (color, cond, list, s) => /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color, fontWeight: "700", width: "84px", flexShrink: 0, textAlign: "right", lineHeight: 1.5, wordBreak: "break-all" } }, condSummary(cond), /* @__PURE__ */ React.createElement("br", null), "\uFF08", list.length, "R", s ? "" : "\u30FB\u8A72\u5F53\u306A\u3057", "\uFF09");
+  return /* @__PURE__ */ React.createElement("div", { style: S.card({ marginBottom: "12px" }) }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "STATS\u6BD4\u8F03"), selRows.map(({ tag, cond, setter, color }) => /* @__PURE__ */ React.createElement("div", { key: tag, style: { marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px", alignItems: "center" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "800", color, flexShrink: 0, width: "14px", textAlign: "center" } }, tag), /* @__PURE__ */ React.createElement(
+    "button",
+    {
+      type: "button",
+      onClick: () => setOpenVenue(openVenue === tag ? null : tag),
+      style: __spreadProps(__spreadValues({}, S.input), {
+        flex: 1,
+        minWidth: 0,
+        fontSize: "12px",
+        padding: "8px",
+        textAlign: "left",
+        cursor: "pointer",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: "6px",
+        borderColor: openVenue === tag ? color : void 0
+      })
+    },
+    /* @__PURE__ */ React.createElement("span", { style: { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", color: cond.venues.length ? "#334155" : "#94a3b8" } }, venueLabel(cond)),
+    /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8", flexShrink: 0 } }, openVenue === tag ? "\u25B2" : "\u25BC")
+  ), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: cond.period,
+      onChange: (e) => setter(__spreadProps(__spreadValues({}, cond), { period: e.target.value })),
+      style: __spreadProps(__spreadValues({}, S.input), { width: "auto", flexShrink: 0, fontSize: "12px", padding: "8px" })
+    },
+    /* @__PURE__ */ React.createElement("option", { value: "all" }, "\u3059\u3079\u3066"),
+    /* @__PURE__ */ React.createElement("option", { value: "1m" }, "\u76F4\u8FD11\u30F6\u6708"),
+    /* @__PURE__ */ React.createElement("option", { value: "3m" }, "\u76F4\u8FD13\u30F6\u6708"),
+    /* @__PURE__ */ React.createElement("option", { value: "6m" }, "\u76F4\u8FD16\u30F6\u6708"),
+    /* @__PURE__ */ React.createElement("option", { value: "1y" }, "\u76F4\u8FD11\u5E74"),
+    years.map((y) => /* @__PURE__ */ React.createElement("option", { key: y, value: "y" + y }, y, "\u5E74"))
+  )), openVenue === tag && /* @__PURE__ */ React.createElement("div", { style: { margin: "6px 0 0 20px", border: "1px solid #e2e8f0", borderRadius: "8px", overflow: "hidden", background: "#fff" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "7px 10px", borderBottom: "1px solid #e2e8f0", background: "#f8fafc" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8" } }, cond.venues.length > 0 ? cond.venues.length + "\u4EF6\u9078\u629E\u4E2D" : "\u672A\u9078\u629E\uFF1D\u5168\u30B4\u30EB\u30D5\u5834"), cond.venues.length > 0 && /* @__PURE__ */ React.createElement(
+    "span",
+    {
+      onClick: () => setter(__spreadProps(__spreadValues({}, cond), { venues: [] })),
+      style: { fontSize: "10px", color: "#0ea5e9", fontWeight: "700", cursor: "pointer" }
+    },
+    "\u9078\u629E\u3092\u30AF\u30EA\u30A2"
+  )), /* @__PURE__ */ React.createElement("div", { style: { maxHeight: "220px", overflowY: "auto" } }, venueOpts.map((o, i) => /* @__PURE__ */ React.createElement("label", { key: o.key, style: {
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    padding: "9px 10px",
+    cursor: "pointer",
+    borderBottom: i < venueOpts.length - 1 ? "1px solid #f1f5f9" : "none"
+  } }, /* @__PURE__ */ React.createElement(
+    "input",
+    {
+      type: "checkbox",
+      checked: cond.venues.includes(o.key),
+      onChange: () => toggleVenue(cond, setter, o.key),
+      style: { width: "16px", height: "16px", flexShrink: 0, accentColor: color }
+    }
+  ), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", flex: 1, minWidth: 0, color: "#334155", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" } }, o.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8", flexShrink: 0 } }, o.count, "R"))))))), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "flex-end", gap: "8px", padding: "8px 0 4px", borderBottom: "1px solid rgba(226,232,240,0.5)" } }, /* @__PURE__ */ React.createElement("span", { style: { flex: 1, minWidth: 0 } }), colHead("#f59e0b", cmpA, listA, sA), colHead("#0ea5e9", cmpB, listB, sB)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "0px" } }, statDefs.map((row, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "8px",
+    padding: "9px 0",
+    borderBottom: i < statDefs.length - 1 ? "1px solid #e2e8f0" : "none"
+  } }, /* @__PURE__ */ React.createElement("span", { style: { flex: 1, minWidth: 0, fontSize: "12px", color: "#94a3b8", fontWeight: "500", lineHeight: "1.4" } }, row.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "700", color: "#f59e0b", width: "84px", flexShrink: 0, textAlign: "right" } }, sA ? row.get(sA) : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px", color: "#64748b" } }, sA ? row.unit : "")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "800", color: row.color, width: "84px", flexShrink: 0, textAlign: "right" } }, sB ? row.get(sB) : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px" } }, sB ? row.unit : ""))))), (ddA != null || ddB != null) && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "10px", marginTop: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "500", flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("span", null, "\u5E73\u5747\u30C9\u30E9\u30A4\u30D3\u30F3\u30B0\u30C7\u30A3\u30B9\u30BF\u30F3\u30B9"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px" } }, "\uFF08\u63A8\u5B9A\uFF0F1W\u3007\u306E\u307F\uFF09")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "700", color: "#f59e0b", width: "84px", flexShrink: 0, textAlign: "right" } }, ddA != null ? ddA : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px", color: "#64748b" } }, "Y")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "800", color: "#16a34a", width: "84px", flexShrink: 0, textAlign: "right" } }, ddB != null ? ddB : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "2px", color: "#64748b" } }, "Y")))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "8px", lineHeight: "1.5" } }, /* @__PURE__ */ React.createElement("div", null, "\u203BA\u3068B\u306E\u6761\u4EF6\uFF08\u30B4\u30EB\u30D5\u5834\u30FB\u671F\u9593\uFF09\u3092\u5909\u3048\u3066\u540C\u3058\u7D71\u8A08\u9805\u76EE\u3092\u6BD4\u8F03\u3067\u304D\u307E\u3059"), /* @__PURE__ */ React.createElement("div", null, "\u203B\u30B4\u30EB\u30D5\u5834\u6B04\u3092\u30BF\u30C3\u30D7\u3059\u308B\u3068\u4E00\u89A7\u304C\u958B\u304D\u3001\u8907\u6570\u9078\u629E\u3067\u304D\u307E\u3059\uFF08\u672A\u9078\u629E\uFF1D\u5168\u30B4\u30EB\u30D5\u5834\uFF09"), /* @__PURE__ */ React.createElement("div", null, "\u203B\u5404\u7D71\u8A08\u306E\u5B9A\u7FA9\u306F\u4E0A\u306EStats\u3068\u540C\u3058\u3002\u8A72\u5F53\u30E9\u30A6\u30F3\u30C9\u304C\u306A\u3044\u6761\u4EF6\u306F\u300C\u8A72\u5F53\u306A\u3057\u300D\u3068\u8868\u793A\u3055\u308C\u307E\u3059")));
+};
+const StatsCompare = React.memo(StatsCompareImpl);
 const AnalyticsPuttStats = React.memo(AnalyticsPuttStatsImpl);
 const AnalyticsDistanceStats = React.memo(AnalyticsDistanceStatsImpl);
 const AnalyticsClubStats = React.memo(AnalyticsClubStatsImpl);
@@ -8161,7 +8309,7 @@ function GolfTracker() {
       style: { flex: 1, padding: "11px", borderRadius: "9px", border: "none", background: "linear-gradient(135deg,#34d399,#60a5fa)", color: "#f8fafc", fontWeight: "700", fontSize: "13px", cursor: "pointer" }
     },
     "OK"
-  ))))), view === "analytics" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "18px" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", marginBottom: "3px" } }, "\u30B9\u30B3\u30A2\u5206\u6790")), /* @__PURE__ */ React.createElement(AnalyticsRexyGreeting, { hasData: rounds.some((r) => r.isComplete) }), /* @__PURE__ */ React.createElement(AnalyticsAIDiagnosis, { rounds, avgDrive, effectiveHcp }), /* @__PURE__ */ React.createElement(AnalyticsScoreChart, { rounds, avgDrive, S }), /* @__PURE__ */ React.createElement(AnalyticsExpectedStrokes, { rounds, hcp: effectiveHcp, S, nickname: profile.nickname })), view === "clubs" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "14px" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", marginBottom: "3px" } }, "STATS")), REXY_IMAGES.basic5 && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "18px" } }, /* @__PURE__ */ React.createElement(RexyBubble, { costume: "basic5", size: 64 }, "\u304F\u308F\u3057\u3044\u5206\u6790\u30C7\u30FC\u30BF\u3060\u3088\u3002\u305F\u304F\u3055\u3093\u8A18\u9332\u3059\u308B\u3068\u3001\u3082\u3063\u3068\u6B63\u78BA\u306B\u306A\u308B\u3088\uFF01")), /* @__PURE__ */ React.createElement(AnalyticsStats, { rounds, handicap, profile, S }), /* @__PURE__ */ React.createElement(AnalyticsPuttStats, { rounds, S }), /* @__PURE__ */ React.createElement(AnalyticsDistanceStats, { rounds, S }), /* @__PURE__ */ React.createElement(AnalyticsClubStats, { rounds, S }), /* @__PURE__ */ React.createElement(AnalyticsSegmentCharts, { rounds, S })), view === "manual" && /* @__PURE__ */ React.createElement(ManualView, { DETAIL_FREE_LIMIT, DETAIL_PRICE_LABEL }), view === "profile" && profileEdit !== null && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "20px" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", marginBottom: "3px" } }, "\u30DE\u30A4\u30DA\u30FC\u30B8")), currentRound && /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(245,158,11,0.10)", border: "1px solid #f59e0b", borderRadius: "10px", padding: "10px 14px", marginBottom: "14px", fontSize: "12px", color: "#b45309", fontWeight: "600", lineHeight: 1.6 } }, "\u{1F512} \u8A18\u9332\u4E2D\u306F\u30DE\u30A4\u30DA\u30FC\u30B8\u3092\u5909\u66F4\u3067\u304D\u307E\u305B\u3093\u3002\u30E9\u30A6\u30F3\u30C9\u7D42\u4E86\u5F8C\u306B\u7DE8\u96C6\u3057\u3066\u304F\u3060\u3055\u3044\u3002"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "7px", margin: "0 2px 8px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "4px", height: "15px", background: "linear-gradient(135deg,#f59e0b,#ea580c)", borderRadius: "2px" } }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "14px", fontWeight: "800", color: "#1e293b", letterSpacing: "0.04em" } }, "\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB")), /* @__PURE__ */ React.createElement("div", { style: __spreadValues(__spreadValues({}, S.card({ marginBottom: "14px" })), currentRound ? { pointerEvents: "none", opacity: 0.55 } : {}) }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30CB\u30C3\u30AF\u30CD\u30FC\u30E0"), /* @__PURE__ */ React.createElement(
+  ))))), view === "analytics" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "18px" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", marginBottom: "3px" } }, "\u30B9\u30B3\u30A2\u5206\u6790")), /* @__PURE__ */ React.createElement(AnalyticsRexyGreeting, { hasData: rounds.some((r) => r.isComplete) }), /* @__PURE__ */ React.createElement(AnalyticsAIDiagnosis, { rounds, avgDrive, effectiveHcp }), /* @__PURE__ */ React.createElement(AnalyticsScoreChart, { rounds, avgDrive, S }), /* @__PURE__ */ React.createElement(AnalyticsExpectedStrokes, { rounds, hcp: effectiveHcp, S, nickname: profile.nickname })), view === "clubs" && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "14px" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", marginBottom: "3px" } }, "STATS")), REXY_IMAGES.basic5 && /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "18px" } }, /* @__PURE__ */ React.createElement(RexyBubble, { costume: "basic5", size: 64 }, "\u304F\u308F\u3057\u3044\u5206\u6790\u30C7\u30FC\u30BF\u3060\u3088\u3002\u305F\u304F\u3055\u3093\u8A18\u9332\u3059\u308B\u3068\u3001\u3082\u3063\u3068\u6B63\u78BA\u306B\u306A\u308B\u3088\uFF01")), /* @__PURE__ */ React.createElement(AnalyticsStats, { rounds, handicap, profile, S }), /* @__PURE__ */ React.createElement(StatsCompare, { rounds, S }), /* @__PURE__ */ React.createElement(AnalyticsPuttStats, { rounds, S }), /* @__PURE__ */ React.createElement(AnalyticsDistanceStats, { rounds, S }), /* @__PURE__ */ React.createElement(AnalyticsClubStats, { rounds, S }), /* @__PURE__ */ React.createElement(AnalyticsSegmentCharts, { rounds, S })), view === "manual" && /* @__PURE__ */ React.createElement(ManualView, { DETAIL_FREE_LIMIT, DETAIL_PRICE_LABEL }), view === "profile" && profileEdit !== null && /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "20px" } }, /* @__PURE__ */ React.createElement("h2", { style: { fontSize: "21px", fontWeight: "800", marginBottom: "3px" } }, "\u30DE\u30A4\u30DA\u30FC\u30B8")), currentRound && /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(245,158,11,0.10)", border: "1px solid #f59e0b", borderRadius: "10px", padding: "10px 14px", marginBottom: "14px", fontSize: "12px", color: "#b45309", fontWeight: "600", lineHeight: 1.6 } }, "\u{1F512} \u8A18\u9332\u4E2D\u306F\u30DE\u30A4\u30DA\u30FC\u30B8\u3092\u5909\u66F4\u3067\u304D\u307E\u305B\u3093\u3002\u30E9\u30A6\u30F3\u30C9\u7D42\u4E86\u5F8C\u306B\u7DE8\u96C6\u3057\u3066\u304F\u3060\u3055\u3044\u3002"), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "7px", margin: "0 2px 8px" } }, /* @__PURE__ */ React.createElement("span", { style: { width: "4px", height: "15px", background: "linear-gradient(135deg,#f59e0b,#ea580c)", borderRadius: "2px" } }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "14px", fontWeight: "800", color: "#1e293b", letterSpacing: "0.04em" } }, "\u30D7\u30ED\u30D5\u30A3\u30FC\u30EB")), /* @__PURE__ */ React.createElement("div", { style: __spreadValues(__spreadValues({}, S.card({ marginBottom: "14px" })), currentRound ? { pointerEvents: "none", opacity: 0.55 } : {}) }, /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "16px" } }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30CB\u30C3\u30AF\u30CD\u30FC\u30E0"), /* @__PURE__ */ React.createElement(
     "input",
     {
       style: S.input,
