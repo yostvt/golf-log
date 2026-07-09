@@ -3072,7 +3072,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07091809";
+var APP_VERSION = "07091850";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -5175,20 +5175,87 @@ const AnalyticsAIDiagnosis = React.memo(AnalyticsAIDiagnosisImpl);
 const AnalyticsScoreChart = React.memo(AnalyticsScoreChartImpl);
 const AnalyticsStats = React.memo(AnalyticsStatsImpl);
 const StatsCompareImpl = ({ rounds, S }) => {
-  const [cmpA, setCmpA] = React.useState({ venues: [], period: "all" });
-  const [cmpB, setCmpB] = React.useState({ venues: [], period: "all" });
+  const [cmpA, setCmpA] = React.useState({ venues: [], tee: "all", green: "all", period: "all" });
+  const [cmpB, setCmpB] = React.useState({ venues: [], tee: "all", green: "all", period: "all" });
   const [openVenue, setOpenVenue] = React.useState(null);
   const completed = React.useMemo(() => [...rounds.filter((r) => r.isComplete && Object.keys(r.simpleHoleData || {}).length > 0)].sort((a, b) => dateToNum(b.date) - dateToNum(a.date)), [rounds]);
+  const venueMasterById = React.useMemo(() => {
+    const m = /* @__PURE__ */ new Map();
+    if (typeof VENUES !== "undefined" && Array.isArray(VENUES)) VENUES.forEach((v) => m.set(v.id, v));
+    return m;
+  }, []);
   if (completed.length === 0) return null;
-  const venueKeyOf = (r) => r.venueId ? "v:" + r.venueId : "c:" + (r.course || "\u4E0D\u660E");
+  const COMBO_RE = /[（(]\s*([^（）()]+?)\s*(?:→|⇒|->)\s*([^（）()]+?)\s*[）)]\s*$/;
+  const cleanCourse = (c) => {
+    const s = String(c || "").replace(COMBO_RE, "").trim();
+    return s || "\uFF08\u30B3\u30FC\u30B9\u540D\u306A\u3057\uFF09";
+  };
+  const comboFromCourse = (r) => {
+    const m = String(r.course || "").match(COMBO_RE);
+    return m ? [m[1], m[2]] : null;
+  };
+  const comboOf = (r) => {
+    const v = r.venueId ? venueMasterById.get(r.venueId) : null;
+    if (!v || !Array.isArray(v.subCourses) || v.subCourses.length < 3) return null;
+    const fb = comboFromCourse(r);
+    const f = r.frontCourse || fb && fb[0];
+    const b = r.backCourse || fb && fb[1];
+    if (!f || !b) return null;
+    if (f === b) return [f];
+    const order = v.subCourses.map((c) => c.name);
+    const idx = (n) => {
+      const i = order.indexOf(n);
+      return i < 0 ? 999 : i;
+    };
+    return [f, b].sort((x, y) => idx(x) - idx(y));
+  };
+  const shortSub = (n) => {
+    const s = String(n).replace(/コース$/, "");
+    return s || String(n);
+  };
+  const venueKeyOf = (r) => {
+    const base = r.venueId ? "v:" + r.venueId : "c:" + cleanCourse(r.course);
+    const p = comboOf(r);
+    return p ? base + "|" + p.join(">") : base;
+  };
+  const venueLabelOf = (r) => {
+    const c = cleanCourse(r.course);
+    const p = comboOf(r);
+    return p ? c + "\uFF08" + p.map(shortSub).join("\u30FB") + "\uFF09" : c;
+  };
   const venueMap = /* @__PURE__ */ new Map();
   completed.forEach((r) => {
     const key = venueKeyOf(r);
     const cur = venueMap.get(key);
     if (cur) cur.count++;
-    else venueMap.set(key, { key, label: r.course || "\uFF08\u30B3\u30FC\u30B9\u540D\u306A\u3057\uFF09", count: 1 });
+    else venueMap.set(key, { key, label: venueLabelOf(r), count: 1 });
   });
   const venueOpts = [...venueMap.values()].sort((a, b) => b.count - a.count);
+  const masterOf = (key) => venueMasterById.get(String(key).split("|")[0].replace(/^v:/, "")) || null;
+  const optsFor = (cond, field) => {
+    if (cond.venues.length !== 1) return [];
+    const key = cond.venues[0];
+    const v = masterOf(key);
+    const defs = v ? field === "tee" ? v.tees : v.greens : null;
+    const labelOf = (id) => {
+      const d = defs && defs.find((x) => x.id === id);
+      return d && (d.label || d.name) || id;
+    };
+    const m = /* @__PURE__ */ new Map();
+    completed.forEach((r) => {
+      if (venueKeyOf(r) !== key) return;
+      const val = r[field];
+      if (!val) return;
+      const cur = m.get(val);
+      if (cur) cur.count++;
+      else m.set(val, { id: val, label: labelOf(val), count: 1 });
+    });
+    return [...m.values()].sort((a, b) => b.count - a.count);
+  };
+  const optLabel = (cond, field, id) => {
+    const o = optsFor(cond, field).find((x) => x.id === id);
+    return o ? o.label : id;
+  };
   const years = [...new Set(completed.map((r) => (r.date || "").split("/")[0]).filter(Boolean))].sort((a, b) => Number(b) - Number(a));
   const today = /* @__PURE__ */ new Date();
   const monthsAgoNum = (m) => {
@@ -5197,6 +5264,8 @@ const StatsCompareImpl = ({ rounds, S }) => {
   };
   const matchCond = (r, cond) => {
     if (cond.venues.length > 0 && !cond.venues.includes(venueKeyOf(r))) return false;
+    if (cond.tee !== "all" && r.tee !== cond.tee) return false;
+    if (cond.green !== "all" && r.green !== cond.green) return false;
     if (cond.period !== "all") {
       const dn = dateToNum(r.date);
       if (cond.period === "1m") {
@@ -5245,10 +5314,18 @@ const StatsCompareImpl = ({ rounds, S }) => {
     if (sel.length === 1) return sel[0].label;
     return sel[0].label + " \u4ED6" + (sel.length - 1) + "\u4EF6";
   };
-  const condSummary = (c) => venueLabel(c) + "\u30FB" + periodLabel(c.period);
+  const condSummary = (c) => {
+    const parts = [venueLabel(c)];
+    if (c.tee !== "all") parts.push(optLabel(c, "tee", c.tee));
+    if (c.green !== "all") parts.push(optLabel(c, "green", c.green));
+    parts.push(periodLabel(c.period));
+    return parts.join("\u30FB");
+  };
   const toggleVenue = (cond, setter, key) => {
     const has = cond.venues.includes(key);
-    setter(__spreadProps(__spreadValues({}, cond), { venues: has ? cond.venues.filter((k) => k !== key) : [...cond.venues, key] }));
+    const venues = has ? cond.venues.filter((k) => k !== key) : [...cond.venues, key];
+    const keep = venues.length === 1 && cond.venues.length === 1 && venues[0] === cond.venues[0];
+    setter(keep ? __spreadProps(__spreadValues({}, cond), { venues }) : __spreadProps(__spreadValues({}, cond), { venues, tee: "all", green: "all" }));
   };
   const selRows = [
     { tag: "A", cond: cmpA, setter: setCmpA, color: "#f59e0b" },
@@ -5289,10 +5366,28 @@ const StatsCompareImpl = ({ rounds, S }) => {
     /* @__PURE__ */ React.createElement("option", { value: "6m" }, "\u76F4\u8FD16\u30F6\u6708"),
     /* @__PURE__ */ React.createElement("option", { value: "1y" }, "\u76F4\u8FD11\u5E74"),
     years.map((y) => /* @__PURE__ */ React.createElement("option", { key: y, value: "y" + y }, y, "\u5E74"))
+  )), cond.venues.length === 1 && (optsFor(cond, "tee").length > 0 || optsFor(cond, "green").length > 0) && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "6px", alignItems: "center", margin: "6px 0 0 20px" } }, /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: cond.tee,
+      onChange: (e) => setter(__spreadProps(__spreadValues({}, cond), { tee: e.target.value })),
+      style: __spreadProps(__spreadValues({}, S.input), { flex: 1, minWidth: 0, fontSize: "11px", padding: "7px" })
+    },
+    /* @__PURE__ */ React.createElement("option", { value: "all" }, "\u3059\u3079\u3066\u306E\u30C6\u30A3"),
+    optsFor(cond, "tee").map((o) => /* @__PURE__ */ React.createElement("option", { key: o.id, value: o.id }, o.label, "\uFF08", o.count, "R\uFF09"))
+  ), /* @__PURE__ */ React.createElement(
+    "select",
+    {
+      value: cond.green,
+      onChange: (e) => setter(__spreadProps(__spreadValues({}, cond), { green: e.target.value })),
+      style: __spreadProps(__spreadValues({}, S.input), { flex: 1, minWidth: 0, fontSize: "11px", padding: "7px" })
+    },
+    /* @__PURE__ */ React.createElement("option", { value: "all" }, "\u3059\u3079\u3066\u306E\u30B0\u30EA\u30FC\u30F3"),
+    optsFor(cond, "green").map((o) => /* @__PURE__ */ React.createElement("option", { key: o.id, value: o.id }, o.label, "\uFF08", o.count, "R\uFF09"))
   )), openVenue === tag && /* @__PURE__ */ React.createElement("div", { style: { margin: "6px 0 0 20px", border: "1px solid #e2e8f0", borderRadius: "8px", overflow: "hidden", background: "#fff" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "7px 10px", borderBottom: "1px solid #e2e8f0", background: "#f8fafc" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8" } }, cond.venues.length > 0 ? cond.venues.length + "\u4EF6\u9078\u629E\u4E2D" : "\u672A\u9078\u629E\uFF1D\u5168\u30B4\u30EB\u30D5\u5834"), cond.venues.length > 0 && /* @__PURE__ */ React.createElement(
     "span",
     {
-      onClick: () => setter(__spreadProps(__spreadValues({}, cond), { venues: [] })),
+      onClick: () => setter(__spreadProps(__spreadValues({}, cond), { venues: [], tee: "all", green: "all" })),
       style: { fontSize: "10px", color: "#0ea5e9", fontWeight: "700", cursor: "pointer" }
     },
     "\u9078\u629E\u3092\u30AF\u30EA\u30A2"
@@ -5318,7 +5413,7 @@ const StatsCompareImpl = ({ rounds, S }) => {
     gap: "8px",
     padding: "9px 0",
     borderBottom: i < statDefs.length - 1 ? "1px solid #e2e8f0" : "none"
-  } }, /* @__PURE__ */ React.createElement("span", { style: { flex: 1, minWidth: 0, fontSize: "12px", color: "#94a3b8", fontWeight: "500", lineHeight: "1.4" } }, row.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "700", color: "#f59e0b", width: "84px", flexShrink: 0, textAlign: "right" } }, sA ? row.get(sA) : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px", color: "#64748b" } }, sA ? row.unit : "")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "800", color: row.color, width: "84px", flexShrink: 0, textAlign: "right" } }, sB ? row.get(sB) : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px" } }, sB ? row.unit : ""))))), (ddA != null || ddB != null) && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "10px", marginTop: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "500", flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("span", null, "\u5E73\u5747\u30C9\u30E9\u30A4\u30D3\u30F3\u30B0\u30C7\u30A3\u30B9\u30BF\u30F3\u30B9"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px" } }, "\uFF08\u63A8\u5B9A\uFF0F1W\u3007\u306E\u307F\uFF09")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "700", color: "#f59e0b", width: "84px", flexShrink: 0, textAlign: "right" } }, ddA != null ? ddA : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px", color: "#64748b" } }, "Y")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "800", color: "#16a34a", width: "84px", flexShrink: 0, textAlign: "right" } }, ddB != null ? ddB : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "2px", color: "#64748b" } }, "Y")))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "8px", lineHeight: "1.5" } }, /* @__PURE__ */ React.createElement("div", null, "\u203BA\u3068B\u306E\u6761\u4EF6\uFF08\u30B4\u30EB\u30D5\u5834\u30FB\u671F\u9593\uFF09\u3092\u5909\u3048\u3066\u540C\u3058\u7D71\u8A08\u9805\u76EE\u3092\u6BD4\u8F03\u3067\u304D\u307E\u3059"), /* @__PURE__ */ React.createElement("div", null, "\u203B\u30B4\u30EB\u30D5\u5834\u6B04\u3092\u30BF\u30C3\u30D7\u3059\u308B\u3068\u4E00\u89A7\u304C\u958B\u304D\u3001\u8907\u6570\u9078\u629E\u3067\u304D\u307E\u3059\uFF08\u672A\u9078\u629E\uFF1D\u5168\u30B4\u30EB\u30D5\u5834\uFF09"), /* @__PURE__ */ React.createElement("div", null, "\u203B\u5404\u7D71\u8A08\u306E\u5B9A\u7FA9\u306F\u4E0A\u306EStats\u3068\u540C\u3058\u3002\u8A72\u5F53\u30E9\u30A6\u30F3\u30C9\u304C\u306A\u3044\u6761\u4EF6\u306F\u300C\u8A72\u5F53\u306A\u3057\u300D\u3068\u8868\u793A\u3055\u308C\u307E\u3059")));
+  } }, /* @__PURE__ */ React.createElement("span", { style: { flex: 1, minWidth: 0, fontSize: "12px", color: "#94a3b8", fontWeight: "500", lineHeight: "1.4" } }, row.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "700", color: "#f59e0b", width: "84px", flexShrink: 0, textAlign: "right" } }, sA ? row.get(sA) : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px", color: "#64748b" } }, sA ? row.unit : "")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "800", color: row.color, width: "84px", flexShrink: 0, textAlign: "right" } }, sB ? row.get(sB) : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px" } }, sB ? row.unit : ""))))), (ddA != null || ddB != null) && /* @__PURE__ */ React.createElement("div", { style: { borderTop: "1px solid #e2e8f0", paddingTop: "10px", marginTop: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: "8px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", color: "#94a3b8", fontWeight: "500", flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("span", null, "\u5E73\u5747\u30C9\u30E9\u30A4\u30D3\u30F3\u30B0\u30C7\u30A3\u30B9\u30BF\u30F3\u30B9"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px" } }, "\uFF08\u63A8\u5B9A\uFF0F1W\u3007\u306E\u307F\uFF09")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "700", color: "#f59e0b", width: "84px", flexShrink: 0, textAlign: "right" } }, ddA != null ? ddA : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "1px", color: "#64748b" } }, "Y")), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "15px", fontWeight: "800", color: "#16a34a", width: "84px", flexShrink: 0, textAlign: "right" } }, ddB != null ? ddB : "\uFF0D", /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "500", marginLeft: "2px", color: "#64748b" } }, "Y")))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "8px", lineHeight: "1.5" } }, /* @__PURE__ */ React.createElement("div", null, "\u203BA\u3068B\u306E\u6761\u4EF6\uFF08\u30B4\u30EB\u30D5\u5834\u30FB\u671F\u9593\uFF09\u3092\u5909\u3048\u3066\u540C\u3058\u7D71\u8A08\u9805\u76EE\u3092\u6BD4\u8F03\u3067\u304D\u307E\u3059"), /* @__PURE__ */ React.createElement("div", null, "\u203B\u30B4\u30EB\u30D5\u5834\u6B04\u3092\u30BF\u30C3\u30D7\u3059\u308B\u3068\u4E00\u89A7\u304C\u958B\u304D\u3001\u8907\u6570\u9078\u629E\u3067\u304D\u307E\u3059\uFF08\u672A\u9078\u629E\uFF1D\u5168\u30B4\u30EB\u30D5\u5834\uFF09"), /* @__PURE__ */ React.createElement("div", null, "\u203B\u30B4\u30EB\u30D5\u5834\u30921\u3064\u3060\u3051\u9078\u3076\u3068\u3001\u305D\u306E\u30B3\u30FC\u30B9\u3067\u8A18\u9332\u306E\u3042\u308B\u30C6\u30A3\u30FB\u30B0\u30EA\u30FC\u30F3\u3092\u6307\u5B9A\u3067\u304D\u307E\u3059"), /* @__PURE__ */ React.createElement("div", null, "\u203B\u5404\u7D71\u8A08\u306E\u5B9A\u7FA9\u306F\u4E0A\u306EStats\u3068\u540C\u3058\u3002\u8A72\u5F53\u30E9\u30A6\u30F3\u30C9\u304C\u306A\u3044\u6761\u4EF6\u306F\u300C\u8A72\u5F53\u306A\u3057\u300D\u3068\u8868\u793A\u3055\u308C\u307E\u3059")));
 };
 const StatsCompare = React.memo(StatsCompareImpl);
 const AnalyticsPuttStats = React.memo(AnalyticsPuttStatsImpl);
