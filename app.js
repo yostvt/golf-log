@@ -362,9 +362,9 @@ function getRoundHoles(round) {
 }
 const normQuality = (v) => {
   if (!v) return v;
-  if (v === "good" || v === "\u25CB") return "\u25CB";
-  if (v === "fair" || v === "\u25B3") return "\u25B3";
-  if (v === "bad" || v === "\xD7") return "\xD7";
+  if (v === "good" || v === "\u25CB" || v === "fw") return "\u25CB";
+  if (v === "fair" || v === "\u25B3" || v === "rough") return "\u25B3";
+  if (v === "bad" || v === "\xD7" || v === "miss" || v === "bunker" || v === "onepen" || v === "ob") return "\xD7";
   return v;
 };
 const calcIdealGIR = (hcp, holeCount) => {
@@ -1433,6 +1433,22 @@ function decomposeTeeSG(scopeRounds, hcp, avgDD) {
   };
   let penCount = 0, penLoss = 0, fwMissCount = 0, lieLoss = 0, distLoss = 0, holes = 0;
   for (const r of scopeRounds || []) {
+    if (r && r.inputMode === "simple" && r.simpleHoleData) {
+      Object.values(r.simpleHoleData).forEach((hd) => {
+        if (!hd || hd.score == null) return;
+        const ob = hd.ob || 0, pen = hd.penalty || 0, bk = hd.bunker || 0;
+        if (ob + pen > 0) {
+          penCount += ob + pen;
+          penLoss += ob * 2 + pen;
+        }
+        if (bk > 0) {
+          fwMissCount += bk;
+          lieLoss += bk * 0.81;
+        }
+        holes++;
+      });
+      continue;
+    }
     if (!r || r.inputMode !== "detail" || !r.holeData) continue;
     const venue = VENUES.find((v) => v.id === r.venueId);
     if (!venue) continue;
@@ -2112,7 +2128,7 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreO
       improveItem = __spreadProps(__spreadValues({}, it), { diagnosis: diag, advice: adv });
     }
     if (improveItem && improveItem.key === "tee") {
-      const teeScope = sg5 != null ? [...rounds || []].filter((r) => r.isComplete && r.inputMode === "detail" && r.holeData).sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, 5) : (rounds || []).filter((r) => r.id === roundId && r.inputMode === "detail" && r.holeData);
+      const teeScope = sg5 != null ? [...rounds || []].filter((r) => r.isComplete && (r.inputMode === "detail" && r.holeData || r.inputMode === "simple" && r.simpleHoleData)).sort((a, b) => dateToNum(b.date) - dateToNum(a.date)).slice(0, 5) : (rounds || []).filter((r) => r.id === roundId && (r.inputMode === "detail" && r.holeData || r.inputMode === "simple" && r.simpleHoleData));
       const bd = decomposeTeeSG(teeScope, hcp, avgDrivingDistance(rounds));
       const teeDiv = sg5 != null ? Math.max(teeScope.length, 1) : 1;
       const teePen = bd.penLoss / teeDiv, teeLie = Math.abs(bd.lieLoss) / teeDiv;
@@ -3056,7 +3072,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07090245";
+var APP_VERSION = "07091100";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -7464,7 +7480,7 @@ function GolfTracker() {
         var _a3;
         const mp = Math.max(0, v - 1);
         upd(__spreadValues({ score: v }, ((_a3 = ed.putts) != null ? _a3 : 0) > mp ? { putts: mp } : {}));
-      } })), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30D1\u30C3\u30C8\u6570"), /* @__PURE__ */ React.createElement(NumInput, { val: ed.putts, min: 0, max: Math.max(0, ((_b2 = ed.score) != null ? _b2 : edPar) - 1), onChange: (v) => upd({ putts: v }) }))), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px", marginBottom: "14px" } }, [{ key: "ob", label: "OB" }, { key: "penalty", label: "\u30DA\u30CA\u30EB\u30C6\u30A3" }, { key: "bunker", label: "\u30D0\u30F3\u30AB\u30FC" }].map(({ key, label }) => /* @__PURE__ */ React.createElement("div", { key }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, label), /* @__PURE__ */ React.createElement(NumInput, { val: ed[key], min: 0, max: 5, onChange: (v) => upd({ [key]: v }) })))), /* @__PURE__ */ React.createElement(ShotEvalEditor, { par: edPar, data: ed, onChange: upd, S, adjustCounts: false }))), sheet);
+      } })), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u30D1\u30C3\u30C8\u6570"), /* @__PURE__ */ React.createElement(NumInput, { val: ed.putts, min: 0, max: Math.max(0, ((_b2 = ed.score) != null ? _b2 : edPar) - 1), onChange: (v) => upd({ putts: v }) }))), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px", marginBottom: "14px" } }, [{ key: "ob", label: "OB" }, { key: "penalty", label: "\u30DA\u30CA\u30EB\u30C6\u30A3" }, { key: "bunker", label: "\u30D0\u30F3\u30AB\u30FC" }].map(({ key, label }) => /* @__PURE__ */ React.createElement("div", { key }, /* @__PURE__ */ React.createElement("label", { style: S.lbl }, label), /* @__PURE__ */ React.createElement(NumInput, { val: ed[key], min: 0, max: 5, onChange: (v) => upd({ [key]: v }) })))), /* @__PURE__ */ React.createElement(ShotEvalEditor, { par: edPar, data: ed, onChange: upd, S, adjustCounts: true }))), sheet);
     }
     if (ocrStep === "done" && ocrDoneInfo) {
       const di = ocrDoneInfo;
@@ -8846,7 +8862,7 @@ function GolfTracker() {
     setExportJson("");
   } }), /* @__PURE__ */ React.createElement(ToastLayer, { toast, weather: currentRound ? currentRound.weather : null }), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver.", typeof VENUES !== "undefined" && Array.isArray(VENUES) ? String(VENUES.length).padStart(4, "0") : "0000", APP_VERSION));
 }
-var golf_tracker_06081520_default = GolfTracker;
+var stdin_default = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const __scrxRoot = document.getElementById("root");
   if (__scrxRoot && !window.__SCRX_MOUNTED) {
