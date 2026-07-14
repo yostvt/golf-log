@@ -2215,25 +2215,57 @@ function generateDiagnosis(sa, shd, hcp, rounds, roundId, roundCount = 1, scoreO
   }
   const currentRoundData = (rounds || []).find((r) => r.id === roundId);
   const currentDateNum = currentRoundData ? dateToNum(currentRoundData.date) : Infinity;
-  const prevRounds = (rounds || []).filter((r) => r.isComplete && r.id !== roundId && Object.keys(r.simpleHoleData || {}).length > 0).filter((r) => {
-    const rCount2 = Object.keys(r.simpleHoleData || {}).length;
-    if (!(is9H ? rCount2 <= 12 : rCount2 > 12)) return false;
-    return dateToNum(r.date) < currentDateNum;
-  }).sort((a, b) => dateToNum(b.date) - dateToNum(a.date));
+  const trendAvgDrive = avgDrivingDistance(rounds);
+  const gainOf = (rr) => {
+    const hcI = rr.hcp != null ? rr.hcp : hcp;
+    let sa2 = null;
+    try {
+      sa2 = calcAnalytics(rr, hcI, null, trendAvgDrive);
+    } catch (e) {
+      sa2 = null;
+    }
+    if (!sa2) return null;
+    if (sa2.sgReady && sa2.sg) {
+      return { gl: sa2.sg.totalSG, tee: sa2.sg.teeScore, long: sa2.sg.longScore, short: sa2.sg.shortScore, putt: sa2.sg.puttScore, sg: true };
+    }
+    if (sa2.totalScore == null || sa2.totalPar == null) return null;
+    const hcTerm = hcI != null ? sa2.holeCount <= 12 ? Math.floor(hcI / 2) : hcI : 0;
+    return { gl: -(sa2.totalScore - (sa2.totalPar + hcTerm)), sg: false };
+  };
+  const trendPool = (rounds || []).filter((r) => r.isComplete && Object.keys(r.simpleHoleData || {}).length > 12 && dateToNum(r.date) <= currentDateNum).sort((a, b) => dateToNum(b.date) - dateToNum(a.date));
   let trend = null;
-  if (prevRounds.length > 0) {
-    const prev = prevRounds[0];
-    const prevSA = calcAnalytics(prev, hcp, null);
-    if (prevSA) {
-      const prevGap = prevSA.totalScore - (prevSA.totalPar + (prevSA.holeCount <= 12 ? Math.floor(hcp / 2) : hcp));
-      const change = Math.round((gap - prevGap) * 10) / 10;
-      const flatLabel = `${weakestCat.label}\u306B\u307E\u3060\u6539\u5584\u4F59\u5730\u304C\u3042\u308A\u307E\u3059`;
-      trend = {
-        label: change < -1 ? "\u6539\u5584\u4E2D \u2191" : change > 1 ? "\u60AA\u5316 \u2193" : "\u6A2A\u3070\u3044 \u2192",
-        color: change < -1 ? "#16a34a" : change > 1 ? "#dc2626" : "#94a3b8",
-        text: change <= -5 ? `\u524D\u56DE\u3088\u308A${Math.abs(change)}\u6253\u6539\u5584\uFF01\u96C6\u4E2D\u7684\u306A\u7DF4\u7FD2\u306E\u6210\u679C\u304C\u51FA\u3066\u3044\u307E\u3059` : change < -1 ? "\u7740\u5B9F\u306B\u826F\u304F\u306A\u3063\u3066\u3044\u307E\u3059\u3002\u3053\u306E\u8ABF\u5B50\u3067\u30D7\u30EC\u30FC\u3092\u7D9A\u3051\u307E\u3057\u3087\u3046" : change <= 1 ? `\u30B9\u30B3\u30A2\u306F\u5B89\u5B9A\u3057\u3066\u3044\u308B\u304C\u3001${flatLabel}` : change <= 4 ? `\u524D\u56DE\u3088\u308A\u5C11\u3057\u843D\u3061\u307E\u3057\u305F\u3002${weakestCat.label}\u306E\u72B6\u614B\u3092\u78BA\u8A8D\u3057\u3066\u307F\u3066` : `\u524D\u56DE\u3088\u308A${change}\u6253\u60AA\u5316\u3002${weakestCat.label}\u3092\u4E2D\u5FC3\u306B\u8AB2\u984C\u3092\u6574\u7406\u3057\u3088\u3046`,
-        prevDate: prev.date
-      };
+  if (trendPool.length >= 6) {
+    const gains = trendPool.map(gainOf).filter(Boolean);
+    const last5 = gains.slice(0, 5);
+    const last20 = gains.slice(0, 20);
+    const mean = (arr, sel) => {
+      const vs = arr.map(sel).filter((v) => v != null);
+      return vs.length ? vs.reduce((a, b) => a + b, 0) / vs.length : null;
+    };
+    const avg5 = mean(last5, (g) => g.gl);
+    const avg20 = mean(last20, (g) => g.gl);
+    if (avg5 != null && avg20 != null) {
+      const delta = Math.round((avg5 - avg20) * 10) / 10;
+      const dstr = (delta >= 0 ? "+" : "") + delta.toFixed(1);
+      const elems = [["tee", "\u30C6\u30A3\u30B7\u30E7\u30C3\u30C8"], ["long", "\u30ED\u30F3\u30B0\u30B2\u30FC\u30E0"], ["short", "\u30B7\u30E7\u30FC\u30C8\u30B2\u30FC\u30E0"], ["putt", "\u30D1\u30C3\u30C8"]];
+      const elemDelta = elems.map(([k, lb]) => {
+        const a5 = mean(last5.filter((g) => g.sg), (g) => g[k]);
+        const a20 = mean(last20.filter((g) => g.sg), (g) => g[k]);
+        return a5 != null && a20 != null ? { k, lb, d: a5 - a20 } : null;
+      }).filter(Boolean);
+      const label = delta >= 1 ? "\u6539\u5584\u4E2D \u2191" : delta <= -1 ? "\u60AA\u5316 \u2193" : "\u6A2A\u3070\u3044 \u2192";
+      const color = delta >= 1 ? "#16a34a" : delta <= -1 ? "#dc2626" : "#94a3b8";
+      let text;
+      if (delta >= 1) {
+        const best = elemDelta.length ? elemDelta.reduce((a, b) => b.d > a.d ? b : a) : null;
+        text = best && best.d > 0 ? `\u7279\u306B${best.lb}\u304C\u4F38\u3073\u3066\u3044\u307E\u3059` : "\u826F\u3044\u6D41\u308C\u304C\u7D9A\u3044\u3066\u3044\u307E\u3059";
+      } else if (delta <= -1) {
+        const worst = elemDelta.length ? elemDelta.reduce((a, b) => b.d < a.d ? b : a) : null;
+        text = worst && worst.d < 0 ? `\u7279\u306B${worst.lb}\u304C\u8AB2\u984C\u3067\u3059` : `${weakestCat.label}\u3092\u4E2D\u5FC3\u306B\u6574\u7406\u3057\u3088\u3046`;
+      } else {
+        text = `\u5B89\u5B9A\u3057\u3066\u3044\u307E\u3059\u3002${weakestCat.label}\u306B\u307E\u3060\u6539\u5584\u4F59\u5730\u304C\u3042\u308A\u307E\u3059`;
+      }
+      trend = { label, color, text, delta, sub: `\u76F4\u8FD1${last5.length}R vs ${last20.length}R` };
     }
   }
   return { lvl, band, gap, expectedScore, hcAdj, is9H, categories, weaknesses, advice, trend, gradeOf, barW, barC, improveItem, strongItem, elemRanking, usedSG, sgTotalForRating };
@@ -2410,7 +2442,7 @@ function AiDiagnosisPanel({ sa, sa5 = null, shd, hcp, rounds, roundId, teeRates 
     const cntSuffix = b.mode === "analysis" ? "\u8A08" : "";
     const fb = (v) => v >= 0 ? `+${v.toFixed(2)}` : `\u25B3${Math.abs(v).toFixed(2)}`;
     return /* @__PURE__ */ React.createElement("div", null, b.mode === "analysis" && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#94a3b8", marginBottom: "2px" } }, "\uFF08\u76F4\u8FD15R\u30FB1\u30E9\u30A6\u30F3\u30C9\u5E73\u5747\uFF09"), /* @__PURE__ */ React.createElement("div", { style: ln }, /* @__PURE__ */ React.createElement("span", null, "OB\u30FB\u30DA\u30CA\u30EB\u30C6\u30A3", b.penCount > 0 ? `\uFF08${b.penCount}\u56DE${cntSuffix}\uFF09` : ""), /* @__PURE__ */ React.createElement("span", { style: { color: "#2563eb" } }, b.penLoss > 5e-3 ? `\u25B3${b.penLoss.toFixed(2)}` : "\u306A\u3057")), /* @__PURE__ */ React.createElement("div", { style: ln }, /* @__PURE__ */ React.createElement("span", null, "\u30E9\u30D5\u30FB\u30D0\u30F3\u30AB\u30FC", b.fwMissCount > 0 ? `\uFF08${b.fwMissCount}\u56DE${cntSuffix}\uFF09` : ""), /* @__PURE__ */ React.createElement("span", { style: { color: "#2563eb" } }, b.lieLoss > 5e-3 ? `\u25B3${b.lieLoss.toFixed(2)}` : "\u306A\u3057")), /* @__PURE__ */ React.createElement("div", { style: ln }, /* @__PURE__ */ React.createElement("span", null, "\u98DB\u8DDD\u96E2"), /* @__PURE__ */ React.createElement("span", { style: { color: b.dist >= 0 ? "#16a34a" : "#2563eb" } }, fb(b.dist))), /* @__PURE__ */ React.createElement("div", { style: __spreadProps(__spreadValues({}, ln), { borderTop: "1px solid #e2e8f0", marginTop: "4px", paddingTop: "4px", fontWeight: "700", color: "#1e293b" }) }, /* @__PURE__ */ React.createElement("span", null, "\u5408\u8A08"), /* @__PURE__ */ React.createElement("span", { style: { color: b.total >= 0 ? "#16a34a" : "#2563eb" } }, fb(b.total))));
-  })() : /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", color: "#475569", lineHeight: 1.5 } }, d.improveItem.diagnosis)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", alignItems: "flex-start" } }, REXY_IMAGES[rexyCostume] && /* @__PURE__ */ React.createElement(RexyIcon, { costume: rexyCostume, size: 48, alt: "", style: { marginTop: "2px", flexShrink: 0 } }), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0, background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "10px", padding: "10px 12px" } }, /* @__PURE__ */ React.createElement("p", { style: { fontSize: "12px", color: "#15803d", fontWeight: "600", margin: 0, lineHeight: 1.6 } }, d.improveItem.advice)))), d.strongItem && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", fontWeight: "700", color: "#94a3b8", marginBottom: "6px", letterSpacing: "0.06em", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u3042\u306A\u305F\u306E\u5F37\u307F")), /* @__PURE__ */ React.createElement("div", { style: { padding: "10px 12px", background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "900", color: "#1e293b" } }, d.strongItem.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "800", color: "#16a34a" } }, "+", d.strongItem.sg.toFixed(1))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#15803d", lineHeight: 1.5 } }, d.strongItem.oneLiner))))), showTrend && d.trend && /* @__PURE__ */ React.createElement("div", { className: "dag5", style: { padding: "10px 12px", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b" } }, "\u30C8\u30EC\u30F3\u30C9"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "800", color: d.trend.color } }, d.trend.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8", marginLeft: "auto" } }, "\u524D\u56DE: ", d.trend.prevDate)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.6 } }, d.trend.text)));
+  })() : /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", color: "#475569", lineHeight: 1.5 } }, d.improveItem.diagnosis)), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "10px", alignItems: "flex-start" } }, REXY_IMAGES[rexyCostume] && /* @__PURE__ */ React.createElement(RexyIcon, { costume: rexyCostume, size: 48, alt: "", style: { marginTop: "2px", flexShrink: 0 } }), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0, background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "10px", padding: "10px 12px" } }, /* @__PURE__ */ React.createElement("p", { style: { fontSize: "12px", color: "#15803d", fontWeight: "600", margin: 0, lineHeight: 1.6 } }, d.improveItem.advice)))), d.strongItem && /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", fontWeight: "700", color: "#94a3b8", marginBottom: "6px", letterSpacing: "0.06em", display: "flex", alignItems: "center", gap: "5px" } }, /* @__PURE__ */ React.createElement("span", null, "\u3042\u306A\u305F\u306E\u5F37\u307F")), /* @__PURE__ */ React.createElement("div", { style: { padding: "10px 12px", background: "#f0fdf4", border: "1px solid #86efac", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "900", color: "#1e293b" } }, d.strongItem.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "13px", fontWeight: "800", color: "#16a34a" } }, "+", d.strongItem.sg.toFixed(1))), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#15803d", lineHeight: 1.5 } }, d.strongItem.oneLiner))))), showTrend && d.trend && /* @__PURE__ */ React.createElement("div", { className: "dag5", style: { padding: "10px 12px", background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "8px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "700", color: "#64748b" } }, "\u30C8\u30EC\u30F3\u30C9"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "12px", fontWeight: "800", color: d.trend.color } }, d.trend.label), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", fontWeight: "800", color: d.trend.color } }, (d.trend.delta >= 0 ? "+" : "") + d.trend.delta.toFixed(1)), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "9px", color: "#94a3b8", marginLeft: "auto" } }, d.trend.sub)), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", lineHeight: 1.6 } }, d.trend.text)));
 }
 function deriveSimpleHoleData(holeData, holePars) {
   const pars = holePars || Array(18).fill(4);
@@ -3072,7 +3104,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07091850";
+var APP_VERSION = "07141857";
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -6981,7 +7013,7 @@ function GolfTracker() {
       } catch (e) {
       }
     }
-    return /* @__PURE__ */ React.createElement("div", { key: r.id, style: S.card() }, (() => {
+    return /* @__PURE__ */ React.createElement("div", { key: r.id, id: "rc-" + r.id, style: S.card() }, (() => {
       const isSimple = r.inputMode === "simple";
       return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: isCollapsed ? "0px" : "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement(
         "div",
@@ -7309,7 +7341,24 @@ function GolfTracker() {
         style: { padding: "5px 14px", borderRadius: "20px", border: "1px solid rgba(239,68,68,0.3)", background: "rgba(239,68,68,0.06)", color: "#dc2626", fontSize: "11px", fontWeight: "700", cursor: "pointer" }
       },
       "\u524A\u9664"
-    )), editingRoundId === r.id && /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.50)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 300, padding: "20px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#ffffff", border: "1px solid rgba(96,165,250,0.3)", borderRadius: "16px", padding: "24px 20px", maxWidth: "320px", width: "100%" } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "14px", marginBottom: "16px", color: "#1e293b" } }, "\u65E5\u4ED8\u30FB\u5929\u6C17\u30FB\u98A8\u30FB\u30E1\u30E2\u3092\u5909\u66F4"), /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u65E5\u4ED8"), /* @__PURE__ */ React.createElement(
+    )), !isCollapsed && /* @__PURE__ */ React.createElement(
+      "div",
+      {
+        onClick: () => {
+          toggleCollapse();
+          requestAnimationFrame(() => {
+            try {
+              const el = document.getElementById("rc-" + r.id);
+              if (el && el.scrollIntoView) el.scrollIntoView({ behavior: "smooth", block: "start" });
+            } catch (_) {
+            }
+          });
+        },
+        style: { marginTop: "10px", paddingTop: "10px", borderTop: "1px solid #e2e8f0", display: "flex", alignItems: "center", justifyContent: "center", gap: "5px", cursor: "pointer", userSelect: "none", color: "#64748b", fontSize: "12px", fontWeight: "700" }
+      },
+      /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#f59e0b" } }, "\u25B2"),
+      "\u9589\u3058\u308B"
+    ), editingRoundId === r.id && /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.50)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 300, padding: "20px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#ffffff", border: "1px solid rgba(96,165,250,0.3)", borderRadius: "16px", padding: "24px 20px", maxWidth: "320px", width: "100%" } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "14px", marginBottom: "16px", color: "#1e293b" } }, "\u65E5\u4ED8\u30FB\u5929\u6C17\u30FB\u98A8\u30FB\u30E1\u30E2\u3092\u5909\u66F4"), /* @__PURE__ */ React.createElement("label", { style: S.lbl }, "\u65E5\u4ED8"), /* @__PURE__ */ React.createElement(
       "input",
       {
         type: "date",
