@@ -650,24 +650,24 @@ const CHIBA_MATSUO_GC_COURSE = {
 const CENTRAL_GC_EAST_COURSE = {
   name: "セントラルゴルフクラブ 東コース",
   holes: [
-    { hole:1,  par:5, hdcp: 3, blue:520, white:495, green:475, red:369 },
-    { hole:2,  par:3, hdcp:15, blue:195, white:188, green:120, red:120 },
-    { hole:3,  par:4, hdcp: 9, blue:390, white:366, green:350, red:320 },
-    { hole:4,  par:4, hdcp: 1, blue:406, white:376, green:364, red:292 },
-    { hole:5,  par:4, hdcp: 7, blue:330, white:306, green:296, red:250 },
-    { hole:6,  par:3, hdcp:13, blue:185, white:175, green:146, red:120 },
-    { hole:7,  par:5, hdcp: 5, blue:557, white:537, green:473, red:366 },
-    { hole:8,  par:5, hdcp:11, blue:534, white:502, green:407, red:367 },
-    { hole:9,  par:4, hdcp:17, blue:400, white:371, green:321, red:287 },
-    { hole:10, par:4, hdcp: 4, blue:398, white:398, green:363, red:278 },
-    { hole:11, par:4, hdcp:10, blue:340, white:336, green:330, red:302 },
-    { hole:12, par:3, hdcp:16, blue:160, white:147, green:140, red:108 },
-    { hole:13, par:5, hdcp: 2, blue:510, white:500, green:474, red:400 },
-    { hole:14, par:4, hdcp: 8, blue:385, white:381, green:359, red:255 },
-    { hole:15, par:4, hdcp:14, blue:365, white:336, green:310, red:281 },
-    { hole:16, par:4, hdcp:12, blue:430, white:414, green:341, red:260 },
-    { hole:17, par:3, hdcp:18, blue:186, white:182, green:153, red:120 },
-    { hole:18, par:5, hdcp: 6, blue:590, white:568, green:458, red:395 },
+    { hole:1, par:5, hdcp:3, blue_a:528, white_a:495, green_a:475, red_a:369, blue_b:537, white_b:504, green_b:484, red_b:374 },
+    { hole:2, par:3, hdcp:15, blue_a:215, white_a:188, green_a:188, red_a:120, blue_b:189, white_b:189, green_b:163, red_b:120 },
+    { hole:3, par:4, hdcp:9, blue_a:399, white_a:366, green_a:366, red_a:320, blue_b:399, white_b:366, green_b:366, red_b:320 },
+    { hole:4, par:4, hdcp:1, blue_a:416, white_a:376, green_a:376, red_a:292, blue_b:400, white_b:360, green_b:360, red_b:268 },
+    { hole:5, par:4, hdcp:7, blue_a:340, white_a:306, green_a:306, red_a:250, blue_b:324, white_b:290, green_b:290, red_b:234 },
+    { hole:6, par:3, hdcp:13, blue_a:199, white_a:175, green_a:175, red_a:120, blue_b:201, white_b:177, green_b:177, red_b:120 },
+    { hole:7, par:5, hdcp:5, blue_a:567, white_a:537, green_a:537, red_a:366, blue_b:517, white_b:487, green_b:487, red_b:323 },
+    { hole:8, par:5, hdcp:11, blue_a:545, white_a:502, green_a:502, red_a:407, blue_b:555, white_b:513, green_b:513, red_b:411 },
+    { hole:9, par:4, hdcp:17, blue_a:460, white_a:445, green_a:400, red_a:287, blue_b:478, white_b:463, green_b:418, red_b:306 },
+    { hole:10, par:4, hdcp:4, blue_a:454, white_a:435, green_a:398, red_a:278, blue_b:454, white_b:435, green_b:398, red_b:278 },
+    { hole:11, par:4, hdcp:10, blue_a:374, white_a:336, green_a:336, red_a:302, blue_b:376, white_b:338, green_b:338, red_b:298 },
+    { hole:12, par:3, hdcp:16, blue_a:165, white_a:165, green_a:147, red_a:147, blue_b:150, white_b:150, green_b:132, red_b:132 },
+    { hole:13, par:5, hdcp:2, blue_a:538, white_a:500, green_a:500, red_a:400, blue_b:536, white_b:498, green_b:498, red_b:398 },
+    { hole:14, par:4, hdcp:8, blue_a:412, white_a:381, green_a:381, red_a:255, blue_b:384, white_b:353, green_b:353, red_b:230 },
+    { hole:15, par:4, hdcp:14, blue_a:373, white_a:336, green_a:310, red_a:281, blue_b:364, white_b:327, green_b:301, red_b:271 },
+    { hole:16, par:4, hdcp:12, blue_a:440, white_a:414, green_a:414, red_a:260, blue_b:423, white_b:397, green_b:397, red_b:244 },
+    { hole:17, par:3, hdcp:18, blue_a:196, white_a:182, green_a:182, red_a:120, blue_b:196, white_b:182, green_b:182, red_b:117 },
+    { hole:18, par:5, hdcp:6, blue_a:601, white_a:568, green_a:568, red_a:395, blue_b:597, white_b:564, green_b:564, red_b:393 },
   ],
 };
 
@@ -679,24 +679,24 @@ const CENTRAL_GC_EAST_COURSE = {
 const CENTRAL_GC_WEST_COURSE = {
   name: "セントラルゴルフクラブ 西コース",
   holes: [
-    { hole:1,  par:4, hdcp: 9, blue:324, white:303, green:295, red:245 },
-    { hole:2,  par:4, hdcp: 3, blue:384, white:373, green:285, red:285 },
-    { hole:3,  par:3, hdcp:15, blue:188, white:180, green:140, red:120 },
-    { hole:4,  par:5, hdcp: 1, blue:568, white:525, green:481, red:395 },
-    { hole:5,  par:5, hdcp: 7, blue:514, white:479, green:434, red:384 },
-    { hole:6,  par:4, hdcp:13, blue:405, white:399, green:330, red:292 },
-    { hole:7,  par:4, hdcp:11, blue:370, white:364, green:360, red:317 },
-    { hole:8,  par:3, hdcp:17, blue:180, white:173, green:157, red:127 },
-    { hole:9,  par:4, hdcp: 5, blue:380, white:371, green:356, red:297 },
-    { hole:10, par:5, hdcp: 4, blue:490, white:488, green:456, red:320 },
-    { hole:11, par:4, hdcp:10, blue:350, white:346, green:326, red:290 },
-    { hole:12, par:3, hdcp:16, blue:188, white:183, green:146, red:120 },
-    { hole:13, par:4, hdcp: 2, blue:404, white:390, green:382, red:318 },
-    { hole:14, par:4, hdcp: 8, blue:342, white:336, green:317, red:265 },
-    { hole:15, par:4, hdcp:14, blue:373, white:333, green:320, red:309 },
-    { hole:16, par:3, hdcp:12, blue:156, white:151, green:130, red:130 },
-    { hole:17, par:4, hdcp:18, blue:442, white:437, green:390, red:265 },
-    { hole:18, par:5, hdcp: 6, blue:540, white:536, green:519, red:395 },
+    { hole:1, par:4, hdcp:9, blue_a:334, white_a:303, green_a:303, red_a:295, blue_b:330, white_b:299, green_b:299, red_b:286 },
+    { hole:2, par:4, hdcp:3, blue_a:428, white_a:384, green_a:373, red_a:360, blue_b:421, white_b:377, green_b:366, red_b:353 },
+    { hole:3, par:3, hdcp:15, blue_a:200, white_a:188, green_a:167, red_a:120, blue_b:200, white_b:188, green_b:167, red_b:120 },
+    { hole:4, par:5, hdcp:1, blue_a:598, white_a:568, green_a:525, red_a:395, blue_b:528, white_b:528, green_b:485, red_b:444 },
+    { hole:5, par:5, hdcp:7, blue_a:522, white_a:522, green_a:479, red_a:434, blue_b:528, white_b:528, green_b:485, red_b:444 },
+    { hole:6, par:4, hdcp:13, blue_a:432, white_a:399, green_a:399, red_a:292, blue_b:432, white_b:399, green_b:399, red_b:293 },
+    { hole:7, par:4, hdcp:11, blue_a:379, white_a:364, green_a:364, red_a:317, blue_b:379, white_b:364, green_b:364, red_b:317 },
+    { hole:8, par:3, hdcp:17, blue_a:195, white_a:173, green_a:173, red_a:127, blue_b:195, white_b:173, green_b:173, red_b:123 },
+    { hole:9, par:4, hdcp:5, blue_a:385, white_a:371, green_a:371, red_a:297, blue_b:365, white_b:351, green_b:351, red_b:263 },
+    { hole:10, par:5, hdcp:4, blue_a:502, white_a:488, green_a:488, red_a:320, blue_b:496, white_b:482, green_b:482, red_b:314 },
+    { hole:11, par:4, hdcp:10, blue_a:379, white_a:346, green_a:346, red_a:290, blue_b:386, white_b:353, green_b:353, red_b:299 },
+    { hole:12, par:3, hdcp:16, blue_a:206, white_a:183, green_a:162, red_a:120, blue_b:187, white_b:164, green_b:143, red_b:100 },
+    { hole:13, par:4, hdcp:2, blue_a:423, white_a:404, green_a:390, red_a:318, blue_b:403, white_b:384, green_b:370, red_b:303 },
+    { hole:14, par:4, hdcp:8, blue_a:355, white_a:336, green_a:336, red_a:265, blue_b:355, white_b:336, green_b:336, red_b:262 },
+    { hole:15, par:4, hdcp:14, blue_a:394, white_a:373, green_a:333, red_a:309, blue_b:399, white_b:378, green_b:338, red_b:311 },
+    { hole:16, par:3, hdcp:12, blue_a:203, white_a:185, green_a:151, red_a:130, blue_b:192, white_b:174, green_b:140, red_b:120 },
+    { hole:17, par:4, hdcp:18, blue_a:454, white_a:437, green_a:437, red_a:305, blue_b:454, white_b:437, green_b:437, red_b:304 },
+    { hole:18, par:5, hdcp:6, blue_a:558, white_a:536, green_a:536, red_a:395, blue_b:556, white_b:534, green_b:534, red_b:399 },
   ],
 };
 
@@ -6293,7 +6293,10 @@ var VENUES = [
   {
     id: "central_gc", reading: "セントラルゴルフクラブ",
     name: "セントラルゴルフクラブ",
-    greens: [{ id: "bent", label: "ベント" }],
+    greens: [
+      { id: "a", label: "A" },
+      { id: "b", label: "B" },
+    ],
     tees: [
       { id: "blue",  label: "Blue" },
       { id: "white", label: "White" },
@@ -6307,11 +6310,9 @@ var VENUES = [
       { name: "西 IN",  holes: CENTRAL_GC_WEST_COURSE.holes.slice(9, 18) },
     ],
     getYardage: (hole, green, tee) => {
-      if (tee === "blue")  return hole.blue;
-      if (tee === "white") return hole.white;
-      if (tee === "green") return hole.green;
-      if (tee === "red")   return hole.red;
-      return null;
+      const g = green === "bent" ? "a" : green; // 旧1グリーンID互換
+      const v = hole[tee + "_" + g];
+      return v === undefined ? null : v;
     },
   },
   // ─── 成田ヒルズカントリークラブ ───
