@@ -1,5 +1,5 @@
 // ※ CACHE_VERSION はデプロイ毎に更新（タイムスタンプ）。サブディレクトリ配信対応で相対パス化。
-const CACHE_VERSION = 'v20260718001000';
+const CACHE_VERSION = 'v20260718002000';
 const CACHE_NAME = 'scorexolution-' + CACHE_VERSION;
 // 相対パス（先頭スラッシュ無し）。sw.js の置き場所を基準に解決されるため、
 //   ルート配信(pages.dev)        → /app.js 等

@@ -3114,7 +3114,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07180010";
+var APP_VERSION = "07180020";
 function haversineKm(lat1, lng1, lat2, lng2) {
   const R = 6371.0088, rad = Math.PI / 180;
   const dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
@@ -6862,7 +6862,7 @@ function GolfTracker() {
         gap: "8px",
         WebkitTapHighlightColor: "transparent"
       } }, v.id === selectedVenue ? /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a", fontSize: "12px", width: "16px" } }, "\u2713") : /* @__PURE__ */ React.createElement("span", { style: { width: "16px" } }), /* @__PURE__ */ React.createElement("span", { style: { flex: 1 } }, v.name));
-      return /* @__PURE__ */ React.createElement("div", { style: { border: "1px solid #e2e8f0", borderRadius: "12px", overflow: "hidden", background: "#ffffff" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", borderBottom: "1px solid #e2e8f0", background: "#f8fafc" } }, [["fav", `\u304A\u6C17\u306B\u5165\u308A\uFF08${favVenues.length}\uFF09`], ["aiueo", "\u4E94\u5341\u97F3\u9806"], ["near", "\u8FD1\u304F\u306E\u5834\u6240"]].map(([key, label]) => /* @__PURE__ */ React.createElement("button", { key, onClick: () => {
+      return /* @__PURE__ */ React.createElement("div", { style: { border: "1px solid #e2e8f0", borderRadius: "12px", overflow: "hidden", background: "#ffffff" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", borderBottom: "1px solid #e2e8f0", background: "#f8fafc" } }, [["fav", `\u304A\u6C17\u306B\u5165\u308A\uFF08${favVenues.length}\uFF09`], ["aiueo", "\u4E94\u5341\u97F3\u9806"], ["near", "\u4ED8\u8FD1\u306E\u30B4\u30EB\u30D5\u5834"]].map(([key, label]) => /* @__PURE__ */ React.createElement("button", { key, onClick: () => {
         setVenueTab(key);
         if (key === "near" && !geoPos && geoStatus !== "loading") requestGeo();
       }, style: {
@@ -9203,7 +9203,7 @@ function GolfTracker() {
     setExportJson("");
   } }), /* @__PURE__ */ React.createElement(ToastLayer, { toast, weather: currentRound ? currentRound.weather : null }), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver.", typeof VENUES !== "undefined" && Array.isArray(VENUES) ? String(VENUES.length).padStart(4, "0") : "0000", APP_VERSION));
 }
-var golf_tracker_06081520_default = GolfTracker;
+var stdin_default = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const __scrxRoot = document.getElementById("root");
   if (__scrxRoot && !window.__SCRX_MOUNTED) {
