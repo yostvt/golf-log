@@ -3114,7 +3114,13 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "07172340";
+var APP_VERSION = "07180010";
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371.0088, rad = Math.PI / 180;
+  const dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * rad) * Math.cos(lat2 * rad) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
 var OCR_ENGINE = "vision";
 var SHOW_OCR_DEBUG = false;
 function ocrCanvasToBase64(canvas) {
@@ -5516,6 +5522,25 @@ function GolfTracker() {
   const [venueSearch, setVenueSearch] = useState("");
   const [venueDropdownOpen, setVenueDropdownOpen] = useState(false);
   const [venueTab, setVenueTab] = useState("fav");
+  const [geoPos, setGeoPos] = useState(null);
+  const [geoStatus, setGeoStatus] = useState("idle");
+  const requestGeo = () => {
+    if (!navigator.geolocation) {
+      setGeoStatus("error");
+      return;
+    }
+    setGeoStatus("loading");
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setGeoPos({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setGeoStatus("ok");
+      },
+      () => {
+        setGeoStatus("error");
+      },
+      { enableHighAccuracy: false, timeout: 1e4, maximumAge: 6e4 }
+    );
+  };
   const [selectedCourseA, setSelectedCourseA] = useState(null);
   const [selectedCourseB, setSelectedCourseB] = useState(null);
   const [selectedGreen, setSelectedGreen] = useState(null);
@@ -6820,6 +6845,7 @@ function GolfTracker() {
         groups[groups.length - 1].venues.push(v);
       });
       const existingRows = groups.map((g) => g.label);
+      const nearVenues = geoPos ? VENUES.filter((v) => typeof v.lat === "number" && typeof v.lng === "number").map((v) => ({ v, d: haversineKm(geoPos.lat, geoPos.lng, v.lat, v.lng) })).sort((a, b) => a.d - b.d).slice(0, 15) : [];
       const VenueItem = ({ v }) => /* @__PURE__ */ React.createElement("button", { key: v.id, onClick: () => selectVenue(v.id), style: {
         width: "100%",
         textAlign: "left",
@@ -6836,7 +6862,10 @@ function GolfTracker() {
         gap: "8px",
         WebkitTapHighlightColor: "transparent"
       } }, v.id === selectedVenue ? /* @__PURE__ */ React.createElement("span", { style: { color: "#16a34a", fontSize: "12px", width: "16px" } }, "\u2713") : /* @__PURE__ */ React.createElement("span", { style: { width: "16px" } }), /* @__PURE__ */ React.createElement("span", { style: { flex: 1 } }, v.name));
-      return /* @__PURE__ */ React.createElement("div", { style: { border: "1px solid #e2e8f0", borderRadius: "12px", overflow: "hidden", background: "#ffffff" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", borderBottom: "1px solid #e2e8f0", background: "#f8fafc" } }, [["fav", `\u304A\u6C17\u306B\u5165\u308A\uFF08${favVenues.length}\uFF09`], ["aiueo", "\u4E94\u5341\u97F3\u9806"]].map(([key, label]) => /* @__PURE__ */ React.createElement("button", { key, onClick: () => setVenueTab(key), style: {
+      return /* @__PURE__ */ React.createElement("div", { style: { border: "1px solid #e2e8f0", borderRadius: "12px", overflow: "hidden", background: "#ffffff" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", borderBottom: "1px solid #e2e8f0", background: "#f8fafc" } }, [["fav", `\u304A\u6C17\u306B\u5165\u308A\uFF08${favVenues.length}\uFF09`], ["aiueo", "\u4E94\u5341\u97F3\u9806"], ["near", "\u8FD1\u304F\u306E\u5834\u6240"]].map(([key, label]) => /* @__PURE__ */ React.createElement("button", { key, onClick: () => {
+        setVenueTab(key);
+        if (key === "near" && !geoPos && geoStatus !== "loading") requestGeo();
+      }, style: {
         flex: 1,
         padding: "9px 4px",
         border: "none",
@@ -6847,7 +6876,17 @@ function GolfTracker() {
         color: venueTab === key ? "#16a34a" : "#94a3b8",
         borderBottom: venueTab === key ? "2px solid #16a34a" : "2px solid transparent",
         WebkitTapHighlightColor: "transparent"
-      } }, label))), /* @__PURE__ */ React.createElement("div", { "data-venue-scroll": true, style: { maxHeight: "260px", overflowY: "auto", WebkitOverflowScrolling: "touch" } }, venueTab === "fav" ? favVenues.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { padding: "24px 16px", textAlign: "center", color: "#94a3b8", fontSize: "12px", lineHeight: 1.7 } }, "\u304A\u6C17\u306B\u5165\u308A\u304C\u672A\u767B\u9332\u3067\u3059", /* @__PURE__ */ React.createElement("br", null), "\u30DE\u30A4\u30DA\u30FC\u30B8\u3067\u767B\u9332\u3057\u3066\u304F\u3060\u3055\u3044") : favVenues.map((v) => /* @__PURE__ */ React.createElement(VenueItem, { key: v.id, v })) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "4px", padding: "8px 10px", borderBottom: "1px solid #f1f5f9", background: "#f8fafc" } }, existingRows.map((label) => /* @__PURE__ */ React.createElement("button", { key: label, onClick: () => {
+      } }, label))), /* @__PURE__ */ React.createElement("div", { "data-venue-scroll": true, style: { maxHeight: "260px", overflowY: "auto", WebkitOverflowScrolling: "touch" } }, venueTab === "fav" ? favVenues.length === 0 ? /* @__PURE__ */ React.createElement("div", { style: { padding: "24px 16px", textAlign: "center", color: "#94a3b8", fontSize: "12px", lineHeight: 1.7 } }, "\u304A\u6C17\u306B\u5165\u308A\u304C\u672A\u767B\u9332\u3067\u3059", /* @__PURE__ */ React.createElement("br", null), "\u30DE\u30A4\u30DA\u30FC\u30B8\u3067\u767B\u9332\u3057\u3066\u304F\u3060\u3055\u3044") : favVenues.map((v) => /* @__PURE__ */ React.createElement(VenueItem, { key: v.id, v })) : venueTab === "near" ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 10px", borderBottom: "1px solid #f1f5f9", background: "#f8fafc" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", fontWeight: "800", color: "#94a3b8", letterSpacing: "0.05em" } }, "\u73FE\u5728\u5730\u304B\u3089\u8FD1\u3044\u9806\uFF08\u6700\u592715\u4EF6\uFF09"), /* @__PURE__ */ React.createElement("button", { onClick: () => requestGeo(), style: {
+        padding: "3px 7px",
+        borderRadius: "6px",
+        border: "1px solid #e2e8f0",
+        background: "#ffffff",
+        color: "#64748b",
+        fontSize: "11px",
+        cursor: "pointer",
+        fontWeight: "600",
+        WebkitTapHighlightColor: "transparent"
+      } }, "\u{1F4CD}\u518D\u53D6\u5F97")), geoStatus === "loading" || geoStatus === "idle" && !geoPos ? /* @__PURE__ */ React.createElement("div", { style: { padding: "24px 16px", textAlign: "center", color: "#94a3b8", fontSize: "12px" } }, "\u73FE\u5728\u5730\u3092\u53D6\u5F97\u4E2D\u2026") : geoStatus === "error" && !geoPos ? /* @__PURE__ */ React.createElement("div", { style: { padding: "24px 16px", textAlign: "center", color: "#94a3b8", fontSize: "12px", lineHeight: 1.7 } }, "\u4F4D\u7F6E\u60C5\u5831\u304C\u5229\u7528\u3067\u304D\u307E\u305B\u3093\u3002", /* @__PURE__ */ React.createElement("br", null), "\u8A2D\u5B9A\u3092\u3054\u78BA\u8A8D\u304F\u3060\u3055\u3044") : nearVenues.map(({ v, d }) => /* @__PURE__ */ React.createElement("div", { key: v.id, style: { display: "flex", alignItems: "stretch" } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement(VenueItem, { v })), /* @__PURE__ */ React.createElement("span", { style: { flexShrink: 0, padding: "0 12px", fontSize: "11px", fontWeight: "700", color: "#64748b", borderBottom: "1px solid #f1f5f9", display: "flex", alignItems: "center" } }, (d < 10 ? d.toFixed(1) : String(Math.round(d))) + "km")))) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: "4px", padding: "8px 10px", borderBottom: "1px solid #f1f5f9", background: "#f8fafc" } }, existingRows.map((label) => /* @__PURE__ */ React.createElement("button", { key: label, onClick: () => {
         const el = document.getElementById(`venue-row-${label}`);
         if (el) {
           const c = el.closest("[data-venue-scroll]");
