@@ -10955,7 +10955,7 @@ const TATENO_CLASSIC_IN = [
   { hole:11, par:4, hdcp:12, back:387, reg:363, front:363, lady:341 },
   { hole:12, par:3, hdcp: 6, back:196, reg:180, front:159, lady:142 },
   { hole:13, par:4, hdcp:14, back:366, reg:341, front:326, lady:300 },
-  { hole:14, par:4, hdcp:16, back:358, reg:330, front:330, lady:293 },
+  { hole:14, par:4, hdcp:16, back:382, reg:330, front:330, lady:293 },
   { hole:15, par:5, hdcp: 8, back:521, reg:509, front:476, lady:406 },
   { hole:16, par:4, hdcp:18, back:352, reg:330, front:330, lady:307 },
   { hole:17, par:4, hdcp: 2, back:441, reg:414, front:372, lady:288 },
