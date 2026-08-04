@@ -18,7 +18,21 @@ var __spreadValues = (a, b) => {
 };
 var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 const { useState, useMemo, useEffect, useRef } = React;
-const ScrxStorage = /* @__PURE__ */ (() => {
+const ScrxStorage = (() => {
+  const DB_NAME = "scorexolution";
+  const DB_VER = 1;
+  const STORE = "kv";
+  const IDB_KEYS = [
+    "golf_rounds",
+    "golf_rounds_backups",
+    "golf_rounds_daily_backup",
+    "golf_rounds_trash",
+    "golf_current_round",
+    "golf_current_round_last",
+    "golf_rounds_broken_backup",
+    "golf_test_data"
+  ];
+  const isIdbKey = (k) => IDB_KEYS.indexOf(k) >= 0;
   const LS = () => {
     try {
       return window.localStorage;
@@ -26,8 +40,156 @@ const ScrxStorage = /* @__PURE__ */ (() => {
       return null;
     }
   };
+  const cache = /* @__PURE__ */ new Map();
+  let db = null;
+  let ready = false;
+  let queue = Promise.resolve();
+  let failedNotified = false;
+  const openDB = () => new Promise((resolve) => {
+    try {
+      if (!window.indexedDB) return resolve(null);
+      const req = window.indexedDB.open(DB_NAME, DB_VER);
+      req.onupgradeneeded = () => {
+        try {
+          const d = req.result;
+          if (!d.objectStoreNames.contains(STORE)) d.createObjectStore(STORE);
+        } catch (_) {
+        }
+      };
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = () => resolve(null);
+      req.onblocked = () => resolve(null);
+      setTimeout(() => resolve(req.result || null), 3e3);
+    } catch (_) {
+      resolve(null);
+    }
+  });
+  const idbGetAll = (d) => new Promise((resolve) => {
+    const out = {};
+    try {
+      const tx = d.transaction(STORE, "readonly");
+      const st = tx.objectStore(STORE);
+      const req = st.openCursor();
+      req.onsuccess = () => {
+        const c = req.result;
+        if (c) {
+          out[c.key] = c.value;
+          c.continue();
+        } else resolve(out);
+      };
+      req.onerror = () => resolve(out);
+      tx.onerror = () => resolve(out);
+    } catch (_) {
+      resolve(out);
+    }
+  });
+  const idbPut = (d, key, value) => new Promise((resolve, reject) => {
+    try {
+      const tx = d.transaction(STORE, "readwrite");
+      tx.objectStore(STORE).put(value, key);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error || new Error("idb put failed"));
+      tx.onabort = () => reject(tx.error || new Error("idb put aborted"));
+    } catch (e) {
+      reject(e);
+    }
+  });
+  const idbDel = (d, key) => new Promise((resolve) => {
+    try {
+      const tx = d.transaction(STORE, "readwrite");
+      tx.objectStore(STORE).delete(key);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => resolve(false);
+    } catch (_) {
+      resolve(false);
+    }
+  });
+  const init = async () => {
+    if (ready) return true;
+    db = await openDB();
+    const ls = LS();
+    if (db) {
+      const all = await idbGetAll(db);
+      Object.keys(all).forEach((k) => {
+        if (typeof all[k] === "string") cache.set(k, all[k]);
+      });
+      if (ls) {
+        for (const k of IDB_KEYS) {
+          if (cache.has(k)) continue;
+          let v = null;
+          try {
+            v = ls.getItem(k);
+          } catch (_) {
+          }
+          if (v == null) continue;
+          try {
+            await idbPut(db, k, v);
+            cache.set(k, v);
+            try {
+              ls.removeItem(k);
+            } catch (_) {
+            }
+          } catch (_) {
+            cache.set(k, v);
+          }
+        }
+      }
+    } else if (ls) {
+      for (const k of IDB_KEYS) {
+        try {
+          const v = ls.getItem(k);
+          if (v != null) cache.set(k, v);
+        } catch (_) {
+        }
+      }
+    }
+    ready = true;
+    return true;
+  };
+  const flush = (key, value) => {
+    queue = queue.then(async () => {
+      if (db) {
+        try {
+          if (value == null) await idbDel(db, key);
+          else await idbPut(db, key, value);
+          return;
+        } catch (_) {
+        }
+      }
+      const ls = LS();
+      if (!ls) return;
+      try {
+        if (value == null) ls.removeItem(key);
+        else ls.setItem(key, value);
+      } catch (_) {
+        if (!failedNotified) {
+          failedNotified = true;
+          try {
+            if (typeof window.__scrxStorageWarn === "function") window.__scrxStorageWarn();
+          } catch (__) {
+          }
+        }
+      }
+    }).catch(() => {
+    });
+    return queue;
+  };
   return {
+    init,
+    isReady() {
+      return ready;
+    },
+    usingIDB() {
+      return !!db;
+    },
+    flushed() {
+      return queue;
+    },
     getItem(key) {
+      if (isIdbKey(key)) {
+        const v = cache.get(key);
+        return v == null ? null : v;
+      }
       try {
         const s = LS();
         return s ? s.getItem(key) : null;
@@ -36,11 +198,22 @@ const ScrxStorage = /* @__PURE__ */ (() => {
       }
     },
     setItem(key, value) {
+      const v = String(value);
+      if (isIdbKey(key)) {
+        cache.set(key, v);
+        flush(key, v);
+        return;
+      }
       const s = LS();
       if (!s) throw new Error("storage unavailable");
-      s.setItem(key, value);
+      s.setItem(key, v);
     },
     removeItem(key) {
+      if (isIdbKey(key)) {
+        cache.delete(key);
+        flush(key, null);
+        return;
+      }
       try {
         const s = LS();
         if (s) s.removeItem(key);
@@ -48,22 +221,45 @@ const ScrxStorage = /* @__PURE__ */ (() => {
       }
     },
     key(i) {
+      const ks = Array.from(cache.keys());
+      if (i < ks.length) return ks[i];
       try {
         const s = LS();
-        return s ? s.key(i) : null;
+        return s ? s.key(i - ks.length) : null;
       } catch (_) {
         return null;
       }
     },
     get length() {
+      let n = cache.size;
       try {
         const s = LS();
-        return s ? s.length : 0;
+        if (s) n += s.length;
       } catch (_) {
-        return 0;
       }
+      return n;
     },
-    // JSONヘルパ（呼び出し側のtry/JSON.parse定型を集約）
+    // 使用量（KB）: IndexedDB 側はキャッシュ実体、localStorage 側は従来どおり
+    usageKB() {
+      let bytes = 0;
+      cache.forEach((v, k) => {
+        bytes += (k.length + (v ? v.length : 0)) * 2;
+      });
+      try {
+        const s = LS();
+        if (s) for (let i = 0; i < s.length; i++) {
+          const k = s.key(i);
+          const v = s.getItem(k) || "";
+          bytes += (k.length + v.length) * 2;
+        }
+      } catch (_) {
+      }
+      return Math.round(bytes / 1024);
+    },
+    // 上限の目安（KB）。IndexedDB 利用時は実質上限が大きいので大きめの値を返す
+    quotaKB() {
+      return db ? 512e3 : 5120;
+    },
     getJSON(key, fallback = null) {
       try {
         const raw = this.getItem(key);
@@ -3284,7 +3480,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "08042228";
+var APP_VERSION = "08042244";
 function haversineKm(lat1, lng1, lat2, lng2) {
   const R = 6371.0088, rad = Math.PI / 180;
   const dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
@@ -5807,16 +6003,16 @@ function GolfTracker() {
   };
   const storageUsageKB = () => {
     try {
-      let bytes = 0;
-      for (let i = 0; i < ScrxStorage.length; i++) {
-        const k = ScrxStorage.key(i);
-        if (!k) continue;
-        const v = ScrxStorage.getItem(k) || "";
-        bytes += (k.length + v.length) * 2;
-      }
-      return Math.round(bytes / 1024);
+      return ScrxStorage.usageKB();
     } catch (_) {
       return null;
+    }
+  };
+  const storageQuotaKB = () => {
+    try {
+      return ScrxStorage.quotaKB();
+    } catch (_) {
+      return 5120;
     }
   };
   const CLEANABLE_KEYS = ["golf_test_data", "golf_rounds_broken_backup", "golf_rounds_daily_backup"];
@@ -5916,111 +6112,132 @@ function GolfTracker() {
     }
   }, [profile, storageLoaded]);
   useEffect(() => {
-    let localStorageHadProfile = false;
-    try {
-      const raw = ScrxStorage.getItem("golf_clubs");
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) setSavedClubs(parsed);
+    let __cancelled = false;
+    const __boot = () => {
+      if (__cancelled) return;
+      let localStorageHadProfile = false;
+      try {
+        const raw = ScrxStorage.getItem("golf_clubs");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) setSavedClubs(parsed);
+        }
+      } catch (_) {
       }
-    } catch (_) {
-    }
-    let localStorageHadRounds = false;
-    try {
-      const raw = ScrxStorage.getItem("golf_rounds");
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (Array.isArray(parsed)) {
-          localStorageHadRounds = true;
-          const migrated = parsed.map((r) => {
-            const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
-            if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
-              return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
+      let localStorageHadRounds = false;
+      try {
+        const raw = ScrxStorage.getItem("golf_rounds");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) {
+            localStorageHadRounds = true;
+            const migrated = parsed.map((r) => {
+              const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
+              if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
+                return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
+              }
+              return base;
+            });
+            setRounds(migrated);
+          }
+        }
+      } catch (_) {
+        try {
+          const broken = ScrxStorage.getItem("golf_rounds");
+          if (broken) ScrxStorage.setItem("golf_rounds_broken_backup", broken);
+        } catch (__) {
+        }
+      }
+      try {
+        const raw = ScrxStorage.getItem("golf_current_round");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.currentRound) {
+            setCurrentRound(parsed.currentRound);
+            setInputMode(parsed.inputMode || "simple");
+            setHolePars(parsed.holePars || Array(18).fill(4));
+            setCurrentHole(parsed.currentHole || 1);
+            if (parsed.inputMode === "simple") {
+              setSimpleHoleData(parsed.simpleHoleData || {});
+            } else {
+              setHoleData(parsed.holeData || {});
             }
-            return base;
-          });
-          setRounds(migrated);
+            if (parsed.roundGoal) setRoundGoal(parsed.roundGoal);
+            setView("round");
+          }
         }
+      } catch (_) {
       }
-    } catch (_) {
       try {
-        const broken = ScrxStorage.getItem("golf_rounds");
-        if (broken) ScrxStorage.setItem("golf_rounds_broken_backup", broken);
-      } catch (__) {
-      }
-    }
-    try {
-      const raw = ScrxStorage.getItem("golf_current_round");
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        if (parsed && parsed.currentRound) {
-          setCurrentRound(parsed.currentRound);
-          setInputMode(parsed.inputMode || "simple");
-          setHolePars(parsed.holePars || Array(18).fill(4));
-          setCurrentHole(parsed.currentHole || 1);
-          if (parsed.inputMode === "simple") {
-            setSimpleHoleData(parsed.simpleHoleData || {});
-          } else {
-            setHoleData(parsed.holeData || {});
+        const raw = ScrxStorage.getItem("golf_profile");
+        if (raw) {
+          let parsed = JSON.parse(raw);
+          if (hasExportMarker(parsed.nickname)) {
+            try {
+              ScrxStorage.setItem("golf_export_unlocked", "1");
+            } catch (_) {
+            }
+            setExportUnlocked(true);
+            parsed = __spreadProps(__spreadValues({}, parsed), { nickname: stripExportMarker(parsed.nickname) });
+            try {
+              ScrxStorage.setItem("golf_profile", JSON.stringify(parsed));
+            } catch (_) {
+            }
           }
-          if (parsed.roundGoal) setRoundGoal(parsed.roundGoal);
-          setView("round");
+          setProfile((p) => __spreadValues(__spreadValues({}, p), parsed));
+          const name = parsed.nickname ? parsed.nickname + "\u3055\u3093\uFF01" : "";
+          setTimeout(() => showToast(greetingByTime(parsed.nickname), isNightNow() ? "night" : "basic7"), 700);
+          localStorageHadProfile = true;
         }
+      } catch (_) {
       }
-    } catch (_) {
-    }
-    try {
-      const raw = ScrxStorage.getItem("golf_profile");
-      if (raw) {
-        let parsed = JSON.parse(raw);
-        if (hasExportMarker(parsed.nickname)) {
-          try {
-            ScrxStorage.setItem("golf_export_unlocked", "1");
-          } catch (_) {
+      (async () => {
+        try {
+          const result = await Promise.resolve({ value: ScrxStorage.getItem("golf_profile") });
+          if (!localStorageHadProfile) {
+            if (result && result.value) {
+              const parsed = JSON.parse(result.value);
+              setProfile((p) => __spreadValues(__spreadValues({}, p), parsed));
+              const name = parsed.nickname ? parsed.nickname + "\u3055\u3093\uFF01" : "";
+              setTimeout(() => showToast(greetingByTime(parsed.nickname), isNightNow() ? "night" : "basic7"), 700);
+            } else {
+              setTimeout(() => showToast(greetingByTime(), isNightNow() ? "night" : "basic7"), 700);
+            }
           }
-          setExportUnlocked(true);
-          parsed = __spreadProps(__spreadValues({}, parsed), { nickname: stripExportMarker(parsed.nickname) });
-          try {
-            ScrxStorage.setItem("golf_profile", JSON.stringify(parsed));
-          } catch (_) {
-          }
+        } catch (_) {
+          if (!localStorageHadProfile) setTimeout(() => showToast(greetingByTime(), isNightNow() ? "night" : "basic7"), 700);
         }
-        setProfile((p) => __spreadValues(__spreadValues({}, p), parsed));
-        const name = parsed.nickname ? parsed.nickname + "\u3055\u3093\uFF01" : "";
-        setTimeout(() => showToast(greetingByTime(parsed.nickname), isNightNow() ? "night" : "basic7"), 700);
-        localStorageHadProfile = true;
-      }
-    } catch (_) {
-    }
-    (async () => {
-      try {
-        const result = await Promise.resolve({ value: ScrxStorage.getItem("golf_profile") });
-        if (!localStorageHadProfile) {
+        try {
+          const result = await Promise.resolve({ value: ScrxStorage.getItem("golf_clubs") });
           if (result && result.value) {
             const parsed = JSON.parse(result.value);
-            setProfile((p) => __spreadValues(__spreadValues({}, p), parsed));
-            const name = parsed.nickname ? parsed.nickname + "\u3055\u3093\uFF01" : "";
-            setTimeout(() => showToast(greetingByTime(parsed.nickname), isNightNow() ? "night" : "basic7"), 700);
-          } else {
-            setTimeout(() => showToast(greetingByTime(), isNightNow() ? "night" : "basic7"), 700);
+            if (Array.isArray(parsed)) {
+              setSavedClubs((prev) => prev.length === 0 ? parsed : prev);
+            }
+          }
+        } catch (_) {
+        }
+        if (!localStorageHadRounds) {
+          try {
+            const result = await Promise.resolve({ value: ScrxStorage.getItem("golf_rounds") });
+            if (result && result.value) {
+              const parsed = JSON.parse(result.value);
+              if (Array.isArray(parsed)) {
+                const migrated = parsed.map((r) => {
+                  const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
+                  if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
+                    return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
+                  }
+                  return base;
+                });
+                setRounds((prev) => prev.length === 0 ? migrated : prev);
+              }
+            }
+          } catch (_) {
           }
         }
-      } catch (_) {
-        if (!localStorageHadProfile) setTimeout(() => showToast(greetingByTime(), isNightNow() ? "night" : "basic7"), 700);
-      }
-      try {
-        const result = await Promise.resolve({ value: ScrxStorage.getItem("golf_clubs") });
-        if (result && result.value) {
-          const parsed = JSON.parse(result.value);
-          if (Array.isArray(parsed)) {
-            setSavedClubs((prev) => prev.length === 0 ? parsed : prev);
-          }
-        }
-      } catch (_) {
-      }
-      if (!localStorageHadRounds) {
         try {
-          const result = await Promise.resolve({ value: ScrxStorage.getItem("golf_rounds") });
+          const result = await Promise.resolve({ value: ScrxStorage.getItem("golf_test_data") });
           if (result && result.value) {
             const parsed = JSON.parse(result.value);
             if (Array.isArray(parsed)) {
@@ -6031,31 +6248,22 @@ function GolfTracker() {
                 }
                 return base;
               });
-              setRounds((prev) => prev.length === 0 ? migrated : prev);
+              setImportedTestData(migrated);
             }
           }
         } catch (_) {
         }
-      }
-      try {
-        const result = await Promise.resolve({ value: ScrxStorage.getItem("golf_test_data") });
-        if (result && result.value) {
-          const parsed = JSON.parse(result.value);
-          if (Array.isArray(parsed)) {
-            const migrated = parsed.map((r) => {
-              const base = __spreadProps(__spreadValues({}, r), { shots: r.shots || [] });
-              if (base.inputMode === "detail" && Object.keys(base.simpleHoleData || {}).length === 0 && base.holeData) {
-                return __spreadProps(__spreadValues({}, base), { simpleHoleData: deriveSimpleHoleData(base.holeData, base.holePars) });
-              }
-              return base;
-            });
-            setImportedTestData(migrated);
-          }
-        }
-      } catch (_) {
-      }
-    })();
-    setStorageLoaded(true);
+      })();
+      setStorageLoaded(true);
+    };
+    try {
+      ScrxStorage.init().then(__boot).catch(__boot);
+    } catch (_) {
+      __boot();
+    }
+    return () => {
+      __cancelled = true;
+    };
   }, []);
   const [roundMemo, setRoundMemo] = useState("");
   const [selectedOpt, setSelectedOpt] = useState(null);
@@ -9432,9 +9640,10 @@ function GolfTracker() {
     const _tick = cleanupTick;
     const kb = storageUsageKB();
     if (kb == null) return null;
-    const pct = Math.min(100, Math.round(kb / 5120 * 100));
+    const quota = storageQuotaKB();
+    const pct = Math.min(100, Math.round(kb / quota * 100));
     const lvl = pct >= 90 ? { c: "#dc2626", t: "\u7A7A\u304D\u5BB9\u91CF\u304C\u308F\u305A\u304B\u3067\u3059\u3002\u53E4\u3044\u30E9\u30A6\u30F3\u30C9\u306E\u6574\u7406\u3084\u30C7\u30FC\u30BF\u66F8\u304D\u51FA\u3057\u3092\u304A\u3059\u3059\u3081\u3057\u307E\u3059" } : pct >= 70 ? { c: "#b45309", t: "\u4FDD\u5B58\u5BB9\u91CF\u304C\u5897\u3048\u3066\u3044\u307E\u3059\u3002\u3068\u304D\u3069\u304D\u30C7\u30FC\u30BF\u3092\u66F8\u304D\u51FA\u3057\u3066\u304F\u3060\u3055\u3044" } : { c: "#64748b", t: "" };
-    return /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8", fontWeight: "700" } }, "\u4FDD\u5B58\u5BB9\u91CF"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", color: lvl.c, fontWeight: "800" } }, kb.toLocaleString(), " KB / \u7D045,120 KB\uFF08", pct, "%\uFF09")), /* @__PURE__ */ React.createElement("div", { style: { height: "5px", background: "#f1f5f9", borderRadius: "3px", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { style: { width: pct + "%", height: "100%", background: lvl.c === "#64748b" ? "#94a3b8" : lvl.c, borderRadius: "3px" } })), lvl.t && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: lvl.c, marginTop: "4px", lineHeight: 1.5 } }, lvl.t), cleanableKB() > 0 && /* @__PURE__ */ React.createElement(
+    return /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" } }, /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px", color: "#94a3b8", fontWeight: "700" } }, "\u4FDD\u5B58\u5BB9\u91CF"), /* @__PURE__ */ React.createElement("span", { style: { fontSize: "11px", color: lvl.c, fontWeight: "800" } }, kb.toLocaleString(), " KB / \u7D04", quota.toLocaleString(), " KB\uFF08", pct, "%\uFF09")), /* @__PURE__ */ React.createElement("div", { style: { height: "5px", background: "#f1f5f9", borderRadius: "3px", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("div", { style: { width: pct + "%", height: "100%", background: lvl.c === "#64748b" ? "#94a3b8" : lvl.c, borderRadius: "3px" } })), lvl.t && /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: lvl.c, marginTop: "4px", lineHeight: 1.5 } }, lvl.t), cleanableKB() > 0 && /* @__PURE__ */ React.createElement(
       "button",
       {
         onClick: runCleanup,
