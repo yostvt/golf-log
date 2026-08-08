@@ -638,6 +638,26 @@ function computeTargetScore(round) {
     return null;
   }
 }
+function computeRoundProExp(round) {
+  try {
+    if (!round || !round.venueId) return null;
+    const venue = VENUES.find((v) => v.id === round.venueId);
+    if (!venue || typeof venue.getYardage !== "function") return null;
+    let holes = getRoundHoles(round);
+    if (round.totalHoles && holes.length > round.totalHoles) holes = holes.slice(0, round.totalHoles);
+    if (round.totalHoles && holes.length * 2 === round.totalHoles) holes = [...holes, ...holes];
+    if (holes.length !== 18) return null;
+    let proExp = 0;
+    for (const h of holes) {
+      const y = h ? venue.getYardage(h, round.green, round.tee) : null;
+      if (!y || y <= 0) return null;
+      proExp += interpBaseline(PRO_BASELINE.tee, y);
+    }
+    return proExp;
+  } catch (_) {
+    return null;
+  }
+}
 function applyRoundSettingsChange(round, holeData, patch) {
   if (!round || !round.venueId) return null;
   const venue = VENUES.find((v) => v.id === round.venueId);
@@ -3480,7 +3500,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "08042244";
+var APP_VERSION = "08091020";
 function haversineKm(lat1, lng1, lat2, lng2) {
   const R = 6371.0088, rad = Math.PI / 180;
   const dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
@@ -7201,7 +7221,10 @@ function GolfTracker() {
         totalPar = (r.holePars || Array(18).fill(4)).reduce((a, p) => a + p, 0);
       }
       if (!totalPar || !totalScore2) return null;
-      return { diff: totalScore2 - totalPar, score: totalScore2, par: totalPar, date: r.date, course: r.course, id: r.id };
+      const proExp = computeRoundProExp(r);
+      if (proExp == null) return null;
+      const scratch = proExp + 3.1;
+      return { diff: totalScore2 - scratch, score: totalScore2, par: totalPar, proExp, scratch, date: r.date, course: r.course, id: r.id };
     }).filter(Boolean);
     if (diffs.length < 3) return null;
     const sorted = [...diffs].sort((a, b) => a.diff - b.diff);
@@ -7214,8 +7237,8 @@ function GolfTracker() {
       roundCount: diffs.length,
       usedCount: topN,
       avgDiff: Math.round(avgDiff * 10) / 10,
-      bestDiff: sorted[0].diff,
-      worstDiff: sorted[sorted.length - 1].diff,
+      bestDiff: Math.round(sorted[0].diff * 10) / 10,
+      worstDiff: Math.round(sorted[sorted.length - 1].diff * 10) / 10,
       allDiffs: sorted,
       top
     };
@@ -8211,7 +8234,7 @@ function GolfTracker() {
       borderRight: i % 2 === 0 ? "1px solid #e2e8f0" : "none",
       borderBottom: i < 2 ? "1px solid #e2e8f0" : "none"
     } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "32px", fontWeight: "800", color, lineHeight: 1 } }, value != null ? value : "\uFF0D"), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", fontWeight: "700", color: "#94a3b8", marginTop: "4px", whiteSpace: "nowrap" } }, label))));
-  })(), showHcDefs && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "8px", fontSize: "9px", color: "#94a3b8", fontStyle: "italic", lineHeight: 1.7 } }, "\u203B\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\uFF1A\u5DEE\u5206\u5E73\u5747\u65B9\u5F0F\u306B\u3088\u308B\u53C2\u8003\u5024\u3002\u516C\u5F0F\u3068\u306F\u7570\u306A\u308A\u307E\u3059", /* @__PURE__ */ React.createElement("br", null), "\u203B\u30D9\u30B9\u30C8\u30B9\u30B3\u30A2\uFF1A\u5168\u8A18\u9332\u30E9\u30A6\u30F3\u30C9\u3068\u30DE\u30A4\u30DA\u30FC\u30B8\u81EA\u5DF1\u7533\u544A\u306E\u3046\u3061\u5C0F\u3055\u3044\u65B9", /* @__PURE__ */ React.createElement("br", null), "\u203B\u5E73\u5747\u30FB\u4E2D\u592E\u5024\uFF1A\u76F4\u8FD120\u30E9\u30A6\u30F3\u30C9\u304B\u3089\u7B97\u51FA")) : rounds.filter((r) => r.isComplete).length > 0 ? /* @__PURE__ */ React.createElement("div", { style: __spreadProps(__spreadValues({}, S.card({ marginBottom: "18px", border: "1px solid rgba(96,165,250,0.15)" })), { fontSize: "12px", color: "#475569", textAlign: "center", padding: "12px" }) }, "\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\u7B97\u51FA\u306B\u306F18H\u5B8C\u4E86\u30E9\u30A6\u30F3\u30C9\u304C3\u4EF6\u4EE5\u4E0A\u5FC5\u8981\u3067\u3059\uFF08\u73FE\u5728 ", rounds.filter((r) => r.isComplete).length, "\u4EF6\uFF09") : null, !showNewRound ? /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "10px", marginBottom: "18px" } }, (() => {
+  })(), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "9px", color: "#94a3b8", marginTop: "6px", textAlign: "center" } }, "\u203B\u30B3\u30FC\u30B9\u96E3\u6613\u5EA6\u88DC\u6B63\u6E08\u307F"), showHcDefs && /* @__PURE__ */ React.createElement("div", { style: { marginTop: "8px", fontSize: "9px", color: "#94a3b8", fontStyle: "italic", lineHeight: 1.7 } }, "\u203B\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\uFF1A\u5DEE\u5206\u5E73\u5747\u65B9\u5F0F\u306B\u3088\u308B\u53C2\u8003\u5024\u3002\u516C\u5F0F\u3068\u306F\u7570\u306A\u308A\u307E\u3059", /* @__PURE__ */ React.createElement("br", null), "\u203B\u30D9\u30B9\u30C8\u30B9\u30B3\u30A2\uFF1A\u5168\u8A18\u9332\u30E9\u30A6\u30F3\u30C9\u3068\u30DE\u30A4\u30DA\u30FC\u30B8\u81EA\u5DF1\u7533\u544A\u306E\u3046\u3061\u5C0F\u3055\u3044\u65B9", /* @__PURE__ */ React.createElement("br", null), "\u203B\u5E73\u5747\u30FB\u4E2D\u592E\u5024\uFF1A\u76F4\u8FD120\u30E9\u30A6\u30F3\u30C9\u304B\u3089\u7B97\u51FA")) : rounds.filter((r) => r.isComplete).length > 0 ? /* @__PURE__ */ React.createElement("div", { style: __spreadProps(__spreadValues({}, S.card({ marginBottom: "18px", border: "1px solid rgba(96,165,250,0.15)" })), { fontSize: "12px", color: "#475569", textAlign: "center", padding: "12px" }) }, "\u30CF\u30F3\u30C7\u30A3\u30AD\u30E3\u30C3\u30D7\u7B97\u51FA\u306B\u306F18H\u5B8C\u4E86\u30E9\u30A6\u30F3\u30C9\u304C3\u4EF6\u4EE5\u4E0A\u5FC5\u8981\u3067\u3059\uFF08\u73FE\u5728 ", rounds.filter((r) => r.isComplete).length, "\u4EF6\uFF09") : null, !showNewRound ? /* @__PURE__ */ React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: "10px", marginBottom: "18px" } }, (() => {
     const focus = buildTodayFocus(aggRounds, effectiveHcp, avgDrive);
     const note = (profile.focusNote || "").trim();
     return /* @__PURE__ */ React.createElement("div", { style: { background: "#fffbeb", border: "1px solid rgba(245,158,11,0.30)", borderRadius: "12px", padding: "13px 14px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", fontWeight: "700", color: "#b45309", letterSpacing: "0.04em", marginBottom: "10px" } }, "\u4ECA\u65E5\u306E\u8AB2\u984C"), focus && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: "12px", alignItems: "center", marginBottom: "12px" } }, /* @__PURE__ */ React.createElement(RexyIcon, { costume: "balt04", size: 64, alt: "", style: { flexShrink: 0 } }), /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0, fontSize: "13px", color: "#1e293b", lineHeight: 1.65 } }, "\u4ECA\u65E5\u306E\u8AB2\u984C\u306F ", /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "800", color: "#dc2626" } }, focus.label), "\u3002", focus.advice)), /* @__PURE__ */ React.createElement("div", { style: focus ? { borderTop: "1px dashed rgba(245,158,11,0.35)", paddingTop: "10px" } : {} }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "10px", color: "#94a3b8", fontWeight: "700", marginBottom: "6px" } }, "\u6C17\u3092\u4ED8\u3051\u305F\u3044\u3053\u3068\uFF08\u30E1\u30E2\uFF09"), note ? /* @__PURE__ */ React.createElement("div", { onClick: () => {
@@ -9942,7 +9965,7 @@ function GolfTracker() {
     setExportJson("");
   } }), /* @__PURE__ */ React.createElement(ToastLayer, { toast, weather: currentRound ? currentRound.weather : null }), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver.", typeof VENUES !== "undefined" && Array.isArray(VENUES) ? String(VENUES.length).padStart(4, "0") : "0000", APP_VERSION));
 }
-var stdin_default = GolfTracker;
+var golf_tracker_06081520_default = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const __scrxRoot = document.getElementById("root");
   if (__scrxRoot && !window.__SCRX_MOUNTED) {
