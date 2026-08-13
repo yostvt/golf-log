@@ -3500,7 +3500,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "08091020";
+var APP_VERSION = "08132320";
 function haversineKm(lat1, lng1, lat2, lng2) {
   const R = 6371.0088, rad = Math.PI / 180;
   const dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
@@ -4279,10 +4279,10 @@ function ocrFindTotalYard(words) {
   return cand.length ? cand[0] : null;
 }
 const PRO_BASELINE = {
-  fairway: { 20: 2.4, 40: 2.6, 60: 2.7, 80: 2.75, 100: 2.8, 120: 2.85, 140: 2.91, 160: 2.98, 180: 3.08, 200: 3.19, 220: 3.32, 240: 3.45, 260: 3.58, 280: 3.69, 300: 3.78, 320: 3.84, 340: 3.88, 360: 3.95, 380: 4.03, 400: 4.11, 420: 4.15, 440: 4.2, 460: 4.29, 480: 4.4, 500: 4.53, 520: 4.66, 540: 4.78, 560: 4.86, 580: 4.91, 600: 4.94 },
+  fairway: { 5: 2.15, 10: 2.26, 15: 2.33, 20: 2.4, 40: 2.6, 60: 2.7, 80: 2.75, 100: 2.8, 120: 2.85, 140: 2.91, 160: 2.98, 180: 3.08, 200: 3.19, 220: 3.32, 240: 3.45, 260: 3.58, 280: 3.69, 300: 3.78, 320: 3.84, 340: 3.88, 360: 3.95, 380: 4.03, 400: 4.11, 420: 4.15, 440: 4.2, 460: 4.29, 480: 4.4, 500: 4.53, 520: 4.66, 540: 4.78, 560: 4.86, 580: 4.91, 600: 4.94 },
   tee: { 100: 2.92, 120: 2.99, 140: 2.97, 160: 2.99, 180: 3.05, 200: 3.12, 220: 3.17, 240: 3.25, 260: 3.45, 280: 3.65, 300: 3.71, 320: 3.79, 340: 3.86, 360: 3.92, 380: 3.96, 400: 3.99, 420: 4.02, 440: 4.08, 460: 4.17, 480: 4.28, 500: 4.41, 520: 4.54, 540: 4.65, 560: 4.74, 580: 4.79, 600: 4.82 },
-  rough: { 20: 2.59, 40: 2.78, 60: 2.91, 80: 2.96, 100: 3.02, 120: 3.08, 140: 3.15, 160: 3.23, 180: 3.31, 200: 3.42, 220: 3.53, 240: 3.64, 260: 3.74, 280: 3.83, 300: 3.9, 320: 3.95, 340: 4.02, 360: 4.11, 380: 4.21, 400: 4.3, 420: 4.34, 440: 4.39, 460: 4.48, 480: 4.59, 500: 4.72, 520: 4.85, 540: 4.97, 560: 5.05, 580: 5.1, 600: 5.13 },
-  sand: { 20: 2.53, 40: 2.82, 60: 3.15, 80: 3.24, 100: 3.23, 120: 3.21, 140: 3.22, 160: 3.28, 180: 3.4, 200: 3.55, 220: 3.7, 240: 3.84, 260: 3.93, 280: 4, 300: 4.04, 320: 4.12, 340: 4.26, 360: 4.41, 380: 4.55, 400: 4.69, 420: 4.73, 440: 4.78, 460: 4.87, 480: 4.98, 500: 5.11, 520: 5.24, 540: 5.36, 560: 5.44, 580: 5.49, 600: 5.52 },
+  rough: { 5: 2.25, 10: 2.43, 15: 2.51, 20: 2.59, 40: 2.78, 60: 2.91, 80: 2.96, 100: 3.02, 120: 3.08, 140: 3.15, 160: 3.23, 180: 3.31, 200: 3.42, 220: 3.53, 240: 3.64, 260: 3.74, 280: 3.83, 300: 3.9, 320: 3.95, 340: 4.02, 360: 4.11, 380: 4.21, 400: 4.3, 420: 4.34, 440: 4.39, 460: 4.48, 480: 4.59, 500: 4.72, 520: 4.85, 540: 4.97, 560: 5.05, 580: 5.1, 600: 5.13 },
+  sand: { 5: 2.26, 10: 2.44, 15: 2.51, 20: 2.53, 40: 2.82, 60: 3.15, 80: 3.24, 100: 3.23, 120: 3.21, 140: 3.22, 160: 3.28, 180: 3.4, 200: 3.55, 220: 3.7, 240: 3.84, 260: 3.93, 280: 4, 300: 4.04, 320: 4.12, 340: 4.26, 360: 4.41, 380: 4.55, 400: 4.69, 420: 4.73, 440: 4.78, 460: 4.87, 480: 4.98, 500: 5.11, 520: 5.24, 540: 5.36, 560: 5.44, 580: 5.49, 600: 5.52 },
   recovery: { 100: 3.8, 120: 3.78, 140: 3.8, 160: 3.81, 180: 3.82, 200: 3.87, 220: 3.92, 240: 3.97, 260: 4.03, 280: 4.1, 300: 4.2, 320: 4.31, 340: 4.44, 360: 4.56, 380: 4.66, 400: 4.75, 420: 4.79, 440: 4.84, 460: 4.93, 480: 5.04, 500: 5.17, 520: 5.3, 540: 5.42, 560: 5.5, 580: 5.55, 600: 5.58 },
   green: { 3: 1.04, 4: 1.13, 5: 1.23, 6: 1.34, 7: 1.42, 8: 1.5, 9: 1.56, 10: 1.61, 15: 1.78, 20: 1.87, 30: 1.98, 40: 2.06, 50: 2.14, 60: 2.21, 90: 2.4 }
 };
@@ -5863,6 +5863,7 @@ function GolfTracker() {
   const [roundListLimit, setRoundListLimit] = useState(20);
   const [dataMgmtOpen, setDataMgmtOpen] = useState(false);
   const [storageLoaded, setStorageLoaded] = useState(false);
+  const cleanExitRef = useRef(false);
   const [currentRound, setCurrentRound] = useState(null);
   const [currentHole, setCurrentHole] = useState(1);
   const [holePars, setHolePars] = useState(Array(18).fill(4));
@@ -6652,13 +6653,23 @@ function GolfTracker() {
     if (!storageLoaded) return;
     try {
       if (!currentRound) {
-        (() => {
-          try {
-            const last = ScrxStorage.getItem("golf_current_round");
-            if (last) ScrxStorage.setItem("golf_current_round_last", last);
-          } catch (_) {
-          }
-        })();
+        if (cleanExitRef.current) {
+          (() => {
+            try {
+              ScrxStorage.removeItem("golf_current_round_last");
+            } catch (_) {
+            }
+          })();
+          cleanExitRef.current = false;
+        } else {
+          (() => {
+            try {
+              const last = ScrxStorage.getItem("golf_current_round");
+              if (last) ScrxStorage.setItem("golf_current_round_last", last);
+            } catch (_) {
+            }
+          })();
+        }
         (() => {
           try {
             ScrxStorage.removeItem("golf_current_round");
@@ -6701,6 +6712,7 @@ function GolfTracker() {
       isComplete = completedHoles >= holePars.length && allRequired;
       totalScore2 = Object.values(simpleHoleData).reduce((a, h) => a + (h.score || 0), 0);
       upsertRound(__spreadProps(__spreadValues({}, currentRound), { shots: [], holePars: [...holePars], simpleHoleData: __spreadValues({}, simpleHoleData), inputMode: "simple", isComplete, hcp: frozenHcp }));
+      cleanExitRef.current = true;
       setCurrentRound(null);
       setSimpleHoleData({});
     } else {
@@ -6710,6 +6722,7 @@ function GolfTracker() {
       totalScore2 = Object.values(holeData).reduce((a, h) => a + h.shots.reduce((s, sh) => s + sh.shotCount, 0) + (h.extraPenalty || 0), 0);
       const derivedSimple = deriveSimpleHoleData(holeData, holePars);
       upsertRound(__spreadProps(__spreadValues({}, currentRound), { shots, holePars: [...holePars], holeData: __spreadValues({}, holeData), simpleHoleData: derivedSimple, inputMode: "detail", isComplete, hcp: frozenHcp }));
+      cleanExitRef.current = true;
       setCurrentRound(null);
       setHoleData({});
     }
@@ -7026,6 +7039,7 @@ function GolfTracker() {
     setView("round");
   };
   const cancelResumeEdit = () => {
+    cleanExitRef.current = true;
     setCurrentRound(null);
     setHoleData({});
     setSimpleHoleData({});
@@ -7080,7 +7094,18 @@ function GolfTracker() {
     try {
       const raw = ScrxStorage.getItem("golf_current_round_last");
       const p = raw ? JSON.parse(raw) : null;
-      return p && p.currentRound ? p : null;
+      if (!p || !p.currentRound) return null;
+      const rid = p.currentRound.id;
+      if (rid != null && (rounds || []).some((r) => r.id === rid)) {
+        (() => {
+          try {
+            ScrxStorage.removeItem("golf_current_round_last");
+          } catch (_) {
+          }
+        })();
+        return null;
+      }
+      return p;
     } catch (_) {
       return null;
     }
@@ -9103,6 +9128,7 @@ function GolfTracker() {
     "button",
     {
       onClick: () => {
+        cleanExitRef.current = true;
         setCurrentRound(null);
         setHoleData({});
         setSimpleHoleData({});
@@ -9185,6 +9211,7 @@ function GolfTracker() {
     {
       onClick: () => {
         setFinishConfirm(null);
+        cleanExitRef.current = true;
         setCurrentRound(null);
         setSimpleHoleData({});
         setHoleData({});
@@ -9965,7 +9992,7 @@ function GolfTracker() {
     setExportJson("");
   } }), /* @__PURE__ */ React.createElement(ToastLayer, { toast, weather: currentRound ? currentRound.weather : null }), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver.", typeof VENUES !== "undefined" && Array.isArray(VENUES) ? String(VENUES.length).padStart(4, "0") : "0000", APP_VERSION));
 }
-var golf_tracker_06081520_default = GolfTracker;
+var stdin_default = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   const __scrxRoot = document.getElementById("root");
   if (__scrxRoot && !window.__SCRX_MOUNTED) {
