@@ -1051,10 +1051,11 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
     }
     const extraPen = 0;
     const sc = shots.reduce((a, s) => a + (s.shotCount || 1), 0) + extraPen;
+    const scDisp = shots.reduce((a, s) => a + (s.shotCount || 1), 0) + (hd.extraPenalty || 0);
     if (!(sc > 0)) return;
     const putts = shots.filter((s) => s.categoryKey === "putt").reduce((a, s) => a + (s.shotCount || 1), 0);
     n++;
-    score += sc;
+    score += scDisp;
     par += pr;
     const isP3 = pr <= 3;
     const hExp = ip(PRO_BASELINE.tee, len) * fT;
@@ -1167,7 +1168,7 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
       sg: hasS ? rnd2(sgS) : null,
       pt: putts > 0 ? rnd2(pt) : null,
       bk: hadBunker ? rnd2(holeBK) : null,
-      score: sc,
+      score: scDisp,
       putts
     });
   });
@@ -3500,7 +3501,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "08132320";
+var APP_VERSION = "08222150";
 function haversineKm(lat1, lng1, lat2, lng2) {
   const R = 6371.0088, rad = Math.PI / 180;
   const dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
