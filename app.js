@@ -615,6 +615,16 @@ function getRoundHoles(round) {
   const back = round.backCourse && round.backCourse !== round.frontCourse ? ((_b = venue.subCourses.find((c) => c.name === round.backCourse)) == null ? void 0 : _b.holes) || [] : venue.subCourses.length === 1 ? front : [];
   return back.length > 0 ? [...front, ...back] : front;
 }
+function getTeeLenRaw(hd) {
+  if (!hd || !Array.isArray(hd.shots)) return null;
+  const t = hd.shots.find((s) => s && s.categoryKey === "tee");
+  return t && Number.isFinite(t.remainDistRaw) && t.remainDistRaw > 0 ? t.remainDistRaw : null;
+}
+function getHoleBaseLen(holeData, holeNo, masterLen) {
+  const raw = getTeeLenRaw(holeData ? holeData[holeNo] : null);
+  if (raw != null) return raw;
+  return masterLen != null && Number.isFinite(masterLen) && masterLen > 0 ? masterLen : null;
+}
 function computeTargetScore(round) {
   try {
     if (!round || round.hcp == null || !round.venueId) return null;
@@ -625,8 +635,9 @@ function computeTargetScore(round) {
     if (round.totalHoles && holes.length * 2 === round.totalHoles) holes = [...holes, ...holes];
     if (!holes.length) return null;
     let proExp = 0;
-    for (const h of holes) {
-      const y = h ? venue.getYardage(h, round.green, round.tee) : null;
+    for (let __i = 0; __i < holes.length; __i++) {
+      const h = holes[__i];
+      const y = getHoleBaseLen(round.holeData, __i + 1, h ? venue.getYardage(h, round.green, round.tee) : null);
       if (!y || y <= 0) return null;
       proExp += interpBaseline(PRO_BASELINE.tee, y);
     }
@@ -648,8 +659,9 @@ function computeRoundProExp(round) {
     if (round.totalHoles && holes.length * 2 === round.totalHoles) holes = [...holes, ...holes];
     if (holes.length !== 18) return null;
     let proExp = 0;
-    for (const h of holes) {
-      const y = h ? venue.getYardage(h, round.green, round.tee) : null;
+    for (let __i = 0; __i < holes.length; __i++) {
+      const h = holes[__i];
+      const y = getHoleBaseLen(round.holeData, __i + 1, h ? venue.getYardage(h, round.green, round.tee) : null);
       if (!y || y <= 0) return null;
       proExp += interpBaseline(PRO_BASELINE.tee, y);
     }
@@ -1010,7 +1022,7 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
   Object.entries(holeData || {}).forEach(([__hk, __hd]) => {
     if (!__hd || !__hd.done || !Array.isArray(__hd.shots) || __hd.shots.length === 0) return;
     if (!__hd.shots.some((s) => s.quality !== void 0)) return;
-    const __len = holeLengths ? holeLengths[parseInt(__hk) - 1] : null;
+    const __len = getHoleBaseLen(holeData, parseInt(__hk), holeLengths ? holeLengths[parseInt(__hk) - 1] : null);
     if (__len == null || !(__len > 0)) return;
     __proExp += interpBaseline(PRO_BASELINE.tee, __len);
   });
@@ -1040,9 +1052,7 @@ function calcDetailSG(holeData, holePars, hcp, holeLengths, avgDrive) {
     const hi = parseInt(hk);
     if (!hd || !hd.done || !Array.isArray(hd.shots) || hd.shots.length === 0) return;
     const pr = holePars && holePars[hi - 1] || 4;
-    const __teeShotForLen = (hd.shots || []).find((s) => s.categoryKey === "tee");
-    const __teeLenRaw = __teeShotForLen && Number.isFinite(__teeShotForLen.remainDistRaw) && __teeShotForLen.remainDistRaw > 0 ? __teeShotForLen.remainDistRaw : null;
-    const len = __teeLenRaw != null ? __teeLenRaw : holeLengths ? holeLengths[hi - 1] : null;
+    const len = getHoleBaseLen(holeData, hi, holeLengths ? holeLengths[hi - 1] : null);
     if (len == null || !(len > 0)) return;
     const shots = hd.shots;
     if (!shots.some((s) => s.quality !== void 0)) {
@@ -1765,7 +1775,7 @@ function avgDrivingDistance(rounds) {
     if (r.inputMode !== "detail" || !r.holeData) continue;
     const venue = VENUES.find((v) => v.id === r.venueId);
     if (!venue) continue;
-    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    const lens = getRoundHoles(r).map((h, __i) => getHoleBaseLen(r.holeData, __i + 1, h ? venue.getYardage(h, r.green, r.tee) : null));
     Object.entries(r.holeData).forEach(([hk, hd]) => {
       const pr = (r.holePars || [])[parseInt(hk) - 1];
       if (!pr || pr <= 3) return;
@@ -1811,7 +1821,7 @@ function decomposeTeeSG(scopeRounds, hcp, avgDD) {
     if (!r || r.inputMode !== "detail" || !r.holeData) continue;
     const venue = VENUES.find((v) => v.id === r.venueId);
     if (!venue) continue;
-    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    const lens = getRoundHoles(r).map((h, __i) => getHoleBaseLen(r.holeData, __i + 1, h ? venue.getYardage(h, r.green, r.tee) : null));
     let pe = 0;
     Object.entries(r.holeData).forEach(([hk, hd]) => {
       if (!hd.done) return;
@@ -1875,7 +1885,7 @@ function decomposeLongSG(scopeRounds, hcp) {
     if (!r || r.inputMode !== "detail" || !r.holeData) continue;
     const venue = VENUES.find((v) => v.id === r.venueId);
     if (!venue) continue;
-    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    const lens = getRoundHoles(r).map((h, __i) => getHoleBaseLen(r.holeData, __i + 1, h ? venue.getYardage(h, r.green, r.tee) : null));
     let pe = 0;
     Object.entries(r.holeData).forEach(([hk, hd]) => {
       if (!hd.done) return;
@@ -1954,7 +1964,7 @@ function decomposePuttSG(scopeRounds, hcp) {
     if (!r || r.inputMode !== "detail" || !r.holeData) continue;
     const venue = VENUES.find((v) => v.id === r.venueId);
     if (!venue) continue;
-    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    const lens = getRoundHoles(r).map((h, __i) => getHoleBaseLen(r.holeData, __i + 1, h ? venue.getYardage(h, r.green, r.tee) : null));
     let pe = 0;
     Object.entries(r.holeData).forEach(([hk, hd]) => {
       if (!hd.done) return;
@@ -2039,7 +2049,7 @@ function decomposeShortSG(scopeRounds, hcp) {
     if (!r || r.inputMode !== "detail" || !r.holeData) continue;
     const venue = VENUES.find((v) => v.id === r.venueId);
     if (!venue) continue;
-    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    const lens = getRoundHoles(r).map((h, __i) => getHoleBaseLen(r.holeData, __i + 1, h ? venue.getYardage(h, r.green, r.tee) : null));
     let pe = 0;
     Object.entries(r.holeData).forEach(([hk, hd]) => {
       if (!hd.done) return;
@@ -2106,7 +2116,7 @@ function decomposeBunkerSG(scopeRounds, hcp) {
     if (!r || r.inputMode !== "detail" || !r.holeData) continue;
     const venue = VENUES.find((v) => v.id === r.venueId);
     if (!venue) continue;
-    const lens = getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null);
+    const lens = getRoundHoles(r).map((h, __i) => getHoleBaseLen(r.holeData, __i + 1, h ? venue.getYardage(h, r.green, r.tee) : null));
     let pe = 0;
     Object.entries(r.holeData).forEach(([hk, hd]) => {
       if (!hd.done) return;
@@ -2661,6 +2671,77 @@ function dateToNum(d) {
   if (!d) return 0;
   const p = d.split("/").map(Number);
   return (p[0] || 0) * 1e4 + (p[1] || 0) * 100 + (p[2] || 0);
+}
+const SHOT_DIRS = ["R", "RO", "O", "LO", "L", "LS", "S", "RS"];
+const SHOT_DIR_LABEL = { R: "\u53F3", RO: "\u53F3\u30FB\u30AA\u30FC\u30D0\u30FC", O: "\u30AA\u30FC\u30D0\u30FC", LO: "\u5DE6\u30FB\u30AA\u30FC\u30D0\u30FC", L: "\u5DE6", LS: "\u5DE6\u30FB\u30B7\u30E7\u30FC\u30C8", S: "\u30B7\u30E7\u30FC\u30C8", RS: "\u53F3\u30FB\u30B7\u30E7\u30FC\u30C8" };
+const shotDirFromVec = (dx, dy) => SHOT_DIRS[(Math.round(Math.atan2(-dy, dx) * 180 / Math.PI / 45) % 8 + 8) % 8];
+function ShotDirPad({ title, onPick, onSkip }) {
+  const padRef = useRef(null);
+  const st = useRef({ on: false, sx: 0, sy: 0, cx: 0, cy: 0 });
+  const [cur, setCur] = useState(null);
+  const SIZE = 240, RMAX = 100;
+  const down = (e) => {
+    const rc = padRef.current.getBoundingClientRect();
+    st.current = { on: true, sx: e.clientX, sy: e.clientY, cx: rc.left + rc.width / 2, cy: rc.top + rc.height / 2 };
+    try {
+      padRef.current.setPointerCapture(e.pointerId);
+    } catch (_) {
+    }
+    setCur({ dx: 0, dy: 0, dir: null });
+  };
+  const move = (e) => {
+    const s = st.current;
+    if (!s.on) return;
+    let dx = e.clientX - s.sx, dy = e.clientY - s.sy;
+    const d = Math.hypot(dx, dy);
+    const dir = d >= 22 ? shotDirFromVec(dx, dy) : null;
+    if (d > RMAX) {
+      dx = dx * RMAX / d;
+      dy = dy * RMAX / d;
+    }
+    setCur({ dx, dy, dir });
+  };
+  const up = (e) => {
+    const s = st.current;
+    if (!s.on) return;
+    s.on = false;
+    setCur(null);
+    const dx = e.clientX - s.sx, dy = e.clientY - s.sy;
+    if (Math.hypot(dx, dy) >= 22) {
+      onPick(shotDirFromVec(dx, dy));
+      return;
+    }
+    const tx = e.clientX - s.cx, ty = e.clientY - s.cy;
+    if (Math.hypot(tx, ty) >= 45) onPick(shotDirFromVec(tx, ty));
+    else onSkip();
+  };
+  const cancel = () => {
+    st.current.on = false;
+    setCur(null);
+  };
+  const a = cur ? cur.dir : null;
+  const lab = (key, text, pos, small) => /* @__PURE__ */ React.createElement("div", { style: __spreadProps(__spreadValues({ position: "absolute" }, pos), { fontSize: small ? "10px" : "13px", fontWeight: "800", whiteSpace: "nowrap", pointerEvents: "none", color: a === key ? "#0ea5e9" : small ? "#94a3b8" : "#64748b" }) }, text);
+  return /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", zIndex: 1200, display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#ffffff", borderRadius: "16px", padding: "18px 16px 14px", width: "100%", maxWidth: "320px", textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "14px", color: "#1e293b", marginBottom: "4px" } }, "\u30DF\u30B9\u306E\u65B9\u5411", title ? "\uFF08" + title + "\uFF09" : ""), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", marginBottom: "12px", lineHeight: 1.5 } }, "\u4E2D\u592E\u304B\u3089\u5F3E\u3044\u3066\u9078\u629E\uFF0F\u5916\u5468\u30BF\u30C3\u30D7\u3067\u3082\u53EF", /* @__PURE__ */ React.createElement("br", null), "\u4E2D\u592E\u30BF\u30C3\u30D7\u3067\u30B9\u30AD\u30C3\u30D7"), /* @__PURE__ */ React.createElement(
+    "div",
+    {
+      ref: padRef,
+      onPointerDown: down,
+      onPointerMove: move,
+      onPointerUp: up,
+      onPointerCancel: cancel,
+      style: { position: "relative", width: SIZE + "px", height: SIZE + "px", margin: "0 auto", borderRadius: "14px", background: "#f8fafc", border: "1px solid #e2e8f0", touchAction: "none", userSelect: "none", WebkitUserSelect: "none", cursor: "grab" }
+    },
+    lab("O", "\u30AA\u30FC\u30D0\u30FC", { top: "10px", left: "50%", transform: "translateX(-50%)" }),
+    lab("S", "\u30B7\u30E7\u30FC\u30C8", { bottom: "10px", left: "50%", transform: "translateX(-50%)" }),
+    lab("L", "\u5DE6", { left: "12px", top: "50%", transform: "translateY(-50%)" }),
+    lab("R", "\u53F3", { right: "12px", top: "50%", transform: "translateY(-50%)" }),
+    lab("LO", "\u5DE6\u30FB\u30AA\u30FC\u30D0\u30FC", { top: "10px", left: "8px" }, true),
+    lab("RO", "\u53F3\u30FB\u30AA\u30FC\u30D0\u30FC", { top: "10px", right: "8px" }, true),
+    lab("LS", "\u5DE6\u30FB\u30B7\u30E7\u30FC\u30C8", { bottom: "10px", left: "8px" }, true),
+    lab("RS", "\u53F3\u30FB\u30B7\u30E7\u30FC\u30C8", { bottom: "10px", right: "8px" }, true),
+    /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", left: "50%", top: "50%", width: "64px", height: "64px", margin: "-32px 0 0 -32px", borderRadius: "50%", border: "1px dashed #cbd5e1", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", color: "#94a3b8", pointerEvents: "none" } }, "\u30B9\u30AD\u30C3\u30D7"),
+    cur && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", left: "50%", top: "50%", width: "16px", height: "16px", margin: "-8px 0 0 -8px", borderRadius: "50%", background: "#0ea5e9", transform: "translate(" + Math.round(cur.dx) + "px," + Math.round(cur.dy) + "px)", pointerEvents: "none" } })
+  ), /* @__PURE__ */ React.createElement("div", { style: { height: "22px", marginTop: "10px", fontSize: "15px", fontWeight: "800", color: a ? "#0ea5e9" : "#94a3b8" } }, a ? SHOT_DIR_LABEL[a] : "\u2014")));
 }
 function scoreDiffSymbol(diff) {
   if (diff <= -3) return { sym: "\u2606", color: "#b91c1c" };
@@ -3501,7 +3582,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "08222150";
+var APP_VERSION = "10132032";
 function haversineKm(lat1, lng1, lat2, lng2) {
   const R = 6371.0088, rad = Math.PI / 180;
   const dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
@@ -4309,8 +4390,8 @@ function computeRUser(rounds, hcp) {
     const venue = VENUES.find((v) => v.id === r.venueId);
     if (!venue) continue;
     let pe = 0, ok = false;
-    getRoundHoles(r).forEach((h) => {
-      const y = h ? venue.getYardage(h, r.green, r.tee) : null;
+    getRoundHoles(r).forEach((h, __i) => {
+      const y = getHoleBaseLen(r.holeData, __i + 1, h ? venue.getYardage(h, r.green, r.tee) : null);
       if (y && y > 0) {
         pe += interpBaseline(PRO_BASELINE.tee, y);
         ok = true;
@@ -4512,7 +4593,7 @@ function DetailShotList({ r, S, open, onToggle, expandedMemos, onToggleMemo, exp
   const _bNums = r.backHoleNums || [10, 11, 12, 13, 14, 15, 16, 17, 18];
   const dispHoleNum = (h) => (h <= 9 ? _fNums[h - 1] : _bNums[h - 10]) || h;
   const _venue = VENUES.find((v) => v.id === r.venueId);
-  const lens = _venue ? getRoundHoles(r).map((hh) => hh ? _venue.getYardage(hh, r.green, r.tee) : null) : [];
+  const lens = _venue ? getRoundHoles(r).map((hh, __i) => getHoleBaseLen(r.holeData, __i + 1, hh ? _venue.getYardage(hh, r.green, r.tee) : null)) : [];
   const HC = r.hcp;
   const sgOn = HC != null;
   const fbSG = (v) => v >= 0 ? "+" + v.toFixed(2) : "\u25B3" + Math.abs(v).toFixed(2);
@@ -4605,7 +4686,7 @@ function DetailShotList({ r, S, open, onToggle, expandedMemos, onToggleMemo, exp
       const teeYd = s.remainDistRaw != null ? s.remainDistRaw : lens[h - 1];
       const dist = isPutt ? hd.pinDistM != null ? hd.pinDistM + "m" : (hd.pinDist || "").replace("m\u4EE5\u5185", "m").replace("m\u8D85", "m+") || "\u2014" : isTee && teeYd != null ? teeYd + "Y" : shortDist(s);
       const club = isPutt ? "PT" : s.club ? clubLabel(s.club) : "\u2014";
-      const stateLabel = s.optionId === "greenon" ? "\u30B0\u30EA\u30FC\u30F3\u30AA\u30F3" : s.optionId === "cupin" ? "\u30AB\u30C3\u30D7\u30A4\u30F3" : subLabel(s);
+      const stateLabel = [s.optionId === "greenon" ? "\u30B0\u30EA\u30FC\u30F3\u30AA\u30F3" : s.optionId === "cupin" ? "\u30AB\u30C3\u30D7\u30A4\u30F3" : subLabel(s), s.dir && SHOT_DIR_LABEL[s.dir] ? SHOT_DIR_LABEL[s.dir] : ""].filter(Boolean).join("\u30FB");
       const stateColor = s.optionId === "greenon" || s.optionId === "cupin" ? "#16a34a" : s.subType === "bunker" ? "#a16207" : "#b91c1c";
       const hasMemoContent = isPutt ? true : !!(stateLabel || s.note);
       const memoKey = s.id != null ? s.id : h + "-" + i;
@@ -4624,7 +4705,7 @@ function buildRoundTSV(r) {
   if (!r || !r.holeData) return "";
   const HC = (_a = r.hcp) != null ? _a : 0;
   const venue = VENUES.find((v) => v.id === r.venueId);
-  const lens = venue ? getRoundHoles(r).map((h) => h ? venue.getYardage(h, r.green, r.tee) : null) : [];
+  const lens = venue ? getRoundHoles(r).map((h, __i) => getHoleBaseLen(r.holeData, __i + 1, h ? venue.getYardage(h, r.green, r.tee) : null)) : [];
   for (let i = 1; i <= 18; i++) {
     if (!(lens[i - 1] > 0)) {
       const t = (r.holeData[i] && r.holeData[i].shots || []).find((s) => s.categoryKey === "tee");
@@ -4731,7 +4812,7 @@ function buildRoundTSV(r) {
       const isPutt = s.categoryKey === "putt";
       const rem = isPutt ? hs.pinM != null ? hs.pinM : "" : s.remainDistRaw != null ? s.remainDistRaw : j === 0 ? len != null ? len : "" : "";
       const unit = isPutt ? "m" : "Y";
-      const memo = [stLabel(s), s.note].filter(Boolean).join("\u30FB");
+      const memo = [stLabel(s), s.dir && SHOT_DIR_LABEL[s.dir] ? SHOT_DIR_LABEL[s.dir] : "", s.note].filter(Boolean).join("\u30FB");
       const last = j === shots.length - 1;
       const sg = sgOn && hs.arr[j] != null ? fb(hs.arr[j]) : "";
       out += [holeCol, pr, len != null ? len : "", j + 1, catLabel(s), rem, unit, isPutt ? "PT" : s.club ? clubLabel(s.club) : "", s.quality || "", memo, sg, last ? strokes : "", last ? dparT : "", last && sgOn ? fb(hs.total) : ""].join(TAB) + NL;
@@ -5865,6 +5946,7 @@ function GolfTracker() {
   const [dataMgmtOpen, setDataMgmtOpen] = useState(false);
   const [storageLoaded, setStorageLoaded] = useState(false);
   const cleanExitRef = useRef(false);
+  const [dirPad, setDirPad] = useState(null);
   const [currentRound, setCurrentRound] = useState(null);
   const [currentHole, setCurrentHole] = useState(1);
   const [holePars, setHolePars] = useState(Array(18).fill(4));
@@ -6399,6 +6481,9 @@ function GolfTracker() {
     setTeeDistOverride(null);
     setCalcOpen(false);
     setCalcInput("");
+    if ((shot.categoryKey === "tee" || shot.categoryKey === "approach") && (opt.id === "ok" || SUB_IDS.includes(opt.id))) {
+      setDirPad({ hole: currentHole, shotId: shot.id, title: [shot.club, shot.optionLabel].filter(Boolean).join("\u30FB") });
+    }
     if (shot.categoryKey === "tee" && shot.subType === "ob") {
       const nextNum = 4 + (hd.extraPenalty || 0);
       setTimeout(() => showToast(`\u6B21\u306F${nextNum}\u6253\u76EE\u304B\u3089\u5165\u529B\u3057\u3066\u306D`, rexyPoseWeather("basic9", currentRound ? currentRound.weather : null)), 300);
@@ -9991,7 +10076,22 @@ function GolfTracker() {
   })(), showPinDistStep && /* @__PURE__ */ React.createElement(PinDistModal, { holeNumLabel: getDisplayHoleNum(currentHole), onSelect: savePinDistAndAdvance }), showExportModal && /* @__PURE__ */ React.createElement(ExportModal, { roundsCount: rounds.length, exportJson, onClose: () => {
     setShowExportModal(false);
     setExportJson("");
-  } }), /* @__PURE__ */ React.createElement(ToastLayer, { toast, weather: currentRound ? currentRound.weather : null }), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver.", typeof VENUES !== "undefined" && Array.isArray(VENUES) ? String(VENUES.length).padStart(4, "0") : "0000", APP_VERSION));
+  } }), dirPad && /* @__PURE__ */ React.createElement(
+    ShotDirPad,
+    {
+      title: dirPad.title,
+      onSkip: () => setDirPad(null),
+      onPick: (dir) => {
+        const tgt = dirPad;
+        setHoleData((prev) => {
+          const h = prev[tgt.hole];
+          if (!h || !Array.isArray(h.shots)) return prev;
+          return __spreadProps(__spreadValues({}, prev), { [tgt.hole]: __spreadProps(__spreadValues({}, h), { shots: h.shots.map((s) => s.id === tgt.shotId ? __spreadProps(__spreadValues({}, s), { dir }) : s) }) });
+        });
+        setDirPad(null);
+      }
+    }
+  ), /* @__PURE__ */ React.createElement(ToastLayer, { toast, weather: currentRound ? currentRound.weather : null }), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver.", typeof VENUES !== "undefined" && Array.isArray(VENUES) ? String(VENUES.length).padStart(4, "0") : "0000", APP_VERSION));
 }
 var stdin_default = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
