@@ -2674,75 +2674,17 @@ function dateToNum(d) {
 }
 const SHOT_DIRS = ["R", "RO", "O", "LO", "L", "LS", "S", "RS"];
 const SHOT_DIR_LABEL = { R: "\u53F3", RO: "\u53F3\u30FB\u30AA\u30FC\u30D0\u30FC", O: "\u30AA\u30FC\u30D0\u30FC", LO: "\u5DE6\u30FB\u30AA\u30FC\u30D0\u30FC", L: "\u5DE6", LS: "\u5DE6\u30FB\u30B7\u30E7\u30FC\u30C8", S: "\u30B7\u30E7\u30FC\u30C8", RS: "\u53F3\u30FB\u30B7\u30E7\u30FC\u30C8" };
-const shotDirFromVec = (dx, dy) => SHOT_DIRS[(Math.round(Math.atan2(-dy, dx) * 180 / Math.PI / 45) % 8 + 8) % 8];
-function ShotDirPad({ title, onPick, onSkip }) {
-  const padRef = useRef(null);
-  const st = useRef({ on: false, sx: 0, sy: 0, cx: 0, cy: 0 });
-  const [cur, setCur] = useState(null);
-  const SIZE = 240, RMAX = 100;
-  const down = (e) => {
-    const rc = padRef.current.getBoundingClientRect();
-    st.current = { on: true, sx: e.clientX, sy: e.clientY, cx: rc.left + rc.width / 2, cy: rc.top + rc.height / 2 };
-    try {
-      padRef.current.setPointerCapture(e.pointerId);
-    } catch (_) {
-    }
-    setCur({ dx: 0, dy: 0, dir: null });
-  };
-  const move = (e) => {
-    const s = st.current;
-    if (!s.on) return;
-    let dx = e.clientX - s.sx, dy = e.clientY - s.sy;
-    const d = Math.hypot(dx, dy);
-    const dir = d >= 22 ? shotDirFromVec(dx, dy) : null;
-    if (d > RMAX) {
-      dx = dx * RMAX / d;
-      dy = dy * RMAX / d;
-    }
-    setCur({ dx, dy, dir });
-  };
-  const up = (e) => {
-    const s = st.current;
-    if (!s.on) return;
-    s.on = false;
-    setCur(null);
-    const dx = e.clientX - s.sx, dy = e.clientY - s.sy;
-    if (Math.hypot(dx, dy) >= 22) {
-      onPick(shotDirFromVec(dx, dy));
-      return;
-    }
-    const tx = e.clientX - s.cx, ty = e.clientY - s.cy;
-    if (Math.hypot(tx, ty) >= 45) onPick(shotDirFromVec(tx, ty));
-    else onSkip();
-  };
-  const cancel = () => {
-    st.current.on = false;
-    setCur(null);
-  };
-  const a = cur ? cur.dir : null;
-  const lab = (key, text, pos, small) => /* @__PURE__ */ React.createElement("div", { style: __spreadProps(__spreadValues({ position: "absolute" }, pos), { fontSize: small ? "10px" : "13px", fontWeight: "800", whiteSpace: "nowrap", pointerEvents: "none", color: a === key ? "#0ea5e9" : small ? "#94a3b8" : "#64748b" }) }, text);
-  return /* @__PURE__ */ React.createElement("div", { style: { position: "fixed", inset: 0, background: "rgba(0,0,0,0.45)", zIndex: 1200, display: "flex", alignItems: "center", justifyContent: "center", padding: "16px" } }, /* @__PURE__ */ React.createElement("div", { style: { background: "#ffffff", borderRadius: "16px", padding: "18px 16px 14px", width: "100%", maxWidth: "320px", textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontWeight: "800", fontSize: "14px", color: "#1e293b", marginBottom: "4px" } }, "\u30DF\u30B9\u306E\u65B9\u5411", title ? "\uFF08" + title + "\uFF09" : ""), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", color: "#64748b", marginBottom: "12px", lineHeight: 1.5 } }, "\u4E2D\u592E\u304B\u3089\u5F3E\u3044\u3066\u9078\u629E\uFF0F\u5916\u5468\u30BF\u30C3\u30D7\u3067\u3082\u53EF", /* @__PURE__ */ React.createElement("br", null), "\u4E2D\u592E\u30BF\u30C3\u30D7\u3067\u30B9\u30AD\u30C3\u30D7"), /* @__PURE__ */ React.createElement(
-    "div",
-    {
-      ref: padRef,
-      onPointerDown: down,
-      onPointerMove: move,
-      onPointerUp: up,
-      onPointerCancel: cancel,
-      style: { position: "relative", width: SIZE + "px", height: SIZE + "px", margin: "0 auto", borderRadius: "14px", background: "#f8fafc", border: "1px solid #e2e8f0", touchAction: "none", userSelect: "none", WebkitUserSelect: "none", cursor: "grab" }
-    },
-    lab("O", "\u30AA\u30FC\u30D0\u30FC", { top: "10px", left: "50%", transform: "translateX(-50%)" }),
-    lab("S", "\u30B7\u30E7\u30FC\u30C8", { bottom: "10px", left: "50%", transform: "translateX(-50%)" }),
-    lab("L", "\u5DE6", { left: "12px", top: "50%", transform: "translateY(-50%)" }),
-    lab("R", "\u53F3", { right: "12px", top: "50%", transform: "translateY(-50%)" }),
-    lab("LO", "\u5DE6\u30FB\u30AA\u30FC\u30D0\u30FC", { top: "10px", left: "8px" }, true),
-    lab("RO", "\u53F3\u30FB\u30AA\u30FC\u30D0\u30FC", { top: "10px", right: "8px" }, true),
-    lab("LS", "\u5DE6\u30FB\u30B7\u30E7\u30FC\u30C8", { bottom: "10px", left: "8px" }, true),
-    lab("RS", "\u53F3\u30FB\u30B7\u30E7\u30FC\u30C8", { bottom: "10px", right: "8px" }, true),
-    /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", left: "50%", top: "50%", width: "64px", height: "64px", margin: "-32px 0 0 -32px", borderRadius: "50%", border: "1px dashed #cbd5e1", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", color: "#94a3b8", pointerEvents: "none" } }, "\u30B9\u30AD\u30C3\u30D7"),
-    cur && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", left: "50%", top: "50%", width: "16px", height: "16px", margin: "-8px 0 0 -8px", borderRadius: "50%", background: "#0ea5e9", transform: "translate(" + Math.round(cur.dx) + "px," + Math.round(cur.dy) + "px)", pointerEvents: "none" } })
-  ), /* @__PURE__ */ React.createElement("div", { style: { height: "22px", marginTop: "10px", fontSize: "15px", fontWeight: "800", color: a ? "#0ea5e9" : "#94a3b8" } }, a ? SHOT_DIR_LABEL[a] : "\u2014")));
-}
+const SHOT_DIR_GRID = [
+  { k: "LO", deg: -45 },
+  { k: "O", deg: 0 },
+  { k: "RO", deg: 45 },
+  { k: "L", deg: -90 },
+  { k: null, deg: null },
+  { k: "R", deg: 90 },
+  { k: "LS", deg: -135 },
+  { k: "S", deg: 180 },
+  { k: "RS", deg: 135 }
+];
 function scoreDiffSymbol(diff) {
   if (diff <= -3) return { sym: "\u2606", color: "#b91c1c" };
   if (diff === -2) return { sym: "\u25CE", color: "#dc2626" };
@@ -3582,7 +3524,7 @@ function ocrToCanvas(img, scale, sx, sy, sw, sh) {
   return c;
 }
 var OCR_RELAY_URL = "https://golf-log.pages.dev/api/vision";
-var APP_VERSION = "10132032";
+var APP_VERSION = "10132113";
 function haversineKm(lat1, lng1, lat2, lng2) {
   const R = 6371.0088, rad = Math.PI / 180;
   const dLat = (lat2 - lat1) * rad, dLng = (lng2 - lng1) * rad;
@@ -5946,7 +5888,6 @@ function GolfTracker() {
   const [dataMgmtOpen, setDataMgmtOpen] = useState(false);
   const [storageLoaded, setStorageLoaded] = useState(false);
   const cleanExitRef = useRef(false);
-  const [dirPad, setDirPad] = useState(null);
   const [currentRound, setCurrentRound] = useState(null);
   const [currentHole, setCurrentHole] = useState(1);
   const [holePars, setHolePars] = useState(Array(18).fill(4));
@@ -6379,6 +6320,7 @@ function GolfTracker() {
   const [pendingDistStep, setPendingDistStep] = useState(false);
   const [newResultId, setNewResultId] = useState(null);
   const [newBadSubId, setNewBadSubId] = useState(null);
+  const [newDir, setNewDir] = useState(null);
   const [approachDistVal, setApproachDistVal] = useState(100);
   const [puttDistVal, setPuttDistVal] = useState(5);
   const [teeDistOverride, setTeeDistOverride] = useState(null);
@@ -6410,6 +6352,7 @@ function GolfTracker() {
     setPendingDistStep(false);
     setNewResultId(null);
     setNewBadSubId(null);
+    setNewDir(null);
     setApproachDistVal(100);
     setPuttDistVal(5);
     setTeeDistOverride(null);
@@ -6429,7 +6372,7 @@ function GolfTracker() {
     }
     if (!opt) return;
     const totalShotCount = opt.shotCount + (opt.penaltyCount || 0);
-    const shot = {
+    const shot = __spreadValues({
       id: Date.now(),
       hole: currentHole,
       par,
@@ -6446,7 +6389,7 @@ function GolfTracker() {
       remainDist: remainDist || null,
       remainDistRaw: remainDistRaw != null ? remainDistRaw : null,
       note: shotNote
-    };
+    }, newDir && (currentCategory === "tee" || currentCategory === "approach") && (opt.id === "ok" || SUB_IDS.includes(opt.id)) ? { dir: newDir } : {});
     const nextShotNum = totalStrokes + totalShotCount + 1;
     let nextState;
     if (opt.nextState === "done") {
@@ -6476,14 +6419,12 @@ function GolfTracker() {
     setSelectedClub(null);
     setNewResultId(null);
     setNewBadSubId(null);
+    setNewDir(null);
     setApproachDistVal(100);
     setPuttDistVal(5);
     setTeeDistOverride(null);
     setCalcOpen(false);
     setCalcInput("");
-    if ((shot.categoryKey === "tee" || shot.categoryKey === "approach") && (opt.id === "ok" || SUB_IDS.includes(opt.id))) {
-      setDirPad({ hole: currentHole, shotId: shot.id, title: [shot.club, shot.optionLabel].filter(Boolean).join("\u30FB") });
-    }
     if (shot.categoryKey === "tee" && shot.subType === "ob") {
       const nextNum = 4 + (hd.extraPenalty || 0);
       setTimeout(() => showToast(`\u6B21\u306F${nextNum}\u6253\u76EE\u304B\u3089\u5165\u529B\u3057\u3066\u306D`, rexyPoseWeather("basic9", currentRound ? currentRound.weather : null)), 300);
@@ -6534,6 +6475,7 @@ function GolfTracker() {
     setSelectedClub(null);
     setNewResultId(null);
     setNewBadSubId(null);
+    setNewDir(null);
     setApproachDistVal(100);
     setPuttDistVal(5);
     setTeeDistOverride(null);
@@ -10010,7 +9952,10 @@ function GolfTracker() {
       const c = COLOR_MAP[b.color] || COLOR_MAP.gray;
       const sel = newBadSubId === b.id;
       const totalPen = b.shotCount + b.penaltyCount;
-      return /* @__PURE__ */ React.createElement("button", { key: b.id, onClick: () => setNewBadSubId(sel ? null : b.id), style: {
+      return /* @__PURE__ */ React.createElement("button", { key: b.id, onClick: () => {
+        setNewBadSubId(sel ? null : b.id);
+        if (sel) setNewDir(null);
+      }, style: {
         flex: 1,
         padding: "10px 4px",
         borderRadius: "8px",
@@ -10030,9 +9975,11 @@ function GolfTracker() {
         if (newResultId === o.id) {
           setNewResultId(null);
           setNewBadSubId(null);
+          setNewDir(null);
         } else {
           setNewResultId(o.id);
           if (o.id !== "bad") setNewBadSubId(null);
+          setNewDir(null);
         }
       }, style: {
         flex: currentCategory === "putt" ? "1 1 calc(33% - 5px)" : "1 1 auto",
@@ -10052,7 +9999,30 @@ function GolfTracker() {
         justifyContent: "center",
         gap: "3px"
       } }, sel && "\u2713 ", o.label);
-    }))), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", fontWeight: "700", color: "#94a3b8", marginBottom: "7px" } }, "\u30E1\u30E2\uFF08\u4EFB\u610F\uFF09"), /* @__PURE__ */ React.createElement("input", { style: S.input, placeholder: "\u4F8B\uFF1A\u5DE6\u306B\u5F15\u3063\u639B\u3051\u305F...", value: shotNote, onChange: (e) => setShotNote(e.target.value) }))), /* @__PURE__ */ React.createElement("div", { style: { padding: "10px 16px 20px", borderTop: "1px solid rgba(255,255,255,0.05)", flexShrink: 0 } }, /* @__PURE__ */ React.createElement(
+    })), (currentCategory === "tee" || currentCategory === "approach") && (newResultId === "ok" || newResultId === "bad" && newBadSubId) && /* @__PURE__ */ React.createElement("div", { style: { display: "flex", alignItems: "center", gap: "10px", marginTop: "8px", padding: "7px 10px", background: "#fefce8", border: "1px solid rgba(234,179,8,0.45)", borderRadius: "10px" } }, /* @__PURE__ */ React.createElement("div", { style: { flex: 1, minWidth: 0 } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "11px", fontWeight: "700", color: "#a16207" } }, "\u30DF\u30B9\u306E\u65B9\u5411 ", /* @__PURE__ */ React.createElement("span", { style: { fontWeight: "400", color: "#94a3b8" } }, "\u4EFB\u610F")), /* @__PURE__ */ React.createElement("div", { style: { fontSize: "14px", fontWeight: "800", color: newDir ? "#a16207" : "#cbd5e1", marginTop: "3px" } }, newDir ? SHOT_DIR_LABEL[newDir] : "\u2014")), /* @__PURE__ */ React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, 32px)", gridAutoRows: "26px", gap: "3px", flexShrink: 0 } }, SHOT_DIR_GRID.map((g, gi) => {
+      const on = g.k ? newDir === g.k : false;
+      return /* @__PURE__ */ React.createElement(
+        "button",
+        {
+          key: gi,
+          type: "button",
+          "aria-label": g.k ? SHOT_DIR_LABEL[g.k] : "\u65B9\u5411\u306A\u3057",
+          onClick: () => setNewDir(g.k && newDir !== g.k ? g.k : null),
+          style: {
+            padding: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: "6px",
+            cursor: "pointer",
+            border: on ? "1.5px solid #eab308" : "1px solid #e2e8f0",
+            background: on ? "#fef08a" : "#ffffff",
+            color: on ? "#a16207" : g.k ? "#64748b" : "#cbd5e1"
+          }
+        },
+        g.k ? /* @__PURE__ */ React.createElement("svg", { width: "14", height: "14", viewBox: "0 0 14 14", style: { transform: "rotate(" + g.deg + "deg)" }, "aria-hidden": "true" }, /* @__PURE__ */ React.createElement("path", { d: "M7 12 L7 2 M3 6 L7 2 L11 6", stroke: "currentColor", strokeWidth: "1.8", fill: "none", strokeLinecap: "round", strokeLinejoin: "round" })) : /* @__PURE__ */ React.createElement("span", { style: { fontSize: "10px" } }, "\u306A\u3057")
+      );
+    })))), /* @__PURE__ */ React.createElement("div", { style: { marginBottom: "6px" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: "12px", fontWeight: "700", color: "#94a3b8", marginBottom: "7px" } }, "\u30E1\u30E2\uFF08\u4EFB\u610F\uFF09"), /* @__PURE__ */ React.createElement("input", { style: S.input, placeholder: "\u4F8B\uFF1A\u5DE6\u306B\u5F15\u3063\u639B\u3051\u305F...", value: shotNote, onChange: (e) => setShotNote(e.target.value) }))), /* @__PURE__ */ React.createElement("div", { style: { padding: "10px 16px 20px", borderTop: "1px solid rgba(255,255,255,0.05)", flexShrink: 0 } }, /* @__PURE__ */ React.createElement(
       "button",
       {
         disabled: !canRecordNew,
@@ -10076,22 +10046,7 @@ function GolfTracker() {
   })(), showPinDistStep && /* @__PURE__ */ React.createElement(PinDistModal, { holeNumLabel: getDisplayHoleNum(currentHole), onSelect: savePinDistAndAdvance }), showExportModal && /* @__PURE__ */ React.createElement(ExportModal, { roundsCount: rounds.length, exportJson, onClose: () => {
     setShowExportModal(false);
     setExportJson("");
-  } }), dirPad && /* @__PURE__ */ React.createElement(
-    ShotDirPad,
-    {
-      title: dirPad.title,
-      onSkip: () => setDirPad(null),
-      onPick: (dir) => {
-        const tgt = dirPad;
-        setHoleData((prev) => {
-          const h = prev[tgt.hole];
-          if (!h || !Array.isArray(h.shots)) return prev;
-          return __spreadProps(__spreadValues({}, prev), { [tgt.hole]: __spreadProps(__spreadValues({}, h), { shots: h.shots.map((s) => s.id === tgt.shotId ? __spreadProps(__spreadValues({}, s), { dir }) : s) }) });
-        });
-        setDirPad(null);
-      }
-    }
-  ), /* @__PURE__ */ React.createElement(ToastLayer, { toast, weather: currentRound ? currentRound.weather : null }), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver.", typeof VENUES !== "undefined" && Array.isArray(VENUES) ? String(VENUES.length).padStart(4, "0") : "0000", APP_VERSION));
+  } }), /* @__PURE__ */ React.createElement(ToastLayer, { toast, weather: currentRound ? currentRound.weather : null }), /* @__PURE__ */ React.createElement("div", { style: { textAlign: "center", color: "#94a3b8", fontSize: "10px", padding: "16px 0 26px", letterSpacing: "0.03em" } }, "\u30B9\u30B3\u30EC\u30DC ver.", typeof VENUES !== "undefined" && Array.isArray(VENUES) ? String(VENUES.length).padStart(4, "0") : "0000", APP_VERSION));
 }
 var stdin_default = GolfTracker;
 if (typeof window !== "undefined" && typeof document !== "undefined") {
